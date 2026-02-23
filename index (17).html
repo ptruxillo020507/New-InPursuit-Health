@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InPursuit Health — Harness the Power of Your Data™</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --red: #B22234;
+  --red-deep: #8B1A29;
+  --silver: #C0C0C0;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ===== PRELOADER ===== */
+.preloader {
+  position: fixed; inset: 0;
+  background: var(--navy-deep);
+  z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  animation: pulseFade 1.2s ease-in-out infinite;
+}
+@keyframes pulseFade {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ===== TOP BAR / NAV ===== */
+.top-bar {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(197,164,78,0.2);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.top-bar-brand {
+  display: flex; align-items: center;
+  text-decoration: none; cursor: pointer;
+}
+.top-bar-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.top-bar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-item {
+  position: relative;
+  padding: 20px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  background: none; border: none;
+  font-family: inherit;
+}
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+
+/* Dropdown */
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--navy-mid);
+  border: 1px solid rgba(197,164,78,0.15);
+  border-radius: 4px;
+  padding: 8px 0;
+  min-width: 240px;
+  opacity: 0; visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1; visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-item {
+  display: block;
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.nav-dropdown-item:hover {
+  color: var(--gold);
+  background: rgba(197,164,78,0.05);
+}
+.nav-dropdown-item .sub-desc {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: rgba(255,255,255,0.3);
+  margin-top: 2px;
+}
+
+/* Mobile toggle */
+.nav-toggle {
+  display: none;
+  background: none; border: none;
+  width: 32px; height: 32px;
+  cursor: pointer; position: relative;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--gold);
+  position: absolute; left: 5px;
+  transition: all 0.3s ease;
+}
+.nav-toggle span:nth-child(1) { top: 8px; }
+.nav-toggle span:nth-child(2) { top: 15px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* ===== HERO CAROUSEL ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  background: var(--navy-deep);
+  overflow: hidden;
+  padding-top: 64px;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(17,34,64,0.8), var(--navy-deep) 70%);
+}
+.hero-stars {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(197,164,78,0.4);
+  border-radius: 50%;
+}
+.star:nth-child(1) { top: 12%; left: 8%; width: 3px; height: 3px; }
+.star:nth-child(2) { top: 25%; left: 72%; }
+.star:nth-child(3) { top: 45%; left: 15%; width: 3px; height: 3px; }
+.star:nth-child(4) { top: 60%; left: 85%; }
+.star:nth-child(5) { top: 80%; left: 35%; }
+.star:nth-child(6) { top: 15%; left: 55%; width: 3px; height: 3px; }
+.star:nth-child(7) { top: 70%; left: 60%; }
+.star:nth-child(8) { top: 35%; left: 92%; width: 3px; height: 3px; }
+.star:nth-child(9) { top: 88%; left: 78%; }
+.star:nth-child(10) { top: 50%; left: 45%; }
+.star:nth-child(11) { top: 8%; left: 30%; }
+.star:nth-child(12) { top: 92%; left: 12%; width: 3px; height: 3px; }
+
+.hero-carousel {
+  position: relative; z-index: 2;
+  height: calc(100vh - 64px);
+  display: flex; align-items: center; justify-content: center;
+}
+.hero-slide {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden;
+  transition: opacity 1s ease, visibility 1s ease;
+  padding: 60px 40px;
+}
+.hero-slide.active { opacity: 1; visibility: visible; }
+.hero-slide-inner { max-width: 1200px; width: 100%; margin: 0 auto; }
+
+/* Slide 1: Constellation */
+.slide-constellation { text-align: center; }
+.slide-constellation .hero-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.slide-constellation h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400; color: var(--white); line-height: 1.15; margin-bottom: 24px;
+}
+.slide-constellation h1 em { font-style: italic; color: var(--gold); }
+.slide-constellation .hero-sub {
+  font-size: 17px; color: rgba(255,255,255,0.6);
+  line-height: 1.7; max-width: 640px; margin: 0 auto 40px;
+}
+.slide-constellation .hero-cta-row {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+}
+
+/* Pause button */
+.hero-pause {
+  position: absolute; bottom: 40px; right: 40px;
+  z-index: 6; background: rgba(197,164,78,0.1);
+  border: 1px solid rgba(197,164,78,0.3);
+  border-radius: 50%; width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.3s ease;
+  color: var(--gold); font-size: 14px;
+}
+.hero-pause:hover {
+  background: rgba(197,164,78,0.2);
+  border-color: var(--gold);
+}
+
+/* Magnetic constellation */
+.mag-constellation {
+  position: relative;
+  width: 100%; max-width: 620px;
+  height: 500px; margin: 0 auto 24px;
+}
+.mag-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110px; height: 110px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(10,22,40,0.98) 60%, rgba(6,14,26,0.95) 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  z-index: 20;
+  border: 2px solid rgba(197,164,78,0.35);
+  box-shadow: 0 0 0 4px rgba(197,164,78,0.06), 0 0 0 8px rgba(197,164,78,0.03), inset 0 0 20px rgba(197,164,78,0.05);
+}
+.mag-center-shield {
+  margin-top: 3px;
+  opacity: 0.8;
+}
+.mag-center-ring {
+  position: absolute; inset: -7px;
+  border-radius: 50%;
+  border: 1px solid rgba(197,164,78,0.15);
+  animation: centerPulse 4s ease-in-out infinite;
+}
+.mag-center-ring::after {
+  content: '';
+  position: absolute; inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(197,164,78,0.08);
+}
+@keyframes centerPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(197,164,78,0.05); }
+  50% { box-shadow: 0 0 25px rgba(197,164,78,0.12); }
+}
+.mag-center-label {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--gold); line-height: 1;
+}
+.mag-center-sub {
+  font-size: 9px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(197,164,78,0.5);
+  font-family: 'Instrument Sans', sans-serif;
+  line-height: 1;
+}
+.mag-center-amp {
+  font-family: 'Instrument Serif', serif;
+  font-size: 12px; color: rgba(197,164,78,0.4);
+  line-height: 1; margin: 1px 0;
+}
+
+/* Family orbit */
+.family-orbit {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 110px; height: 110px;
+  margin-left: -55px; margin-top: -55px;
+  border-radius: 50%;
+  border: none;
+  animation: familyOrbit 18s linear infinite;
+  z-index: 21;
+}
+@keyframes familyOrbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.family-node {
+  position: absolute;
+  top: -22px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column;
+  align-items: center; gap: 4px;
+}
+.family-node .node-dot {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: rgba(10,22,40,0.85);
+  border: 1px solid rgba(197,164,78,0.35);
+  display: flex; align-items: center; justify-content: center;
+  animation: familyOrbit 18s linear infinite reverse;
+}
+.family-node .node-dot svg {
+  width: 18px; height: 18px; fill: var(--gold); opacity: 0.7;
+}
+.family-node .node-text {
+  font-size: 8px; letter-spacing: 1.5px; font-weight: 600;
+  text-transform: uppercase; color: rgba(197,164,78,0.7);
+  animation: familyOrbit 18s linear infinite reverse;
+  white-space: nowrap;
+  background: rgba(6,14,26,0.8);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Outer nodes */
+.mag-node {
+  position: absolute;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 6px;
+  z-index: 5; transition: transform 0.3s ease;
+}
+.mag-node .node-dot {
+  width: 62px; height: 62px;
+  border-radius: 50%;
+  background: rgba(10,22,40,0.75);
+  border: 1px solid rgba(197,164,78,0.2);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 20px rgba(197,164,78,0.05);
+  transition: all 0.4s ease;
+}
+.mag-node .node-dot svg {
+  width: 26px; height: 26px; fill: var(--gold); opacity: 0.7;
+}
+.mag-node:hover .node-dot {
+  border-color: rgba(197,164,78,0.5);
+  box-shadow: 0 0 30px rgba(197,164,78,0.15);
+  transform: scale(1.1);
+}
+.mag-node .node-text {
+  font-size: 9px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(197,164,78,0.55);
+}
+
+/* Connection lines canvas */
+.mag-lines {
+  position: absolute; inset: 0;
+  z-index: 2; pointer-events: none;
+}
+
+/* Magnetic drift animation base */
+.mag-drift {
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+/* Outer glow orbit */
+.mag-orbit-ring {
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(197,164,78,0.04);
+  pointer-events: none; z-index: 1;
+}
+.mag-orbit-ring.r1 { width: 320px; height: 320px; margin: -160px 0 0 -160px; }
+.mag-orbit-ring.r2 { width: 420px; height: 420px; margin: -210px 0 0 -210px; border-style: dashed; }
+
+/* Slides 2-5: Content layout */
+.slide-content {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.slide-text .hero-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.slide-text h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 48px);
+  font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 20px;
+}
+.slide-text h2 em { font-style: italic; color: var(--gold); }
+.slide-text p {
+  font-size: 16px; color: rgba(255,255,255,0.55);
+  line-height: 1.7; margin-bottom: 32px;
+}
+.slide-text .hero-tag {
+  display: inline-block; padding: 6px 16px;
+  border: 1px solid rgba(197,164,78,0.3); border-radius: 20px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+
+/* Visual cards */
+.slide-visual-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 12px; padding: 48px 40px;
+  width: 100%; max-width: 480px;
+  backdrop-filter: blur(10px);
+}
+.slide-visual-card .visual-stat {
+  font-family: 'Instrument Serif', serif;
+  font-size: 56px; color: var(--gold); line-height: 1; margin-bottom: 8px;
+}
+.slide-visual-card .visual-label {
+  font-size: 13px; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 24px;
+}
+.slide-visual-card .visual-row {
+  display: flex; gap: 24px; margin-top: 24px;
+  padding-top: 24px; border-top: 1px solid rgba(197,164,78,0.1);
+}
+.slide-visual-card .visual-mini-stat { flex: 1; text-align: center; }
+.slide-visual-card .visual-mini-num {
+  font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--gold-light);
+}
+.slide-visual-card .visual-mini-label {
+  font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 4px;
+}
+
+/* Press card */
+.press-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 12px; padding: 40px; max-width: 480px;
+  backdrop-filter: blur(10px);
+}
+.press-card .press-date {
+  font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.press-card h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--white); line-height: 1.3; margin-bottom: 16px;
+}
+.press-card p { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+.press-card .press-badge {
+  display: inline-block; margin-top: 20px; padding: 6px 14px;
+  background: rgba(197,164,78,0.1); border: 1px solid rgba(197,164,78,0.2);
+  border-radius: 4px; font-size: 10px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold);
+}
+
+/* Veterans visual */
+.vet-visual { width: 100%; max-width: 480px; }
+.vet-flag-bar {
+  height: 4px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--red) 33%, var(--white) 33%, var(--white) 66%, var(--navy) 66%);
+  border-radius: 2px; margin-bottom: 32px;
+}
+.vet-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.vet-stat-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.1);
+  border-radius: 8px; padding: 24px; text-align: center;
+}
+.vet-stat-card .vstat-num {
+  font-family: 'Instrument Serif', serif; font-size: 32px; color: var(--gold);
+}
+.vet-stat-card .vstat-label {
+  font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 6px;
+}
+
+/* Carousel controls */
+.hero-controls {
+  position: absolute; bottom: 40px; left: 50%;
+  transform: translateX(-50%); z-index: 5;
+  display: flex; align-items: center; gap: 12px;
+}
+.hero-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid rgba(197,164,78,0.4);
+  background: transparent; cursor: pointer;
+  transition: all 0.3s ease; padding: 0;
+}
+.hero-dot.active {
+  background: var(--gold); border-color: var(--gold);
+  width: 28px; border-radius: 8px;
+}
+.hero-progress {
+  position: absolute; bottom: 0; left: 0;
+  height: 3px; background: var(--gold); z-index: 5;
+  transition: width 0.1s linear;
+}
+
+/* CTAs */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: var(--gold);
+  color: var(--navy-deep); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  transition: all 0.3s ease; border: none; cursor: pointer;
+}
+.btn-gold:hover {
+  background: var(--gold-bright); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: transparent; color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  border-radius: 4px; border: 1.5px solid rgba(197,164,78,0.4);
+  transition: all 0.3s ease; cursor: pointer;
+}
+.btn-outline:hover {
+  border-color: var(--gold); background: rgba(197,164,78,0.08);
+  transform: translateY(-2px);
+}
+
+/* ===== GOLD TICKER ===== */
+.gold-ticker {
+  background: var(--gold); overflow: hidden;
+  padding: 14px 0; position: relative; z-index: 2;
+}
+.ticker-track {
+  display: flex; animation: ticker 30s linear infinite; width: max-content;
+}
+.ticker-item {
+  font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--navy-deep);
+  white-space: nowrap; padding: 0 40px;
+  display: flex; align-items: center; gap: 16px;
+}
+.ticker-item::before { content: '★'; font-size: 8px; }
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== TRUST BAR ===== */
+.trust-bar {
+  background: var(--white);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  padding: 48px 40px;
+}
+.trust-bar-inner { max-width: 1200px; margin: 0 auto; text-align: center; }
+.trust-bar-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 28px;
+}
+.trust-logos {
+  display: flex; justify-content: center; align-items: center;
+  gap: 48px; flex-wrap: wrap;
+}
+.trust-logo {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  opacity: 0.5; transition: opacity 0.3s ease;
+}
+.trust-logo:hover { opacity: 0.8; }
+.trust-logo-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--navy-deep);
+  display: flex; align-items: center; justify-content: center;
+}
+.trust-logo-icon svg { width: 24px; height: 24px; fill: var(--gold); }
+.trust-logo span {
+  font-size: 10px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-muted);
+}
+
+/* ===== SECTIONS ===== */
+.section { padding: 100px 40px; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.section-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;
+}
+.section-headline em { font-style: italic; color: var(--gold); }
+.section-desc {
+  font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 640px;
+}
+
+/* At a Glance */
+.glance-section { background: var(--white); }
+.glance-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 32px; margin-top: 48px;
+}
+.glance-card {
+  padding: 32px 24px;
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  text-align: center; transition: all 0.3s ease;
+}
+.glance-card:hover {
+  border-color: rgba(197,164,78,0.3);
+  box-shadow: 0 8px 32px rgba(197,164,78,0.08);
+  transform: translateY(-4px);
+}
+.glance-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 42px; color: var(--gold); line-height: 1; margin-bottom: 8px;
+}
+.glance-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dark); margin-bottom: 8px;
+}
+.glance-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+
+/* Three Pillars */
+.pillars-section { background: var(--cream); }
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px; margin-top: 48px;
+}
+.pillar-card {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  padding: 48px 32px; transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.pillar-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.4s ease;
+}
+.pillar-card:hover::before { transform: scaleX(1); }
+.pillar-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.pillar-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(197,164,78,0.08);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.pillar-icon svg { width: 28px; height: 28px; fill: var(--gold); }
+.pillar-card h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 24px; color: var(--navy); margin-bottom: 12px;
+}
+.pillar-card p {
+  font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;
+}
+.pillar-link {
+  font-size: 12px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gold); text-decoration: none;
+  transition: gap 0.3s ease;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.pillar-link:hover { gap: 12px; }
+
+/* Why InPursuit */
+.why-section {
+  background: var(--navy-deep); color: var(--white);
+  position: relative; overflow: hidden;
+}
+.why-section::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(197,164,78,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.why-section .section-headline { color: var(--white); }
+.why-section .section-desc { color: rgba(255,255,255,0.5); }
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 48px;
+}
+.why-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 8px; padding: 36px 28px; transition: all 0.3s ease;
+}
+.why-card:hover { border-color: rgba(197,164,78,0.2); transform: translateY(-4px); }
+.why-card .why-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 14px; color: var(--gold); letter-spacing: 2px; margin-bottom: 12px;
+}
+.why-card h4 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--white); margin-bottom: 10px;
+}
+.why-card p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+
+/* CTA Section */
+.cta-section {
+  background: var(--navy); text-align: center;
+  padding: 100px 40px; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(197,164,78,0.06) 0%, transparent 60%);
+}
+.cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.cta-content h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  color: var(--white); line-height: 1.3; margin-bottom: 20px;
+}
+.cta-content p {
+  font-size: 16px; color: rgba(255,255,255,0.5);
+  line-height: 1.7; margin-bottom: 36px;
+}
+
+/* Footer */
+.site-footer {
+  background: var(--navy-deep);
+  border-top: 1px solid rgba(197,164,78,0.1);
+  padding: 48px 40px 32px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px; color: var(--gold); letter-spacing: 1px;
+}
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+.footer-nav {
+  display: flex; gap: 24px; margin-top: 24px;
+  width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto;
+  padding-top: 24px; border-top: 1px solid rgba(197,164,78,0.08);
+  flex-wrap: wrap;
+}
+.footer-nav a {
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  text-decoration: none; transition: color 0.3s ease;
+}
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer {
+  max-width: 1200px; margin: 24px auto 0;
+  font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.6;
+}
+.footer-tagline {
+  text-align: center; margin-top: 24px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 13px; color: rgba(197,164,78,0.3); letter-spacing: 2px;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .slide-content { grid-template-columns: 1fr; gap: 40px; }
+  .slide-content .slide-visual { order: -1; }
+  .glance-grid { grid-template-columns: repeat(2, 1fr); }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .top-bar-inner { padding: 0 20px; }
+  .top-bar-nav { display: none; }
+  .nav-toggle { display: block; }
+  .top-bar-nav.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy-deep);
+    border-bottom: 1px solid rgba(197,164,78,0.2);
+    padding: 16px 0;
+  }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .top-bar-nav.open .nav-dropdown-menu {
+    position: static; transform: none;
+    opacity: 1; visibility: visible;
+    background: rgba(0,0,0,0.2); box-shadow: none;
+    border: none; border-radius: 0; padding-left: 20px;
+  }
+  .hero-slide { padding: 40px 20px; }
+  .section { padding: 60px 20px; }
+  .glance-grid { grid-template-columns: 1fr; }
+  .trust-logos { gap: 24px; }
+  .hero-controls { bottom: 24px; }
+  .mag-constellation { height: 340px; max-width: 400px; }
+  .mag-node .node-dot { width: 48px; height: 48px; }
+  .mag-node .node-dot svg { width: 20px; height: 20px; }
+  .mag-node .node-text { font-size: 7px; }
+  .family-orbit { width: 90px; height: 90px; margin-left: -45px; margin-top: -45px; }
+  .hero-pause { bottom: 24px; right: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-wordmark">InPursuit Health</div>
+</div>
+
+<!-- Top Bar -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <a class="top-bar-brand" href="index.html" style="display: flex; align-items: center; gap: 2px;">
+      <div class="top-bar-wordmark">InPursuit Health</div>
+      <span style="color: rgba(255,255,255,0.4); margin: 0 2px;">|</span>
+      <a href="maha.html" style="font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">MAHA Policy Alignment</a>
+    </a>
+    <nav class="top-bar-nav" id="mainNav">
+      <div class="nav-dropdown">
+        <span class="nav-item">A Day in the Life &#9662;</span>
+        <div class="nav-dropdown-menu">
+          <a class="nav-dropdown-item" href="day-in-the-life-patient.html">
+            A Patient
+            <span class="sub-desc">From treatment to triumph</span>
+          </a>
+          <a class="nav-dropdown-item" href="day-in-the-life-provider.html">
+            A Provider
+            <span class="sub-desc">Outcome-based payment models</span>
+          </a>
+        </div>
+      </div>
+      <a class="nav-item" href="tetra.html">TETRA</a>
+      <a class="nav-item" href="ai-and-your-data.html">AI &amp; Your Data</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First</a>
+      <a class="nav-item" href="partner-network.html">Partner Network</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO CAROUSEL -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-stars">
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+  </div>
+  <div class="hero-carousel">
+
+    <!-- SLIDE 1: Patient Constellation -->
+    <div class="hero-slide active" data-slide="0">
+      <div class="hero-slide-inner slide-constellation">
+        <p class="hero-overline">Harness the Power of Your Data&trade;</p>
+        <div class="mag-constellation" id="magConstellation">
+          <canvas class="mag-lines" id="magLines"></canvas>
+          <div class="mag-orbit-ring r1"></div>
+          <div class="mag-orbit-ring r2"></div>
+
+          <!-- Center: YOU -->
+          <div class="mag-center">
+            <div class="mag-center-ring"></div>
+            <span class="mag-center-label">YOU</span>
+            <span class="mag-center-amp">&amp;</span>
+            <span class="mag-center-sub">Your Data</span>
+            <div class="mag-center-shield"><svg viewBox="0 0 24 24" width="12" height="12"><path fill="rgba(197,164,78,0.4)" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+          </div>
+
+          <!-- Family: Inner orbit -->
+          <div class="family-orbit">
+            <div class="family-node">
+              <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+            </div>
+          </div>
+
+          <!-- Outer nodes: magnetically drifting -->
+          <!-- Pharmacy: Top -->
+          <div class="mag-node" id="node-pharmacy" data-base-x="310" data-base-y="70">
+            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M6 3v2h12V3H6zm0 18h12v-2H6v2zm8-14H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8h-4v-2h4v2zm0-4h-4V9h4v2z"/></svg></div>
+            <span class="node-text">Pharmacy</span>
+          </div>
+          <!-- Providers: Far left -->
+          <div class="mag-node" id="node-providers" data-base-x="130" data-base-y="245">
+            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M18 14h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
+            <span class="node-text">Providers</span>
+          </div>
+          <!-- Treatment: Upper right -->
+          <div class="mag-node" id="node-treatment" data-base-x="490" data-base-y="170">
+            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></div>
+            <span class="node-text">Treatment</span>
+          </div>
+          <!-- Wellness: Lower right -->
+          <div class="mag-node" id="node-wellness" data-base-x="485" data-base-y="340">
+            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+            <span class="node-text">Wellness</span>
+          </div>
+          <!-- Payers: Bottom -->
+          <div class="mag-node" id="node-payers" data-base-x="310" data-base-y="430">
+            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+            <span class="node-text">Payers</span>
+          </div>
+        </div>
+        <h1>Your Health. Your Data.<br>Your Feed. Your <em>Rewards.</em></h1>
+        <div class="hero-cta-row">
+          <a class="btn-gold" href="day-in-the-life-patient.html">Experience a Day in the Life of InPursuit &rarr;</a>
+        </div>
+        <div style="height:60px;"></div>
+      </div>
+    </div>
+
+    <!-- SLIDE 2: AI & Your Data / Security -->
+    <div class="hero-slide" data-slide="1">
+      <div class="hero-slide-inner slide-content">
+        <div class="slide-text">
+          <div class="hero-tag">AI &amp; Your Data</div>
+          <p class="hero-overline">Privacy-First. Always.</p>
+          <h2>Your data is <em>yours.</em><br>Period.</h2>
+          <p>We don't look at your data. We don't sell your data. We don't even have access to read it. End-to-end encryption means only you &mdash; and those you choose &mdash; can see your health information. Like WhatsApp, but for your most sensitive data: your health.</p>
+          <a class="btn-gold" href="ai-and-your-data.html">See How We Protect You &rarr;</a>
+        </div>
+        <div class="slide-visual">
+          <div class="slide-visual-card">
+            <div class="visual-stat">🔒</div>
+            <div class="visual-label">End-to-End Encryption</div>
+            <div class="visual-row">
+              <div class="visual-mini-stat">
+                <div class="visual-mini-num">Zero</div>
+                <div class="visual-mini-label">Data Sold</div>
+              </div>
+              <div class="visual-mini-stat">
+                <div class="visual-mini-num">You</div>
+                <div class="visual-mini-label">Control Access</div>
+              </div>
+              <div class="visual-mini-stat">
+                <div class="visual-mini-num">HIPAA+</div>
+                <div class="visual-mini-label">Compliant</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 3: MAHA Initiative -->
+    <div class="hero-slide" data-slide="2">
+      <div class="hero-slide-inner slide-content">
+        <div class="slide-text">
+          <div class="hero-tag">🇺🇸 MAHA Initiative</div>
+          <p class="hero-overline">Making America Healthy Again</p>
+          <h2>Patient-first healthcare.<br><em>Built on transparency.</em></h2>
+          <p>InPursuit proudly supports the MAHA Initiative &mdash; a movement to put patients back in control of their health. Through radical transparency, data ownership, and AI-enabled empowerment, we're building the healthcare system Americans deserve. Your health. Your data. Your future.</p>
+          <a class="btn-gold" href="maha.html">Learn About MAHA &rarr;</a>
+        </div>
+        <div class="slide-visual">
+          <div class="press-card">
+            <div class="press-date">InPursuit Health &bull; 2026</div>
+            <h3>InPursuit Health Commits to MAHA: Patient Empowerment Through Technology</h3>
+            <p>Joining the movement to make America healthy again, InPursuit deploys technology that puts patients first &mdash; enabling price transparency, data ownership, and informed healthcare decisions for every American.</p>
+            <span class="press-badge">Patient-First Platform</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 4: Provider / ACCESS -->
+    <div class="hero-slide" data-slide="3">
+      <div class="hero-slide-inner slide-content">
+        <div class="slide-text">
+          <div class="hero-tag">For Providers</div>
+          <p class="hero-overline">ACCESS-as-an-Agent</p>
+          <h2>Outcome-based care,<br><em>automated.</em></h2>
+          <p>The CMS ACCESS Model is transforming how providers get paid &mdash; from volume to value. InPursuit&rsquo;s AI-enabled platform automates the data infrastructure providers need to succeed in outcome-based payment models, so they can focus on what matters: patients.</p>
+          <a class="btn-gold" href="day-in-the-life-provider.html">Provider Solutions &rarr;</a>
+        </div>
+        <div class="slide-visual">
+          <div class="press-card">
+            <div class="press-date">InPursuit Health &bull; 2026</div>
+            <h3>InPursuit Health Launches ACCESS-as-an-Agent: AI-Powered Infrastructure for Value-Based Care</h3>
+            <p>Building on DoD/VA validation and CMS Health IT Ecosystem approval, InPursuit deploys the first fully automated interoperability agent designed for the ACCESS Model payment framework.</p>
+            <span class="press-badge">CMS Health IT Approved</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SLIDE 5: Veterans First -->
+    <div class="hero-slide" data-slide="4">
+      <div class="hero-slide-inner slide-content">
+        <div class="slide-text">
+          <div class="hero-tag">&#127482;&#127480; Veterans First</div>
+          <p class="hero-overline">Veterans First Initiative</p>
+          <h2>They served us.<br>Now we serve <em>them.</em></h2>
+          <p>Selected as the technology backbone of the Veterans First Initiative, InPursuit bridges the gap between DoD and VA healthcare systems &mdash; ensuring no veteran&rsquo;s medical records are lost in transition. Because those who defended our nation deserve seamless care.</p>
+          <a class="btn-gold" href="veterans-first.html">Learn About Veterans First &rarr;</a>
+        </div>
+        <div class="slide-visual">
+          <div class="vet-visual">
+            <div class="vet-flag-bar"></div>
+            <div class="vet-stats">
+              <div class="vet-stat-card"><div class="vstat-num">18M+</div><div class="vstat-label">U.S. Veterans</div></div>
+              <div class="vet-stat-card"><div class="vstat-num">95%</div><div class="vstat-label">Record Continuity</div></div>
+              <div class="vet-stat-card"><div class="vstat-num">DoD &rarr; VA</div><div class="vstat-label">Seamless Bridge</div></div>
+              <div class="vet-stat-card"><div class="vstat-num">Zero</div><div class="vstat-label">Records Lost</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+  <div class="hero-controls">
+    <button class="hero-dot active" data-slide="0"></button>
+    <button class="hero-dot" data-slide="1"></button>
+    <button class="hero-dot" data-slide="2"></button>
+    <button class="hero-dot" data-slide="3"></button>
+    <button class="hero-dot" data-slide="4"></button>
+  </div>
+  <button class="hero-pause" id="heroPause" title="Pause/Play">&#10074;&#10074;</button>
+  <div class="hero-progress" id="heroProgress"></div>
+</section>
+
+<!-- Gold Ticker -->
+<div class="gold-ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Patient-Owned Data</span>
+    <span class="ticker-item">Federally Validated</span>
+    <span class="ticker-item">DoD / VA / CMS Approved</span>
+    <span class="ticker-item">95% Interoperability</span>
+    <span class="ticker-item">1.8M+ Transactions per Hour</span>
+    <span class="ticker-item">TEFCA &amp; FHIR Native</span>
+    <span class="ticker-item">AI-Enabled Intelligence</span>
+    <span class="ticker-item">Outcome-Based Care</span>
+    <span class="ticker-item">Patient-Owned Data</span>
+    <span class="ticker-item">Federally Validated</span>
+    <span class="ticker-item">DoD / VA / CMS Approved</span>
+    <span class="ticker-item">95% Interoperability</span>
+    <span class="ticker-item">1.8M+ Transactions per Hour</span>
+    <span class="ticker-item">TEFCA &amp; FHIR Native</span>
+    <span class="ticker-item">AI-Enabled Intelligence</span>
+    <span class="ticker-item">Outcome-Based Care</span>
+  </div>
+</div>
+
+<!-- Trust Bar -->
+<div class="trust-bar reveal">
+  <div class="trust-bar-inner">
+    <div class="trust-bar-label">Federally Validated Technology</div>
+    <div class="trust-logos">
+      <div class="trust-logo">
+        <div class="trust-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+        <span>Dept. of Defense</span>
+      </div>
+      <div class="trust-logo">
+        <div class="trust-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <span>Veterans Affairs</span>
+      </div>
+      <div class="trust-logo">
+        <div class="trust-logo-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+        <span>CMS Health IT</span>
+      </div>
+      <div class="trust-logo">
+        <div class="trust-logo-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/></svg></div>
+        <span>TEFCA Compliant</span>
+      </div>
+      <div class="trust-logo">
+        <div class="trust-logo-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+        <span>FHIR Native</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- At A Glance -->
+<section class="section glance-section" id="glance">
+  <div class="section-inner">
+    <p class="section-overline reveal">At a Glance</p>
+    <h2 class="section-headline reveal">Built different. Proven at scale.</h2>
+    <div class="glance-grid reveal">
+      <div class="glance-card">
+        <div class="glance-num">95%</div>
+        <div class="glance-label">Interoperability Success</div>
+        <div class="glance-desc">Federally validated across DoD, VA, and CMS health systems.</div>
+      </div>
+      <div class="glance-card">
+        <div class="glance-num">1.8M+</div>
+        <div class="glance-label">Transactions / Hour</div>
+        <div class="glance-desc">Real-time data processing that outperformed IBM and SAP in federal testing.</div>
+      </div>
+      <div class="glance-card">
+        <div class="glance-num">140M+</div>
+        <div class="glance-label">Beneficiaries Accessible</div>
+        <div class="glance-desc">CMS Health Tech Ecosystem approval grants access to Medicare &amp; Medicaid populations.</div>
+      </div>
+      <div class="glance-card">
+        <div class="glance-num">20+</div>
+        <div class="glance-label">Years of Innovation</div>
+        <div class="glance-desc">Two decades of healthcare technology expertise, from federal to commercial markets.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Three Pillars -->
+<section class="section pillars-section" id="pillars">
+  <div class="section-inner">
+    <p class="section-overline reveal">The Three P&rsquo;s of Healthcare</p>
+    <h2 class="section-headline reveal">One platform. Every stakeholder.<br>Aligned around <em>you.</em></h2>
+    <p class="section-desc reveal">InPursuit connects the entire healthcare ecosystem &mdash; Patients, Providers, and Payers &mdash; through a single, federally validated data infrastructure.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+        <h3>The Patient</h3>
+        <p>Own your health data. Track your wellness. Connect with your providers. Earn rewards for healthy engagement. From prenatal care to chronic disease management &mdash; InPursuit walks beside you for life.</p>
+        <a class="pillar-link" href="day-in-the-life-patient.html">A Day in the Life &rarr;</a>
+      </div>
+      <div class="pillar-card reveal">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 0h-4V4h4v2z"/></svg></div>
+        <h3>The Provider</h3>
+        <p>Succeed in outcome-based payment models. ACCESS-as-an-Agent automates the data infrastructure you need &mdash; real-time patient insights, quality reporting, and seamless care coordination.</p>
+        <a class="pillar-link" href="day-in-the-life-provider.html">Provider Solutions &rarr;</a>
+      </div>
+      <div class="pillar-card reveal">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+        <h3>The Payer</h3>
+        <p>Drive value-based care at scale. InPursuit&rsquo;s interoperability platform gives payers the data transparency needed to align incentives, reduce waste, and improve population health outcomes.</p>
+        <a class="pillar-link" href="partner-network.html">Partner Network &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why InPursuit -->
+<section class="section why-section" id="why">
+  <div class="section-inner">
+    <p class="section-overline reveal">Why InPursuit</p>
+    <h2 class="section-headline reveal">Federally validated. Market ready.</h2>
+    <p class="section-desc reveal">We didn&rsquo;t start in a garage. We started in the Department of Defense &mdash; and proved it works at the highest stakes in healthcare.</p>
+    <div class="why-grid">
+      <div class="why-card reveal"><div class="why-num">01</div><h4>Federal Validation</h4><p>DoD and VA contracts with 95% interoperability &mdash; outperforming IBM, SAP, and legacy incumbents in government testing.</p></div>
+      <div class="why-card reveal"><div class="why-num">02</div><h4>CMS Approved</h4><p>Health Tech Ecosystem approval provides direct access to 140M+ Medicare and Medicaid beneficiaries.</p></div>
+      <div class="why-card reveal"><div class="why-num">03</div><h4>AI-Enabled Intelligence</h4><p>TETRA&rsquo;s AI layer transforms raw health data into proactive, personalized insights &mdash; for patients and providers alike.</p></div>
+      <div class="why-card reveal"><div class="why-num">04</div><h4>Former HHS CIO Leadership</h4><p>Jose Arietta, former HHS Chief Information Officer, on our leadership team providing unmatched federal healthcare insight.</p></div>
+      <div class="why-card reveal"><div class="why-num">05</div><h4>TEFCA &amp; FHIR Native</h4><p>Built from the ground up on modern interoperability standards &mdash; not retrofitted. Designed for where healthcare is going.</p></div>
+      <div class="why-card reveal"><div class="why-num">06</div><h4>Rapid Deployment</h4><p>Weeks versus competitors&rsquo; quarters. Speed-to-value that healthcare organizations demand and patients deserve.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-content reveal">
+    <p class="section-overline">Get Started</p>
+    <h2>Your health data has been locked away long enough.</h2>
+    <p>Whether you&rsquo;re a patient taking control of your wellness, a provider transitioning to value-based care, or a payer building a smarter network &mdash; InPursuit is the platform that connects it all.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a class="btn-gold" href="/cdn-cgi/l/email-protection#5f363139301f36312f2a2d2c2a362b373a3e332b37713c3032">Request a Demo &rarr;</a>
+      <a class="btn-outline" href="day-in-the-life-patient.html">See It in Action</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="tetra.html">TETRA</a>
+    <a href="day-in-the-life-patient.html">Patient Journey</a>
+    <a href="day-in-the-life-provider.html">Provider Solutions</a>
+    <a href="ai-and-your-data.html">AI &amp; Your Data</a>
+    <a href="maha.html">MAHA</a>
+    <a href="veterans-first.html">Veterans First</a>
+    <a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a>
+    <a href="leadership.html">Leadership</a>
+    <a href="security-center.html">Security Center</a>
+    <a href="contact.html">Contact</a>
+    <a href="careers.html">Careers</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// Preloader
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 800);
+});
+
+// Top bar scroll shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Mobile nav toggle
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('mainNav').classList.toggle('open');
+});
+
+// ===== HERO CAROUSEL with Pause =====
+const slides = document.querySelectorAll('.hero-slide');
+const dots = document.querySelectorAll('.hero-dot');
+const progress = document.getElementById('heroProgress');
+const pauseBtn = document.getElementById('heroPause');
+let current = 0;
+const durationDefault = 7000;
+const durationSlide0 = 12000;
+let startTime = null;
+let raf;
+let paused = false;
+let elapsed = 0;
+
+function getSlideDuration() {
+  return current === 0 ? durationSlide0 : durationDefault;
+}
+
+function goToSlide(n) {
+  slides[current].classList.remove('active');
+  dots[current].classList.remove('active');
+  current = n;
+  slides[current].classList.add('active');
+  dots[current].classList.add('active');
+  startTime = null;
+  elapsed = 0;
+}
+
+function animateProgress(timestamp) {
+  if (!startTime) startTime = timestamp - elapsed;
+  elapsed = timestamp - startTime;
+  const dur = getSlideDuration();
+  const pct = Math.min((elapsed / dur) * 100, 100);
+  progress.style.width = pct + '%';
+  if (elapsed >= dur) {
+    goToSlide((current + 1) % slides.length);
+  }
+  raf = requestAnimationFrame(animateProgress);
+}
+raf = requestAnimationFrame(animateProgress);
+
+dots.forEach(dot => {
+  dot.addEventListener('click', () => {
+    goToSlide(parseInt(dot.dataset.slide));
+    if (paused) { paused = false; pauseBtn.innerHTML = '&#10074;&#10074;'; raf = requestAnimationFrame(animateProgress); }
+  });
+});
+
+pauseBtn.addEventListener('click', () => {
+  paused = !paused;
+  if (paused) {
+    cancelAnimationFrame(raf);
+    pauseBtn.innerHTML = '&#9654;';
+  } else {
+    startTime = null;
+    raf = requestAnimationFrame(animateProgress);
+    pauseBtn.innerHTML = '&#10074;&#10074;';
+  }
+});
+
+// ===== MAGNETIC CONSTELLATION =====
+(function() {
+  const container = document.getElementById('magConstellation');
+  if (!container) return;
+  const canvas = document.getElementById('magLines');
+  const ctx = canvas.getContext('2d');
+  const nodes = container.querySelectorAll('.mag-node');
+  const centerX = 310, centerY = 250;
+
+  function resize() {
+    const rect = container.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Node state
+  const nodeStates = [];
+  nodes.forEach(node => {
+    const bx = parseFloat(node.dataset.baseX);
+    const by = parseFloat(node.dataset.baseY);
+    nodeStates.push({
+      el: node,
+      baseX: bx, baseY: by,
+      x: bx, y: by,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.3 + Math.random() * 0.4,
+      amplitude: 12 + Math.random() * 18
+    });
+  });
+
+  // Data pulse particles
+  const pulses = [];
+  function spawnPulse() {
+    if (nodeStates.length === 0) return;
+    const target = nodeStates[Math.floor(Math.random() * nodeStates.length)];
+    pulses.push({
+      x: centerX, y: centerY,
+      tx: target.x, ty: target.y,
+      progress: 0,
+      speed: 0.008 + Math.random() * 0.006
+    });
+  }
+  setInterval(spawnPulse, 1400);
+
+  let time = 0;
+  function animate() {
+    time += 0.016;
+    const rect = container.getBoundingClientRect();
+    const scaleX = rect.width / 620;
+    const scaleY = rect.height / 500;
+
+    // Update nodes with magnetic drift
+    nodeStates.forEach(ns => {
+      // Organic drift around base position
+      const driftX = Math.sin(time * ns.speed + ns.phase) * ns.amplitude;
+      const driftY = Math.cos(time * ns.speed * 0.7 + ns.phase + 1) * ns.amplitude * 0.6;
+
+      // Slight gravitational pull toward center
+      const dx = centerX - (ns.baseX + driftX);
+      const dy = centerY - (ns.baseY + driftY);
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const pull = Math.min(0.02, 3 / dist);
+
+      ns.x = ns.baseX + driftX + dx * pull;
+      ns.y = ns.baseY + driftY + dy * pull;
+
+      // Position element
+      ns.el.style.left = (ns.x * scaleX) + 'px';
+      ns.el.style.top = (ns.y * scaleY) + 'px';
+      ns.el.style.transform = 'translate(-50%, -50%)';
+    });
+
+    // Draw connection lines from center
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    nodeStates.forEach(ns => {
+      const nx = ns.x * scaleX;
+      const ny = ns.y * scaleY;
+      const cx = centerX * scaleX;
+      const cy = centerY * scaleY;
+
+      // Glow line
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(nx, ny);
+      ctx.strokeStyle = 'rgba(197,164,78,0.04)';
+      ctx.lineWidth = 4;
+      ctx.stroke();
+
+      // Crisp line
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(nx, ny);
+      ctx.strokeStyle = 'rgba(197,164,78,0.07)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+    });
+
+    // Draw Family connections to all outer nodes
+    const familyOrbit = document.querySelector('.family-orbit');
+    if (familyOrbit) {
+      const cRect = container.getBoundingClientRect();
+      const fNode = familyOrbit.querySelector('.family-node .node-dot');
+      if (fNode) {
+        const fRect = fNode.getBoundingClientRect();
+        const fx = (fRect.left + fRect.width / 2 - cRect.left);
+        const fy = (fRect.top + fRect.height / 2 - cRect.top);
+        nodeStates.forEach(ns => {
+          const nx = ns.x * scaleX;
+          const ny = ns.y * scaleY;
+          ctx.beginPath();
+          ctx.moveTo(fx, fy);
+          ctx.lineTo(nx, ny);
+          ctx.strokeStyle = 'rgba(197,164,78,0.18)';
+          ctx.lineWidth = 1;
+          ctx.setLineDash([4, 5]);
+          ctx.stroke();
+          ctx.setLineDash([]);
+        });
+      }
+    }
+
+    // Draw data pulses
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const p = pulses[i];
+      p.progress += p.speed;
+      if (p.progress >= 1) { pulses.splice(i, 1); continue; }
+      const px = (p.x + (p.tx - p.x) * p.progress) * scaleX;
+      const py = (p.y + (p.ty - p.y) * p.progress) * scaleY;
+      const alpha = p.progress < 0.1 ? p.progress * 6 : p.progress > 0.9 ? (1 - p.progress) * 6 : 0.5;
+      ctx.beginPath();
+      ctx.arc(px, py, 2 * scaleX, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(197,164,78,' + alpha + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Star parallax
+document.addEventListener('mousemove', (e) => {
+  const stars = document.querySelectorAll('.star');
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  stars.forEach((star, i) => {
+    const depth = (i % 3 + 1) * 0.3;
+    star.style.transform = 'translate(' + (x * depth) + 'px, ' + (y * depth) + 'px)';
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+
+</body>
+</html>

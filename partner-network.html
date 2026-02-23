@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InPursuit Partner Network — Build on TETRA™</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy-deep: #0A0F1C;
+  --navy: #111827;
+  --navy-mid: #1A2744;
+  --navy-light: #243352;
+  --gold: #C5A44E;
+  --gold-bright: #D4B85A;
+  --gold-dim: rgba(197,164,78,0.15);
+  --accent-teal: #00A878;
+  --accent-blue: #2E75B6;
+  --white: #F0EDE6;
+  --white-dim: rgba(240,237,230,0.6);
+  --white-faint: rgba(240,237,230,0.08);
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', -apple-system, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--navy-deep);
+  color: var(--white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── AMBIENT BACKGROUND ── */
+.bg-ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 20%, rgba(46,117,182,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 800px at 80% 60%, rgba(197,164,78,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 1200px 600px at 50% 100%, rgba(0,168,120,0.03) 0%, transparent 60%);
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(10,15,28,0.85);
+  border-bottom: 1px solid var(--white-faint);
+}
+.nav-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 16px 40px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand {
+  font-family: var(--serif); font-size: 20px; color: var(--white);
+  text-decoration: none; letter-spacing: 1px;
+}
+.nav-brand span { color: var(--gold); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  color: var(--white-dim); text-decoration: none; font-size: 13px;
+  letter-spacing: 1.5px; text-transform: uppercase; font-weight: 500;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+.nav-cta {
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: var(--navy-deep) !important; padding: 10px 24px; border-radius: 4px;
+  font-weight: 700 !important; letter-spacing: 1px !important;
+  transition: transform 0.3s, box-shadow 0.3s !important;
+}
+.nav-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 120px 40px 80px;
+  text-align: center;
+}
+.hero-content { max-width: 900px; }
+.hero-eyebrow {
+  font-size: 12px; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px; font-weight: 500;
+  opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(48px, 7vw, 84px);
+  line-height: 1.05; color: var(--white); margin-bottom: 8px;
+  opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero h1 em {
+  font-style: italic; color: var(--gold);
+  text-shadow: 0 0 60px rgba(197,164,78,0.2);
+}
+.hero-sub {
+  font-family: var(--serif); font-style: italic;
+  font-size: clamp(18px, 2.5vw, 26px);
+  color: var(--white-dim); margin: 24px auto 40px; max-width: 700px;
+  opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-actions {
+  display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: var(--navy-deep); padding: 16px 40px; border: none; border-radius: 4px;
+  font-family: var(--sans); font-size: 14px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(197,164,78,0.35);
+}
+.btn-secondary {
+  background: transparent;
+  color: var(--white); padding: 16px 40px; border: 1.5px solid rgba(240,237,230,0.2);
+  border-radius: 4px;
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.3s, color 0.3s;
+}
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ── CONSTELLATION ORBIT (Hero background) ── */
+.hero-orbit {
+  position: absolute; top: 50%; left: 50%;
+  width: 700px; height: 700px;
+  transform: translate(-50%, -50%);
+  pointer-events: none; opacity: 0.12;
+}
+.orbit-ring {
+  position: absolute; inset: 0;
+  border: 1.5px solid rgba(197,164,78,0.2);
+  border-radius: 50%;
+  animation: orbitSpin 40s linear infinite;
+}
+.orbit-ring::after {
+  content: '';
+  position: absolute; top: -3px; left: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 15px var(--gold);
+}
+.orbit-ring-2 {
+  position: absolute; inset: 80px;
+  border: 1px solid rgba(46,117,182,0.15);
+  border-radius: 50%;
+  animation: orbitSpin 30s linear infinite reverse;
+}
+.orbit-ring-2::after {
+  content: '';
+  position: absolute; bottom: -2px; right: 30%;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue);
+}
+.orbit-ring-3 {
+  position: absolute; inset: 180px;
+  border: 1px solid rgba(0,168,120,0.12);
+  border-radius: 50%;
+  animation: orbitSpin 22s linear infinite;
+}
+@keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+/* ── SECTIONS ── */
+section { position: relative; z-index: 1; }
+.section-inner {
+  max-width: 1200px; margin: 0 auto; padding: 100px 40px;
+}
+.section-eyebrow {
+  font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px; font-weight: 500;
+}
+.section-title {
+  font-family: var(--serif); font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1; margin-bottom: 20px;
+}
+.section-subtitle {
+  font-size: 17px; color: var(--white-dim); max-width: 660px;
+  line-height: 1.7; margin-bottom: 60px;
+}
+
+/* ── FOUNDING PARTNERS SECTION ── */
+.founding-partners {
+  background: linear-gradient(180deg, transparent, rgba(197,164,78,0.02) 50%, transparent);
+  border-top: 1px solid var(--white-faint);
+}
+.fp-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  margin-bottom: 60px;
+}
+.fp-card {
+  background: linear-gradient(145deg, rgba(26,39,68,0.6), rgba(17,24,39,0.8));
+  border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 8px; padding: 48px 40px;
+  transition: border-color 0.4s, transform 0.3s;
+  position: relative; overflow: hidden;
+}
+.fp-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--accent-teal));
+  opacity: 0; transition: opacity 0.4s;
+}
+.fp-card:hover { border-color: rgba(197,164,78,0.3); transform: translateY(-4px); }
+.fp-card:hover::before { opacity: 1; }
+.fp-badge {
+  display: inline-block; padding: 4px 14px; border-radius: 20px;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 20px;
+}
+.fp-badge.wearable { background: rgba(0,168,120,0.15); color: var(--accent-teal); }
+.fp-badge.care-coord { background: rgba(46,117,182,0.15); color: var(--accent-blue); }
+.fp-card h3 {
+  font-family: var(--serif); font-size: 28px; margin-bottom: 8px;
+}
+.fp-card .fp-url {
+  font-size: 13px; color: var(--gold); margin-bottom: 16px;
+  text-decoration: none; display: inline-block;
+  border-bottom: 1px solid transparent; transition: border-color 0.3s;
+}
+.fp-card .fp-url:hover { border-color: var(--gold); }
+.fp-card p { font-size: 15px; color: var(--white-dim); line-height: 1.7; margin-bottom: 20px; }
+.fp-fit {
+  padding: 16px 20px; background: rgba(197,164,78,0.05);
+  border-left: 2px solid var(--gold); border-radius: 0 6px 6px 0;
+}
+.fp-fit strong { color: var(--gold); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+.fp-fit span { font-size: 14px; color: var(--white-dim); line-height: 1.6; }
+
+/* ── TIERS ── */
+.tiers-section {
+  border-top: 1px solid var(--white-faint);
+}
+.tiers-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+}
+.tier-card {
+  background: linear-gradient(160deg, rgba(26,39,68,0.5), rgba(17,24,39,0.7));
+  border: 1px solid var(--white-faint);
+  border-radius: 8px; padding: 40px 28px; text-align: center;
+  transition: border-color 0.4s, transform 0.3s;
+  position: relative;
+}
+.tier-card:hover { transform: translateY(-6px); }
+.tier-card.highlighted {
+  border-color: var(--gold);
+  box-shadow: 0 0 60px rgba(197,164,78,0.08);
+}
+.tier-card.highlighted::before {
+  content: 'MOST POPULAR'; position: absolute; top: -12px; left: 50%;
+  transform: translateX(-50%); padding: 4px 16px;
+  background: var(--gold); color: var(--navy-deep);
+  font-size: 9px; font-weight: 700; letter-spacing: 2px;
+  border-radius: 20px;
+}
+.tier-icon {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.tier-icon.basic { background: rgba(240,237,230,0.06); }
+.tier-icon.silver { background: rgba(170,180,195,0.1); }
+.tier-icon.gold { background: rgba(197,164,78,0.12); }
+.tier-icon.platinum { background: rgba(123,135,148,0.12); }
+.tier-name {
+  font-family: var(--serif); font-size: 24px; margin-bottom: 4px;
+}
+.tier-price {
+  font-size: 14px; color: var(--gold); margin-bottom: 24px; font-weight: 500;
+}
+.tier-features {
+  list-style: none; text-align: left;
+  border-top: 1px solid var(--white-faint);
+  padding-top: 20px;
+}
+.tier-features li {
+  font-size: 13px; color: var(--white-dim);
+  padding: 8px 0; display: flex; gap: 10px; align-items: flex-start;
+}
+.tier-features li::before {
+  content: '→'; color: var(--gold); flex-shrink: 0; font-size: 12px; margin-top: 1px;
+}
+.tier-cta {
+  display: block; width: 100%; margin-top: 28px; padding: 14px;
+  border: 1.5px solid var(--white-faint); border-radius: 4px;
+  background: transparent; color: var(--white); font-family: var(--sans);
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; text-align: center; text-decoration: none;
+  transition: all 0.3s;
+}
+.tier-cta:hover {
+  border-color: var(--gold); color: var(--gold);
+  box-shadow: 0 4px 20px rgba(197,164,78,0.15);
+}
+.tier-cta.gold-cta {
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: var(--navy-deep); border-color: var(--gold);
+}
+.tier-cta.gold-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.35);
+}
+
+/* ── ACTION ITEMS / ROADMAP ── */
+.roadmap-section {
+  background: linear-gradient(180deg, transparent, rgba(0,168,120,0.02) 50%, transparent);
+  border-top: 1px solid var(--white-faint);
+}
+.timeline {
+  position: relative; padding-left: 60px;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 24px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold), var(--accent-teal), var(--accent-blue));
+}
+.tl-item {
+  position: relative; margin-bottom: 48px;
+  padding: 32px 36px;
+  background: linear-gradient(145deg, rgba(26,39,68,0.4), rgba(17,24,39,0.6));
+  border: 1px solid var(--white-faint);
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+.tl-item:hover { border-color: rgba(197,164,78,0.25); }
+.tl-dot {
+  position: absolute; left: -48px; top: 36px;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--gold); background: var(--navy-deep);
+  box-shadow: 0 0 12px rgba(197,164,78,0.3);
+}
+.tl-item.active .tl-dot {
+  background: var(--gold);
+  box-shadow: 0 0 20px rgba(197,164,78,0.5);
+}
+.tl-phase {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); font-weight: 700; margin-bottom: 4px;
+}
+.tl-title {
+  font-family: var(--serif); font-size: 24px; margin-bottom: 8px;
+}
+.tl-date {
+  font-size: 12px; color: var(--white-dim); margin-bottom: 16px;
+  font-weight: 500; letter-spacing: 1px;
+}
+.tl-tasks { list-style: none; }
+.tl-tasks li {
+  padding: 10px 0; font-size: 14px; color: var(--white-dim);
+  display: flex; gap: 12px; align-items: flex-start;
+  border-bottom: 1px solid rgba(240,237,230,0.04);
+}
+.tl-tasks li:last-child { border-bottom: none; }
+.tl-check {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 4px;
+  border: 1.5px solid rgba(197,164,78,0.3); margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--gold);
+}
+.tl-check.done {
+  background: rgba(0,168,120,0.15); border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}
+.tl-owner {
+  margin-left: auto; flex-shrink: 0;
+  font-size: 11px; color: var(--gold); opacity: 0.7;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  border-top: 1px solid var(--white-faint);
+  border-bottom: 1px solid var(--white-faint);
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  max-width: 1200px; margin: 0 auto;
+}
+.stat-item {
+  padding: 48px 40px; text-align: center;
+  border-right: 1px solid var(--white-faint);
+}
+.stat-item:last-child { border-right: none; }
+.stat-number {
+  font-family: var(--serif); font-size: 48px; color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 12px; color: var(--white-dim); letter-spacing: 2px;
+  text-transform: uppercase; margin-top: 8px;
+}
+
+/* ── CTA SECTION ── */
+.cta-section {
+  text-align: center;
+  background: linear-gradient(180deg, transparent 0%, rgba(197,164,78,0.03) 50%, transparent 100%);
+  border-top: 1px solid var(--white-faint);
+}
+.cta-section .section-title { max-width: 700px; margin: 0 auto 20px; }
+.cta-section .section-subtitle { margin: 0 auto 40px; text-align: center; }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--white-faint);
+  padding: 40px;
+  text-align: center;
+}
+footer p {
+  font-size: 13px; color: rgba(240,237,230,0.3); letter-spacing: 1px;
+}
+footer .tagline {
+  font-family: var(--serif); font-style: italic;
+  color: var(--gold); opacity: 0.4; font-size: 15px;
+  margin-bottom: 8px;
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .tiers-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-item:nth-child(2) { border-right: none; }
+}
+@media (max-width: 768px) {
+  .nav-links a:not(.nav-cta) { display: none; }
+  .fp-grid { grid-template-columns: 1fr; }
+  .tiers-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--white-faint); }
+  .hero { padding: 100px 24px 60px; }
+  .section-inner { padding: 60px 24px; }
+  .timeline { padding-left: 48px; }
+  .tl-dot { left: -36px; }
+  .timeline::before { left: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-ambient"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">InPursuit <span>Partner Network</span></a>
+    <div class="nav-links">
+      <a href="#partners">Partners</a>
+      <a href="#tiers">Membership</a>
+      <a href="#roadmap">What's Coming</a>
+      <a href="#apply" class="nav-cta">Join Now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orbit">
+    <div class="orbit-ring"></div>
+    <div class="orbit-ring-2"></div>
+    <div class="orbit-ring-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">InPursuit Partner Network &nbsp;·&nbsp; Now Accepting Members</div>
+    <h1>Your Innovation.<br>Our <em>Platform.</em><br>Limitless Reach.</h1>
+    <p class="hero-sub">
+      Build on TETRA™ — the healthcare data fabric connecting providers, payers, consumers, and pharmacies. Access powerful APIs, AI toolkits, and a built-in marketplace of millions. You keep your IP. We help you grow.
+    </p>
+    <div class="hero-actions">
+      <a href="#apply" class="btn-primary">Join the Network</a>
+      <a href="#tiers" class="btn-secondary">See What You Get</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">You Own Your IP</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">1.8M+</div>
+      <div class="stat-label">Transactions / Hour</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">140M+</div>
+      <div class="stat-label">Reachable Beneficiaries</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">HIPAA</div>
+      <div class="stat-label">Compliant Infrastructure</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDING PARTNERS -->
+<section class="founding-partners" id="partners">
+  <div class="section-inner">
+    <div class="section-eyebrow">Who's Building on TETRA</div>
+    <h2 class="section-title">Meet Our Founding Partners</h2>
+    <p class="section-subtitle">
+      These companies are already integrating with TETRA™ and shaping the future of the network. As a Founding Partner, you get early access, direct input on platform direction, and a head start in the marketplace.
+    </p>
+
+    <div class="fp-grid">
+      <!-- PISON -->
+      <div class="fp-card">
+        <span class="fp-badge wearable">Neural Wearable Technology</span>
+        <h3>Pison Technology</h3>
+        <a href="https://pison.com" target="_blank" class="fp-url">pison.com →</a>
+        <p>
+          Pison's AI-powered neural sensors capture neurological and cognitive performance data from a wrist-worn wearable — developed with the NIH, DoD, and NSF. Their CARE platform enables early detection and remote monitoring of neurological disorders, while PERFORM tracks mental agility, focus, and readiness for athletes and workers.
+        </p>
+        <div class="fp-fit">
+          <strong>What They're Building on TETRA</strong>
+          <span>Pison is integrating their neural biometric data streams into THP's data fabric — giving their customers a unified health profile that combines cognitive performance with clinical records, wearable data, and wellness metrics. Through the InPursuit Marketplace, Pison's technology reaches providers, employers, and consumers already on the platform.</span>
+        </div>
+      </div>
+
+      <!-- CSA -->
+      <div class="fp-card">
+        <span class="fp-badge care-coord">Care Coordination & PHR</span>
+        <h3>Coordinated Services of America</h3>
+        <a href="https://coordinatedservicesofamerica.com" target="_blank" class="fp-url">coordinatedservicesofamerica.com →</a>
+        <p>
+          CSA's MyDocs™ platform creates patient-owned portable health records, enabling consumers to upload, consolidate, and share medical documents with their care team. Their solution addresses the core problem of fragmented physician-to-physician and physician-to-patient communication with HIPAA-compliant document management, telemedicine integration, and caregiver access controls.
+        </p>
+        <div class="fp-fit">
+          <strong>What They're Building on TETRA</strong>
+          <span>CSA is connecting their MyDocs™ portable health records into THP's data fabric — giving patients a single place to manage documents, share records with providers, and access AI-powered health insights. Their ACO leadership team brings decades of care coordination expertise and a direct pipeline to provider networks and Medicare populations.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="tiers-section" id="tiers">
+  <div class="section-inner">
+    <div class="section-eyebrow">What You Get</div>
+    <h2 class="section-title">Pick Your Path</h2>
+    <p class="section-subtitle">
+      Whether you're exploring the platform or ready to white-label it — there's a membership designed for where you are and where you're headed.
+    </p>
+
+    <div class="tiers-grid">
+      <!-- BASIC -->
+      <div class="tier-card">
+        <div class="tier-icon basic">◇</div>
+        <div class="tier-name">Basic</div>
+        <div class="tier-price">Free</div>
+        <ul class="tier-features">
+          <li>Core REST APIs & documentation</li>
+          <li>Sandbox with synthetic data</li>
+          <li>Community forum access</li>
+          <li>Quarterly webinars</li>
+          <li>Partner Directory listing</li>
+          <li>10,000 API calls/month</li>
+        </ul>
+        <a href="#apply" class="tier-cta">Get Started</a>
+      </div>
+
+      <!-- SILVER -->
+      <div class="tier-card">
+        <div class="tier-icon silver">◈</div>
+        <div class="tier-name">Silver</div>
+        <div class="tier-price">$500/month</div>
+        <ul class="tier-features">
+          <li>Everything in Basic</li>
+          <li>Production API access (100K/mo)</li>
+          <li>Beta features & SDKs early access</li>
+          <li>Priority engineering support</li>
+          <li>2 certification seats</li>
+          <li>Partner badge & enhanced listing</li>
+        </ul>
+        <a href="#apply" class="tier-cta">Apply Now</a>
+      </div>
+
+      <!-- GOLD -->
+      <div class="tier-card highlighted">
+        <div class="tier-icon gold">✦</div>
+        <div class="tier-name">Gold</div>
+        <div class="tier-price">$2,000/month</div>
+        <ul class="tier-features">
+          <li>Everything in Silver</li>
+          <li>Unlimited API access</li>
+          <li>Full AI/ML toolkits & FHIR R4</li>
+          <li>Co-marketing & case studies</li>
+          <li>10% Marketplace revenue share</li>
+          <li>Lead referral program</li>
+          <li>Partner Success Manager</li>
+          <li>Annual Summit invitation</li>
+        </ul>
+        <a href="#apply" class="tier-cta gold-cta">Apply Now</a>
+      </div>
+
+      <!-- PLATINUM -->
+      <div class="tier-card">
+        <div class="tier-icon platinum">⬡</div>
+        <div class="tier-name">Platinum</div>
+        <div class="tier-price">$10,000+/month</div>
+        <ul class="tier-features">
+          <li>Everything in Gold</li>
+          <li>White-label licensing</li>
+          <li>Dedicated engineering team</li>
+          <li>Joint ventures & co-dev</li>
+          <li>Up to 20% revenue share</li>
+          <li>Federal contract access</li>
+          <li>C-Suite executive sponsor</li>
+          <li>Advisory Council seat</li>
+        </ul>
+        <a href="#apply" class="tier-cta">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP / ACTION ITEMS -->
+<section class="roadmap-section" id="roadmap">
+  <div class="section-inner">
+    <div class="section-eyebrow">What's Ahead</div>
+    <h2 class="section-title">Network Roadmap</h2>
+    <p class="section-subtitle">
+      Here's what we're building and when you can expect it. Founding Partners get early access to everything before general availability.
+    </p>
+
+    <div class="timeline">
+      <!-- NOW -->
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Now Available</div>
+        <div class="tl-title">Founding Partner Program</div>
+        <div class="tl-date">Open Now</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check done">✓</span>
+            Core TETRA™ API access and developer documentation
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Sandbox environment with synthetic healthcare data for building and testing integrations
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Direct access to InPursuit engineering and product teams during your integration
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Founding Partner MOU with full IP ownership guarantee — your code, your algorithms, your data models belong to you
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Input on platform roadmap and API feature priorities
+          </li>
+        </ul>
+      </div>
+
+      <!-- COMING Q2 -->
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Coming Q2 2026</div>
+        <div class="tl-title">Partner Portal & Marketplace Beta</div>
+        <div class="tl-date">April – June 2026</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check">○</span>
+            Self-service partner portal — manage API keys, monitor usage, access billing
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            InPursuit Marketplace beta — list your solution where providers, payers, and consumers are already shopping
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            AI/ML toolkit access — plug into TETRA's predictive analytics and NLP engines
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            FHIR R4 endpoints for standardized clinical data exchange
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Partner badge program — display your verified partnership on your website and sales materials
+          </li>
+        </ul>
+      </div>
+
+      <!-- COMING Q3-Q4 -->
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Coming Q3–Q4 2026</div>
+        <div class="tl-title">Full Network Launch</div>
+        <div class="tl-date">July – December 2026</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check">○</span>
+            InPursuit University — certification courses, technical training, and sales enablement for your team
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Revenue share program goes live — earn commissions on Marketplace sales
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Co-marketing engine — joint case studies, webinars, and PR with InPursuit's customer base
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Lead referral program — get qualified opportunities from InPursuit's sales pipeline
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Inaugural IPN Partner Summit in Charlotte, NC — networking, demos, and roadmap preview
+          </li>
+        </ul>
+      </div>
+
+      <!-- 2027 -->
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">2027 & Beyond</div>
+        <div class="tl-title">Scale & Network Effects</div>
+        <div class="tl-date">Ongoing</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check">○</span>
+            White-label licensing — deploy TETRA-powered solutions under your own brand
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Federal contract access — subcontracting opportunities through InPursuit's DoD, VA, and CMS vehicles
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Partner Advisory Council — Platinum members shape the platform roadmap directly
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Global expansion — international market access as TETRA scales beyond U.S. healthcare
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="apply">
+  <div class="section-inner">
+    <div class="section-eyebrow">Get Started</div>
+    <h2 class="section-title">Your Next Product Starts Here</h2>
+    <p class="section-subtitle">
+      Whether you're building a clinical AI tool, a consumer wellness app, or an enterprise integration — TETRA™ gives you the data fabric, compliance infrastructure, and marketplace to get to market faster. Founding Partner spots are limited.
+    </p>
+    <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+      <a href="/cdn-cgi/l/email-protection#11617063657f7463627978616251787f616463626478657974707d65793f727e7c2e6264737b7472652c58415f342321417063657f74633423215061617d78727065787e7f" class="btn-primary">Apply to Join</a>
+      <a href="#tiers" class="btn-secondary">Compare Tiers</a>
+    </div>
+    <p style="margin-top:24px; font-size:13px; color:var(--white-dim); opacity:0.5;">
+      <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b0c0d1c2c4ded5c2c3d8d9c0c3f0d9dec0c5c2c3c5d9c4d8d5d1dcc4d89ed3dfdd">[email&#160;protected]</a> &nbsp;·&nbsp; Founding cohort limited to 10 companies
+    </p>
+  </div>
