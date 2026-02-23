@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Data & AI — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --red: #B22234;
+  --red-deep: #8B1A29;
+  --silver: #C0C0C0;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ===== TOP BAR / NAV ===== */
+.top-bar {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(197,164,78,0.2);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.top-bar-brand {
+  display: flex; align-items: center;
+  text-decoration: none; cursor: pointer;
+}
+.top-bar-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.top-bar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-item {
+  position: relative;
+  padding: 20px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+}
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 80vh;
+  background: var(--navy-deep);
+  overflow: hidden;
+  padding-top: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(17,34,64,0.8), var(--navy-deep) 70%);
+}
+.hero-stars {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(197,164,78,0.4);
+  border-radius: 50%;
+}
+.star:nth-child(1) { top: 12%; left: 8%; width: 3px; height: 3px; }
+.star:nth-child(2) { top: 25%; left: 72%; }
+.star:nth-child(3) { top: 45%; left: 15%; width: 3px; height: 3px; }
+.star:nth-child(4) { top: 60%; left: 85%; }
+.star:nth-child(5) { top: 80%; left: 35%; }
+.star:nth-child(6) { top: 15%; left: 55%; width: 3px; height: 3px; }
+.star:nth-child(7) { top: 70%; left: 60%; }
+.star:nth-child(8) { top: 35%; left: 92%; width: 3px; height: 3px; }
+
+.hero-content {
+  position: relative; z-index: 2;
+  text-align: center;
+  padding: 80px 40px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.hero-overline {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.hero-sub {
+  font-size: 17px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+/* ===== SECTIONS ===== */
+.section {
+  padding: 100px 40px;
+  position: relative;
+}
+.section.cream { background: var(--cream); }
+.section.white { background: var(--white); }
+.section.navy {
+  background: var(--navy-deep);
+  color: var(--white);
+}
+.section-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.section-overline {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.section h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 24px;
+  text-align: center;
+}
+.section h2 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.section-intro {
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 820px;
+  margin: 0 auto 60px;
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+}
+.section.cream .section-intro,
+.section.white .section-intro {
+  color: var(--text-muted);
+}
+
+/* ===== FEATURE GRID ===== */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  margin-top: 60px;
+}
+.feature-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(197,164,78,0.15);
+  border-radius: 12px;
+  padding: 40px 32px;
+  transition: all 0.4s ease;
+}
+.feature-card:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(197,164,78,0.3);
+  transform: translateY(-4px);
+}
+.section.cream .feature-card,
+.section.white .feature-card {
+  background: var(--white);
+  border: 1px solid rgba(10,22,40,0.08);
+}
+.section.cream .feature-card:hover,
+.section.white .feature-card:hover {
+  border-color: var(--gold);
+  box-shadow: 0 12px 40px rgba(197,164,78,0.12);
+}
+.feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(197,164,78,0.15), rgba(197,164,78,0.05));
+  border: 1px solid rgba(197,164,78,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+.feature-card h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 12px;
+  color: var(--white);
+}
+.section.cream .feature-card h3,
+.section.white .feature-card h3 {
+  color: var(--text-dark);
+}
+.feature-card p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.6);
+}
+.section.cream .feature-card p,
+.section.white .feature-card p {
+  color: var(--text-muted);
+}
+
+/* ===== AI PROTECTION STACK ===== */
+.protection-stack {
+  max-width: 900px;
+  margin: 60px auto 0;
+}
+.stack-item {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(197,164,78,0.15);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 20px;
+  transition: all 0.4s ease;
+}
+.stack-item:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(197,164,78,0.3);
+}
+.stack-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.stack-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy-deep);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.stack-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--white);
+}
+.stack-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 12px;
+}
+.stack-why {
+  background: rgba(197,164,78,0.08);
+  border-left: 3px solid var(--gold);
+  padding: 16px 20px;
+  border-radius: 6px;
+  margin-top: 16px;
+}
+.stack-why-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+.stack-why p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ===== CLOSING CTA ===== */
+.closing-cta {
+  text-align: center;
+  max-width: 700px;
+  margin: 80px auto 0;
+  padding: 60px 40px;
+  background: rgba(197,164,78,0.05);
+  border: 1px solid rgba(197,164,78,0.2);
+  border-radius: 16px;
+}
+.closing-cta h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 16px;
+}
+.closing-cta p {
+  font-size: 16px;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8px;
+}
+.closing-cta strong {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+/* ===== REVEAL ANIMATION ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 36px; }
+  .section { padding: 60px 24px; }
+  .section h2 { font-size: 32px; }
+  .feature-grid { grid-template-columns: 1fr; gap: 24px; }
+  .stack-item { padding: 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <a href="index.html" class="top-bar-brand">
+      <div class="top-bar-wordmark">InPursuit Health</div>
+    </a>
+    <nav class="top-bar-nav">
+      <a href="index.html" class="nav-item">Home</a>
+      <a href="platform.html" class="nav-item">Platform</a>
+      <a href="data-ai.html" class="nav-item active">Your Data & AI</a>
+      <a href="about.html" class="nav-item">About</a>
+      <a href="contact.html" class="nav-item">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars">
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+    <div class="star"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-overline">Security & Trust</div>
+    <h1>Your Family's Health Story Is <em>Sacred.</em><br>We Protect It Like It's Our Own.</h1>
+    <p class="hero-sub">When you trust InPursuit with your health data — your diagnoses, your medications, your children's records, your most vulnerable moments — you deserve more than a privacy policy. You deserve infrastructure built to military-grade standards, with human oversight ensuring no algorithm ever makes a mistake that could harm someone you love.</p>
+  </div>
+</section>
+
+<!-- Security Features -->
+<section class="section navy">
+  <div class="section-inner">
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-icon">🛡️</div>
+        <h3>Built for America's Most Critical Healthcare Missions</h3>
+        <p>TETRA was battle-tested protecting active-duty service members and veterans — where a data breach isn't just a compliance violation, it's a national security incident. Our zero-trust architecture, military-grade encryption, and access controls were engineered for environments where lives depend on data security. Now that same protection guards your family.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon">🔒</div>
+        <h3>You Own Your Story. Period.</h3>
+        <p>Your health data belongs to you and your family. Always. InPursuit gives you complete ownership and control — you decide who sees it, where it goes, and when it's shared. We don't sell your data. We don't monetize your records. We don't treat you as the product. Your family is the customer, and your trust is everything.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon">📋</div>
+        <h3>Every Touch Point, Every Decision, Fully Traceable</h3>
+        <p>Every transaction, every data access, every AI recommendation is logged with microsecond-precision timestamps. 1.8 million transactions per hour — all auditable, all traceable, all accountable. If something happens with your family's data, we know exactly what, when, and who. No mysteries. No gray areas. Complete transparency.</p>
+      </div>
+
+      <div class="feature-card reveal">
+        <div class="feature-icon">✓</div>
+        <h3>Compliance Isn't an Afterthought — It's the Foundation</h3>
+        <p>HIPAA. FedRAMP. FHIR/TEFCA Native. We don't just meet regulatory standards — they're baked into our architecture. Your family's data moves through the healthcare system with the same security protocols that protect classified government information.</p>
+      </div>
+    </div>
+
+    <div class="closing-cta reveal">
+      <p><strong>Because when it comes to your family's health, "good enough" security has never been good enough for us.</strong></p>
+    </div>
+  </div>
+</section>
+
+<!-- AI Protection Section -->
+<section class="section cream">
+  <div class="section-inner">
+    <div class="section-overline">AI Oversight</div>
+    <h2>Protecting Your Family <em>from</em> AI — Not Just Connecting Them <em>to</em> It</h2>
+    <p class="section-intro">As clinical AI enters healthcare, one critical question keeps families up at night: <strong>who's watching the algorithms?</strong> AI systems are already recommending medications for your children, suggesting care plans for your aging parents, and influencing treatment decisions — but without continuous oversight, errors, hallucinations, and dangerous recommendations can slip through undetected. Your family deserves better than blind trust in a black box.</p>
+
+    <div class="reveal" style="max-width: 800px; margin: 40px auto; padding: 40px; background: var(--white); border-radius: 12px; border: 1px solid rgba(10,22,40,0.08);">
+      <h3 style="font-family: 'Instrument Serif', serif; font-size: 24px; margin-bottom: 16px; color: var(--text-dark);">The TETRA Supervisory Stack: A Human Safety Net for Every AI Decision</h3>
+      <p style="font-size: 15px; line-height: 1.7; color: var(--text-muted); margin-bottom: 12px;">You cannot monitor what you cannot observe. You cannot validate AI recommendations without complete clinical context. You cannot ensure your family's safety without real-time data flows. This is fundamentally a <strong>data infrastructure problem</strong> — and it's exactly what TETRA was built to solve.</p>
+      <p style="font-size: 15px; line-height: 1.7; color: var(--text-muted);">InPursuit is developing the <strong>supervisory infrastructure platform</strong> for the ARPA-H ADVOCATE program — the observability layer that sits between clinical AI agents and patients, ensuring every AI decision touching your family is monitored, validated against real clinical data, and flagged the instant it exceeds safe parameters.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5-Layer Protection -->
+<section class="section navy">
+  <div class="section-inner">
+    <div class="section-overline">The 5-Layer Protection System</div>
+    <h2>Human Oversight for <em>Every Future Clinical AI Application</em></h2>
+    
+    <div class="protection-stack">
+      <div class="stack-item reveal">
+        <div class="stack-header">
+          <div class="stack-number">1</div>
+          <div class="stack-title">Multi-Source Data Integration</div>
+        </div>
+        <p class="stack-desc">Real-time connectivity to all EHR vendors, wearables, labs, and clinical workflows — 95% interoperability success rate.</p>
+        <div class="stack-why">
+          <div class="stack-why-label">Why It Matters</div>
+          <p>AI can't make safe recommendations about your daughter's asthma medication if it doesn't know she's also taking anxiety medication prescribed by another doctor. Complete data visibility protects your family from dangerous drug interactions.</p>
+        </div>
+      </div>
+
+      <div class="stack-item reveal">
+        <div class="stack-header">
+          <div class="stack-number">2</div>
+          <div class="stack-title">Clinical Context Assembly</div>
+        </div>
+        <p class="stack-desc">Normalized patient data from fragmented sources into a unified clinical view for complete AI decision validation.</p>
+        <div class="stack-why">
+          <div class="stack-why-label">Why It Matters</div>
+          <p>Your health story isn't isolated events — it's a continuous narrative. When AI reviews your son's symptoms, it needs to see his full medical history, not just today's complaint, to avoid missing critical patterns.</p>
+        </div>
+      </div>
+
+      <div class="stack-item reveal">
+        <div class="stack-header">
+          <div class="stack-number">3</div>
+          <div class="stack-title">Transaction Capture & Audit</div>
+        </div>
+        <p class="stack-desc">Every AI action logged with microsecond precision — medication changes, scheduling recommendations, care plan modifications.</p>
+        <div class="stack-why">
+          <div class="stack-why-label">Why It Matters</div>
+          <p>If an AI recommends changing your mother's diabetes medication and something goes wrong, you deserve to know exactly what the AI saw, what it decided, and why. No mysteries when it's your family.</p>
+        </div>
+      </div>
+
+      <div class="stack-item reveal">
+        <div class="stack-header">
+          <div class="stack-number">4</div>
+          <div class="stack-title">Ground Truth Verification</div>
+        </div>
+        <p class="stack-desc">AI recommendations compared against real clinical data in systems-of-record — detecting errors and hallucinations before they reach your family.</p>
+        <div class="stack-why">
+          <div class="stack-why-label">Why It Matters</div>
+          <p>AI might "hallucinate" that a medication is safe based on incomplete data. Ground truth verification catches these errors by checking actual pharmacy records, lab results, and prescription histories — stopping dangerous recommendations before they harm someone you love.</p>
+        </div>
+      </div>
+
+      <div class="stack-item reveal">
+        <div class="stack-header">
+          <div class="stack-number">5</div>
+          <div class="stack-title">Alert & Escalation</div>
+        </div>
+        <p class="stack-desc">Real-time flagging when AI exceeds safe parameters — automated clinical notification with human oversight override.</p>
+        <div class="stack-why">
+          <div class="stack-why-label">Why It Matters</div>
+          <p>The moment an AI tries to recommend a medication your child is allergic to, or suggests a treatment that conflicts with your father's heart condition, a human clinician is immediately alerted. Technology assists, but humans protect.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="closing-cta reveal">
+      <h3>Because Your Family Deserves More Than an Algorithm's Best Guess</h3>
+      <p>We believe AI will transform healthcare — making it more accessible, more affordable, and more personalized. But we also believe <strong>no algorithm should ever make a decision about your family's health without a human safety net.</strong></p>
+      <p style="margin-top: 16px;">That's not fear of technology. That's responsible innovation.</p>
+      <p style="margin-top: 8px;"><strong>And that's exactly what InPursuit is building.</strong></p>
+    </div>
+  </div>
+</section>
+
+<script>
+// Top bar scroll shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Star parallax
+document.addEventListener('mousemove', (e) => {
+  const stars = document.querySelectorAll('.star');
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  stars.forEach((star, i) => {
+    const depth = (i % 3 + 1) * 0.3;
+    star.style.transform = 'translate(' + (x * depth) + 'px, ' + (y * depth) + 'px)';
+  });
+});
+</script>
+
+</body>
+</html>
