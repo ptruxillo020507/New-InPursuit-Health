@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Day in the Life — A Patient | InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --red: #B22234;
+  --red-deep: #8B1A29;
+  --silver: #C0C0C0;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ===== PRELOADER ===== */
+.preloader {
+  position: fixed; inset: 0;
+  background: var(--navy-deep);
+  z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  animation: pulseFade 1.2s ease-in-out infinite;
+}
+@keyframes pulseFade {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ===== TOP BAR / NAV ===== */
+.top-bar {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(197,164,78,0.2);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.top-bar-brand {
+  display: flex; align-items: center;
+  text-decoration: none; cursor: pointer;
+}
+.top-bar-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.top-bar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-item {
+  position: relative;
+  padding: 20px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  background: none; border: none;
+  font-family: inherit;
+}
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--navy-mid);
+  border: 1px solid rgba(197,164,78,0.15);
+  border-radius: 4px;
+  padding: 8px 0;
+  min-width: 240px;
+  opacity: 0; visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1; visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-item {
+  display: block;
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.nav-dropdown-item:hover {
+  color: var(--gold);
+  background: rgba(197,164,78,0.05);
+}
+.nav-dropdown-item .sub-desc {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: rgba(255,255,255,0.3);
+  margin-top: 2px;
+}
+.nav-toggle {
+  display: none;
+  background: none; border: none;
+  width: 32px; height: 32px;
+  cursor: pointer; position: relative;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--gold);
+  position: absolute; left: 5px;
+  transition: all 0.3s ease;
+}
+.nav-toggle span:nth-child(1) { top: 8px; }
+.nav-toggle span:nth-child(2) { top: 15px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* CTAs */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: var(--gold);
+  color: var(--navy-deep); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  transition: all 0.3s ease; border: none; cursor: pointer;
+}
+.btn-gold:hover {
+  background: var(--gold-bright); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: transparent; color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  border-radius: 4px; border: 1.5px solid rgba(197,164,78,0.4);
+  transition: all 0.3s ease; cursor: pointer;
+}
+.btn-outline:hover {
+  border-color: var(--gold); background: rgba(197,164,78,0.08);
+  transform: translateY(-2px);
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 85vh;
+  background: var(--navy-deep);
+  overflow: hidden;
+  padding-top: 64px;
+  display: flex; align-items: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(17,34,64,0.8), var(--navy-deep) 70%);
+}
+.hero-stars {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(197,164,78,0.4);
+  border-radius: 50%;
+}
+.star:nth-child(1) { top: 12%; left: 8%; width: 3px; height: 3px; }
+.star:nth-child(2) { top: 25%; left: 72%; }
+.star:nth-child(3) { top: 45%; left: 15%; width: 3px; height: 3px; }
+.star:nth-child(4) { top: 60%; left: 85%; }
+.star:nth-child(5) { top: 80%; left: 35%; }
+.star:nth-child(6) { top: 15%; left: 55%; width: 3px; height: 3px; }
+.star:nth-child(7) { top: 70%; left: 60%; }
+.star:nth-child(8) { top: 35%; left: 92%; width: 3px; height: 3px; }
+.star:nth-child(9) { top: 88%; left: 78%; }
+.star:nth-child(10) { top: 50%; left: 45%; }
+.star:nth-child(11) { top: 8%; left: 30%; }
+.star:nth-child(12) { top: 92%; left: 12%; width: 3px; height: 3px; }
+
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  padding: 80px 40px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.hero-text .hero-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.hero-text h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(36px, 4.5vw, 58px);
+  font-weight: 400; color: var(--white); line-height: 1.15; margin-bottom: 24px;
+}
+.hero-text h1 em { font-style: italic; color: var(--gold); }
+.hero-text .hero-sub {
+  font-size: 17px; color: rgba(255,255,255,0.55);
+  line-height: 1.7; margin-bottom: 36px; max-width: 520px;
+}
+.hero-text .hero-cta-row {
+  display: flex; gap: 16px; flex-wrap: wrap;
+}
+.hero-promise {
+  display: flex; gap: 40px; margin-top: 36px;
+}
+.promise-item { text-align: center; }
+.promise-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px; color: var(--gold); line-height: 1;
+}
+.promise-label {
+  font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 6px;
+}
+
+/* Hero visual cards */
+.hero-visual { position: relative; height: 420px; }
+.float-card {
+  position: absolute;
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 8px;
+  padding: 18px 22px;
+  backdrop-filter: blur(10px);
+  max-width: 300px;
+  opacity: 0; animation: floatIn 0.8s ease forwards;
+}
+.float-card:nth-child(1) { top: 0; left: 20px; animation-delay: 0.3s; }
+.float-card:nth-child(2) { top: 90px; right: 0; animation-delay: 0.6s; }
+.float-card:nth-child(3) { top: 200px; left: 0; animation-delay: 0.9s; }
+.float-card:nth-child(4) { top: 310px; right: 10px; animation-delay: 1.2s; }
+@keyframes floatIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.fc-top { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+.fc-logo { width: 18px; height: 18px; border-radius: 3px; object-fit: contain; background: rgba(255,255,255,0.08); padding: 1px; }
+.fc-tag {
+  font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.fc-tag.save { color: #4ADE80; }
+.fc-tag.time { color: #7DD3FC; }
+.fc-tag.outcome { color: var(--gold); }
+.fc-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: 15px; color: var(--white); line-height: 1.4;
+}
+.fc-text em { color: var(--gold); font-style: normal; font-weight: 700; }
+
+/* ===== GOLD TICKER ===== */
+.gold-ticker {
+  background: var(--gold); overflow: hidden;
+  padding: 14px 0; position: relative; z-index: 2;
+}
+.ticker-track {
+  display: flex; animation: ticker 30s linear infinite; width: max-content;
+}
+.ticker-item {
+  font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--navy-deep);
+  white-space: nowrap; padding: 0 40px;
+  display: flex; align-items: center; gap: 16px;
+}
+.ticker-item::before { content: '★'; font-size: 8px; }
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== SECTIONS (matches index.html exactly) ===== */
+.section { padding: 100px 40px; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.section-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;
+}
+.section-headline em { font-style: italic; color: var(--gold); }
+.section-desc {
+  font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 640px;
+}
+
+/* ===== ECOSYSTEM (dark section like why-section) ===== */
+.eco-section {
+  background: var(--navy-deep); color: var(--white);
+  position: relative; overflow: hidden;
+}
+.eco-section::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(197,164,78,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.eco-section .section-headline { color: var(--white); }
+.eco-section .section-desc { color: rgba(255,255,255,0.5); }
+
+/* Layer rows (styled like why-cards) */
+.layers-grid { display: grid; gap: 12px; margin-top: 48px; }
+.data-layer {
+  display: grid; grid-template-columns: 180px 1fr;
+  gap: 20px; align-items: center;
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 8px; padding: 16px 24px;
+  transition: all 0.3s ease;
+}
+.data-layer:hover {
+  border-color: rgba(197,164,78,0.2);
+  transform: translateY(-2px);
+}
+.layer-label { display: flex; align-items: center; gap: 12px; }
+.layer-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 14px; color: var(--gold); letter-spacing: 2px;
+}
+.layer-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 16px; color: var(--white);
+}
+.layer-apps { display: flex; flex-wrap: wrap; gap: 8px; }
+.app-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; font-weight: 600;
+  padding: 5px 10px 5px 5px;
+  border-radius: 4px;
+  background: rgba(197,164,78,0.06);
+  border: 1px solid rgba(197,164,78,0.1);
+  color: rgba(255,255,255,0.6);
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.app-chip:hover {
+  border-color: rgba(197,164,78,0.25);
+  color: var(--gold);
+  transform: scale(1.03);
+}
+.app-chip img {
+  width: 16px; height: 16px; border-radius: 3px;
+  object-fit: contain; background: white; padding: 1px; flex-shrink: 0;
+}
+
+/* Engine box */
+.engine-box {
+  text-align: center; padding: 40px;
+  border: 1px solid rgba(197,164,78,0.15);
+  border-radius: 8px;
+  background: rgba(17,34,64,0.6);
+  margin-top: 32px;
+}
+.engine-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px; color: var(--gold); margin-bottom: 8px;
+}
+.engine-desc {
+  font-size: 14px; color: rgba(255,255,255,0.45); margin-bottom: 24px;
+}
+.engine-stats {
+  display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+}
+.engine-stat { text-align: center; }
+.engine-stat-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px; color: var(--gold-light);
+}
+.engine-stat-label {
+  font-size: 10px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 4px;
+}
+.flow-arrow {
+  text-align: center; padding: 20px 0;
+}
+.flow-arrow svg { width: 40px; height: 40px; }
+
+/* Feed destination */
+.feed-box {
+  margin-top: 32px; padding: 48px 40px;
+  border: 2px solid rgba(197,164,78,0.25);
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(17,34,64,0.8) 0%, rgba(6,14,26,0.95) 100%);
+  position: relative; overflow: hidden;
+}
+.feed-box::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(197,164,78,0.06) 0%, transparent 60%);
+  pointer-events: none;
+}
+.feed-header { text-align: center; margin-bottom: 32px; position: relative; }
+.feed-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px; color: var(--gold); margin-bottom: 8px;
+}
+.feed-subtitle {
+  font-size: 15px; color: rgba(255,255,255,0.5); max-width: 560px; margin: 0 auto; line-height: 1.6;
+}
+.feed-cards {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 16px; position: relative; max-width: 800px; margin: 0 auto;
+}
+.feed-card {
+  display: flex; align-items: flex-start; gap: 14px;
+  padding: 18px 20px; border-radius: 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(197,164,78,0.08);
+  transition: all 0.3s ease;
+}
+.feed-card:hover {
+  border-color: rgba(197,164,78,0.2);
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.05);
+}
+.feed-card-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.feed-card-content { flex: 1; }
+.feed-card-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px;
+}
+.feed-card-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: 15px; color: var(--white); line-height: 1.4;
+}
+.feed-card-text strong { color: var(--gold); }
+.feed-tagline {
+  text-align: center; margin-top: 28px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 14px; font-style: italic;
+  color: rgba(197,164,78,0.5);
+  position: relative;
+}
+
+/* ===== ESTIMATOR (light section like glance-section) ===== */
+.est-section { background: var(--white); }
+.est-container { max-width: 900px; margin: 0 auto; }
+.est-step { display: none; }
+.est-step.active { display: block; animation: fadeUp 0.4s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.est-question {
+  font-family: 'Instrument Serif', serif;
+  font-size: 26px; color: var(--navy); text-align: center; margin-bottom: 8px;
+}
+.est-hint {
+  font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 32px;
+}
+.est-options {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px; max-width: 700px; margin: 0 auto;
+}
+/* Cards styled like glance-card */
+.est-opt {
+  padding: 24px 16px;
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  text-align: center; cursor: pointer;
+  transition: all 0.3s ease; background: var(--cream);
+}
+.est-opt:hover {
+  border-color: rgba(197,164,78,0.3);
+  box-shadow: 0 8px 32px rgba(197,164,78,0.08);
+  transform: translateY(-4px);
+}
+.est-opt.selected {
+  border-color: var(--gold);
+  box-shadow: 0 8px 32px rgba(197,164,78,0.15);
+  background: rgba(197,164,78,0.04);
+}
+.est-opt-icon { height: 36px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+.est-opt-icon img { height: 28px; width: auto; object-fit: contain; }
+.est-opt-icon svg { width: 28px; height: 28px; }
+.est-opt-label {
+  font-family: 'Instrument Serif', serif;
+  font-size: 16px; color: var(--navy);
+}
+.est-opt-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.est-progress { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
+.est-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,0.15); background: transparent;
+  transition: all 0.3s ease;
+}
+.est-dot.active { background: var(--gold); border-color: var(--gold); width: 28px; border-radius: 8px; }
+.est-dot.done { background: #4ADE80; border-color: #4ADE80; }
+.est-btn {
+  padding: 14px 32px; border: 1.5px solid rgba(197,164,78,0.4);
+  border-radius: 4px; background: transparent; color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.est-btn:hover {
+  border-color: var(--gold); background: rgba(197,164,78,0.08);
+  transform: translateY(-2px);
+}
+.est-results { display: none; animation: fadeUp 0.6s ease; }
+.est-results.active { display: block; }
+.results-header {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px; color: var(--navy); text-align: center; margin-bottom: 32px;
+}
+/* Results styled like glance-grid */
+.results-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px; margin-bottom: 32px;
+}
+.result-card {
+  text-align: center; padding: 32px 24px;
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.result-card:hover {
+  border-color: rgba(197,164,78,0.3);
+  box-shadow: 0 8px 32px rgba(197,164,78,0.08);
+  transform: translateY(-4px);
+}
+.result-number {
+  font-family: 'Instrument Serif', serif;
+  font-size: 42px; line-height: 1; margin-bottom: 8px;
+}
+.result-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dark); margin-bottom: 8px;
+}
+.result-detail { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.result-card.money .result-number { color: #2D6A4F; }
+.result-card.time .result-number { color: #457B9D; }
+.result-card.outcomes .result-number { color: var(--gold); }
+.results-sources {
+  text-align: center; padding: 20px 24px; border-radius: 8px;
+  background: rgba(197,164,78,0.04); border: 1px solid rgba(197,164,78,0.1);
+}
+.results-sources p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.results-sources strong { color: var(--text-dark); }
+.est-restart {
+  display: block; margin: 20px auto 0;
+  padding: 8px 20px; border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 4px; background: transparent;
+  color: var(--text-muted); font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; cursor: pointer;
+  transition: all 0.2s ease;
+}
+.est-restart:hover { border-color: var(--gold); color: var(--gold); }
+
+/* ===== PERSONAS (cream section like pillars-section) ===== */
+.persona-section { background: var(--cream); }
+
+.persona-selector {
+  display: flex; justify-content: center; gap: 16px;
+  margin-top: 48px; margin-bottom: 48px; flex-wrap: wrap;
+}
+/* Persona buttons styled like pillar-cards */
+.persona-btn {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  padding: 20px 28px; min-width: 180px;
+  text-align: center; cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.persona-btn::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.4s ease;
+}
+.persona-btn:hover::before, .persona-btn.active::before { transform: scaleX(1); }
+.persona-btn:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.persona-btn.active {
+  border-color: rgba(197,164,78,0.3);
+  box-shadow: 0 8px 32px rgba(197,164,78,0.1);
+}
+.persona-btn-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--navy); margin-bottom: 4px;
+}
+.persona-btn-desc { font-size: 12px; color: var(--text-muted); }
+
+.day-panel { display: none; }
+.day-panel.active { display: block; }
+
+/* Persona intro card */
+.persona-intro {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  margin-bottom: 48px; padding: 40px;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+}
+.persona-story h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 26px; color: var(--navy); margin-bottom: 12px; line-height: 1.3;
+}
+.persona-story p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+.persona-context { display: flex; flex-direction: column; gap: 10px; }
+.ctx-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 6px;
+  background: var(--cream); font-size: 13px; color: var(--text-dark);
+}
+.ctx-icon {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(197,164,78,0.08);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ctx-icon svg { width: 16px; height: 16px; fill: var(--gold); }
+.ctx-apps { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 14px; }
+.ctx-app {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; padding: 4px 8px 4px 5px;
+  border-radius: 4px;
+  background: rgba(197,164,78,0.06);
+  border: 1px solid rgba(197,164,78,0.1);
+  color: var(--text-muted);
+}
+.ctx-app img {
+  width: 14px; height: 14px; border-radius: 2px;
+  object-fit: contain; background: white; padding: 1px;
+}
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; padding-left: 48px; }
+.timeline::before {
+  content: ''; position: absolute; left: 18px; top: 0; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, var(--gold), rgba(197,164,78,0.1));
+}
+.moment {
+  position: relative; margin-bottom: 32px;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+.moment.visible { opacity: 1; transform: translateY(0); }
+.moment-dot {
+  position: absolute; left: -38px; top: 24px;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--gold); background: var(--cream);
+}
+.moment-time {
+  font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.moment-time.save { color: #2D6A4F; }
+.moment-time.time { color: #457B9D; }
+.moment-time.outcome { color: var(--gold); }
+
+/* Moment cards styled like pillar-cards */
+.moment-card {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  padding: 28px 32px;
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.moment-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.4s ease;
+}
+.moment-card:hover::before { transform: scaleX(1); }
+.moment-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.moment-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; margin-bottom: 12px;
+}
+.moment-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--navy); line-height: 1.3;
+}
+.moment-tag {
+  flex-shrink: 0; font-size: 10px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 4px; white-space: nowrap;
+  border: 1px solid;
+}
+.tag-save { color: #2D6A4F; border-color: rgba(45,106,79,0.2); background: rgba(45,106,79,0.04); }
+.tag-time { color: #457B9D; border-color: rgba(69,123,157,0.2); background: rgba(69,123,157,0.04); }
+.tag-outcome { color: var(--gold); border-color: rgba(197,164,78,0.2); background: rgba(197,164,78,0.04); }
+
+/* Source badges */
+.moment-sources { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.src-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 3px 8px 3px 4px; border-radius: 4px;
+  text-transform: uppercase;
+  background: rgba(197,164,78,0.04);
+  border: 1px solid rgba(197,164,78,0.08);
+  color: var(--text-muted);
+}
+.src-badge img {
+  width: 12px; height: 12px; border-radius: 2px;
+  object-fit: contain; background: white; padding: 1px;
+}
+.moment-body {
+  font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px;
+}
+.moment-body strong { color: var(--text-dark); }
+.moment-value {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Instrument Serif', serif; font-size: 16px;
+  padding: 8px 16px; border-radius: 4px;
+}
+.value-save { background: rgba(45,106,79,0.04); color: #2D6A4F; border: 1px solid rgba(45,106,79,0.1); }
+.value-time { background: rgba(69,123,157,0.04); color: #457B9D; border: 1px solid rgba(69,123,157,0.1); }
+.value-outcome { background: rgba(197,164,78,0.04); color: var(--gold); border: 1px solid rgba(197,164,78,0.1); }
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  background: var(--navy); text-align: center;
+  padding: 100px 40px; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(197,164,78,0.06) 0%, transparent 60%);
+}
+.cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.cta-content h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  color: var(--white); line-height: 1.3; margin-bottom: 20px;
+}
+.cta-content h2 em { font-style: italic; color: var(--gold); }
+.cta-content p {
+  font-size: 16px; color: rgba(255,255,255,0.5);
+  line-height: 1.7; margin-bottom: 36px;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--navy-deep);
+  border-top: 1px solid rgba(197,164,78,0.1);
+  padding: 48px 40px 32px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px; color: var(--gold); letter-spacing: 1px;
+}
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+.footer-nav {
+  display: flex; gap: 24px; margin-top: 24px;
+  width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto;
+  padding-top: 24px; border-top: 1px solid rgba(197,164,78,0.08);
+  flex-wrap: wrap;
+}
+.footer-nav a {
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  text-decoration: none; transition: color 0.3s ease;
+}
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer {
+  max-width: 1200px; margin: 24px auto 0;
+  font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.6;
+}
+.footer-tagline {
+  text-align: center; margin-top: 24px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 13px; color: rgba(197,164,78,0.3); letter-spacing: 2px;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { display: none; }
+  .results-grid { grid-template-columns: 1fr; }
+  .persona-intro { grid-template-columns: 1fr; }
+  .data-layer { grid-template-columns: 1fr; gap: 10px; }
+  .feed-cards { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .top-bar-inner { padding: 0 20px; }
+  .top-bar-nav { display: none; }
+  .nav-toggle { display: block; }
+  .top-bar-nav.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy-deep);
+    border-bottom: 1px solid rgba(197,164,78,0.2);
+    padding: 16px 0;
+  }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .top-bar-nav.open .nav-dropdown-menu {
+    position: static; transform: none;
+    opacity: 1; visibility: visible;
+    background: rgba(0,0,0,0.2); box-shadow: none;
+    border: none; border-radius: 0; padding-left: 20px;
+  }
+  .section { padding: 60px 20px; }
+  .hero-inner { padding: 60px 20px; }
+  .hero-promise { gap: 24px; }
+  .est-options { grid-template-columns: repeat(2, 1fr); }
+  .persona-selector { gap: 8px; }
+  .persona-btn { min-width: 140px; padding: 14px 16px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-wordmark">InPursuit Health</div>
+</div>
+
+<!-- Top Bar -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <a class="top-bar-brand" href="index.html" style="display: flex; align-items: center; gap: 2px;">
+      <div class="top-bar-wordmark">InPursuit Health</div>
+      <span style="color: rgba(255,255,255,0.4); margin: 0 2px;">|</span>
+      <a href="maha.html" style="font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">MAHA Policy Alignment</a>
+    </a>
+    <nav class="top-bar-nav" id="mainNav">
+      <div class="nav-dropdown">
+        <span class="nav-item active">A Day in the Life &#9662;</span>
+        <div class="nav-dropdown-menu">
+          <a class="nav-dropdown-item" href="day-in-the-life-patient.html">
+            A Patient
+            <span class="sub-desc">From treatment to triumph</span>
+          </a>
+          <a class="nav-dropdown-item" href="day-in-the-life-provider.html">
+            A Provider
+            <span class="sub-desc">Outcome-based payment models</span>
+          </a>
+        </div>
+      </div>
+      <a class="nav-item" href="tetra.html">TETRA</a>
+      <a class="nav-item" href="ai-and-your-data.html">AI &amp; Your Data</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First</a>
+      <a class="nav-item" href="partner-network.html">Partner Network</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars">
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <p class="hero-overline">A Day in the Life &mdash; The Patient</p>
+      <h1>Your health data should <em>work for you</em> &mdash; not sit in silos.</h1>
+      <p class="hero-sub">Every day, Americans overpay for prescriptions, miss covered screenings, and make healthcare decisions blind. InPursuit connects your devices, your insurance, and your medical records &mdash; so your data finally works for you.</p>
+      <div class="hero-cta-row">
+        <a class="btn-gold" href="#estimator">Estimate Your Impact &rarr;</a>
+        <a class="btn-outline" href="#personas">See the Stories</a>
+      </div>
+      <div class="hero-promise">
+        <div class="promise-item"><div class="promise-num">$1,200+</div><div class="promise-label">Avg. Annual Savings</div></div>
+        <div class="promise-item"><div class="promise-num">12+</div><div class="promise-label">Hours Saved / Year</div></div>
+        <div class="promise-item"><div class="promise-num">8+</div><div class="promise-label">Weekly Insights</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="float-card">
+        <div class="fc-top"><img class="fc-logo" src="https://logo.clearbit.com/humana.com" alt=""><img class="fc-logo" src="https://logo.clearbit.com/goodrx.com" alt=""><span class="fc-tag save">Save Money</span></div>
+        <div class="fc-text">"Your metformin is <em>$43 cheaper</em><br>at Costco on your plan."</div>
+      </div>
+      <div class="float-card">
+        <div class="fc-top"><img class="fc-logo" src="https://logo.clearbit.com/dexcom.com" alt=""><img class="fc-logo" src="https://logo.clearbit.com/myfitnesspal.com" alt=""><span class="fc-tag outcome">Better Outcomes</span></div>
+        <div class="fc-text">"A1C dropped from <em>7.2 to 6.4</em><br>in 6 months."</div>
+      </div>
+      <div class="float-card">
+        <div class="fc-top"><img class="fc-logo" src="https://logo.clearbit.com/anthem.com" alt=""><span class="fc-tag save">Save Money</span></div>
+        <div class="fc-text">"MRI: <em>$380</em> at Fort Mill Imaging<br>vs. $1,420 at the hospital."</div>
+      </div>
+      <div class="float-card">
+        <div class="fc-top"><img class="fc-logo" src="https://logo.clearbit.com/whoop.com" alt=""><img class="fc-logo" src="https://logo.clearbit.com/ouraring.com" alt=""><span class="fc-tag time">Save Time</span></div>
+        <div class="fc-text">"3 in-network PTs near you.<br><em>Tap to book Tuesday 2pm.</em>"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gold Ticker -->
+<div class="gold-ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">400+ Connected Devices</span>
+    <span class="ticker-item">1,500+ Insurance Payers</span>
+    <span class="ticker-item">Rx Price Intelligence</span>
+    <span class="ticker-item">Real-Time Cost Transparency</span>
+    <span class="ticker-item">TETRA&trade; Intelligence Engine</span>
+    <span class="ticker-item">Your Data, Your Control</span>
+    <span class="ticker-item">Federally Validated</span>
+    <span class="ticker-item">CMS Ecosystem Approved</span>
+    <span class="ticker-item">400+ Connected Devices</span>
+    <span class="ticker-item">1,500+ Insurance Payers</span>
+    <span class="ticker-item">Rx Price Intelligence</span>
+    <span class="ticker-item">Real-Time Cost Transparency</span>
+    <span class="ticker-item">TETRA&trade; Intelligence Engine</span>
+    <span class="ticker-item">Your Data, Your Control</span>
+    <span class="ticker-item">Federally Validated</span>
+    <span class="ticker-item">CMS Ecosystem Approved</span>
+  </div>
+</div>
+
+<!-- ECOSYSTEM -->
+<section class="section eco-section" id="ecosystem">
+  <div class="section-inner">
+    <p class="section-overline reveal">The InPursuit Ecosystem</p>
+    <h2 class="section-headline reveal">Connect once. <em>Benefit everywhere.</em></h2>
+    <p class="section-desc reveal">InPursuit connects to the apps and devices you already use &mdash; then layers in your insurance coverage and medical records to create intelligence no single app can match.</p>
+
+    <div class="layers-grid">
+      <div class="data-layer reveal"><div class="layer-label"><div class="layer-num">01</div><div class="layer-name">Clinical (EHR)</div></div>
+        <div class="layer-apps">
+          <span class="app-chip">Lab Results</span><span class="app-chip">Medications</span><span class="app-chip">Diagnoses</span><span class="app-chip">Visit History</span><span class="app-chip">Immunizations</span><span class="app-chip">Care Plans</span>
+        </div>
+      </div>
+      <div class="data-layer reveal"><div class="layer-label"><div class="layer-num">02</div><div class="layer-name">Insurance</div></div>
+        <div class="layer-apps">
+          <span class="app-chip"><img src="https://logo.clearbit.com/unitedhealthgroup.com" alt="">UnitedHealthcare</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/anthem.com" alt="">Anthem BCBS</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/cigna.com" alt="">Cigna</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/humana.com" alt="">Humana</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/aetna.com" alt="">Aetna</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/cms.gov" alt="">Medicare</span>
+          <span class="app-chip">+ 1,500 more payers</span>
+        </div>
+      </div>
+      <div class="data-layer reveal"><div class="layer-label"><div class="layer-num">03</div><div class="layer-name">Devices &amp; Apps</div></div>
+        <div class="layer-apps">
+          <span class="app-chip"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/fitbit.com" alt="">Fitbit</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/ouraring.com" alt="">Oura</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/samsung.com" alt="">Samsung</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/onepeloton.com" alt="">Peloton</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/dexcom.com" alt="">Dexcom</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/levelshealth.com" alt="">Levels</span>
+        </div>
+      </div>
+      <div class="data-layer reveal"><div class="layer-label"><div class="layer-num">04</div><div class="layer-name">Nutrition &amp; Mind</div></div>
+        <div class="layer-apps">
+          <span class="app-chip"><img src="https://logo.clearbit.com/myfitnesspal.com" alt="">MyFitnessPal</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/cronometer.com" alt="">Cronometer</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/noom.com" alt="">Noom</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/calm.com" alt="">Calm</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/betterhelp.com" alt="">BetterHelp</span>
+        </div>
+      </div>
+      <div class="data-layer reveal"><div class="layer-label"><div class="layer-num">05</div><div class="layer-name">Social Signals</div></div>
+        <div class="layer-apps">
+          <span class="app-chip"><img src="https://logo.clearbit.com/youtube.com" alt="">YouTube</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/x.com" alt="">X</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/reddit.com" alt="">Reddit</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/spotify.com" alt="">Spotify</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/instagram.com" alt="">Instagram</span>
+          <span class="app-chip"><img src="https://logo.clearbit.com/tiktok.com" alt="">TikTok</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="flow-arrow reveal"><svg viewBox="0 0 40 40"><path d="M20 8 L20 26 M12 20 L20 28 L28 20" stroke="rgba(197,164,78,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+    <div class="engine-box reveal">
+      <div class="engine-title">TETRA&trade; Intelligence Engine</div>
+      <div class="engine-desc">Five layers of data fused, normalized, and secured &mdash; powering everything you see in your Feed.</div>
+      <div class="engine-stats">
+        <div class="engine-stat"><div class="engine-stat-num">400+</div><div class="engine-stat-label">Devices Connected</div></div>
+        <div class="engine-stat"><div class="engine-stat-num">1,500+</div><div class="engine-stat-label">Insurance Payers</div></div>
+        <div class="engine-stat"><div class="engine-stat-num">1.8M+</div><div class="engine-stat-label">Transactions / Hour</div></div>
+        <div class="engine-stat"><div class="engine-stat-num">95%</div><div class="engine-stat-label">Interoperability</div></div>
+        <div class="engine-stat"><div class="engine-stat-num">140M+</div><div class="engine-stat-label">CMS Beneficiaries</div></div>
+      </div>
+    </div>
+
+    <div class="flow-arrow reveal"><svg viewBox="0 0 40 40"><path d="M20 8 L20 26 M12 20 L20 28 L28 20" stroke="rgba(197,164,78,0.5)" stroke-width="2" fill="none" stroke-linecap="round"/></svg></div>
+
+    <!-- YOUR FEED -->
+    <div class="feed-box reveal">
+      <div class="feed-header">
+        <div class="feed-title">Your InPursuit Health Feed&trade;</div>
+        <div class="feed-subtitle">Everything above &mdash; distilled into one personalized, daily stream of actionable intelligence.</div>
+      </div>
+      <div class="feed-cards">
+        <div class="feed-card">
+          <div class="feed-card-icon" style="background:rgba(45,106,79,0.12);"><svg viewBox="0 0 24 24" width="20" height="20" fill="#4ADE80"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.93V18h-2v-1.07A4 4 0 018 13h2a2 2 0 004 0c0-1.1-.9-2-2-2a4 4 0 01-1-7.93V2h2v1.07A4 4 0 0116 7h-2a2 2 0 00-4 0c0 1.1.9 2 2 2a4 4 0 011 7.93z"/></svg></div>
+          <div class="feed-card-content">
+            <div class="feed-card-label">Rx Savings Alert</div>
+            <div class="feed-card-text">Your metformin is <strong>$43 cheaper</strong> at Costco on your formulary.</div>
+          </div>
+        </div>
+        <div class="feed-card">
+          <div class="feed-card-icon" style="background:rgba(69,123,157,0.12);"><svg viewBox="0 0 24 24" width="20" height="20" fill="#7DD3FC"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>
+          <div class="feed-card-content">
+            <div class="feed-card-label">Preventive Reminder</div>
+            <div class="feed-card-text">Annual physical is <strong>covered at $0</strong>. You&rsquo;re 3 months overdue.</div>
+          </div>
+        </div>
+        <div class="feed-card">
+          <div class="feed-card-icon" style="background:rgba(197,164,78,0.12);"><svg viewBox="0 0 24 24" width="20" height="20" fill="#C5A44E"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <div class="feed-card-content">
+            <div class="feed-card-label">Health Insight</div>
+            <div class="feed-card-text">Post-lunch glucose <strong>down 22%</strong> since you started walking after meals.</div>
+          </div>
+        </div>
+        <div class="feed-card">
+          <div class="feed-card-icon" style="background:rgba(178,34,52,0.12);"><svg viewBox="0 0 24 24" width="20" height="20" fill="#F87171"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
+          <div class="feed-card-content">
+            <div class="feed-card-label">Cost Transparency</div>
+            <div class="feed-card-text">MRI: <strong>$380</strong> at Fort Mill Imaging vs. $1,420 at the hospital.</div>
+          </div>
+        </div>
+      </div>
+      <div class="feed-tagline">This is what &ldquo;Harness the Power of Your Data&trade;&rdquo; actually looks like.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTIMATOR -->
+<section class="section est-section" id="estimator">
+  <div class="section-inner est-container">
+    <p class="section-overline reveal" style="text-align:center;">See How InPursuit Can Help You</p>
+    <h2 class="section-headline reveal" style="text-align:center;">Estimate your impact in <em>30 seconds.</em></h2>
+    <p class="section-desc reveal" style="text-align:center;max-width:600px;margin:0 auto 48px;">Answer 4 quick questions. We&rsquo;ll show you how much InPursuit could save you in money, time, and better health outcomes.</p>
+
+    <div class="est-step active" id="estStep0">
+      <div class="est-question">What type of insurance do you have?</div>
+      <div class="est-hint">This helps us estimate your coverage benefits and savings potential.</div>
+      <div class="est-options">
+        <div class="est-opt" onclick="selectOpt(0,this,'employer')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#457B9D"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg></div><div class="est-opt-label">Employer Plan</div><div class="est-opt-sub">PPO, HMO, HDHP</div></div>
+        <div class="est-opt" onclick="selectOpt(0,this,'marketplace')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="est-opt-label">Marketplace / ACA</div><div class="est-opt-sub">Healthcare.gov</div></div>
+        <div class="est-opt" onclick="selectOpt(0,this,'medicare')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#C5A44E"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="est-opt-label">Medicare</div><div class="est-opt-sub">Original or Advantage</div></div>
+        <div class="est-opt" onclick="selectOpt(0,this,'none')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#6B7280"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg></div><div class="est-opt-label">Uninsured</div><div class="est-opt-sub">Cash pay</div></div>
+      </div>
+      <div class="est-progress"><div class="est-dot active"></div><div class="est-dot"></div><div class="est-dot"></div><div class="est-dot"></div></div>
+    </div>
+
+    <div class="est-step" id="estStep1">
+      <div class="est-question">How many prescriptions do you take?</div>
+      <div class="est-hint">InPursuit finds cheaper pharmacies and alternatives for every medication.</div>
+      <div class="est-options">
+        <div class="est-opt" onclick="selectOpt(1,this,'0')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="est-opt-label">None</div></div>
+        <div class="est-opt" onclick="selectOpt(1,this,'1-2')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#457B9D"><path d="M4.22 11.29l4.56-4.56a2.41 2.41 0 013.41 0L16.78 11.29a2.41 2.41 0 010 3.41L12.22 19.27a2.41 2.41 0 01-3.41 0L4.22 14.71a2.41 2.41 0 010-3.42z"/></svg></div><div class="est-opt-label">1&ndash;2</div></div>
+        <div class="est-opt" onclick="selectOpt(1,this,'3-5')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#E76F51"><path d="M4.22 11.29l4.56-4.56a2.41 2.41 0 013.41 0L16.78 11.29a2.41 2.41 0 010 3.41L12.22 19.27a2.41 2.41 0 01-3.41 0L4.22 14.71a2.41 2.41 0 010-3.42z"/></svg></div><div class="est-opt-label">3&ndash;5</div></div>
+        <div class="est-opt" onclick="selectOpt(1,this,'6+')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#B22234"><path d="M4.22 11.29l4.56-4.56a2.41 2.41 0 013.41 0L16.78 11.29a2.41 2.41 0 010 3.41L12.22 19.27a2.41 2.41 0 01-3.41 0L4.22 14.71a2.41 2.41 0 010-3.42z"/></svg></div><div class="est-opt-label">6 or more</div></div>
+      </div>
+      <div class="est-progress"><div class="est-dot done"></div><div class="est-dot active"></div><div class="est-dot"></div><div class="est-dot"></div></div>
+    </div>
+
+    <div class="est-step" id="estStep2">
+      <div class="est-question">Which devices or apps do you use?</div>
+      <div class="est-hint">Select all that apply. Each connection deepens your personalized insights.</div>
+      <div class="est-options" id="deviceOpts">
+        <div class="est-opt" onclick="toggleOpt(this,'watch')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/apple.com" alt="Apple"></div><div class="est-opt-label">Apple Watch</div></div>
+        <div class="est-opt" onclick="toggleOpt(this,'garmin')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/garmin.com" alt="Garmin"></div><div class="est-opt-label">Garmin / Fitbit</div></div>
+        <div class="est-opt" onclick="toggleOpt(this,'whoop')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/whoop.com" alt="WHOOP"></div><div class="est-opt-label">WHOOP / Oura</div></div>
+        <div class="est-opt" onclick="toggleOpt(this,'peloton')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/onepeloton.com" alt="Peloton"></div><div class="est-opt-label">Peloton / Strava</div></div>
+        <div class="est-opt" onclick="toggleOpt(this,'cgm')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/dexcom.com" alt="Dexcom"></div><div class="est-opt-label">Dexcom / CGM</div></div>
+        <div class="est-opt" onclick="toggleOpt(this,'nutrition')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/myfitnesspal.com" alt="MFP"></div><div class="est-opt-label">MFP / Noom</div></div>
+        <div class="est-opt" onclick="toggleOpt(this,'mental')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/headspace.com" alt="Headspace"></div><div class="est-opt-label">Calm / Headspace</div></div>
+        <div class="est-opt" onclick="toggleOpt(this,'none')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#6B7280"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div><div class="est-opt-label">None yet</div></div>
+      </div>
+      <div style="text-align:center;margin-top:24px;"><button class="btn-outline" onclick="advanceFromDevices()">Continue &rarr;</button></div>
+      <div class="est-progress"><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot active"></div><div class="est-dot"></div></div>
+    </div>
+
+    <div class="est-step" id="estStep3">
+      <div class="est-question">What matters most to you?</div>
+      <div class="est-hint">This shapes how we prioritize your personalized Health Feed.</div>
+      <div class="est-options">
+        <div class="est-opt" onclick="selectOpt(3,this,'cost')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.93V18h-2v-1.07A4 4 0 018 13h2a2 2 0 004 0c0-1.1-.9-2-2-2a4 4 0 01-1-7.93V2h2v1.07A4 4 0 0116 7h-2a2 2 0 00-4 0c0 1.1.9 2 2 2a4 4 0 011 7.93z"/></svg></div><div class="est-opt-label">Spending Less</div><div class="est-opt-sub">on healthcare</div></div>
+        <div class="est-opt" onclick="selectOpt(3,this,'fitness')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#457B9D"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div><div class="est-opt-label">Fitness Goals</div><div class="est-opt-sub">performance &amp; recovery</div></div>
+        <div class="est-opt" onclick="selectOpt(3,this,'chronic')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#B22234"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div><div class="est-opt-label">Managing a Condition</div><div class="est-opt-sub">diabetes, heart, etc.</div></div>
+        <div class="est-opt" onclick="selectOpt(3,this,'prevent')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#C5A44E"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="est-opt-label">Staying Healthy</div><div class="est-opt-sub">prevention &amp; longevity</div></div>
+      </div>
+      <div class="est-progress"><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot active"></div></div>
+    </div>
+
+    <div class="est-results" id="estResults">
+      <div class="results-header">Based on your profile, InPursuit could deliver:</div>
+      <div class="results-grid">
+        <div class="result-card money"><div class="result-number" id="resMoney">$1,200+</div><div class="result-label">Estimated Annual Savings</div><div class="result-detail" id="resMoneyDetail">Through Rx intelligence, price transparency, and surfacing covered services you didn&rsquo;t know you had.</div></div>
+        <div class="result-card time"><div class="result-number" id="resTime">12+ hrs</div><div class="result-label">Time Saved Per Year</div><div class="result-detail" id="resTimeDetail">No more calling insurance, searching for providers, or comparing pharmacy prices.</div></div>
+        <div class="result-card outcomes"><div class="result-number" id="resOutcome">8+</div><div class="result-label" id="resOutcomeLabel">Personalized Insights / Week</div><div class="result-detail" id="resOutcomeDetail">Unique insights combining your device data, insurance coverage, and medical history.</div></div>
+      </div>
+      <div class="results-sources"><p><strong>How we calculated this:</strong> Your <span id="resInsurance">employer plan</span> combined with <span id="resDevices">3 connected devices</span> and <span id="resRx">your prescriptions</span> creates a data profile that enables Rx price optimization, procedure cost comparison, insurance benefit maximization, and device-informed health guidance &mdash; all powered by TETRA&trade;.</p></div>
+      <button class="est-restart" onclick="restartEst()">Start over</button>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONAS -->
+<section class="section persona-section" id="personas">
+  <div class="section-inner">
+    <p class="section-overline reveal" style="text-align:center;">Real People, Real Value</p>
+    <h2 class="section-headline reveal" style="text-align:center;">See how InPursuit works in the <em>moments that matter.</em></h2>
+    <p class="section-desc reveal" style="text-align:center;max-width:640px;margin:0 auto;">Four Americans. One ordinary day. Dozens of moments where InPursuit saves them money, saves them time, and helps them make better decisions.</p>
+
+    <div class="persona-selector reveal">
+      <div class="persona-btn active" onclick="selectPersona(0)"><div class="persona-btn-name">Robert, 58</div><div class="persona-btn-desc">Type 2 Diabetes &middot; Medicare</div></div>
+      <div class="persona-btn" onclick="selectPersona(1)"><div class="persona-btn-name">Sarah, 32</div><div class="persona-btn-desc">New Mother &middot; Cigna PPO</div></div>
+      <div class="persona-btn" onclick="selectPersona(2)"><div class="persona-btn-name">Patrick, 41</div><div class="persona-btn-desc">Executive &middot; Anthem BCBS</div></div>
+      <div class="persona-btn" onclick="selectPersona(3)"><div class="persona-btn-name">Maya, 20</div><div class="persona-btn-desc">D1 Athlete &middot; Parent&rsquo;s UHC</div></div>
+    </div>
+
+    <!-- ROBERT -->
+    <div class="day-panel active" id="panel0">
+      <div class="persona-intro">
+        <div class="persona-story"><h3>Robert is managing Type 2 Diabetes on Medicare.</h3><p>Recently diagnosed, Robert juggles metformin, diet changes, and a new exercise routine. Before InPursuit, he was overpaying for prescriptions and missing preventive screenings he didn&rsquo;t know were free.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Medicare Advantage (Humana) &mdash; $0 PCP, $20 specialist</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected devices &amp; apps:</div>
+          <div class="ctx-apps">
+            <span class="ctx-app"><img src="https://logo.clearbit.com/fitbit.com" alt="">Fitbit Sense</span>
+            <span class="ctx-app"><img src="https://logo.clearbit.com/dexcom.com" alt="">Dexcom G7</span>
+            <span class="ctx-app"><img src="https://logo.clearbit.com/myfitnesspal.com" alt="">MyFitnessPal</span>
+          </div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; EHR &mdash; full lab history, Rx records, diagnoses</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">6:45 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Your metformin costs $47 at CVS. It&rsquo;s $4 at Costco &mdash; on your plan.</div><div class="moment-tag tag-save">Rx Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; EHR</span><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">Humana Formulary</span><span class="src-badge"><img src="https://logo.clearbit.com/goodrx.com" alt="">GoodRx API</span></div><div class="moment-body">InPursuit knows his prescriptions from his medical records and his formulary tier from his Humana plan. It found the <strong>same medication at 91% less</strong> at a pharmacy 2 miles away.</div><div class="moment-value value-save">Saves $516/year on one medication</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">7:30 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Glucose spiked to 168 after last night&rsquo;s pasta. Here&rsquo;s what helps.</div><div class="moment-tag tag-outcome">Device + Social</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/dexcom.com" alt="">Dexcom G7</span><span class="src-badge"><img src="https://logo.clearbit.com/myfitnesspal.com" alt="">MyFitnessPal</span><span class="src-badge"><img src="https://logo.clearbit.com/youtube.com" alt="">YouTube Subs</span></div><div class="moment-body">His Dexcom data shows a post-dinner spike. InPursuit correlates this with his MFP meal log and surfaces research from <strong>the diabetes channels he subscribes to on YouTube</strong>.</div><div class="moment-value value-outcome">Glucose spikes reduced 22% in 3 months</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">9:15 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Quarterly A1C lab is covered at $0. Last test was 11 weeks ago.</div><div class="moment-tag tag-save">Insurance + Clinical</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">Humana MA</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; Labs</span></div><div class="moment-body">Medicare Advantage covers quarterly A1C at no cost. InPursuit knows when his last test was from his EHR and <strong>surfaces the reminder at exactly the right time</strong>.</div><div class="moment-value value-save">$0 &mdash; fully covered preventive care</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">10:00 AM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">3 in-network endocrinologists near you. Tap to book.</div><div class="moment-tag tag-time">Scheduling</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">In-Network</span><span class="src-badge"><img src="https://logo.clearbit.com/zocdoc.com" alt="">Zocdoc API</span></div><div class="moment-body">His A1C trend suggests a specialist. InPursuit shows three endocrinologists <strong>in his Humana network</strong>, with real-time availability and his exact copay ($20).</div><div class="moment-value value-time">Booked in 30 seconds, not 30 minutes</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">12:30 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">15-min post-lunch walk reduces your spike by 30%. Fitbit is tracking.</div><div class="moment-tag tag-outcome">Care Navigation</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/dexcom.com" alt="">Dexcom</span><span class="src-badge"><img src="https://logo.clearbit.com/fitbit.com" alt="">Fitbit</span></div><div class="moment-body">InPursuit learned from his Dexcom data that worst spikes happen after lunch. It suggests a walk &mdash; <strong>timed to his actual spike window</strong> &mdash; and Fitbit tracks it automatically.</div><div class="moment-value value-outcome">Post-meal glucose improved 31 mg/dL avg</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">5:00 PM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Diabetic eye exam covered at $20. You&rsquo;re 14 months overdue.</div><div class="moment-tag tag-save">Preventive Timeline</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">T2D Diagnosis</span><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">Eye Benefit</span></div><div class="moment-body">Robert didn&rsquo;t know he was overdue. InPursuit cross-references his diagnosis, coverage, and visit history to surface this <strong>before it becomes a problem</strong>.</div><div class="moment-value value-save">$20 screening prevents $15,000+ treatment</div></div></div>
+      </div>
+    </div>
+
+    <!-- SARAH -->
+    <div class="day-panel" id="panel1">
+      <div class="persona-intro">
+        <div class="persona-story"><h3>Sarah is a new mom navigating postpartum recovery.</h3><p>Six months after her first baby, Sarah balances recovery, sleep deprivation, and insurance confusion. She doesn&rsquo;t have time to call insurance companies.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Cigna PPO &mdash; $30 PCP, deductible met</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected:</div>
+          <div class="ctx-apps"><span class="ctx-app"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span><span class="ctx-app"><img src="https://logo.clearbit.com/onepeloton.com" alt="">Peloton</span><span class="ctx-app"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span><span class="ctx-app"><img src="https://logo.clearbit.com/noom.com" alt="">Noom</span></div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; &mdash; postpartum records, Rx history</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">6:00 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">You slept 4.8 hours. Below your average. Here&rsquo;s a recovery plan.</div><div class="moment-tag tag-outcome">Device + Mental</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span><span class="src-badge"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span></div><div class="moment-body">Her Apple Watch tracked another rough night. InPursuit queues a <strong>10-minute guided rest session</strong> from Headspace tailored for sleep-deprived new parents.</div><div class="moment-value value-outcome">Sleep quality improved 18% in 6 weeks</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">8:30 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Well-baby 6-month visit: $0 copay. Three pediatricians near you.</div><div class="moment-tag tag-save">Insurance + Scheduling</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/cigna.com" alt="">Cigna PPO</span><span class="src-badge"><img src="https://logo.clearbit.com/zocdoc.com" alt="">Zocdoc</span></div><div class="moment-body">Cigna covers well-baby visits at zero copay. InPursuit <strong>surfaces the milestone visit at the right time</strong> with in-network pediatricians and open appointments.</div><div class="moment-value value-time">Found, compared, booked in under a minute</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">11:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Prenatal vitamins: $38/mo. This equivalent is $12. Same formula.</div><div class="moment-tag tag-save">Rx Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; Rx</span><span class="src-badge"><img src="https://logo.clearbit.com/noom.com" alt="">Noom</span></div><div class="moment-body">InPursuit found a <strong>clinically equivalent alternative at 68% savings</strong> and confirmed no interactions with her other medications.</div><div class="moment-value value-save">Saves $312/year</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">2:00 PM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">6 PT visits remaining. Pelvic floor therapy could accelerate recovery.</div><div class="moment-tag tag-time">Insurance Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/cigna.com" alt="">PT Benefit</span><span class="src-badge"><img src="https://logo.clearbit.com/onepeloton.com" alt="">Peloton</span></div><div class="moment-body">Peloton data shows she&rsquo;s getting back to exercise. Her insurance reveals <strong>6 covered PT visits this plan year</strong>. InPursuit connects the dots.</div><div class="moment-value value-save">$30 copay &times; 6 covered visits available</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">7:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Mood scores trending down. Your plan covers 20 therapy sessions at $30.</div><div class="moment-tag tag-outcome">Care Navigation</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/apple.com" alt="">HRV Data</span><span class="src-badge"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span><span class="src-badge"><img src="https://logo.clearbit.com/cigna.com" alt="">Mental Health</span></div><div class="moment-body">Sleep data, HRV trends, and Headspace patterns suggest she might benefit from support. InPursuit shows <strong>her plan covers 20 therapy sessions</strong> &mdash; with a telehealth option from home.</div><div class="moment-value value-outcome">Early intervention when it matters most</div></div></div>
+      </div>
+    </div>
+
+    <!-- PATRICK -->
+    <div class="day-panel" id="panel2">
+      <div class="persona-intro">
+        <div class="persona-story"><h3>Patrick is a data-driven executive focused on longevity.</h3><p>With five connected devices and a deep interest in performance optimization, Patrick generates more health data than almost anyone. Before InPursuit, none of it connected to what his insurance covers.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Anthem BCBS PPO &mdash; $1,200 deductible remaining</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected:</div>
+          <div class="ctx-apps"><span class="ctx-app"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="ctx-app"><img src="https://logo.clearbit.com/ouraring.com" alt="">Oura Ring</span><span class="ctx-app"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span><span class="ctx-app"><img src="https://logo.clearbit.com/onepeloton.com" alt="">Peloton</span><span class="ctx-app"><img src="https://logo.clearbit.com/levelshealth.com" alt="">Levels CGM</span></div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; &mdash; full medical records, lab trends</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">5:30 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Oura: 14% deep sleep. WHOOP recovery: 62%. Today is a Zone 2 day.</div><div class="moment-tag tag-outcome">Multi-Device</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/ouraring.com" alt="">Oura</span><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span></div><div class="moment-body">Five devices, one recommendation. InPursuit synthesizes Oura sleep, WHOOP recovery, and Strava load into <strong>a single actionable insight</strong> &mdash; aligned with Zone 2 protocols he follows.</div><div class="moment-value value-outcome">Training calibrated to recovery, not guesswork</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">7:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Advanced blood panel: $340 at LabCorp vs. $890 at the hospital.</div><div class="moment-tag tag-save">Price Transparency</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/anthem.com" alt="">Anthem PPO</span><span class="src-badge"><img src="https://logo.clearbit.com/turquoisehealth.com" alt="">Turquoise</span></div><div class="moment-body">InPursuit uses price transparency data matched to his Anthem PPO to show the <strong>exact cost at every nearby lab</strong> &mdash; the $340 option counts toward his deductible.</div><div class="moment-value value-save">Saves $550 on a single lab order</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">9:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Deductible resets in 6 weeks. $1,200 remaining &mdash; use it strategically.</div><div class="moment-tag tag-save">Insurance Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/anthem.com" alt="">Deductible Tracker</span></div><div class="moment-body">With $1,200 remaining and a reset approaching, InPursuit suggests <strong>scheduling the blood panel + physical now</strong> &mdash; maximizing value before it resets to zero.</div><div class="moment-value value-save">Strategic timing saves $800+ in deductible waste</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">12:00 PM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Training load high. Preventive PT &mdash; 12 visits covered on your plan.</div><div class="moment-tag tag-time">Care Navigation</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/anthem.com" alt="">PT Benefit</span></div><div class="moment-body">8+ hours/week training with elevated strain. InPursuit suggests using <strong>12 covered PT visits for injury prevention</strong> &mdash; not waiting until something breaks.</div><div class="moment-value value-time">In-network sports PT, $35 copay, booked in 2 taps</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">8:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Glucose variability: 18 mg/dL today vs. 24 last month. On track.</div><div class="moment-tag tag-outcome">Outcomes</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/levelshealth.com" alt="">Levels CGM</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; Labs</span></div><div class="moment-body">Levels CGM data combined with 6 months of labs shows a clear trajectory. <strong>InPursuit connects the dots across time</strong> &mdash; the longitudinal health story no other app can tell.</div><div class="moment-value value-outcome">Metabolic health trending in the right direction</div></div></div>
+      </div>
+    </div>
+
+    <!-- MAYA -->
+    <div class="day-panel" id="panel3">
+      <div class="persona-intro">
+        <div class="persona-story"><h3>Maya is a D1 college athlete on her parent&rsquo;s insurance.</h3><p>As a sophomore forward, Maya&rsquo;s life revolves around performance, recovery, and nutrition. She doesn&rsquo;t think about insurance &mdash; but her parent&rsquo;s plan covers more than she realizes.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Parent&rsquo;s UnitedHealthcare PPO &mdash; $25 PCP, $40 specialist</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected:</div>
+          <div class="ctx-apps"><span class="ctx-app"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span><span class="ctx-app"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="ctx-app"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span><span class="ctx-app"><img src="https://logo.clearbit.com/cronometer.com" alt="">Cronometer</span></div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; &mdash; sports medicine records, immunizations</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">6:30 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">WHOOP recovery: 52%. Your body is asking for a rest day.</div><div class="moment-tag tag-outcome">Multi-Device</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span><span class="src-badge"><img src="https://logo.clearbit.com/tiktok.com" alt="">TikTok</span></div><div class="moment-body">Both devices confirm she&rsquo;s under-recovered. InPursuit shows recovery protocols from <strong>sports nutrition accounts she follows on TikTok</strong>.</div><div class="moment-value value-outcome">Injury prevention through data-driven recovery</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">8:00 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Pre-game fueling: 600+ cal 3 hours before. Here&rsquo;s a plan.</div><div class="moment-tag tag-outcome">Nutrition + Devices</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/cronometer.com" alt="">Cronometer</span><span class="src-badge"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span></div><div class="moment-body">Cronometer shows Maya typically under-fuels. InPursuit correlates <strong>Garmin performance data with her nutrition logs</strong> to create a personalized pre-game plan.</div><div class="moment-value value-outcome">Performance fueling personalized to her data</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">11:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Sports medicine visit: $40 on your parent&rsquo;s plan. 3 docs near campus.</div><div class="moment-tag tag-save">Insurance + Scheduling</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/unitedhealthgroup.com" alt="">UHC PPO</span><span class="src-badge"><img src="https://logo.clearbit.com/zocdoc.com" alt="">Zocdoc</span></div><div class="moment-body">Device data shows overtraining signals. InPursuit surfaces her parent&rsquo;s UHC coverage &mdash; <strong>something Maya never thought to check</strong> &mdash; and shows sports medicine doctors near campus.</div><div class="moment-value value-time">Discovered coverage she didn&rsquo;t know she had</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">3:00 PM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Iron supplement: $28 at campus pharmacy. $7 at Walmart. Same product.</div><div class="moment-tag tag-save">Rx Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/cronometer.com" alt="">Low Iron Flag</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">Anemia History</span><span class="src-badge"><img src="https://logo.clearbit.com/goodrx.com" alt="">GoodRx</span></div><div class="moment-body">Cronometer flagged low iron. Medical records confirm sports-related anemia. InPursuit found the <strong>same supplement at 75% less</strong> nearby.</div><div class="moment-value value-save">Saves $252/year</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">9:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Season dashboard: VO2 max up 8%. Injury days: 0. Recovery: 91%.</div><div class="moment-tag tag-outcome">Outcomes</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span></div><div class="moment-body">Longitudinal performance story &mdash; VO2 max, recovery trends, zero missed games. <strong>The proof that listening to her data is working.</strong></div><div class="moment-value value-outcome">Best season of her career, backed by data</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-content reveal">
+    <p class="section-overline">Get Started</p>
+    <h2>Your health data has been locked away <em>long enough.</em></h2>
+    <p>InPursuit Health connects your devices, your insurance, and your medical records into one experience &mdash; powered by TETRA&trade;, the same technology trusted by the Department of Defense.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a class="btn-gold" href="contact.html">Request Early Access &rarr;</a>
+      <a class="btn-outline" href="index.html">Back to Home</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="tetra.html">TETRA</a>
+    <a href="day-in-the-life-patient.html">Patient Journey</a>
+    <a href="day-in-the-life-provider.html">Provider Solutions</a>
+    <a href="ai-and-your-data.html">AI &amp; Your Data</a>
+    <a href="maha.html">MAHA</a>
+    <a href="veterans-first.html">Veterans First</a>
+    <a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a>
+    <a href="leadership.html">Leadership</a>
+    <a href="security-center.html">Security Center</a>
+    <a href="contact.html">Contact</a>
+    <a href="careers.html">Careers</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+// Preloader
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 800);
+});
+
+// Top bar scroll shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Mobile nav toggle
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('mainNav').classList.toggle('open');
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Star parallax
+document.addEventListener('mousemove', (e) => {
+  const stars = document.querySelectorAll('.star');
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  stars.forEach((star, i) => {
+    const depth = (i % 3 + 1) * 0.3;
+    star.style.transform = 'translate(' + (x * depth) + 'px, ' + (y * depth) + 'px)';
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+});
+
+// ===== ESTIMATOR =====
+const answers = {};
+let deviceSelections = [];
+
+function selectOpt(step, el, val) {
+  el.parentElement.querySelectorAll('.est-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[step] = val;
+  setTimeout(() => {
+    document.getElementById('estStep' + step).classList.remove('active');
+    if (step < 3) {
+      document.getElementById('estStep' + (step + 1)).classList.add('active');
+    } else {
+      showResults();
+    }
+  }, 300);
+}
+
+function toggleOpt(el, val) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) {
+    deviceSelections.push(val);
+  } else {
+    deviceSelections = deviceSelections.filter(d => d !== val);
+  }
+}
+
+function advanceFromDevices() {
+  answers[2] = deviceSelections;
+  document.getElementById('estStep2').classList.remove('active');
+  document.getElementById('estStep3').classList.add('active');
+}
+
+function showResults() {
+  document.getElementById('estStep3').classList.remove('active');
+  const r = document.getElementById('estResults');
+  r.classList.add('active');
+  let savings = 600, time = 8, insights = 5;
+  const ins = answers[0], rx = answers[1], devs = answers[2] || [], focus = answers[3];
+  if (ins === 'employer') savings += 400;
+  else if (ins === 'medicare') savings += 600;
+  else if (ins === 'marketplace') savings += 300;
+  if (rx === '1-2') { savings += 300; insights += 2; }
+  else if (rx === '3-5') { savings += 700; insights += 4; }
+  else if (rx === '6+') { savings += 1200; insights += 6; }
+  const dc = devs.length;
+  time += dc * 1.5; insights += dc * 2;
+  if (devs.includes('cgm')) { savings += 200; insights += 3; }
+  if (focus === 'cost') savings += 200;
+  else if (focus === 'chronic') { savings += 400; insights += 4; }
+  else if (focus === 'fitness') insights += 3;
+  document.getElementById('resMoney').textContent = '$' + Math.round(savings / 100) * 100 + '+';
+  document.getElementById('resTime').textContent = Math.round(time) + '+ hrs';
+  document.getElementById('resOutcome').textContent = Math.round(insights) + '+';
+  const insLabels = { employer: 'employer PPO/HMO plan', marketplace: 'ACA marketplace plan', medicare: 'Medicare coverage', none: 'cash-pay status' };
+  document.getElementById('resInsurance').textContent = insLabels[ins] || 'your insurance';
+  document.getElementById('resDevices').textContent = dc > 0 ? dc + ' connected device' + (dc > 1 ? 's' : '') : 'health app connections';
+  const rxLabels = { '0': 'preventive care optimization', '1-2': '1-2 prescriptions', '3-5': '3-5 prescriptions', '6+': '6+ prescriptions' };
+  document.getElementById('resRx').textContent = rxLabels[rx] || 'your health profile';
+  if (rx === '0') document.getElementById('resMoneyDetail').textContent = 'Through price transparency, strategic deductible timing, and surfacing covered preventive services you may not know about.';
+  if (focus === 'chronic') document.getElementById('resOutcomeLabel').textContent = 'Daily Condition-Specific Insights';
+  else if (focus === 'fitness') document.getElementById('resOutcomeLabel').textContent = 'Weekly Performance Insights';
+}
+
+function restartEst() {
+  document.getElementById('estResults').classList.remove('active');
+  document.querySelectorAll('.est-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.est-opt').forEach(o => o.classList.remove('selected'));
+  document.getElementById('estStep0').classList.add('active');
+  deviceSelections = [];
+}
+
+// ===== PERSONAS =====
+function selectPersona(idx) {
+  document.querySelectorAll('.persona-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.querySelectorAll('.day-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+  setTimeout(observeMoments, 100);
+}
+
+function observeMoments() {
+  const moments = document.querySelectorAll('.day-panel.active .moment');
+  const mObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+        mObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  moments.forEach(m => { m.classList.remove('visible'); mObs.observe(m); });
+}
+observeMoments();
+
+// Handle broken logo images
+document.querySelectorAll('img').forEach(img => {
+  img.onerror = function() { this.style.display = 'none'; };
+});
+</script>
+</body>
+</html>
