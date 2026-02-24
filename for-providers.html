@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Provider Solutions — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --red: #B22234;
+  --green: #2E7D32;
+  --green-light: #E8F5E9;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Instrument Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+/* === PRELOADER === */
+.preloader { position: fixed; inset: 0; background: var(--navy-deep); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wordmark { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--gold); letter-spacing: 2px; animation: pulseFade 1.2s ease-in-out infinite; }
+@keyframes pulseFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+/* === TOP BAR === */
+.top-bar { background: var(--navy-deep); border-bottom: 1px solid rgba(197,164,78,0.2); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: box-shadow 0.3s ease; }
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+.top-bar-brand { display: flex; align-items: center; text-decoration: none; }
+.top-bar-wordmark { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--gold); letter-spacing: 1px; }
+.top-bar-nav { display: flex; align-items: center; gap: 0; }
+.nav-item { position: relative; padding: 20px 14px; font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.3s ease; cursor: pointer; background: none; border: none; font-family: inherit; }
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: var(--gold); transition: width 0.3s ease; }
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px); background: var(--navy-mid); border: 1px solid rgba(197,164,78,0.15); border-radius: 4px; padding: 8px 0; min-width: 240px; opacity: 0; visibility: hidden; transition: all 0.3s ease; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+.nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.nav-dropdown-item { display: block; padding: 12px 24px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; transition: all 0.2s ease; }
+.nav-dropdown-item:hover { color: var(--gold); background: rgba(197,164,78,0.05); }
+.nav-dropdown-item .sub-desc { display: block; font-size: 10px; letter-spacing: 0.5px; text-transform: none; color: rgba(255,255,255,0.3); margin-top: 2px; }
+.nav-toggle { display: none; background: none; border: none; width: 32px; height: 32px; cursor: pointer; position: relative; }
+.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--gold); position: absolute; left: 5px; transition: all 0.3s ease; }
+.nav-toggle span:nth-child(1) { top: 8px; }
+.nav-toggle span:nth-child(2) { top: 15px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* === HERO === */
+.hero { position: relative; min-height: 100vh; background: var(--navy-deep); overflow: hidden; padding-top: 64px; display: flex; align-items: center; }
+.hero-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at 30% 40%, rgba(17,34,64,0.9), var(--navy-deep) 70%); }
+.hero-grid { position: absolute; inset: 0; opacity: 0.03; background-image: linear-gradient(rgba(197,164,78,1) 1px, transparent 1px), linear-gradient(90deg, rgba(197,164,78,1) 1px, transparent 1px); background-size: 60px 60px; }
+.hero-particles { position: absolute; inset: 0; pointer-events: none; }
+.hero-particle { position: absolute; width: 3px; height: 3px; background: rgba(197,164,78,0.3); border-radius: 50%; animation: floatUp linear infinite; }
+@keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
+.hero-inner { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; padding: 80px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 20px; background: rgba(197,164,78,0.08); border: 1px solid rgba(197,164,78,0.25); border-radius: 24px; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+.hero-badge .pulse { width: 8px; height: 8px; background: var(--gold); border-radius: 50%; animation: badgePulse 2s ease-in-out infinite; }
+@keyframes badgePulse { 0%, 100% { opacity: 0.4; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.2); } }
+.hero-overline { font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(36px, 4.5vw, 60px); font-weight: 400; color: var(--white); line-height: 1.15; margin-bottom: 24px; }
+.hero h1 em { font-style: italic; color: var(--gold); }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.55); line-height: 1.7; margin-bottom: 36px; max-width: 540px; }
+.hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+.hero-float-cards { position: relative; height: 540px; }
+.float-card { position: absolute; background: rgba(17,34,64,0.7); border: 1px solid rgba(197,164,78,0.15); border-radius: 12px; padding: 28px 24px; backdrop-filter: blur(12px); animation: floatCard 6s ease-in-out infinite; cursor: pointer; transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease; }
+.float-card:hover { border-color: rgba(197,164,78,0.4); box-shadow: 0 8px 32px rgba(197,164,78,0.12); transform: translateY(-4px); animation-play-state: paused; }
+.float-card:nth-child(1) { top: 0; left: 8%; animation-delay: 0s; }
+.float-card:nth-child(2) { top: 10px; right: 5%; animation-delay: 1.5s; }
+.float-card:nth-child(3) { top: 200px; left: 3%; animation-delay: 3s; }
+.float-card:nth-child(4) { top: 180px; right: 8%; animation-delay: 4.5s; }
+.float-card:nth-child(5) { bottom: 0; left: calc(50% - 120px); animation-delay: 2s; }
+.float-card.fc-tech { border-color: rgba(46,125,50,0.3); background: rgba(46,125,50,0.08); }
+.float-card.fc-tech .fc-num { color: #66BB6A; }
+.float-card.fc-tech .fc-label { color: rgba(102,187,106,0.7); }
+.float-card.fc-tech:hover { border-color: rgba(102,187,106,0.5); box-shadow: 0 8px 32px rgba(46,125,50,0.15); }
+.float-card.fc-tech .fc-expand-hint { color: rgba(102,187,106,0.4); }
+.float-card.fc-tech:hover .fc-expand-hint { color: #66BB6A; }
+.float-card .fc-expand-hint { font-size: 9px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(197,164,78,0.4); margin-top: 10px; display: flex; align-items: center; gap: 4px; transition: color 0.3s ease; }
+.float-card:hover .fc-expand-hint { color: var(--gold); }
+/* Stat modal overlay */
+.stat-modal-overlay { position: fixed; inset: 0; background: rgba(6,14,26,0.85); backdrop-filter: blur(8px); z-index: 9000; display: flex; align-items: center; justify-content: center; padding: 24px; opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s ease; }
+.stat-modal-overlay.active { opacity: 1; visibility: visible; }
+.stat-modal { background: var(--navy-mid); border: 1px solid rgba(197,164,78,0.2); border-radius: 16px; padding: 48px; max-width: 560px; width: 100%; position: relative; transform: translateY(20px) scale(0.95); transition: transform 0.4s ease; box-shadow: 0 24px 80px rgba(0,0,0,0.5); }
+.stat-modal-overlay.active .stat-modal { transform: translateY(0) scale(1); }
+.stat-modal-close { position: absolute; top: 16px; right: 16px; background: rgba(197,164,78,0.1); border: 1px solid rgba(197,164,78,0.2); border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--gold); font-size: 18px; transition: all 0.3s ease; }
+.stat-modal-close:hover { background: rgba(197,164,78,0.2); border-color: var(--gold); }
+.stat-modal .sm-num { font-family: 'Instrument Serif', serif; font-size: 64px; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+.stat-modal .sm-label { font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 20px; }
+.stat-modal .sm-body { font-size: 16px; color: rgba(255,255,255,0.7); line-height: 1.8; margin-bottom: 24px; }
+.stat-modal .sm-body strong { color: var(--gold-light); font-weight: 600; }
+.stat-modal .sm-divider { height: 1px; background: rgba(197,164,78,0.12); margin: 20px 0; }
+.stat-modal .sm-source { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(197,164,78,0.5); }
+.stat-modal .sm-source-name { color: var(--gold); }
+.stat-modal .sm-takeaway { background: rgba(197,164,78,0.06); border: 1px solid rgba(197,164,78,0.12); border-radius: 8px; padding: 16px 20px; margin-top: 20px; }
+.stat-modal .sm-takeaway-label { font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.stat-modal .sm-takeaway-text { font-size: 14px; color: rgba(255,255,255,0.6); line-height: 1.6; }
+@keyframes floatCard { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+.float-card .fc-num { font-family: 'Instrument Serif', serif; font-size: 36px; color: var(--gold); line-height: 1; }
+.float-card .fc-label { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 6px; }
+.float-card .fc-desc { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 4px; line-height: 1.4; }
+.float-card .fc-source { font-size: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(197,164,78,0.35); margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(197,164,78,0.08); }
+.float-card.fc-urgent { border-color: rgba(178,34,52,0.4); background: rgba(178,34,52,0.08); }
+.float-card.fc-urgent .fc-label { color: rgba(255,120,120,0.7); }
+.fc-countdown { font-family: 'Instrument Serif', serif; font-size: 42px; color: #ef5350; line-height: 1; }
+
+/* === CTAs === */
+.btn-gold { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: var(--gold); color: var(--navy-deep); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border-radius: 4px; transition: all 0.3s ease; border: none; cursor: pointer; }
+.btn-gold:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(197,164,78,0.3); }
+.btn-outline { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: transparent; color: var(--gold); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border-radius: 4px; border: 1.5px solid rgba(197,164,78,0.4); transition: all 0.3s ease; cursor: pointer; }
+.btn-outline:hover { border-color: var(--gold); background: rgba(197,164,78,0.08); transform: translateY(-2px); }
+
+/* === TICKER === */
+.gold-ticker { background: var(--gold); overflow: hidden; padding: 14px 0; position: relative; z-index: 2; }
+.ticker-track { display: flex; animation: ticker 35s linear infinite; width: max-content; }
+.ticker-item { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--navy-deep); white-space: nowrap; padding: 0 40px; display: flex; align-items: center; gap: 16px; }
+.ticker-item::before { content: '★'; font-size: 8px; }
+@keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* === SECTIONS === */
+.section { padding: 100px 40px; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-overline { font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.section-headline { font-family: 'Instrument Serif', serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px; }
+.section-headline em { font-style: italic; color: var(--gold); }
+.section-desc { font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 640px; }
+
+/* === PAIN POINTS === */
+.pain-section { background: var(--white); }
+.pain-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+.pain-card { border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; overflow: hidden; transition: all 0.4s ease; }
+.pain-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.pain-top { padding: 32px 28px; background: rgba(178,34,52,0.03); border-bottom: 1px solid rgba(178,34,52,0.08); }
+.pain-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+.pain-top h3 { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--navy); line-height: 1.3; }
+.pain-bottom { padding: 28px; }
+.pain-solution-label { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+.pain-solution-box { background: var(--green-light); border: 1px solid rgba(46,125,50,0.15); border-radius: 8px; padding: 20px; }
+.pain-solution-box p { font-size: 14px; color: var(--text-dark); line-height: 1.6; }
+.pain-solution-box .sol-highlight { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--green); display: block; margin-bottom: 8px; }
+
+/* === VALUE PROPS === */
+.value-section { background: var(--navy-deep); color: var(--white); position: relative; overflow: hidden; }
+.value-section::before { content: ''; position: absolute; top: 0; right: 0; width: 600px; height: 600px; background: radial-gradient(circle, rgba(197,164,78,0.04) 0%, transparent 70%); pointer-events: none; }
+.value-section .section-headline { color: var(--white); }
+.value-section .section-desc { color: rgba(255,255,255,0.5); }
+.value-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 48px; }
+.value-card { background: linear-gradient(180deg, rgba(17,34,64,0.8) 0%, rgba(10,22,40,0.6) 100%); border: 1px solid rgba(197,164,78,0.08); border-radius: 12px; padding: 0; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; }
+.value-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0; transition: opacity 0.4s ease; }
+.value-card:hover { border-color: rgba(197,164,78,0.3); transform: translateY(-6px); box-shadow: 0 16px 48px rgba(197,164,78,0.08); }
+.value-card:hover::before { opacity: 1; }
+.value-card .vc-inner { padding: 40px 28px 32px; }
+.value-card .vc-icon-wrap { width: 52px; height: 52px; border-radius: 50%; background: rgba(197,164,78,0.06); border: 1px solid rgba(197,164,78,0.15); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; transition: all 0.4s ease; }
+.value-card:hover .vc-icon-wrap { background: rgba(197,164,78,0.12); border-color: rgba(197,164,78,0.3); transform: scale(1.1); }
+.value-card .vc-icon-wrap svg { opacity: 0.8; transition: opacity 0.4s ease; }
+.value-card:hover .vc-icon-wrap svg { opacity: 1; }
+.value-card .vc-num { font-family: 'Instrument Serif', serif; font-size: 48px; color: var(--gold); line-height: 1; margin-bottom: 10px; }
+.value-card .vc-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.55); margin-bottom: 14px; }
+.value-card .vc-desc { font-size: 13px; color: rgba(255,255,255,0.38); line-height: 1.6; }
+.value-card .vc-source { padding: 12px 28px; background: rgba(0,0,0,0.15); border-top: 1px solid rgba(197,164,78,0.06); font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(197,164,78,0.35); }
+
+/* ================================================ */
+/* === TECHNOLOGY TOPOLOGY DIAGRAM === */
+/* ================================================ */
+.topo-section { background: var(--navy-deep); position: relative; overflow: hidden; padding: 120px 40px; }
+.topo-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(17,34,64,0.6), var(--navy-deep) 70%); }
+.topo-inner { position: relative; z-index: 2; max-width: 1400px; margin: 0 auto; }
+.topo-header { text-align: center; margin-bottom: 60px; }
+.topo-header .section-headline { color: var(--white); }
+.topo-header .section-desc { color: rgba(255,255,255,0.5); margin: 0 auto; }
+
+/* 3-panel layout: QB View | TETRA Hub | iPhone */
+.topo-stage { display: grid; grid-template-columns: 280px 1fr 260px; gap: 32px; align-items: center; min-height: 680px; position: relative; }
+.topo-stage-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+
+/* Flow arrows between panels */
+.topo-flow-label { position: absolute; z-index: 15; font-size: 9px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(197,164,78,0.5); white-space: nowrap; }
+
+/* ---- LEFT: QB View (EMR mockup) ---- */
+.qb-device { position: relative; z-index: 10; }
+.qb-monitor { background: #1a1a2e; border-radius: 12px; border: 2px solid rgba(255,255,255,0.08); overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03); }
+.qb-monitor-bar { background: rgba(255,255,255,0.04); padding: 8px 14px; display: flex; align-items: center; gap: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+.qb-monitor-dot { width: 7px; height: 7px; border-radius: 50%; }
+.qb-monitor-dot.r { background: #ff5f57; }
+.qb-monitor-dot.y { background: #febc2e; }
+.qb-monitor-dot.g { background: #28c840; }
+.qb-monitor-title { font-size: 9px; color: rgba(255,255,255,0.3); letter-spacing: 1px; margin-left: 8px; }
+.qb-screen { display: grid; grid-template-columns: 1fr 130px; min-height: 440px; }
+.qb-ehr-pane { padding: 16px; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.04); }
+.qb-ehr-header { font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.2); margin-bottom: 12px; }
+.qb-ehr-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.qb-ehr-field { flex: 1; height: 8px; background: rgba(255,255,255,0.04); border-radius: 2px; }
+.qb-ehr-field.w60 { flex: 0.6; }
+.qb-ehr-field.w40 { flex: 0.4; }
+.qb-ehr-block { height: 36px; background: rgba(255,255,255,0.03); border-radius: 4px; margin: 10px 0; }
+.qb-ehr-divider { height: 1px; background: rgba(255,255,255,0.04); margin: 12px 0; }
+
+/* QB Sidebar */
+.qb-sidebar { background: rgba(197,164,78,0.04); border-left: 2px solid rgba(197,164,78,0.2); padding: 12px 10px; display: flex; flex-direction: column; gap: 8px; position: relative; }
+.qb-sidebar-glow { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(197,164,78,0.03), transparent); pointer-events: none; }
+.qb-sidebar-hdr { display: flex; align-items: center; gap: 5px; margin-bottom: 4px; }
+.qb-sidebar-logo { width: 18px; height: 18px; border-radius: 4px; background: var(--gold); display: flex; align-items: center; justify-content: center; font-family: 'Instrument Serif', serif; font-size: 8px; color: var(--navy-deep); font-weight: 700; line-height: 1; }
+.qb-sidebar-title { font-size: 8px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gold); }
+.qb-action { background: rgba(6,14,26,0.5); border: 1px solid rgba(197,164,78,0.1); border-radius: 6px; padding: 8px; transition: all 0.3s ease; opacity: 0; animation: qbSlideIn 0.4s ease forwards; }
+.qb-action:hover { border-color: rgba(197,164,78,0.3); }
+.qb-action-num { font-size: 7px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 3px; }
+.qb-action-num.priority { color: #ef5350; }
+.qb-action-num.coding { color: #42A5F5; }
+.qb-action-num.gap { color: #66BB6A; }
+.qb-action-num.awv { color: #FFB74D; }
+.qb-action-text { font-size: 9px; color: rgba(255,255,255,0.6); line-height: 1.3; }
+.qb-action-btn { display: inline-block; margin-top: 4px; padding: 2px 6px; background: rgba(197,164,78,0.12); border-radius: 3px; font-size: 7px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase; color: var(--gold); }
+@keyframes qbSlideIn { from { opacity: 0; transform: translateX(-6px); } to { opacity: 1; transform: translateX(0); } }
+.qb-stand { width: 60px; height: 12px; background: rgba(255,255,255,0.04); margin: 0 auto; border-radius: 0 0 6px 6px; }
+.qb-device-label { text-align: center; margin-top: 16px; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(197,164,78,0.5); }
+.qb-device-sublabel { text-align: center; font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+/* ---- CENTER: TETRA Hub ---- */
+.topo-hub { position: relative; z-index: 5; display: flex; align-items: center; justify-content: center; min-height: 600px; }
+.topo-hub-canvas { position: absolute; inset: 0; z-index: 1; }
+
+/* Orbit rings */
+.topo-orbit { position: absolute; border-radius: 50%; border: 1px solid rgba(197,164,78,0.06); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; }
+.topo-orbit.r1 { width: 180px; height: 180px; }
+.topo-orbit.r2 { width: 320px; height: 320px; border-style: dashed; }
+.topo-orbit.r3 { width: 460px; height: 460px; }
+
+/* Center TETRA node */
+.topo-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 20; width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, rgba(17,34,64,0.98) 40%, rgba(6,14,26,0.95) 100%); border: 2px solid rgba(197,164,78,0.4); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: 0 0 60px rgba(197,164,78,0.08), 0 0 120px rgba(197,164,78,0.04); cursor: default; transition: box-shadow 0.4s ease; }
+.topo-center:hover { box-shadow: 0 0 80px rgba(197,164,78,0.15), 0 0 160px rgba(197,164,78,0.06); }
+.topo-center-ring { position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(197,164,78,0.15); animation: centerPulse 4s ease-in-out infinite; }
+@keyframes centerPulse { 0%, 100% { box-shadow: 0 0 15px rgba(197,164,78,0.05); } 50% { box-shadow: 0 0 30px rgba(197,164,78,0.12); } }
+.topo-center-label { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--gold); line-height: 1; }
+.topo-center-sub { font-size: 7px; letter-spacing: 2px; text-transform: uppercase; color: rgba(197,164,78,0.5); margin-top: 3px; }
+
+/* Mid-ring capability nodes */
+.topo-mid-node { position: absolute; z-index: 15; display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: default; transition: transform 0.3s ease; }
+.topo-mid-node:hover { transform: scale(1.1); }
+.topo-mid-dot { width: 44px; height: 44px; border-radius: 50%; background: rgba(10,22,40,0.85); border: 1.5px solid rgba(197,164,78,0.3); display: flex; align-items: center; justify-content: center; box-shadow: 0 0 16px rgba(197,164,78,0.06); transition: all 0.3s ease; }
+.topo-mid-node:hover .topo-mid-dot { border-color: rgba(197,164,78,0.6); box-shadow: 0 0 24px rgba(197,164,78,0.15); }
+.topo-mid-dot svg { width: 20px; height: 20px; fill: var(--gold); opacity: 0.8; }
+.topo-mid-label { font-size: 7px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(197,164,78,0.55); white-space: nowrap; background: rgba(6,14,26,0.8); padding: 2px 6px; border-radius: 3px; }
+
+/* Outer-ring system nodes */
+.topo-outer-node { position: absolute; z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: default; transition: transform 0.3s ease; }
+.topo-outer-node:hover { transform: scale(1.08); }
+.topo-outer-dot { width: 48px; height: 48px; border-radius: 10px; background: rgba(17,34,64,0.6); border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; backdrop-filter: blur(8px); }
+.topo-outer-node:hover .topo-outer-dot { border-color: rgba(197,164,78,0.3); background: rgba(17,34,64,0.8); }
+.topo-outer-dot svg { width: 22px; height: 22px; fill: rgba(255,255,255,0.5); }
+.topo-outer-node:hover .topo-outer-dot svg { fill: var(--gold); }
+.topo-outer-label { font-size: 8px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.3); white-space: nowrap; }
+.topo-outer-node:hover .topo-outer-label { color: var(--gold-light); }
+
+/* Topo tooltip */
+.topo-tooltip { position: absolute; z-index: 30; background: rgba(6,14,26,0.95); border: 1px solid rgba(197,164,78,0.3); border-radius: 8px; padding: 16px 20px; width: 220px; opacity: 0; visibility: hidden; transition: all 0.3s ease; pointer-events: none; box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+.topo-tooltip.visible { opacity: 1; visibility: visible; }
+.topo-tooltip h4 { font-family: 'Instrument Serif', serif; font-size: 15px; color: var(--gold); margin-bottom: 5px; }
+.topo-tooltip p { font-size: 11px; color: rgba(255,255,255,0.5); line-height: 1.5; }
+
+/* ---- RIGHT: iPhone Mockup ---- */
+.iphone-device { position: relative; z-index: 10; display: flex; flex-direction: column; align-items: center; }
+.iphone-frame { width: 240px; height: 500px; background: #0a0a0a; border-radius: 36px; border: 3px solid #2a2a2a; padding: 12px; position: relative; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.05), inset 0 0 0 1px rgba(255,255,255,0.03); }
+.iphone-notch { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 90px; height: 22px; background: #0a0a0a; border-radius: 0 0 14px 14px; z-index: 30; }
+.iphone-notch-cam { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 8px; height: 8px; border-radius: 50%; background: #1a1a2e; border: 1px solid #2a2a2a; }
+.iphone-screen { width: 100%; height: 100%; border-radius: 24px; background: var(--navy-deep); overflow: hidden; display: flex; flex-direction: column; }
+.iphone-statusbar { padding: 28px 16px 6px; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: rgba(255,255,255,0.5); font-weight: 600; flex-shrink: 0; }
+.iphone-app-header { padding: 8px 16px 12px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(197,164,78,0.1); flex-shrink: 0; }
+.iphone-app-icon { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--gold), #9A7B2E); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(197,164,78,0.3); }
+.iphone-app-icon .ip-logo { font-family: 'Instrument Serif', serif; font-size: 16px; font-weight: 700; color: var(--navy-deep); line-height: 1; }
+.iphone-app-name { font-family: 'Instrument Serif', serif; font-size: 16px; color: var(--white); }
+.iphone-app-sub { font-size: 8px; color: rgba(255,255,255,0.35); letter-spacing: 0.5px; }
+.iphone-feed { flex: 1; overflow: hidden; padding: 8px 12px; display: flex; flex-direction: column; gap: 6px; }
+.feed-item { padding: 10px; background: rgba(17,34,64,0.5); border: 1px solid rgba(255,255,255,0.04); border-radius: 10px; opacity: 0; animation: feedSlideIn 0.5s ease forwards; }
+.feed-item .fi-tag { font-size: 7px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-bottom: 3px; }
+.feed-item .fi-tag.wellness { background: rgba(46,125,50,0.15); color: #66BB6A; }
+.feed-item .fi-tag.rx { background: rgba(33,150,243,0.15); color: #42A5F5; }
+.feed-item .fi-tag.insight { background: rgba(197,164,78,0.15); color: var(--gold); }
+.feed-item .fi-tag.reward { background: rgba(255,183,77,0.15); color: #FFB74D; }
+.feed-item .fi-tag.care { background: rgba(171,71,188,0.15); color: #CE93D8; }
+.feed-item .fi-text { font-size: 10px; color: rgba(255,255,255,0.6); line-height: 1.35; }
+@keyframes feedSlideIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.iphone-home-bar { flex-shrink: 0; padding: 6px 0 4px; display: flex; justify-content: center; }
+.iphone-home-bar-line { width: 100px; height: 4px; background: rgba(255,255,255,0.15); border-radius: 2px; }
+.iphone-device-label { text-align: center; margin-top: 20px; font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(197,164,78,0.5); }
+.iphone-device-sublabel { text-align: center; font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+/* Legend */
+.topo-legend { display: flex; justify-content: center; gap: 32px; margin-top: 48px; flex-wrap: wrap; }
+.topo-legend-item { display: flex; align-items: center; gap: 10px; }
+.topo-legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+.topo-legend-dot.ext { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.2); border-radius: 3px; }
+.topo-legend-dot.cap { background: rgba(10,22,40,0.85); border: 1.5px solid rgba(197,164,78,0.4); }
+.topo-legend-dot.hub { background: var(--gold); }
+.topo-legend-dot.qb { background: transparent; border: 2px solid rgba(197,164,78,0.3); border-radius: 3px; width: 14px; height: 10px; }
+.topo-legend-dot.phone { background: #0a0a0a; border: 2px solid #2a2a2a; border-radius: 4px; width: 10px; height: 14px; }
+.topo-legend-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+
+/* === TIERS SECTION === */
+.tiers-section { background: var(--cream); }
+.tiers-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-bottom: 60px; }
+.tiers-promise { background: var(--white); border: 2px solid rgba(197,164,78,0.2); border-radius: 12px; padding: 40px; text-align: center; }
+.tiers-promise .tp-amount { font-family: 'Instrument Serif', serif; font-size: 64px; color: var(--gold); line-height: 1; }
+.tiers-promise .tp-label { font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-top: 8px; }
+.tiers-promise .tp-desc { font-size: 14px; color: var(--text-muted); margin-top: 12px; line-height: 1.6; }
+.tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.tier-card { background: var(--white); border: 1px solid rgba(0,0,0,0.06); border-radius: 12px; padding: 40px 32px; position: relative; overflow: hidden; transition: all 0.4s ease; }
+.tier-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gold); transform: scaleX(0); transition: transform 0.4s ease; }
+.tier-card:hover::before { transform: scaleX(1); }
+.tier-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.tier-card.featured { border-color: rgba(197,164,78,0.3); }
+.tier-card.featured::before { transform: scaleX(1); }
+.tier-badge { position: absolute; top: 16px; right: 16px; font-size: 9px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; background: var(--gold); color: var(--navy-deep); border-radius: 12px; }
+.tier-name { font-family: 'Instrument Serif', serif; font-size: 24px; color: var(--navy); margin-bottom: 4px; }
+.tier-profile { font-size: 12px; color: var(--text-muted); margin-bottom: 20px; }
+.tier-split { display: flex; gap: 16px; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.tier-split-item { flex: 1; text-align: center; padding: 12px; border-radius: 8px; }
+.tier-split-item.provider { background: rgba(46,125,50,0.06); }
+.tier-split-item.inpursuit { background: rgba(197,164,78,0.06); }
+.tier-split-num { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--navy); }
+.tier-split-label { font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); }
+.tier-features { list-style: none; margin-bottom: 24px; }
+.tier-features li { font-size: 13px; color: var(--text-dark); padding: 8px 0; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(0,0,0,0.03); }
+.tier-features li .check { color: var(--green); font-weight: 700; font-size: 14px; flex-shrink: 0; }
+.tier-features li .dash { color: var(--text-muted); font-size: 14px; flex-shrink: 0; }
+.tier-best { font-size: 12px; color: var(--text-muted); font-style: italic; margin-bottom: 20px; padding: 12px; background: rgba(0,0,0,0.02); border-radius: 6px; }
+
+/* === CALCULATOR === */
+.calc-section { background: var(--navy-deep); position: relative; overflow: hidden; }
+.calc-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 30%, rgba(197,164,78,0.04), transparent 60%); }
+.calc-section .section-headline { color: var(--white); }
+.calc-section .section-desc { color: rgba(255,255,255,0.5); }
+.calc-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 48px; position: relative; z-index: 2; }
+.calc-form { background: rgba(17,34,64,0.6); border: 1px solid rgba(197,164,78,0.1); border-radius: 12px; padding: 40px; }
+.calc-form label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px; margin-top: 24px; }
+.calc-form label:first-child { margin-top: 0; }
+.calc-form input[type="number"], .calc-form select { width: 100%; padding: 14px 16px; background: rgba(6,14,26,0.6); border: 1px solid rgba(197,164,78,0.15); border-radius: 6px; color: var(--white); font-size: 16px; font-family: 'Instrument Sans', sans-serif; transition: border-color 0.3s ease; outline: none; }
+.calc-form input:focus, .calc-form select:focus { border-color: var(--gold); }
+.calc-form select option { background: var(--navy-deep); color: var(--white); }
+.calc-checkbox-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+.calc-check { display: flex; align-items: flex-start; gap: 8px; font-size: 12px; color: rgba(255,255,255,0.45); cursor: pointer; padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(197,164,78,0.06); transition: all 0.2s ease; line-height: 1.3; letter-spacing: 0; text-transform: none; font-weight: 400; margin: 0; }
+.calc-check:hover { background: rgba(197,164,78,0.04); border-color: rgba(197,164,78,0.12); color: rgba(255,255,255,0.6); }
+.calc-check input[type="checkbox"] { accent-color: var(--gold); margin-top: 2px; flex-shrink: 0; width: 14px; height: 14px; }
+.calc-slider-row { display: flex; align-items: center; gap: 16px; }
+.calc-slider-row input[type="range"] { flex: 1; -webkit-appearance: none; height: 4px; background: rgba(197,164,78,0.2); border-radius: 2px; outline: none; }
+.calc-slider-row input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: var(--gold); cursor: pointer; border: 3px solid var(--navy-deep); }
+.calc-slider-val { font-family: 'Instrument Serif', serif; font-size: 24px; color: var(--gold); min-width: 60px; text-align: right; }
+.calc-results { background: rgba(17,34,64,0.6); border: 1px solid rgba(197,164,78,0.1); border-radius: 12px; padding: 40px; }
+.calc-results-title { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 24px; }
+.calc-big-num { font-family: 'Instrument Serif', serif; font-size: clamp(36px, 4vw, 56px); color: var(--gold); line-height: 1; margin-bottom: 8px; transition: all 0.3s ease; }
+.calc-big-label { font-size: 12px; color: rgba(255,255,255,0.4); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 24px; }
+.calc-meter { width: 100%; height: 8px; background: rgba(197,164,78,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 32px; }
+.calc-meter-fill { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-bright)); border-radius: 4px; transition: width 0.6s ease; }
+.calc-breakdown { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.calc-stat { padding: 16px; background: rgba(6,14,26,0.4); border-radius: 8px; }
+.calc-stat .cs-num { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--gold-light); }
+.calc-stat .cs-label { font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-top: 4px; }
+.calc-tier-badge { margin-top: 24px; padding: 16px; background: rgba(197,164,78,0.06); border: 1px solid rgba(197,164,78,0.15); border-radius: 8px; text-align: center; }
+.calc-tier-badge .ctb-label { font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 4px; }
+.calc-tier-badge .ctb-tier { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--gold); }
+.calc-disclaimer { font-size: 10px; color: rgba(255,255,255,0.2); margin-top: 16px; line-height: 1.5; }
+
+/* === TIMELINE === */
+.timeline-section { background: var(--white); }
+.timeline-grid { margin-top: 48px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; position: relative; }
+.timeline-grid::before { content: ''; position: absolute; top: 36px; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), rgba(197,164,78,0.2)); }
+.tl-step { text-align: center; padding: 0 12px; }
+.tl-dot { width: 20px; height: 20px; border-radius: 50%; background: var(--white); border: 3px solid var(--gold); margin: 26px auto 20px; position: relative; z-index: 2; transition: all 0.3s ease; }
+.tl-step:hover .tl-dot { background: var(--gold); transform: scale(1.3); }
+.tl-week { font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.tl-title { font-family: 'Instrument Serif', serif; font-size: 16px; color: var(--navy); margin-bottom: 8px; }
+.tl-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+/* === PROOF === */
+.proof-section { background: var(--cream); }
+.proof-logo-row { display: flex; align-items: center; gap: 20px; margin-bottom: 28px; flex-wrap: wrap; }
+.proof-logo { height: 52px; width: auto; object-fit: contain; }
+.proof-logo-divider { font-size: 28px; color: var(--gold); opacity: 0.35; font-weight: 300; line-height: 1; }
+.proof-logo-ip { font-family: 'Instrument Serif', serif; font-size: 24px; color: var(--navy); letter-spacing: 0.5px; }
+.proof-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; margin-top: 48px; }
+.proof-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.proof-stat { background: var(--white); border: 1px solid rgba(0,0,0,0.06); border-radius: 10px; padding: 24px; text-align: center; transition: all 0.3s ease; }
+.proof-stat:hover { border-color: rgba(197,164,78,0.3); transform: translateY(-4px); }
+.proof-stat .ps-num { font-family: 'Instrument Serif', serif; font-size: 32px; color: var(--gold); }
+.proof-stat .ps-label { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-muted); margin-top: 4px; }
+
+/* === CTA === */
+.cta-section { background: var(--navy); text-align: center; padding: 100px 40px; position: relative; overflow: hidden; }
+.cta-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(197,164,78,0.06) 0%, transparent 60%); }
+.cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.cta-content h2 { font-family: 'Instrument Serif', serif; font-size: clamp(28px, 3.5vw, 44px); color: var(--white); line-height: 1.3; margin-bottom: 20px; }
+.cta-content p { font-size: 16px; color: rgba(255,255,255,0.5); line-height: 1.7; margin-bottom: 36px; }
+
+/* === FOOTER === */
+.site-footer { background: var(--navy-deep); border-top: 1px solid rgba(197,164,78,0.1); padding: 48px 40px 32px; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-wordmark { font-family: 'Instrument Serif', serif; font-size: 18px; color: var(--gold); letter-spacing: 1px; }
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+.footer-nav { display: flex; gap: 24px; margin-top: 24px; width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto; padding-top: 24px; border-top: 1px solid rgba(197,164,78,0.08); flex-wrap: wrap; }
+.footer-nav a { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.3s ease; }
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer { max-width: 1200px; margin: 24px auto 0; font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.6; }
+.footer-tagline { text-align: center; margin-top: 24px; font-family: 'Instrument Serif', serif; font-size: 13px; color: rgba(197,164,78,0.3); letter-spacing: 2px; }
+
+/* === SCROLL REVEAL === */
+.reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* === RESPONSIVE === */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-float-cards { height: 720px; }
+  .float-card { position: relative !important; top: auto !important; left: auto !important; right: auto !important; bottom: auto !important; transform: none !important; width: 100% !important; max-width: 280px; margin: 8px auto; animation: none !important; }
+  .stat-modal { padding: 32px 24px; }
+  .stat-modal .sm-num { font-size: 48px; }
+  .pain-grid { grid-template-columns: 1fr; }
+  .value-grid { grid-template-columns: repeat(2, 1fr); }
+  .calc-checkbox-grid { grid-template-columns: 1fr; }
+  .tiers-intro { grid-template-columns: 1fr; }
+  .tiers-grid { grid-template-columns: 1fr; }
+  .calc-layout { grid-template-columns: 1fr; }
+  .timeline-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .timeline-grid::before { display: none; }
+  .proof-layout { grid-template-columns: 1fr; }
+  .topo-stage { grid-template-columns: 1fr; gap: 48px; }
+  .topo-hub { min-height: 400px; }
+  .qb-device, .iphone-device { margin: 0 auto; }
+}
+@media (max-width: 768px) {
+  .top-bar-inner { padding: 0 20px; }
+  .top-bar-nav { display: none; }
+  .nav-toggle { display: block; }
+  .top-bar-nav.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--navy-deep); border-bottom: 1px solid rgba(197,164,78,0.2); padding: 16px 0; }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .section { padding: 60px 20px; }
+  .hero-inner { padding: 40px 20px; }
+  .value-grid { grid-template-columns: 1fr; }
+  .timeline-grid { grid-template-columns: repeat(2, 1fr); }
+  .calc-breakdown { grid-template-columns: 1fr; }
+  .topo-section { padding: 60px 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader"><div class="preloader-wordmark">InPursuit Health</div></div>
+
+<!-- Top Bar -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a class="top-bar-brand" href="index.html">
+        <div class="top-bar-wordmark">InPursuit Health</div>
+      </a>
+      <span style="color: rgba(255,255,255,0.4); margin: 0 4px;">|</span>
+      <a href="maha.html" style="font-size: 13px; color: var(--white); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap; font-weight: 500;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white)'">MAHA Policy Alignment</a>
+    </div>
+    <nav class="top-bar-nav" id="topNav">
+      <a class="nav-item" href="day-in-the-life-patient.html">For You</a>
+      <a class="nav-item active" href="for-providers.html">For Providers</a>
+      <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
+      <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="heroParticles"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge"><span class="pulse"></span> Value-Based Care — The Industry Is Moving. Move With It.</div>
+      <p class="hero-overline">For Providers Who Want More Revenue</p>
+      <h1>76% of health systems are moving to <em>value-based care.</em><br>Where's <em>your</em> practice?</h1>
+      <p class="hero-sub">The industry is shifting — and providers who move now capture new monthly CMS payments for managing chronic conditions they're already treating. The ones who wait get left behind. InPursuit handles the technology, implementation, and compliance. It costs you nothing.</p>
+      <div class="hero-ctas">
+        <a class="btn-gold" href="#calculator">Calculate Your VBC Revenue →</a>
+        <a class="btn-outline" href="#technology">See the Technology</a>
+      </div>
+    </div>
+    <div class="hero-float-cards">
+      <div class="float-card" style="width: 220px;" onclick="openStatModal(0)">
+        <div class="fc-num">76%</div>
+        <div class="fc-label">of C-Suites Moving to VBC</div>
+        <div class="fc-expand-hint">Read more →</div>
+      </div>
+      <div class="float-card" style="width: 220px;" onclick="openStatModal(1)">
+        <div class="fc-num">32%</div>
+        <div class="fc-label">Fewer Hospitalizations</div>
+        <div class="fc-expand-hint">Read more →</div>
+      </div>
+      <div class="float-card" style="width: 220px;" onclick="openStatModal(2)">
+        <div class="fc-num">2:1</div>
+        <div class="fc-label">Paperwork vs. Patients</div>
+        <div class="fc-expand-hint">Read more →</div>
+      </div>
+      <div class="float-card" style="width: 220px;" onclick="openStatModal(3)">
+        <div class="fc-num">$0</div>
+        <div class="fc-label">Your Investment</div>
+        <div class="fc-expand-hint">Read more →</div>
+      </div>
+      <div class="float-card fc-tech" style="width: 240px;" onclick="openStatModal(4)">
+        <div class="fc-num">81%</div>
+        <div class="fc-label">Saw VBC Contracts Grow with Tech</div>
+        <div class="fc-expand-hint">Read more →</div>
+      </div>
+    </div>
+
+    <!-- Stat Detail Modal -->
+    <div class="stat-modal-overlay" id="statModalOverlay" onclick="closeStatModal(event)">
+      <div class="stat-modal" id="statModal">
+        <button class="stat-modal-close" onclick="closeStatModal(event, true)">&times;</button>
+        <div class="sm-num" id="smNum"></div>
+        <div class="sm-label" id="smLabel"></div>
+        <div class="sm-body" id="smBody"></div>
+        <div class="sm-divider"></div>
+        <div class="sm-source">Source: <span class="sm-source-name" id="smSource"></span></div>
+        <div class="sm-takeaway">
+          <div class="sm-takeaway-label">What This Means for Your Practice</div>
+          <div class="sm-takeaway-text" id="smTakeaway"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Ticker -->
+<div class="gold-ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">76% of Health Systems Moving to VBC</span>
+    <span class="ticker-item">32% Fewer Hospitalizations</span>
+    <span class="ticker-item">$11B Saved by VBC in 2023</span>
+    <span class="ticker-item">Zero Cost to Providers</span>
+    <span class="ticker-item">81% Saw VBC Contracts Grow</span>
+    <span class="ticker-item">Embeds in Your Existing EHR</span>
+    <span class="ticker-item">Physicians Spend 2x More on Paperwork Than Patients</span>
+    <span class="ticker-item">93% of Providers Increasing AI Usage</span>
+    <span class="ticker-item">76% of Health Systems Moving to VBC</span>
+    <span class="ticker-item">32% Fewer Hospitalizations</span>
+    <span class="ticker-item">$11B Saved by VBC in 2023</span>
+    <span class="ticker-item">Zero Cost to Providers</span>
+    <span class="ticker-item">81% Saw VBC Contracts Grow</span>
+    <span class="ticker-item">Embeds in Your Existing EHR</span>
+    <span class="ticker-item">Physicians Spend 2x More on Paperwork Than Patients</span>
+    <span class="ticker-item">93% of Providers Increasing AI Usage</span>
+  </div>
+</div>
+
+<!-- Pain Points -->
+<section class="section pain-section" id="barriers">
+  <div class="section-inner">
+    <p class="section-overline reveal">The Technology Gap</p>
+    <h2 class="section-headline reveal">The biggest barrier to VBC isn't <em>clinical.</em> It's <em>technical.</em></h2>
+    <p class="section-desc reveal">NAACOS and Innovaccer's 2025 survey found that technology costs, interoperability, and lack of IT staff are the top barriers holding providers back from VBC. Sound familiar? That's exactly what we eliminate.</p>
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-top">
+          <div class="pain-label">Barrier 01</div>
+          <h3>No Budget for New Technology</h3>
+        </div>
+        <div class="pain-bottom">
+          <div class="pain-solution-label">InPursuit Solution</div>
+          <div class="pain-solution-box">
+            <span class="sol-highlight">$0</span>
+            <p>No implementation fees. No per-seat licenses. No monthly SaaS charges. InPursuit earns when you earn — through revenue sharing on outcome-based payments.</p>
+          </div>
+        </div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-top">
+          <div class="pain-label">Barrier 02</div>
+          <h3>No IT Staff or Integration Resources</h3>
+        </div>
+        <div class="pain-bottom">
+          <div class="pain-solution-label">InPursuit Solution</div>
+          <div class="pain-solution-box">
+            <span class="sol-highlight">4–6 Weeks</span>
+            <p>White-glove deployment that embeds directly in your existing EHR — eClinicalWorks, Epic, Cerner, Athena — or works as a standalone system. No IT team required.</p>
+          </div>
+        </div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-top">
+          <div class="pain-label">Barrier 03</div>
+          <h3>No Time for Complexity</h3>
+        </div>
+        <div class="pain-bottom">
+          <div class="pain-solution-label">InPursuit Solution</div>
+          <div class="pain-solution-box">
+            <span class="sol-highlight">Your EHR</span>
+            <p>Everything happens inside your existing workflow. A simple sidebar shows the top 3 actions for each patient. Coding nudges, care gap alerts, and one-click actions — no new platform to learn.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Value Props -->
+<section class="section value-section" id="value">
+  <div class="section-inner">
+    <p class="section-overline reveal">The Industry Is Moving</p>
+    <h2 class="section-headline reveal">The data is clear. <em>Value-based care works.</em></h2>
+    <p class="section-desc reveal">These aren't our numbers — they're from Humana, CMS, NAACOS, and the AMA. The providers who embrace outcome-based care make more money, see better results, and spend less time on paperwork. InPursuit makes it possible.</p>
+    <div class="value-grid">
+      <div class="value-card reveal">
+        <div class="vc-inner">
+          <div class="vc-icon-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg></div>
+          <div class="vc-num">64%</div>
+          <div class="vc-label">Expect Higher VBC Revenue</div>
+          <div class="vc-desc">Nearly two-thirds of healthcare organizations expect higher revenue from value-based care this year vs. last. The revenue is real — and growing.</div>
+        </div>
+        <div class="vc-source">NAACOS / Innovaccer 2025</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="vc-inner">
+          <div class="vc-icon-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+          <div class="vc-num">32%</div>
+          <div class="vc-label">Fewer Hospitalizations</div>
+          <div class="vc-desc">VBC patients have 32% fewer hospital admissions and 12% fewer ER visits. Better outcomes unlock higher CMS payments for your practice.</div>
+        </div>
+        <div class="vc-source">Humana VBC Report 2025</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="vc-inner">
+          <div class="vc-icon-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="vc-num">49%</div>
+          <div class="vc-label">of Your Day in the EHR</div>
+          <div class="vc-desc">Only 27% is spent with patients. Our AI automates documentation, coding, outreach, and reporting — giving you hours back every day.</div>
+        </div>
+        <div class="vc-source">AMA / EvidenceCare</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="vc-inner">
+          <div class="vc-icon-wrap"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+          <div class="vc-num">$11B</div>
+          <div class="vc-label">Saved by VBC in 2023</div>
+          <div class="vc-desc">Humana's VBC arrangements saved $11 billion in medical costs — 25.8% lower than Original Medicare. The system rewards outcomes.</div>
+        </div>
+        <div class="vc-source">Humana Annual Report 2023</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== -->
+<!-- TECHNOLOGY TOPOLOGY DIAGRAM -->
+<!-- ============================================== -->
+<section class="topo-section" id="technology">
+  <div class="topo-inner">
+    <div class="topo-header reveal">
+      <p class="section-overline">Technology Architecture</p>
+      <h2 class="section-headline">One orchestration layer. <em>Two powerful outputs.</em></h2>
+      <p class="section-desc">TETRA sits at the center — connecting EHRs, payers, labs, pharmacies, and wearables. Providers get the Quarterback View inside their existing EMR. Patients get a personalized health and wellness feed on their phone.</p>
+    </div>
+
+    <div class="topo-stage" id="topoStage">
+      <canvas class="topo-stage-canvas" id="topoStageCanvas"></canvas>
+
+      <!-- ====== LEFT: QB VIEW (EMR Mockup) ====== -->
+      <div class="qb-device reveal">
+        <div class="qb-monitor">
+          <div class="qb-monitor-bar">
+            <div class="qb-monitor-dot r"></div>
+            <div class="qb-monitor-dot y"></div>
+            <div class="qb-monitor-dot g"></div>
+            <span class="qb-monitor-title">eClinicalWorks — Patient Chart</span>
+          </div>
+          <div class="qb-screen">
+            <!-- Fake EHR pane -->
+            <div class="qb-ehr-pane">
+              <div class="qb-ehr-header">Patient: Margaret Johnson, 68F</div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field w60"></div><div class="qb-ehr-field w40"></div></div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field"></div></div>
+              <div class="qb-ehr-block"></div>
+              <div class="qb-ehr-divider"></div>
+              <div class="qb-ehr-header">Conditions</div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field w40"></div><div class="qb-ehr-field w60"></div></div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field w60"></div><div class="qb-ehr-field w40"></div></div>
+              <div class="qb-ehr-block"></div>
+              <div class="qb-ehr-divider"></div>
+              <div class="qb-ehr-header">Medications</div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field"></div></div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field w40"></div><div class="qb-ehr-field w60"></div></div>
+              <div class="qb-ehr-block"></div>
+              <div class="qb-ehr-divider"></div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field w60"></div><div class="qb-ehr-field w40"></div></div>
+              <div class="qb-ehr-row"><div class="qb-ehr-field"></div></div>
+            </div>
+            <!-- Honeycomb QB Sidebar -->
+            <div class="qb-sidebar" id="qbSidebar">
+              <div class="qb-sidebar-glow"></div>
+              <div class="qb-sidebar-hdr">
+                <div class="qb-sidebar-logo">IP</div>
+                <span class="qb-sidebar-title">QB View</span>
+              </div>
+              <div id="qbActions"></div>
+            </div>
+          </div>
+        </div>
+        <div class="qb-stand"></div>
+        <div class="qb-device-label">Provider Quarterback View</div>
+        <div class="qb-device-sublabel">Embedded inside your existing EMR</div>
+      </div>
+
+      <!-- ====== CENTER: TETRA Hub + Nodes ====== -->
+      <div class="topo-hub" id="topoHub">
+        <canvas class="topo-hub-canvas" id="topoCanvas"></canvas>
+
+        <div class="topo-orbit r1"></div>
+        <div class="topo-orbit r2"></div>
+        <div class="topo-orbit r3"></div>
+
+        <div class="topo-center" id="topoCenter">
+          <div class="topo-center-ring"></div>
+          <div class="topo-center-label">TETRA</div>
+          <div class="topo-center-sub">Orchestration</div>
+        </div>
+
+        <!-- Mid-ring: Capabilities -->
+        <div class="topo-mid-node" data-info="AI Engine|Predictive analytics, care gap detection, HCC coding, and risk stratification." data-angle="30">
+          <div class="topo-mid-dot"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg></div>
+          <span class="topo-mid-label">AI Engine</span>
+        </div>
+        <div class="topo-mid-node" data-info="Interoperability|FHIR-native, TEFCA-compliant data exchange. 95% validated success rate." data-angle="102">
+          <div class="topo-mid-dot"><svg viewBox="0 0 24 24"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg></div>
+          <span class="topo-mid-label">Interop</span>
+        </div>
+        <div class="topo-mid-node" data-info="Analytics|Real-time dashboards, provider scorecards, AWV tracking, HCC completeness." data-angle="174">
+          <div class="topo-mid-dot"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></div>
+          <span class="topo-mid-label">Analytics</span>
+        </div>
+        <div class="topo-mid-node" data-info="Care Coordination|Chronic disease workflows, transitional care, RPM/CCM, care gap closure." data-angle="246">
+          <div class="topo-mid-dot"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <span class="topo-mid-label">Care Coord.</span>
+        </div>
+        <div class="topo-mid-node" data-info="Compliance|HIPAA, SOC 2, encryption. CMS documentation and outcome tracking automated." data-angle="318">
+          <div class="topo-mid-dot"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+          <span class="topo-mid-label">Compliance</span>
+        </div>
+
+        <!-- Outer ring: External Systems -->
+        <div class="topo-outer-node" data-info="Your EHR|eClinicalWorks, Epic, Cerner, Athena, or standalone." data-angle="0">
+          <div class="topo-outer-dot"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+          <span class="topo-outer-label">Your EHR</span>
+        </div>
+        <div class="topo-outer-node" data-info="CMS / Payers|ACCESS OAPs, ACO shared savings, bundled payments, quality reporting." data-angle="60">
+          <div class="topo-outer-dot"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+          <span class="topo-outer-label">CMS / Payers</span>
+        </div>
+        <div class="topo-outer-node" data-info="Labs|Real-time lab results and diagnostic data flow into patient records." data-angle="120">
+          <div class="topo-outer-dot"><svg viewBox="0 0 24 24"><path d="M7 2v11h3v9l7-12h-4l4-8z"/></svg></div>
+          <span class="topo-outer-label">Labs</span>
+        </div>
+        <div class="topo-outer-node" data-info="Pharmacy|Medication adherence, refill coordination, drug interaction alerts." data-angle="180">
+          <div class="topo-outer-dot"><svg viewBox="0 0 24 24"><path d="M6 3v2h12V3H6zm0 18h12v-2H6v2zm8-14H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8h-4v-2h4v2zm0-4h-4V9h4v2z"/></svg></div>
+          <span class="topo-outer-label">Pharmacy</span>
+        </div>
+        <div class="topo-outer-node" data-info="Wearables & RPM|Apple Watch, BP cuffs, glucose monitors — continuous patient data." data-angle="240">
+          <div class="topo-outer-dot"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+          <span class="topo-outer-label">Wearables</span>
+        </div>
+        <div class="topo-outer-node" data-info="HIE Networks|TEFCA-compliant connections for complete longitudinal records." data-angle="300">
+          <div class="topo-outer-dot"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/></svg></div>
+          <span class="topo-outer-label">HIE</span>
+        </div>
+
+        <!-- Tooltip -->
+        <div class="topo-tooltip" id="topoTooltip"><h4></h4><p></p></div>
+      </div>
+
+      <!-- ====== RIGHT: iPhone Mockup ====== -->
+      <div class="iphone-device reveal">
+        <div class="iphone-frame">
+          <div class="iphone-notch"><div class="iphone-notch-cam"></div></div>
+          <div class="iphone-screen">
+            <div class="iphone-statusbar">
+              <span>9:41</span>
+              <span>5G ▊▊▊</span>
+            </div>
+            <div class="iphone-app-header">
+              <div class="iphone-app-icon"><span class="ip-logo">IP</span></div>
+              <div>
+                <div class="iphone-app-name">InPursuit Health</div>
+                <div class="iphone-app-sub">Your Health Feed</div>
+              </div>
+            </div>
+            <div class="iphone-feed" id="feedItems"></div>
+            <div class="iphone-home-bar"><div class="iphone-home-bar-line"></div></div>
+          </div>
+        </div>
+        <div class="iphone-device-label">Patient Health Feed</div>
+        <div class="iphone-device-sublabel">Personalized wellness on the IP app</div>
+      </div>
+
+    </div>
+
+    <div class="topo-legend reveal">
+      <div class="topo-legend-item"><div class="topo-legend-dot qb"></div><div class="topo-legend-label">Provider QB View</div></div>
+      <div class="topo-legend-item"><div class="topo-legend-dot hub"></div><div class="topo-legend-label">TETRA Core</div></div>
+      <div class="topo-legend-item"><div class="topo-legend-dot cap"></div><div class="topo-legend-label">Capabilities</div></div>
+      <div class="topo-legend-item"><div class="topo-legend-dot ext"></div><div class="topo-legend-label">External Systems</div></div>
+      <div class="topo-legend-item"><div class="topo-legend-dot phone"></div><div class="topo-legend-label">Patient App</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Tier Section -->
+<section class="section tiers-section" id="tiers">
+  <div class="section-inner">
+    <p class="section-overline reveal">Flexible Engagement Tiers</p>
+    <h2 class="section-headline reveal">Your practice, your level of <em>support.</em></h2>
+    <div class="tiers-intro reveal">
+      <div>
+        <p class="section-desc">Every provider is different. Whether you need a complete turnkey solution or just the technology platform, InPursuit scales to fit. One thing stays constant: you never pay upfront.</p>
+      </div>
+      <div class="tiers-promise">
+        <div class="tp-amount">$0</div>
+        <div class="tp-label">Upfront Cost to Providers</div>
+        <div class="tp-desc">No implementation fees. No monthly SaaS. InPursuit earns when outcome-based payments flow.</div>
+      </div>
+    </div>
+    <div class="tiers-grid">
+      <!-- Tier 3 -->
+      <div class="tier-card reveal">
+        <div class="tier-name">Tier 3: Platform Only</div>
+        <div class="tier-profile">For practices with existing IT capability</div>
+        <div class="tier-split">
+          <div class="tier-split-item provider"><div class="tier-split-num">75%</div><div class="tier-split-label">Provider Keeps</div></div>
+          <div class="tier-split-item inpursuit"><div class="tier-split-num">25%</div><div class="tier-split-label">InPursuit</div></div>
+        </div>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> TETRA platform access</li>
+          <li><span class="check">✓</span> FHIR / TEFCA integrations</li>
+          <li><span class="check">✓</span> CMS reporting & compliance</li>
+          <li><span class="check">✓</span> Light technical support</li>
+          <li><span class="dash">—</span> Implementation services</li>
+          <li><span class="dash">—</span> Patient outreach automation</li>
+          <li><span class="dash">—</span> Dedicated success manager</li>
+        </ul>
+        <div class="tier-best">Best for: Health systems and large groups with internal IT departments.</div>
+        <a class="btn-outline" href="#calculator" style="width:100%;justify-content:center;">Estimate Revenue →</a>
+      </div>
+      <!-- Tier 2 -->
+      <div class="tier-card featured reveal">
+        <div class="tier-badge">Most Popular</div>
+        <div class="tier-name">Tier 2: Supported</div>
+        <div class="tier-profile">Platform + implementation + ongoing support</div>
+        <div class="tier-split">
+          <div class="tier-split-item provider"><div class="tier-split-num">70%</div><div class="tier-split-label">Provider Keeps</div></div>
+          <div class="tier-split-item inpursuit"><div class="tier-split-num">30%</div><div class="tier-split-label">InPursuit</div></div>
+        </div>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> Everything in Platform Only</li>
+          <li><span class="check">✓</span> Full 6-week implementation</li>
+          <li><span class="check">✓</span> EHR integration or standalone</li>
+          <li><span class="check">✓</span> Staff training & workflow setup</li>
+          <li><span class="check">✓</span> Ongoing technical support</li>
+          <li><span class="dash">—</span> Patient outreach automation</li>
+          <li><span class="dash">—</span> Application prep assistance</li>
+        </ul>
+        <div class="tier-best">Best for: Mid-size practices with some capability but need platform + support.</div>
+        <a class="btn-gold" href="#calculator" style="width:100%;justify-content:center;">Estimate Revenue →</a>
+      </div>
+      <!-- Tier 1 -->
+      <div class="tier-card reveal">
+        <div class="tier-name">Tier 1: Full Service</div>
+        <div class="tier-profile">Complete turnkey solution</div>
+        <div class="tier-split">
+          <div class="tier-split-item provider"><div class="tier-split-num">65%</div><div class="tier-split-label">Provider Keeps</div></div>
+          <div class="tier-split-item inpursuit"><div class="tier-split-num">35%</div><div class="tier-split-label">InPursuit</div></div>
+        </div>
+        <ul class="tier-features">
+          <li><span class="check">✓</span> Everything in Supported</li>
+          <li><span class="check">✓</span> Application prep & submission</li>
+          <li><span class="check">✓</span> Patient identification & enrollment</li>
+          <li><span class="check">✓</span> AI-powered outreach automation</li>
+          <li><span class="check">✓</span> Dedicated success manager</li>
+          <li><span class="check">✓</span> Continuous optimization</li>
+          <li><span class="check">✓</span> Leadership dashboards</li>
+        </ul>
+        <div class="tier-best">Best for: Small practices, rural clinics, and FQHCs with no IT staff.</div>
+        <a class="btn-outline" href="#calculator" style="width:100%;justify-content:center;">Estimate Revenue →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Calculator -->
+<section class="section calc-section" id="calculator">
+  <div class="section-inner">
+    <p class="section-overline reveal">The InPursuit Calculator</p>
+    <h2 class="section-headline reveal">What does VBC mean for <em>your practice?</em></h2>
+    <p class="section-desc reveal" style="color:rgba(255,255,255,0.5);">Four questions. Thirty seconds. See exactly what CMS outcome-based payments could mean for your bottom line — based on your real patient numbers.</p>
+    <div class="calc-layout reveal">
+      <div class="calc-form">
+        <label for="totalPatients">Total Patient Population</label>
+        <input type="number" id="totalPatients" value="22000" min="500" max="200000" step="500">
+
+        <label>Medicare Patient Percentage</label>
+        <div class="calc-slider-row">
+          <input type="range" id="medicareSlider" min="5" max="80" value="29">
+          <div class="calc-slider-val" id="medicareVal">29%</div>
+        </div>
+
+        <label for="ehrSystem">EHR / EMR System</label>
+        <select id="ehrSystem">
+          <option value="ecw">eClinicalWorks</option>
+          <option value="epic">Epic</option>
+          <option value="cerner">Cerner / Oracle Health</option>
+          <option value="athena">athenahealth</option>
+          <option value="nextgen">NextGen Healthcare</option>
+          <option value="allscripts">Allscripts / Veradigm</option>
+          <option value="drchrono">DrChrono</option>
+          <option value="practicefusion">Practice Fusion</option>
+          <option value="greenway">Greenway Health</option>
+          <option value="meditech">MEDITECH</option>
+          <option value="other_ehr">Other EHR</option>
+          <option value="paper">Paper-Based / Minimal EHR</option>
+          <option value="none_ehr">No EHR System</option>
+        </select>
+
+        <label for="billingSystem">Billing / Practice Management</label>
+        <select id="billingSystem">
+          <option value="integrated">Integrated with my EHR</option>
+          <option value="advancedmd">AdvancedMD</option>
+          <option value="kareo">Kareo / Tebra</option>
+          <option value="carecloud">CareCloud</option>
+          <option value="waystar">Waystar (Navicure)</option>
+          <option value="availity">Availity</option>
+          <option value="cureMD">CureMD</option>
+          <option value="rxnt">RXNT</option>
+          <option value="other_billing">Other Billing System</option>
+          <option value="manual">Manual / Paper Billing</option>
+          <option value="outsourced">Outsourced RCM</option>
+        </select>
+
+        <label for="otherSystems">Other Technology in Use <span style="font-size:9px; color:rgba(197,164,78,0.4); text-transform:none; letter-spacing:0; font-weight:400;">(select all that apply)</span></label>
+        <div class="calc-checkbox-grid" id="otherSystems">
+          <label class="calc-check"><input type="checkbox" value="telehealth"> Telehealth (Doxy.me, Zoom Health, Teladoc)</label>
+          <label class="calc-check"><input type="checkbox" value="pharmacy"> Pharmacy / e-Prescribe (Surescripts, RxNT)</label>
+          <label class="calc-check"><input type="checkbox" value="lab"> Lab Integration (Quest, LabCorp, in-house)</label>
+          <label class="calc-check"><input type="checkbox" value="rpm"> Remote Patient Monitoring / Wearables</label>
+          <label class="calc-check"><input type="checkbox" value="patportal"> Patient Portal / Engagement</label>
+          <label class="calc-check"><input type="checkbox" value="analytics"> Analytics / Population Health Tools</label>
+          <label class="calc-check"><input type="checkbox" value="hie"> Health Information Exchange / HIE</label>
+          <label class="calc-check"><input type="checkbox" value="none_other"> None of the above</label>
+        </div>
+
+        <label for="itCap">IT Capability</label>
+        <select id="itCap">
+          <option value="none">None — We need everything</option>
+          <option value="limited">Limited — Basic support only</option>
+          <option value="team">Small IT Team</option>
+          <option value="dept">Full IT Department</option>
+        </select>
+      </div>
+      <div class="calc-results">
+        <div class="calc-results-title">Your Projected Annual VBC Revenue</div>
+        <div class="calc-big-num" id="calcRevenue">$0</div>
+        <div class="calc-big-label">In new annual revenue — for patients you already see</div>
+        <div class="calc-meter"><div class="calc-meter-fill" id="calcMeter" style="width:0%"></div></div>
+        <div class="calc-breakdown">
+          <div class="calc-stat"><div class="cs-num" id="calcMedicare">0</div><div class="cs-label">Medicare Patients</div></div>
+          <div class="calc-stat"><div class="cs-num" id="calcEligible">0</div><div class="cs-label">VBC Eligible</div></div>
+          <div class="calc-stat"><div class="cs-num" id="calcPMPM">$47</div><div class="cs-label">Blended PMPM</div></div>
+          <div class="calc-stat"><div class="cs-num" id="calcOAP">$0</div><div class="cs-label">Total OAPs / Year</div></div>
+          <div class="calc-stat"><div class="cs-num" id="calcShare">30%</div><div class="cs-label">InPursuit Share</div></div>
+          <div class="calc-stat"><div class="cs-num" id="calcKeep">$0</div><div class="cs-label">You Keep</div></div>
+        </div>
+        <div class="calc-tier-badge">
+          <div class="ctb-label">Recommended Tier</div>
+          <div class="ctb-tier" id="calcTier">Tier 2: Supported</div>
+        </div>
+        <div class="calc-disclaimer">*Estimates based on $47 blended PMPM, 70% chronic condition prevalence among Medicare beneficiaries. Actual payments depend on CMS approval, patient enrollment, and clinical outcomes. This is not a guarantee of revenue.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Timeline -->
+<section class="section timeline-section" id="timeline">
+  <div class="section-inner">
+    <p class="section-overline reveal">Speed to Revenue</p>
+    <h2 class="section-headline reveal">Revenue flowing in 6 weeks. <em>Not 6 months.</em></h2>
+    <p class="section-desc reveal">Traditional health IT takes 6–18 months and costs $50K–$200K. We deploy in 6 weeks and it costs you nothing. Your first CMS payments can start within months of go-live.</p>
+    <div class="timeline-grid reveal">
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-week">Week 1</div><div class="tl-title">Discovery</div><div class="tl-desc">Patient data extract, workflow mapping, EHR assessment</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-week">Week 2</div><div class="tl-title">Configuration</div><div class="tl-desc">TETRA setup, clinical track mapping, user accounts</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-week">Week 3</div><div class="tl-title">Integration</div><div class="tl-desc">EHR connection or standalone setup, data validation</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-week">Week 4</div><div class="tl-title">Training</div><div class="tl-desc">Staff training, workflow walkthroughs, pilot testing</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-week">Week 5</div><div class="tl-title">Go-Live</div><div class="tl-desc">Launch with patient subset, real-time support</div></div>
+      <div class="tl-step"><div class="tl-dot"></div><div class="tl-week">Week 6</div><div class="tl-title">Optimization</div><div class="tl-desc">Refine workflows, expand enrollment, stabilize</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Proof -->
+<section class="section proof-section" id="proof">
+  <div class="section-inner">
+    <p class="section-overline reveal">It's Already Working</p>
+    <div class="proof-logo-row reveal">
+      <img src="https://sa1s3optim.patientpop.com/300x0/filters:format(png)/sc-assets/prd/practices/24038cf6-7b37-46ab-8b88-5a84fe9eaaf2/JK2r8VnVjSGy9-gnRd7Rn6r5s5LdM67jkcstO6jpvdYOr3kYJNx_DfvLxpXfzt4kxxpcRAQw-n0WbLDAVw1zZcIIElx0Cg.png" alt="Honeycomb Medical Group Logo" class="proof-logo" onerror="this.parentElement.innerHTML='<span style=\'font-family:Instrument Serif,serif;font-size:24px;color:var(--navy)\'>Honeycomb Medical Group</span><span class=proof-logo-divider>×</span><span class=proof-logo-ip>InPursuit Health</span>'">
+      <span class="proof-logo-divider">×</span>
+      <span class="proof-logo-ip">InPursuit Health</span>
+    </div>
+    <h2 class="section-headline reveal">Honeycomb Medical: <em>$2.3M in projected new revenue. $0 invested.</em></h2>
+    <div class="proof-layout reveal">
+      <div>
+        <p class="section-desc" style="max-width:none;">Honeycomb Medical Group in Tennessee took one look at InPursuit's model and signed. 22,000 patients. 6,400 on Medicare. An estimated $2.3 million in annual CMS payments — and they didn't write a single check to make it happen. That's the model.</p>
+        <p style="font-size:14px; color:var(--text-muted); margin-top:16px; line-height:1.6;">InPursuit embedded the Quarterback View directly inside Honeycomb's eClinicalWorks — top 3 actions per patient, HCC coding nudges, care gap alerts, one-click scheduling. Leadership gets real-time scorecards. 80% of patient outreach is now automated. No new platform. No disruption. Just results.</p>
+      </div>
+      <div class="proof-stats">
+        <div class="proof-stat"><div class="ps-num">22,000</div><div class="ps-label">Total Patients</div></div>
+        <div class="proof-stat"><div class="ps-num">6,400</div><div class="ps-label">Medicare Patients</div></div>
+        <div class="proof-stat"><div class="ps-num">4,000</div><div class="ps-label">VBC Target</div></div>
+        <div class="proof-stat"><div class="ps-num">$2.3M</div><div class="ps-label">Projected OAPs / Year</div></div>
+        <div class="proof-stat"><div class="ps-num">$0</div><div class="ps-label">Upfront to Honeycomb</div></div>
+        <div class="proof-stat"><div class="ps-num">Feb '26</div><div class="ps-label">LOI Signed</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="cta">
+  <div class="cta-content reveal">
+    <p class="section-overline">Get Started</p>
+    <h2>76% of your competitors are already moving.<br>The question is whether you'll lead or follow.</h2>
+    <p>Value-based care isn't coming — it's here. The providers who move now lock in new revenue streams, better outcomes, and less admin burden. InPursuit handles the technology, the implementation, and the compliance. You just have to say yes.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a class="btn-gold" href="#calculator">Calculate Your Revenue →</a>
+      <a class="btn-outline" href="contact.html">Talk to Our Team</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="tetra.html">TETRA</a>
+    <a href="day-in-the-life-patient.html">Patient Journey</a>
+    <a href="day-in-the-life-provider.html">Provider Solutions</a>
+    <a href="data-security-ai.html">AI &amp; Your Data</a>
+    <a href="maha.html">MAHA</a>
+    <a href="veterans-first.html">Veterans First</a>
+    <a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a>
+    <a href="leadership.html">Leadership</a>
+    <a href="security-center.html">Security Center</a>
+    <a href="contact.html">Contact</a>
+    <a href="careers.html">Careers</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+// ===== PRELOADER =====
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
+
+// ===== STAT MODAL =====
+const statData = [
+  {
+    num: '76%',
+    label: 'of C-Suites Are Moving to Value-Based Care',
+    body: 'A December 2025 survey by Sage Growth Partners found that <strong>over three-quarters of hospital and health system C-suite executives</strong> plan to increase their value-based care participation within the next one to two years — up from 57% in the prior survey. Only 1% expect a decline. The message is clear: the industry\'s top decision-makers are betting on outcome-based models, not fee-for-service. Free-text responses from executives pointed to <strong>higher potential upside</strong> and growing pressure from payers and demographic shifts pushing organizations toward greater risk.',
+    source: 'Sage Growth Partners C-Suite Survey, Fierce Healthcare (December 2025)',
+    takeaway: 'Your competitors aren\'t waiting. Three out of four health system leaders are actively expanding VBC participation. Providers who lack the technology infrastructure to participate will watch revenue shift to those who have it. InPursuit gives you that infrastructure at zero cost.'
+  },
+  {
+    num: '32%',
+    label: 'Fewer Hospitalizations Under VBC',
+    body: 'Humana\'s 2025 Value-Based Care Report — their 11th annual — found that Medicare Advantage patients in value-based care arrangements experienced <strong>32.1% fewer inpatient hospital admissions</strong> and <strong>11.6% fewer emergency department visits</strong> compared to Original Medicare. Patients also completed preventive screenings at a <strong>14.6% higher rate</strong>. The financial impact is staggering: Humana\'s VBC arrangements saved an estimated <strong>$11 billion in 2023 alone</strong> — 25.8% less than Original Medicare costs. These savings get reinvested into expanded benefits and better care.',
+    source: 'Humana 11th Annual Value-Based Care Report (November 2025)',
+    takeaway: 'Better outcomes aren\'t just good medicine — they\'re how you earn more under CMS payment models. Every prevented hospitalization and closed care gap directly increases your Outcome-Aligned Payments. InPursuit\'s AI flags at-risk patients before they end up in the ER.'
+  },
+  {
+    num: '2:1',
+    label: 'Paperwork vs. Patient Time',
+    body: 'Research published in the Annals of Internal Medicine found that <strong>physicians spend twice as much time on paperwork and EHR documentation as they do face-to-face with patients</strong>. A separate time-allocation study showed physicians spend <strong>49% of their day in the EHR</strong>, with only <strong>27% spent caring for patients</strong>. The American Medical Association found that 63% of physicians report burnout — and administrative tasks are the <strong>#1 cited cause</strong>. The Canadian Federation of Independent Business calculated that family physicians spend 18.5 million hours per year on admin — equivalent to 55.6 million lost patient visits.',
+    source: 'PMC / Annals of Internal Medicine; AMA Physician Burnout Survey; EvidenceCare',
+    takeaway: 'You didn\'t go to medical school to fill out forms. InPursuit\'s TETRA platform automates up to 80% of administrative tasks — coding recommendations, care gap alerts, patient outreach, quality reporting — all embedded inside your existing EHR. More time with patients, less time on paperwork.'
+  },
+  {
+    num: '$0',
+    label: 'Your Upfront Investment',
+    body: 'Most health IT implementations cost <strong>$50,000 to $200,000 upfront</strong> and take 6–18 months to deploy. InPursuit flips that model entirely. We charge <strong>zero implementation fees, zero monthly licenses, and zero SaaS subscriptions</strong>. Instead, we take a revenue share only when CMS Outcome-Aligned Payments flow to your practice. If you don\'t earn, we don\'t earn. Our full-service tier handles everything: the ACCESS application, platform deployment, EHR integration, patient identification, enrollment support, compliance reporting, and ongoing optimization.',
+    source: 'InPursuit Health ACCESS-as-a-Service Model',
+    takeaway: 'No budget approval needed. No capital outlay. No IT staff required. InPursuit deploys in 6 weeks and you start receiving new CMS payments for the chronic care you\'re already delivering. It\'s the only model where the technology partner shares your risk.'
+  },
+  {
+    num: '81%',
+    label: 'of Providers Saw VBC Contracts Grow',
+    body: 'The 2025 State of Technology in Value-Based Care Report — a national survey by Reveleer, Mathematica, and The Harris Poll of 203 payer and provider organizations — found that <strong>81% of providers saw their VBC contracts grow in the past 12 months</strong>, with <strong>83% forecasting even more growth ahead</strong>. The key enabler? Technology. Every organization surveyed now uses AI, with <strong>93% of providers increasing AI usage</strong> in the past year. And <strong>98% view AI as critical</strong> to VBC success. Yet <strong>75% cited lack of data interoperability</strong> as the biggest barrier to capturing that growth.',
+    source: 'Reveleer / Mathematica / Harris Poll — State of Technology in VBC (August 2025)',
+    takeaway: 'The providers who invested in VBC technology saw their contracts — and revenue — grow. The ones who didn\'t are falling behind. InPursuit is purpose-built for this moment: federally validated interoperability, AI-powered analytics, and a platform that solves the exact technology gap holding 75% of providers back.'
+  }
+];
+
+function openStatModal(index) {
+  const data = statData[index];
+  document.getElementById('smNum').textContent = data.num;
+  document.getElementById('smLabel').textContent = data.label;
+  document.getElementById('smBody').innerHTML = data.body;
+  document.getElementById('smSource').textContent = data.source;
+  document.getElementById('smTakeaway').textContent = data.takeaway;
+  document.getElementById('statModalOverlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeStatModal(event, forceClose) {
+  if (forceClose || event.target === document.getElementById('statModalOverlay')) {
+    document.getElementById('statModalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    document.getElementById('statModalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
+
+// ===== TOP BAR SCROLL =====
+window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
+
+// ===== MOBILE NAV =====
+document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
+
+// ===== HERO PARTICLES =====
+(function() {
+  const cont = document.getElementById('heroParticles');
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div');
+    p.className = 'hero-particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = Math.random() * 10 + 's';
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    cont.appendChild(p);
+  }
+})();
+
+// ===== SCROLL REVEAL =====
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ===== SMOOTH SCROLL =====
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 80, behavior: 'smooth' });
+  });
+});
+
+// ===== CALCULATOR =====
+(function() {
+  const PMPM = 47, CHRONIC = 0.70;
+  const els = {
+    total: document.getElementById('totalPatients'),
+    slider: document.getElementById('medicareSlider'),
+    sliderVal: document.getElementById('medicareVal'),
+    ehr: document.getElementById('ehrSystem'),
+    it: document.getElementById('itCap'),
+    revenue: document.getElementById('calcRevenue'),
+    meter: document.getElementById('calcMeter'),
+    medicare: document.getElementById('calcMedicare'),
+    eligible: document.getElementById('calcEligible'),
+    pmpm: document.getElementById('calcPMPM'),
+    oap: document.getElementById('calcOAP'),
+    share: document.getElementById('calcShare'),
+    keep: document.getElementById('calcKeep'),
+    tier: document.getElementById('calcTier')
+  };
+
+  function fmt(n) { return '$' + Math.round(n).toLocaleString(); }
+
+  function calc() {
+    const total = parseInt(els.total.value) || 0;
+    const pct = parseInt(els.slider.value) / 100;
+    const itCap = els.it.value;
+    els.sliderVal.textContent = Math.round(pct * 100) + '%';
+
+    const medicare = Math.round(total * pct);
+    const eligible = Math.round(medicare * CHRONIC);
+    const totalOAP = eligible * PMPM * 12;
+
+    let share, tierName;
+    if (itCap === 'dept' || itCap === 'team') { share = 0.25; tierName = 'Tier 3: Platform Only'; }
+    else if (itCap === 'limited') { share = 0.30; tierName = 'Tier 2: Supported'; }
+    else { share = 0.35; tierName = 'Tier 1: Full Service'; }
+
+    const providerKeep = totalOAP * (1 - share);
+    const meterPct = Math.min((providerKeep / 5000000) * 100, 100);
+
+    els.medicare.textContent = medicare.toLocaleString();
+    els.eligible.textContent = eligible.toLocaleString();
+    els.pmpm.textContent = '$' + PMPM;
+    els.oap.textContent = fmt(totalOAP);
+    els.share.textContent = Math.round(share * 100) + '%';
+    els.keep.textContent = fmt(providerKeep);
+    els.revenue.textContent = fmt(providerKeep);
+    els.meter.style.width = meterPct + '%';
+    els.tier.textContent = tierName;
+  }
+
+  [els.total, els.slider, els.ehr, els.it].forEach(el => el.addEventListener('input', calc));
+  calc();
+})();
+
+// ============================================
+// TECHNOLOGY TOPOLOGY — 3-Panel Diagram
+// ============================================
+(function() {
+  const hub = document.getElementById('topoHub');
+  const canvas = document.getElementById('topoCanvas');
+  const stageCanvas = document.getElementById('topoStageCanvas');
+  const ctx = canvas.getContext('2d');
+  const sCtx = stageCanvas.getContext('2d');
+  const tooltip = document.getElementById('topoTooltip');
+
+  // Position orbital nodes within the hub
+  function positionNodes() {
+    const rect = hub.getBoundingClientRect();
+    const w = rect.width;
+    const h = rect.height;
+    const cx = w / 2;
+    const cy = h / 2;
+    canvas.width = w;
+    canvas.height = h;
+
+    const midR = Math.min(w, h) * 0.18;
+    hub.querySelectorAll('.topo-mid-node').forEach(node => {
+      const angle = (parseFloat(node.dataset.angle) - 90) * Math.PI / 180;
+      node.style.left = (cx + Math.cos(angle) * midR) + 'px';
+      node.style.top = (cy + Math.sin(angle) * midR) + 'px';
+      node.style.transform = 'translate(-50%, -50%)';
+      node._cx = cx + Math.cos(angle) * midR;
+      node._cy = cy + Math.sin(angle) * midR;
+    });
+
+    const outerR = Math.min(w, h) * 0.35;
+    hub.querySelectorAll('.topo-outer-node').forEach(node => {
+      const angle = (parseFloat(node.dataset.angle) - 90) * Math.PI / 180;
+      node.style.left = (cx + Math.cos(angle) * outerR) + 'px';
+      node.style.top = (cy + Math.sin(angle) * outerR) + 'px';
+      node.style.transform = 'translate(-50%, -50%)';
+      node._cx = cx + Math.cos(angle) * outerR;
+      node._cy = cy + Math.sin(angle) * outerR;
+    });
+
+    // Orbit ring sizing
+    const r1 = midR * 2;
+    const r2 = (midR + outerR);
+    const r3 = outerR * 2 + 16;
+    hub.querySelector('.topo-orbit.r1').style.width = hub.querySelector('.topo-orbit.r1').style.height = r1 + 'px';
+    hub.querySelector('.topo-orbit.r2').style.width = hub.querySelector('.topo-orbit.r2').style.height = r2 + 'px';
+    hub.querySelector('.topo-orbit.r3').style.width = hub.querySelector('.topo-orbit.r3').style.height = r3 + 'px';
+
+    return { cx, cy, w, h };
+  }
+
+  let dims = positionNodes();
+  window.addEventListener('resize', () => {
+    dims = positionNodes();
+    resizeStageCanvas();
+  });
+
+  // Stage canvas for cross-panel flow lines
+  function resizeStageCanvas() {
+    const stage = document.getElementById('topoStage');
+    const sr = stage.getBoundingClientRect();
+    stageCanvas.width = sr.width;
+    stageCanvas.height = sr.height;
+  }
+  resizeStageCanvas();
+
+  // Data pulses within hub
+  const pulses = [];
+  function spawnPulse() {
+    const midNodes = hub.querySelectorAll('.topo-mid-node');
+    const outerNodes = hub.querySelectorAll('.topo-outer-node');
+    const allT = [...midNodes, ...outerNodes].filter(n => n._cx);
+    if (!allT.length) return;
+    const target = allT[Math.floor(Math.random() * allT.length)];
+    const r = Math.random();
+    let sx, sy, tx, ty;
+    if (r < 0.4) { sx = dims.cx; sy = dims.cy; tx = target._cx; ty = target._cy; }
+    else if (r < 0.7) {
+      const ms = [...midNodes].filter(n => n._cx);
+      const os = [...outerNodes].filter(n => n._cx);
+      if (ms.length && os.length) {
+        const s = ms[Math.floor(Math.random() * ms.length)];
+        const t = os[Math.floor(Math.random() * os.length)];
+        sx = s._cx; sy = s._cy; tx = t._cx; ty = t._cy;
+      } else { sx = dims.cx; sy = dims.cy; tx = target._cx; ty = target._cy; }
+    } else { tx = dims.cx; ty = dims.cy; sx = target._cx; sy = target._cy; }
+    pulses.push({ sx, sy, tx, ty, progress: 0, speed: 0.006 + Math.random() * 0.008 });
+  }
+  setInterval(spawnPulse, 800);
+
+  // Cross-panel flow pulses (TETRA → QB and TETRA → iPhone)
+  const crossPulses = [];
+  function spawnCrossPulse() {
+    const stage = document.getElementById('topoStage');
+    const sr = stage.getBoundingClientRect();
+    const hr = hub.getBoundingClientRect();
+    const hubCx = hr.left - sr.left + hr.width / 2;
+    const hubCy = hr.top - sr.top + hr.height / 2;
+
+    // To QB (left) or to iPhone (right)
+    const goLeft = Math.random() < 0.5;
+    if (goLeft) {
+      const qb = document.querySelector('.qb-device');
+      if (!qb) return;
+      const qr = qb.getBoundingClientRect();
+      const tx = qr.left - sr.left + qr.width * 0.8;
+      const ty = qr.top - sr.top + qr.height * 0.4 + Math.random() * qr.height * 0.3;
+      crossPulses.push({ sx: hubCx, sy: hubCy, tx, ty, progress: 0, speed: 0.004 + Math.random() * 0.004, color: 'gold' });
+    } else {
+      const ip = document.querySelector('.iphone-device');
+      if (!ip) return;
+      const ir = ip.getBoundingClientRect();
+      const tx = ir.left - sr.left + ir.width * 0.2;
+      const ty = ir.top - sr.top + ir.height * 0.3 + Math.random() * ir.height * 0.3;
+      crossPulses.push({ sx: hubCx, sy: hubCy, tx, ty, progress: 0, speed: 0.004 + Math.random() * 0.004, color: 'gold' });
+    }
+  }
+  setInterval(spawnCrossPulse, 1200);
+
+  // Animate hub canvas
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const midNodes = hub.querySelectorAll('.topo-mid-node');
+    const outerNodes = hub.querySelectorAll('.topo-outer-node');
+
+    // Center → mid lines
+    midNodes.forEach(n => {
+      if (!n._cx) return;
+      ctx.beginPath(); ctx.moveTo(dims.cx, dims.cy); ctx.lineTo(n._cx, n._cy);
+      ctx.strokeStyle = 'rgba(197,164,78,0.1)'; ctx.lineWidth = 1.5; ctx.stroke();
+    });
+
+    // Mid → outer (closest 2)
+    outerNodes.forEach(on => {
+      if (!on._cx) return;
+      let closest = [];
+      midNodes.forEach(mn => { if (mn._cx) closest.push({ n: mn, d: Math.hypot(on._cx - mn._cx, on._cy - mn._cy) }); });
+      closest.sort((a, b) => a.d - b.d);
+      closest.slice(0, 2).forEach(c => {
+        ctx.beginPath(); ctx.moveTo(c.n._cx, c.n._cy); ctx.lineTo(on._cx, on._cy);
+        ctx.strokeStyle = 'rgba(197,164,78,0.04)'; ctx.lineWidth = 1;
+        ctx.setLineDash([3, 5]); ctx.stroke(); ctx.setLineDash([]);
+      });
+    });
+
+    // Hub pulses
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const p = pulses[i]; p.progress += p.speed;
+      if (p.progress >= 1) { pulses.splice(i, 1); continue; }
+      const px = p.sx + (p.tx - p.sx) * p.progress;
+      const py = p.sy + (p.ty - p.sy) * p.progress;
+      const a = p.progress < 0.1 ? p.progress * 8 : p.progress > 0.85 ? (1 - p.progress) * 6 : 0.6;
+      ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(197,164,78,' + (a * 0.15) + ')'; ctx.fill();
+      ctx.beginPath(); ctx.arc(px, py, 2, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(197,164,78,' + a + ')'; ctx.fill();
+    }
+
+    // Stage canvas: cross-panel flow lines
+    sCtx.clearRect(0, 0, stageCanvas.width, stageCanvas.height);
+
+    // Draw static flow guide lines (hub → left, hub → right)
+    const stage = document.getElementById('topoStage');
+    const sr = stage.getBoundingClientRect();
+    const hr = hub.getBoundingClientRect();
+    const hubSx = hr.left - sr.left + hr.width / 2;
+    const hubSy = hr.top - sr.top + hr.height / 2;
+
+    const qb = document.querySelector('.qb-monitor');
+    const ip = document.querySelector('.iphone-frame');
+    if (qb && ip) {
+      const qr = qb.getBoundingClientRect();
+      const ir = ip.getBoundingClientRect();
+      const qbX = qr.right - sr.left;
+      const qbY = qr.top - sr.top + qr.height / 2;
+      const ipX = ir.left - sr.left;
+      const ipY = ir.top - sr.top + ir.height / 2;
+
+      // Guide: Hub → QB
+      sCtx.beginPath(); sCtx.moveTo(hubSx - hr.width * 0.4, hubSy); sCtx.lineTo(qbX + 8, qbY);
+      sCtx.strokeStyle = 'rgba(197,164,78,0.06)'; sCtx.lineWidth = 2;
+      sCtx.setLineDash([6, 8]); sCtx.stroke(); sCtx.setLineDash([]);
+
+      // Guide: Hub → iPhone
+      sCtx.beginPath(); sCtx.moveTo(hubSx + hr.width * 0.4, hubSy); sCtx.lineTo(ipX - 8, ipY);
+      sCtx.strokeStyle = 'rgba(197,164,78,0.06)'; sCtx.lineWidth = 2;
+      sCtx.setLineDash([6, 8]); sCtx.stroke(); sCtx.setLineDash([]);
+    }
+
+    // Cross pulses
+    for (let i = crossPulses.length - 1; i >= 0; i--) {
+      const p = crossPulses[i]; p.progress += p.speed;
+      if (p.progress >= 1) { crossPulses.splice(i, 1); continue; }
+      const px = p.sx + (p.tx - p.sx) * p.progress;
+      const py = p.sy + (p.ty - p.sy) * p.progress;
+      const a = p.progress < 0.1 ? p.progress * 8 : p.progress > 0.85 ? (1 - p.progress) * 6 : 0.5;
+      sCtx.beginPath(); sCtx.arc(px, py, 6, 0, Math.PI * 2);
+      sCtx.fillStyle = 'rgba(197,164,78,' + (a * 0.12) + ')'; sCtx.fill();
+      sCtx.beginPath(); sCtx.arc(px, py, 2.5, 0, Math.PI * 2);
+      sCtx.fillStyle = 'rgba(197,164,78,' + a + ')'; sCtx.fill();
+    }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Tooltips
+  hub.querySelectorAll('.topo-mid-node, .topo-outer-node').forEach(node => {
+    node.addEventListener('mouseenter', () => {
+      const info = node.dataset.info; if (!info) return;
+      const [title, desc] = info.split('|');
+      tooltip.querySelector('h4').textContent = title;
+      tooltip.querySelector('p').textContent = desc;
+      const nr = node.getBoundingClientRect();
+      const dr = hub.getBoundingClientRect();
+      let left = nr.left - dr.left + nr.width / 2 - 110;
+      let top = nr.top - dr.top - 90;
+      if (top < 0) top = nr.bottom - dr.top + 10;
+      if (left < 10) left = 10;
+      if (left + 220 > dr.width) left = dr.width - 230;
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+      tooltip.classList.add('visible');
+    });
+    node.addEventListener('mouseleave', () => { tooltip.classList.remove('visible'); });
+  });
+
+  // ===== QB Sidebar Cycling =====
+  const qbData = [
+    [
+      { num: 'priority', numText: 'Action 1 — Priority', text: 'Add Dx: E11.65 — Type 2 DM w/ hyperglycemia', btn: 'Add Dx' },
+      { num: 'coding', numText: 'Action 2 — HCC Code', text: 'Suspect: I13.0 — HTN heart & CKD w/ HF', btn: 'Review' },
+      { num: 'gap', numText: 'Action 3 — Care Gap', text: 'A1C overdue by 47 days. Order lab panel.', btn: 'Order' },
+      { num: 'awv', numText: 'AWV Status', text: 'Annual Wellness Visit eligible. Last: Mar 2025.', btn: 'Schedule' },
+    ],
+    [
+      { num: 'priority', numText: 'Action 1 — Priority', text: 'RPM eligible: HTN + DM. Enroll for remote monitoring.', btn: 'Enroll' },
+      { num: 'coding', numText: 'Action 2 — HCC Code', text: 'Recapture: N18.3 — CKD Stage 3. Last coded 2024.', btn: 'Add Dx' },
+      { num: 'gap', numText: 'Action 3 — Care Gap', text: 'Diabetic eye exam overdue (14 months).', btn: 'Refer' },
+      { num: 'awv', numText: 'TOC Alert', text: 'ED discharge 3 days ago. Schedule follow-up.', btn: 'Schedule' },
+    ],
+    [
+      { num: 'priority', numText: 'Action 1 — Priority', text: 'Med reconciliation needed post-discharge.', btn: 'Reconcile' },
+      { num: 'coding', numText: 'Action 2 — HCC Code', text: 'Add: F32.1 — Major depressive disorder. PHQ-9: 14.', btn: 'Add Dx' },
+      { num: 'gap', numText: 'Action 3 — CCM', text: 'CCM threshold: 18 of 20 min logged. Complete note.', btn: 'Log' },
+      { num: 'awv', numText: 'Refill Visit', text: 'Chronic visit due. Last seen 97 days ago.', btn: 'Schedule' },
+    ],
+  ];
+  const qbContainer = document.getElementById('qbActions');
+  let qbIndex = 0;
+
+  function updateQB() {
+    const set = qbData[qbIndex % qbData.length];
+    qbContainer.innerHTML = '';
+    set.forEach((item, i) => {
+      const div = document.createElement('div');
+      div.className = 'qb-action';
+      div.style.animationDelay = (i * 0.1) + 's';
+      div.innerHTML = '<div class="qb-action-num ' + item.num + '">' + item.numText + '</div><div class="qb-action-text">' + item.text + '</div><span class="qb-action-btn">' + item.btn + '</span>';
+      qbContainer.appendChild(div);
+    });
+    qbIndex++;
+  }
+  updateQB();
+  setInterval(updateQB, 5000);
+
+  // ===== Patient Feed Cycling =====
+  const feedData = [
+    { tag: 'wellness', tagText: 'Wellness', text: 'Daily step goal: 8,200. You\'re at 5,100 — keep going!' },
+    { tag: 'rx', tagText: 'Medication', text: 'Metformin refill ready at CVS. Tap to confirm.' },
+    { tag: 'insight', tagText: 'AI Insight', text: 'A1C trending down 0.3 since last quarter. Great work.' },
+    { tag: 'reward', tagText: 'Reward', text: '🎉 +50 pts for completing your wellness check!' },
+    { tag: 'care', tagText: 'Care', text: 'AWV scheduled: March 12 at 10:00 AM.' },
+    { tag: 'wellness', tagText: 'Nutrition', text: 'Meal idea: Grilled salmon, roasted veggies (450 cal).' },
+    { tag: 'rx', tagText: 'Vitals', text: 'BP reading: 128/82. Trending within target range.' },
+    { tag: 'insight', tagText: 'AI Insight', text: 'Sleep quality up 12% this week. Consistency helps!' },
+    { tag: 'reward', tagText: 'Reward', text: '🏆 7-day meal log streak! +100 pts.' },
+    { tag: 'care', tagText: 'Provider', text: 'Dr. Williams messaged about your lab results.' },
+  ];
+  const feedContainer = document.getElementById('feedItems');
+  let feedIndex = 0;
+  const VISIBLE_FEED = 5;
+
+  function updateFeed() {
+    const items = [];
+    for (let i = 0; i < VISIBLE_FEED; i++) items.push(feedData[(feedIndex + i) % feedData.length]);
+    feedContainer.innerHTML = '';
+    items.forEach((d, i) => {
+      const div = document.createElement('div');
+      div.className = 'feed-item';
+      div.style.animationDelay = (i * 0.08) + 's';
+      div.innerHTML = '<span class="fi-tag ' + d.tag + '">' + d.tagText + '</span><div class="fi-text">' + d.text + '</div>';
+      feedContainer.appendChild(div);
+    });
+    feedIndex = (feedIndex + 1) % feedData.length;
+  }
+  updateFeed();
+  setInterval(updateFeed, 4000);
+
+})();
+</script>
+</body>
+</html>
