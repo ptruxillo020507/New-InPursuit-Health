@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apply for ACCESS — InPursuit Health · Cohort 1 · March 20, 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0A1628;--navy-deep:#060E1A;--navy-mid:#112240;
+  --gold:#C5A44E;--gold-light:#D4B96A;--gold-bright:#E8D48B;
+  --white:#FFFFFF;--cream:#FAF8F4;--off-white:#F5F2EC;
+  --text-dark:#1A1A2E;--text-muted:#5C6370;
+  --teal:#00a882;--teal-dark:#007a5f;--teal-light:#e2f6f1;
+  --amber:#e6900a;--red-soft:#fee2e2;--red:#ef4444;
+  --border:#e5e7eb;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Instrument Sans',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden;}
+
+/* PRELOADER */
+.preloader{position:fixed;inset:0;background:var(--navy-deep);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease;}
+.preloader.hidden{opacity:0;visibility:hidden;pointer-events:none;}
+.preloader-wordmark{font-family:'Instrument Serif',serif;font-size:28px;color:var(--gold);letter-spacing:2px;animation:pf 1.2s ease-in-out infinite;}
+@keyframes pf{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* NAV */
+.top-bar{background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.2);position:fixed;top:0;left:0;right:0;z-index:1000;transition:box-shadow .3s;}
+.top-bar.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4);}
+.top-bar-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;height:64px;}
+.top-bar-brand{display:flex;align-items:center;gap:2px;text-decoration:none;}
+.top-bar-wordmark{font-family:'Instrument Serif',serif;font-size:22px;color:var(--gold);letter-spacing:1px;}
+.nav-back{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;text-decoration:none;transition:color .2s;display:flex;align-items:center;gap:8px;}
+.nav-back:hover{color:var(--gold);}
+.nav-back svg{width:14px;height:14px;fill:currentColor;}
+.nav-toggle{display:none;background:none;border:none;width:32px;height:32px;cursor:pointer;}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--gold);position:absolute;left:5px;transition:all .3s;}
+.nav-toggle span:nth-child(1){top:8px;} .nav-toggle span:nth-child(2){top:15px;} .nav-toggle span:nth-child(3){top:22px;}
+
+/* BREADCRUMB */
+.breadcrumb{background:var(--navy-mid);border-bottom:1px solid rgba(197,164,78,.1);padding:12px 40px;padding-top:76px;}
+.breadcrumb-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.breadcrumb a,.bc-sep,.bc-cur{font-size:11px;letter-spacing:1px;text-transform:uppercase;}
+.breadcrumb a{color:rgba(255,255,255,.4);text-decoration:none;transition:color .2s;}
+.breadcrumb a:hover{color:var(--gold);}
+.bc-sep{color:rgba(255,255,255,.2);}
+.bc-cur{color:var(--amber);}
+
+/* HERO STRIP */
+.hero-strip{background:var(--navy-deep);padding:64px 40px 56px;position:relative;overflow:hidden;border-bottom:1px solid rgba(197,164,78,.15);}
+.hero-strip::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 75% 60%,rgba(0,168,130,.06),transparent 55%),radial-gradient(ellipse at 20% 20%,rgba(197,164,78,.04),transparent 50%);}
+.hero-strip::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(197,164,78,.3) 30%,rgba(0,168,130,.4) 70%,transparent);}
+.hero-strip-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;align-items:start;gap:40px;}
+.hero-strip-left h1{font-family:'Instrument Serif',serif;font-size:clamp(26px,3.5vw,44px);color:var(--white);font-weight:400;line-height:1.15;margin-bottom:16px;}
+@keyframes pulseDot{0%,100%{opacity:.4;transform:scale(1);}50%{opacity:1;transform:scale(1.3);}}
+.hero-strip-left h1 em{font-style:italic;color:var(--gold);}
+.hero-strip-left p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7;max-width:540px;}
+.deadline-box{
+  background:linear-gradient(135deg, rgba(230,144,10,.12), rgba(197,164,78,.08));
+  border:2px solid rgba(230,144,10,.25);
+  border-radius:18px;
+  padding:30px 26px;
+  text-align:center;
+  flex-shrink:0;
+  min-width:320px;
+  box-shadow:0 8px 32px rgba(230,144,10,.15), inset 0 1px 0 rgba(255,255,255,.1);
+  backdrop-filter:blur(5px);
+  position:relative;
+  overflow:hidden;
+}
+.deadline-box::before{
+  content:'';
+  position:absolute;
+  top:0;
+  left:-100%;
+  width:100%;
+  height:100%;
+  background:linear-gradient(45deg, transparent 40%, rgba(255,255,255,.08) 50%, transparent 60%);
+  animation:shimmer 4s ease-in-out infinite;
+}
+@keyframes shimmer{
+  0%{left:-100%}
+  50%{left:100%}
+  100%{left:100%}
+}
+.deadline-label{
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:22px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  position:relative;
+  z-index:1;
+}
+.countdown-mini{
+  display:flex;
+  gap:8px;
+  align-items:center;
+  justify-content:center;
+  margin-bottom:22px;
+  position:relative;
+  z-index:1;
+}
+.cm-unit{
+  text-align:center;
+  background:rgba(255,255,255,.9);
+  border:1px solid rgba(230,144,10,.2);
+  border-radius:10px;
+  padding:12px 8px;
+  min-width:62px;
+  box-shadow:0 3px 12px rgba(0,0,0,.08);
+  transition:transform .2s ease;
+}
+.cm-num{
+  font-family:'Instrument Serif',serif;
+  font-size:26px;
+  color:var(--navy-deep);
+  line-height:1;
+  display:block;
+  letter-spacing:-1px;
+  font-weight:700;
+}
+.cm-label{
+  font-size:8px;
+  font-weight:800;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--text-muted);
+  margin-top:3px;
+}
+.cm-sep{
+  font-family:'Instrument Serif',serif;
+  font-size:24px;
+  color:var(--gold);
+  line-height:1;
+  padding:12px 3px 0;
+  align-self:flex-start;
+  animation:pulse 2s ease-in-out infinite;
+}
+@keyframes pulse{
+  0%, 100%{opacity:1}
+  50%{opacity:.6}
+}
+.deadline-sub{
+  font-size:11px;
+  color:rgba(255,255,255,.55);
+  line-height:1.5;
+  margin-bottom:18px;
+  position:relative;
+  z-index:1;
+}
+.deadline-sub strong{
+  color:var(--gold);
+  font-weight:800;
+}
+.deadline-apply-btn{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:12px 22px;
+  background:linear-gradient(135deg, var(--amber), #f5a623);
+  color:var(--navy-deep);
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  text-decoration:none;
+  border-radius:7px;
+  transition:all .3s ease;
+  border:none;
+  cursor:pointer;
+  font-family:inherit;
+  box-shadow:0 4px 14px rgba(230,144,10,.2);
+  position:relative;
+  z-index:1;
+}
+.deadline-apply-btn:hover{
+  background:linear-gradient(135deg, #f5a623, var(--amber));
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(230,144,10,.35);
+}
+
+/* SECURITY BAR */
+.security-bar{background:var(--navy-mid);border-bottom:1px solid rgba(0,168,130,.15);padding:12px 40px;}
+.security-bar-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:32px;flex-wrap:wrap;}
+.sec-item{display:flex;align-items:center;gap:7px;font-size:11px;color:rgba(255,255,255,.45);letter-spacing:.5px;white-space:nowrap;}
+.sec-icon{color:var(--teal);font-size:13px;}
+.sec-item strong{color:rgba(255,255,255,.7);}
+
+/* STEP TRACKER */
+.step-tracker{background:var(--white);border-bottom:1px solid var(--border);padding:0 40px;position:sticky;top:64px;z-index:90;}
+.step-tracker-inner{max-width:1200px;margin:0 auto;display:flex;}
+.step-tab{padding:18px 24px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);border-bottom:3px solid transparent;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;user-select:none;background:none;border-left:none;border-right:none;border-top:none;font-family:inherit;}
+.step-tab.active{color:var(--navy);border-bottom-color:var(--gold);}
+.step-tab.completed{color:var(--teal);}
+.step-tab.completed .step-num{background:var(--teal);color:var(--white);border-color:var(--teal);}
+.step-num{width:22px;height:22px;border-radius:50%;border:2px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;transition:all .2s;}
+.step-tab.active .step-num{background:var(--gold);color:var(--navy-deep);border-color:var(--gold);}
+
+/* MAIN LAYOUT */
+.main-wrap{max-width:1200px;margin:0 auto;padding:48px 40px;display:grid;grid-template-columns:1fr 380px;gap:40px;align-items:start;}
+
+/* FORM AREA */
+.form-area{display:flex;flex-direction:column;gap:0;}
+
+/* Step panels */
+.step-panel{display:none;}
+.step-panel.active{display:block;}
+
+.panel-header{margin-bottom:32px;}
+.panel-header h2{font-family:'Instrument Serif',serif;font-size:28px;color:var(--navy);margin-bottom:8px;}
+.panel-header p{font-size:14px;color:var(--text-muted);line-height:1.7;}
+
+/* NDA callout */
+.nda-callout{background:linear-gradient(135deg,rgba(0,168,130,.06),rgba(0,168,130,.02));border:1px solid rgba(0,168,130,.2);border-radius:12px;padding:20px 22px;margin-bottom:28px;display:flex;gap:14px;}
+.nda-icon{font-size:24px;flex-shrink:0;}
+.nda-content h4{font-size:13px;font-weight:700;color:var(--teal-dark);margin-bottom:6px;}
+.nda-content p{font-size:12.5px;color:var(--text-muted);line-height:1.65;}
+.nda-content a{color:var(--teal);text-decoration:none;}
+
+/* Form fields */
+.form-group{margin-bottom:22px;}
+.form-group label{display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:8px;}
+.form-group label .required{color:var(--red);margin-left:3px;}
+.form-group label .hint{font-size:10px;font-weight:400;letter-spacing:.5px;text-transform:none;color:var(--text-muted);margin-left:6px;}
+.field-input{width:100%;padding:13px 15px;background:var(--white);border:1.5px solid var(--border);border-radius:8px;font-size:14px;font-family:inherit;color:var(--text-dark);outline:none;transition:border-color .2s,box-shadow .2s;}
+.field-input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(197,164,78,.1);}
+.field-input.prefilled{background:rgba(197,164,78,.04);border-color:rgba(197,164,78,.25);}
+.field-input.teal-focus:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,168,130,.1);}
+.field-input::placeholder{color:#adb5bd;}
+select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236B7280' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:20px;appearance:none;}
+.form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+
+/* Prefilled badge */
+.prefill-badge{display:inline-flex;align-items:center;gap:5px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gold);background:rgba(197,164,78,.1);border:1px solid rgba(197,164,78,.2);border-radius:3px;padding:2px 7px;margin-left:8px;vertical-align:middle;}
+
+/* Toggle pills for selection */
+.toggle-group{display:flex;flex-wrap:wrap;gap:8px;}
+.toggle-pill{padding:9px 16px;border:1.5px solid var(--border);border-radius:6px;background:var(--white);font-size:12px;font-weight:600;color:var(--text-muted);cursor:pointer;transition:all .2s;font-family:inherit;}
+.toggle-pill:hover{border-color:var(--gold);color:var(--navy);}
+.toggle-pill.active{border-color:var(--gold);background:rgba(197,164,78,.07);color:var(--navy);}
+.toggle-pill.teal.active{border-color:var(--teal);background:rgba(0,168,130,.06);color:var(--teal-dark);}
+
+/* Range slider */
+.range-wrap{display:grid;grid-template-columns:1fr 80px;align-items:center;gap:16px;}
+.range-display{font-family:'Instrument Serif',serif;font-size:24px;color:var(--gold);text-align:right;}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;background:linear-gradient(90deg,var(--gold) var(--fill,50%),rgba(0,0,0,.1) var(--fill,50%));border-radius:3px;outline:none;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);border:3px solid var(--white);box-shadow:0 2px 8px rgba(197,164,78,.4);cursor:pointer;}
+input[type=range].teal-range{background:linear-gradient(90deg,var(--teal) var(--fill,50%),rgba(0,0,0,.1) var(--fill,50%));}
+input[type=range].teal-range::-webkit-slider-thumb{background:var(--teal);box-shadow:0 2px 8px rgba(0,168,130,.3);}
+.range-labels{display:flex;justify-content:space-between;margin-top:5px;}
+.range-labels span{font-size:10px;color:var(--text-muted);}
+
+/* Checkbox programs */
+.program-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.prog-item{display:flex;align-items:center;gap:10px;padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;cursor:pointer;transition:all .2s;background:var(--white);}
+.prog-item:hover{border-color:var(--gold);}
+.prog-item.checked{border-color:var(--teal);background:rgba(0,168,130,.04);}
+.prog-item input[type=checkbox]{display:none;}
+.prog-cb{width:18px;height:18px;border-radius:4px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.prog-item.checked .prog-cb{background:var(--teal);border-color:var(--teal);}
+.prog-cb-icon{opacity:0;transition:opacity .15s;}
+.prog-item.checked .prog-cb-icon{opacity:1;}
+.prog-label{font-size:12px;font-weight:600;color:var(--text-dark);}
+.prog-rate{font-size:10px;color:var(--text-muted);}
+
+/* Timeline preview */
+.timeline-preview{display:flex;flex-direction:column;gap:0;}
+.tp-row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+.tp-row:last-child{border-bottom:none;}
+.tp-date{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--amber);width:100px;flex-shrink:0;line-height:1.4;padding-top:2px;}
+.tp-action{font-size:13px;color:var(--text-dark);line-height:1.55;}
+.tp-action strong{color:var(--navy);}
+.tp-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 7px;border-radius:3px;margin-top:4px;}
+.tp-badge.inpursuit{background:rgba(0,168,130,.1);border:1px solid rgba(0,168,130,.2);color:var(--teal);}
+.tp-badge.you{background:rgba(197,164,78,.1);border:1px solid rgba(197,164,78,.2);color:var(--gold);}
+.tp-badge.cms{background:rgba(230,144,10,.1);border:1px solid rgba(230,144,10,.2);color:var(--amber);}
+
+/* Review summary */
+.review-section{margin-bottom:24px;}
+.review-section h4{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.review-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.04);}
+.review-row:last-child{border-bottom:none;}
+.review-key{font-size:13px;color:var(--text-muted);}
+.review-val{font-size:13px;font-weight:600;color:var(--text-dark);}
+
+/* Signature area */
+.signature-box{background:var(--white);border:2px dashed var(--border);border-radius:12px;padding:28px;text-align:center;margin-bottom:20px;transition:all .3s;cursor:pointer;}
+.signature-box:hover{border-color:var(--gold);background:rgba(197,164,78,.02);}
+.signature-box.signed{border:2px solid var(--teal);background:rgba(0,168,130,.03);cursor:default;}
+.sig-icon{font-size:36px;margin-bottom:10px;}
+.sig-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.sig-sub{font-size:12px;color:var(--text-muted);line-height:1.6;}
+.sig-name-display{font-family:'Instrument Serif',serif;font-size:28px;color:var(--teal);margin-top:12px;font-style:italic;}
+
+/* Nav buttons */
+.form-nav{display:flex;gap:12px;margin-top:32px;align-items:center;}
+.btn-next{padding:15px 36px;background:var(--gold);color:var(--navy-deep);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:6px;cursor:pointer;transition:all .3s;font-family:inherit;}
+.btn-next:hover{background:var(--gold-bright);transform:translateY(-2px);box-shadow:0 8px 24px rgba(197,164,78,.3);}
+.btn-next:disabled{background:#d1d5db;cursor:not-allowed;transform:none;box-shadow:none;}
+.btn-back{padding:15px 28px;background:transparent;color:var(--text-muted);font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;border:1.5px solid var(--border);border-radius:6px;cursor:pointer;transition:all .3s;font-family:inherit;}
+.btn-back:hover{border-color:var(--text-muted);color:var(--text-dark);}
+.btn-submit{padding:16px 40px;background:var(--teal);color:var(--white);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;border:none;border-radius:6px;cursor:pointer;transition:all .3s;font-family:inherit;}
+.btn-submit:hover{background:var(--teal-dark);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,168,130,.3);}
+
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:120px;}
+
+/* Revenue estimate card */
+.rev-card{background:var(--navy-deep);border:1px solid rgba(197,164,78,.2);border-radius:16px;overflow:hidden;}
+.rev-card-header{background:linear-gradient(135deg,rgba(0,168,130,.12),rgba(17,34,64,.9));padding:22px 24px 16px;border-bottom:1px solid rgba(197,164,78,.1);}
+.rev-card-header h3{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px;}
+.rev-big{font-family:'Instrument Serif',serif;font-size:48px;color:var(--gold);line-height:1;}
+.rev-sub{font-size:12px;color:rgba(255,255,255,.3);margin-top:4px;}
+.rev-card-body{padding:16px 24px;}
+.rev-line{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.rev-line:last-child{border-bottom:none;}
+.rev-prog{font-size:12px;color:rgba(255,255,255,.5);}
+.rev-amount{font-family:'Instrument Serif',serif;font-size:16px;color:var(--gold-light);}
+.rev-amount.teal{color:var(--teal);}
+.rev-amount.dim{color:rgba(255,255,255,.2);}
+.rev-divider{height:1px;background:rgba(255,255,255,.06);margin:8px 0;}
+.rev-total-row{display:flex;justify-content:space-between;align-items:center;padding-top:4px;}
+.rev-total-label{font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.rev-total-num{font-family:'Instrument Serif',serif;font-size:22px;color:var(--gold);}
+.rev-card-footer{background:rgba(0,168,130,.08);border-top:1px solid rgba(0,168,130,.15);padding:14px 24px;}
+.rev-card-footer p{font-size:11px;color:rgba(255,255,255,.35);line-height:1.6;}
+.rev-card-footer strong{color:rgba(0,168,130,.8);}
+
+/* NDA status card */
+.nda-status-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px;}
+.nda-status-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.nda-status-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.nda-status-icon.pending{background:rgba(230,144,10,.1);}
+.nda-status-icon.active{background:rgba(0,168,130,.1);}
+.nda-status-title{font-size:13px;font-weight:700;color:var(--navy);}
+.nda-status-sub{font-size:11px;color:var(--text-muted);}
+.nda-protections{display:flex;flex-direction:column;gap:7px;}
+.nda-prot-item{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-muted);line-height:1.5;}
+.nda-prot-item::before{content:'✓';color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px;}
+
+/* Process mini card */
+.process-mini{background:var(--off-white);border:1px solid rgba(0,0,0,.07);border-radius:12px;padding:20px;}
+.process-mini h4{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;}
+.pm-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;}
+.pm-step:last-child{margin-bottom:0;}
+.pm-dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;font-family:'Instrument Serif',serif;}
+.pm-dot.current{background:var(--gold);color:var(--navy-deep);}
+.pm-dot.future{background:rgba(0,0,0,.07);color:var(--text-muted);}
+.pm-dot.done{background:var(--teal);color:var(--white);}
+.pm-text{font-size:12px;line-height:1.5;}
+.pm-text strong{color:var(--navy);display:block;font-size:12px;}
+.pm-text span{color:var(--text-muted);font-size:11px;}
+
+/* SUCCESS SCREEN */
+.success-screen{display:none;text-align:center;padding:60px 40px;}
+.success-screen.visible{display:block;}
+.success-icon{font-size:72px;margin-bottom:24px;animation:pop .5s ease;}
+@keyframes pop{0%{transform:scale(0.6);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.success-screen h2{font-family:'Instrument Serif',serif;font-size:36px;color:var(--navy);margin-bottom:12px;}
+.success-screen h2 em{font-style:italic;color:var(--teal);}
+.success-screen p{font-size:15px;color:var(--text-muted);line-height:1.8;max-width:520px;margin:0 auto 32px;}
+.next-steps{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:28px;text-align:left;max-width:560px;margin:0 auto 28px;}
+.next-steps h4{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:16px;}
+.ns-item{display:flex;gap:12px;align-items:flex-start;margin-bottom:14px;}
+.ns-item:last-child{margin-bottom:0;}
+.ns-num{width:26px;height:26px;border-radius:50%;background:var(--teal);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;}
+.ns-text{font-size:13px;color:var(--text-dark);line-height:1.6;}
+.ns-text strong{color:var(--navy);}
+
+/* ── TIER SELECTOR ── */
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px;}
+.tier-card{border:2px solid var(--border);border-radius:12px;padding:20px 16px;cursor:pointer;transition:all .25s;background:var(--white);position:relative;text-align:center;}
+.tier-card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(0,0,0,.06);}
+.tier-card.active{border-color:var(--teal);background:rgba(0,168,130,.03);box-shadow:0 0 0 3px rgba(0,168,130,.1);}
+.tier-card.active::after{content:'✓ Selected';position:absolute;top:-1px;right:10px;transform:translateY(-50%);background:var(--teal);color:var(--white);font-size:9px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;}
+.tier-badge{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:4px;margin-bottom:12px;}
+.tier-badge.t1{background:rgba(0,168,130,.1);border:1px solid rgba(0,168,130,.25);color:var(--teal-dark);}
+.tier-badge.t2{background:rgba(197,164,78,.1);border:1px solid rgba(197,164,78,.3);color:#8a6e2e;}
+.tier-badge.t3{background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.3);color:#2563eb;}
+.tier-split{display:flex;height:7px;border-radius:4px;overflow:hidden;margin:12px 0 8px;}
+.tier-split-you{background:var(--teal);transition:width .4s ease;}
+.tier-split-ip{background:rgba(0,0,0,.1);transition:width .4s ease;}
+.tier-pct-row{display:flex;justify-content:space-between;font-size:11px;}
+.tier-pct-you{font-weight:800;color:var(--teal);}
+.tier-pct-ip{color:var(--text-muted);}
+.tier-name{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.tier-desc{font-size:11px;color:var(--text-muted);line-height:1.5;margin-bottom:12px;}
+.tier-includes{display:flex;flex-direction:column;gap:4px;text-align:left;border-top:1px solid rgba(0,0,0,.06);padding-top:10px;margin-top:4px;}
+.tier-includes span{font-size:11px;color:var(--text-muted);display:flex;gap:5px;line-height:1.4;}
+.tier-includes span::before{content:'→';color:var(--teal);font-weight:700;flex-shrink:0;}
+.tier-card:not(.active) .tier-includes span::before{color:rgba(0,0,0,.25);}
+@media(max-width:768px){.tier-grid{grid-template-columns:1fr;}}
+
+/* ── DOCUMENT DOWNLOAD STRIP ── */
+.docs-strip{background:var(--navy-mid);border-bottom:1px solid rgba(197,164,78,.12);padding:14px 40px;}
+.docs-strip-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:24px;flex-wrap:wrap;}
+.docs-strip-label{display:flex;align-items:center;gap:7px;font-size:11px;font-weight:600;letter-spacing:.5px;color:rgba(255,255,255,.4);white-space:nowrap;flex-shrink:0;}
+.docs-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.doc-btn{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:6px;border:1px solid;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.5px;cursor:pointer;transition:all .2s;background:transparent;position:relative;}
+.doc-btn-sub{font-size:9px;font-weight:500;letter-spacing:.3px;opacity:.6;margin-left:4px;}
+.doc-btn-nda{color:var(--gold);border-color:rgba(197,164,78,.3);background:rgba(197,164,78,.05);}
+.doc-btn-nda:hover{background:rgba(197,164,78,.12);border-color:var(--gold);transform:translateY(-1px);}
+.doc-btn-loi{color:var(--teal);border-color:rgba(0,168,130,.3);background:rgba(0,168,130,.05);}
+.doc-btn-loi:hover{background:rgba(0,168,130,.12);border-color:var(--teal);transform:translateY(-1px);}
+.doc-btn-tpa{color:rgba(255,255,255,.7);border-color:rgba(255,255,255,.15);background:rgba(255,255,255,.03);}
+.doc-btn-tpa:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.3);transform:translateY(-1px);}
+.doc-btn svg{flex-shrink:0;}
+@media(max-width:768px){.docs-strip{padding:12px 20px;}.docs-strip-label{display:none;}.doc-btn-sub{display:none;}}
+
+/* ── GUARANTEE CARDS ── */
+.gcard{
+  position:relative;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  padding:20px 18px 20px;
+  overflow:hidden;
+  transition:border-color .3s, background .3s, transform .3s;
+}
+.gcard:hover{
+  background:rgba(255,255,255,.05);
+  transform:translateY(-2px);
+}
+.gcard.gcard-teal{background:rgba(0,168,130,.05);border-color:rgba(0,168,130,.18);}
+.gcard.gcard-teal:hover{background:rgba(0,168,130,.08);border-color:rgba(0,168,130,.3);}
+.gcard.gcard-gold{background:rgba(197,164,78,.05);border-color:rgba(197,164,78,.18);}
+.gcard.gcard-gold:hover{background:rgba(197,164,78,.08);border-color:rgba(197,164,78,.3);}
+.gcard-accent{
+  position:absolute;
+  top:0;left:0;right:0;
+  height:2px;
+}
+.gcard-icon-wrap{
+  width:36px;height:36px;border-radius:8px;
+  border:1px solid;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:13px;
+  flex-shrink:0;
+}
+.gcard-title{
+  font-family:'Instrument Serif',serif;
+  font-size:15px;
+  font-weight:400;
+  line-height:1.2;
+  margin-bottom:7px;
+  letter-spacing:0;
+}
+.gcard-body{
+  font-size:12px;
+  color:rgba(255,255,255,.42);
+  line-height:1.65;
+}
+
+/* ── APPLICATION SECTIONS ── */
+.app-section{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px;}
+.app-section-header{display:flex;align-items:center;gap:12px;padding:14px 20px;flex-wrap:wrap;}
+.app-section-header.teal{background:linear-gradient(135deg,rgba(0,168,130,.08),rgba(0,168,130,.03));border-bottom:1.5px solid rgba(0,168,130,.15);}
+.app-section-header.gold{background:linear-gradient(135deg,rgba(197,164,78,.08),rgba(197,164,78,.03));border-bottom:1.5px solid rgba(197,164,78,.15);}
+.app-sec-label{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:4px;}
+.app-sec-label.teal{background:rgba(0,168,130,.12);color:var(--teal-dark);border:1px solid rgba(0,168,130,.25);}
+.app-sec-label.gold{background:rgba(197,164,78,.12);color:#8a6e2e;border:1px solid rgba(197,164,78,.3);}
+.app-sec-title{font-size:14px;font-weight:700;color:var(--navy);flex:1;}
+.app-sec-badge{font-size:10px;font-weight:700;letter-spacing:.5px;padding:4px 10px;border-radius:4px;white-space:nowrap;}
+.app-sec-badge.teal{background:rgba(0,168,130,.1);border:1px solid rgba(0,168,130,.2);color:var(--teal-dark);}
+.app-sec-badge.gold{background:rgba(197,164,78,.1);border:1px solid rgba(197,164,78,.25);color:#8a6e2e;}
+.app-section-body{padding:22px 20px;background:var(--white);}
+.app-section-body.locked{position:relative;padding-top:0;}
+.app-field{margin-bottom:14px;}
+.app-field:last-child{margin-bottom:0;}
+.app-field-label{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.app-legal-note{margin-top:14px;padding:11px 14px;background:rgba(0,0,0,.025);border-left:3px solid rgba(0,0,0,.1);border-radius:0 6px 6px 0;font-size:11px;color:var(--text-muted);line-height:1.65;}
+
+/* Locked sections */
+.locked-overlay{background:linear-gradient(135deg,rgba(0,168,130,.05),rgba(0,168,130,.02));border-bottom:1px solid rgba(0,168,130,.12);padding:16px 20px;display:flex;gap:12px;align-items:flex-start;}
+.locked-icon{font-size:22px;flex-shrink:0;}
+.locked-title{font-size:13px;font-weight:700;color:var(--teal-dark);margin-bottom:5px;}
+.locked-sub{font-size:12px;color:var(--text-muted);line-height:1.65;}
+.locked-fields{padding:0;}
+.locked-field-row{display:grid;grid-template-columns:200px 1fr;gap:16px;padding:14px 20px;border-bottom:1px solid rgba(0,0,0,.045);align-items:baseline;}
+.locked-label{font-size:11px;font-weight:700;letter-spacing:.5px;color:var(--text-muted);line-height:1.5;}
+.locked-value{font-size:13px;color:var(--text-dark);line-height:1.65;}
+.locked-value.teal-val{color:var(--teal-dark);}
+
+/* Clinical track cards */
+.track-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.track-card{border:1.5px solid var(--border);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .2s;position:relative;}
+.track-card:hover{border-color:var(--teal);}
+.track-card.active{border-color:var(--teal);background:rgba(0,168,130,.04);}
+.track-check{position:absolute;top:8px;right:8px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.06);font-size:10px;display:flex;align-items:center;justify-content:center;color:transparent;}
+.track-card.active .track-check{background:var(--teal);color:var(--white);}
+.track-icon{font-size:24px;margin-bottom:6px;}
+.track-name{font-size:12px;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.track-conds{font-size:10px;color:var(--text-muted);line-height:1.4;margin-bottom:6px;}
+.track-pmpm{font-size:11px;font-weight:700;color:var(--teal);background:rgba(0,168,130,.08);padding:2px 6px;border-radius:3px;display:inline-block;}
+
+@media(max-width:768px){
+  .locked-field-row{grid-template-columns:1fr;}
+  .track-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* SHARED */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+
+@media(max-width:1024px){
+  .main-wrap{grid-template-columns:1fr;}
+  .sidebar{position:static;}
+  .hero-strip-inner{grid-template-columns:1fr;}
+  .deadline-box{display:none;}
+}
+@media(max-width:768px){
+  .top-bar-inner{padding:0 20px;}
+  .form-row-2,.form-row-3{grid-template-columns:1fr;}
+  .program-grid{grid-template-columns:1fr;}
+  .main-wrap{padding:32px 20px;}
+  .breadcrumb{padding:12px 20px;padding-top:76px;}
+  .hero-strip{padding:40px 20px;}
+  .security-bar{padding:12px 20px;}
+  .step-tracker{padding:0 20px;}
+  .step-tab{padding:16px 12px;font-size:10px;}
+  .guarantee-grid{grid-template-columns:1fr 1fr!important;}
+}
+/* ══════════════════════════════
+   EASE / TIER SHOWCASE SECTION
+══════════════════════════════ */
+.ease-section{background:var(--cream);padding:80px 40px;border-bottom:1px solid rgba(0,0,0,.07);}
+.ease-inner{max-width:1200px;margin:0 auto;}
+.ease-header{text-align:center;margin-bottom:52px;}
+.ease-overline{font-size:11px;font-weight:800;letter-spacing:4px;text-transform:uppercase;color:var(--teal);margin-bottom:12px;}
+.ease-headline{font-family:'Instrument Serif',serif;font-size:clamp(28px,3.5vw,44px);color:var(--navy);font-weight:400;line-height:1.2;margin-bottom:16px;}
+.ease-sub{font-size:15px;color:var(--text-muted);line-height:1.75;max-width:640px;margin:0 auto;}
+
+/* Flow track */
+.flow-track{display:flex;align-items:flex-start;justify-content:center;gap:0;position:relative;margin-bottom:64px;padding:0 20px;}
+.flow-line{position:absolute;top:28px;left:10%;right:10%;height:2px;background:linear-gradient(90deg,rgba(0,168,130,.2),rgba(0,168,130,.6) 50%,rgba(197,164,78,.5));z-index:0;}
+.flow-step{flex:1;display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;z-index:1;max-width:180px;}
+.flow-num{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;}
+.flow-dot{width:56px;height:56px;border-radius:50%;background:var(--white);border:2px solid rgba(0,168,130,.2);display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 16px rgba(0,0,0,.06);transition:all .3s;}
+.flow-dot.active{border-color:var(--teal);box-shadow:0 0 0 6px rgba(0,168,130,.08);}
+.flow-dot.gold{border-color:var(--gold);box-shadow:0 0 0 6px rgba(197,164,78,.1);}
+.flow-step:hover .flow-dot{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.1);}
+.flow-label{font-size:13px;font-weight:700;color:var(--navy);text-align:center;}
+.flow-desc{font-size:11px;color:var(--text-muted);text-align:center;line-height:1.5;max-width:130px;}
+.gold-step .flow-label{color:#8a6e2e;}
+
+/* Tier showcase */
+.tier-showcase{background:var(--white);border:1px solid rgba(0,0,0,.07);border-radius:16px;padding:40px;box-shadow:0 8px 40px rgba(0,0,0,.05);}
+.tier-show-label{text-align:center;font-size:13px;color:var(--text-muted);margin-bottom:28px;line-height:1.6;}
+.tier-show-label strong{color:var(--navy);}
+.tier-show-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:28px;}
+.tier-show-card{border-radius:12px;overflow:hidden;border:1.5px solid var(--border);transition:all .3s;position:relative;}
+.tier-show-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.09);}
+.t1-card{border-color:rgba(0,168,130,.3);}
+.t1-card:hover{border-color:var(--teal);}
+.t2-card:hover{border-color:var(--gold);}
+.t3-card:hover{border-color:#93c5fd;}
+
+.tsc-top{padding:22px 20px 16px;background:var(--navy-deep);}
+.t1-card .tsc-top{background:linear-gradient(135deg,#0a2d26,#0a1628);}
+.t2-card .tsc-top{background:linear-gradient(135deg,#1a160a,#0a1628);}
+.t3-card .tsc-top{background:linear-gradient(135deg,#0a1428,#0a1628);}
+.tsc-badge{display:inline-block;font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:3px 9px;border-radius:3px;margin-bottom:10px;}
+.tsc-badge.t1{background:rgba(0,168,130,.2);border:1px solid rgba(0,168,130,.3);color:#4dd9b8;}
+.tsc-badge.t2{background:rgba(197,164,78,.2);border:1px solid rgba(197,164,78,.3);color:var(--gold-light);}
+.tsc-badge.t3{background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.25);color:#93c5fd;}
+.tsc-tier{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:2px;}
+.tsc-name{font-family:'Instrument Serif',serif;font-size:22px;color:var(--white);margin-bottom:6px;}
+.tsc-tagline{font-size:11px;color:rgba(255,255,255,.35);line-height:1.5;}
+
+.tsc-split-visual{padding:20px 20px 16px;background:var(--white);border-bottom:1px solid var(--border);}
+.tsc-bar-wrap{height:28px;border-radius:6px;overflow:hidden;display:flex;margin-bottom:12px;}
+.tsc-bar-you{background:linear-gradient(90deg,var(--teal),#00d4aa);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--white);letter-spacing:.5px;transition:width .5s ease;}
+.tsc-bar-ip{background:rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--text-muted);transition:width .5s ease;}
+.tsc-pct-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.tsc-big-pct{font-family:'Instrument Serif',serif;font-size:36px;line-height:1;}
+.tsc-big-pct small{font-size:18px;}
+.tsc-big-pct.you{color:var(--teal);}
+.tsc-big-pct.ip{color:var(--text-muted);font-size:24px;}
+.tsc-big-pct.ip small{font-size:13px;}
+.tsc-divider{font-size:10px;color:var(--text-muted);text-align:center;line-height:1.3;}
+
+.tsc-example{padding:14px 20px;background:rgba(0,168,130,.02);border-bottom:1px solid var(--border);}
+.tsc-ex-label{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;}
+.tsc-ex-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-muted);margin-bottom:6px;}
+.tsc-ex-row.highlight{background:rgba(0,168,130,.06);border:1px solid rgba(0,168,130,.12);border-radius:6px;padding:7px 10px;margin:0 -2px;}
+.tsc-ex-total{font-weight:700;color:var(--navy);}
+.tsc-ex-yours{font-weight:800;color:var(--teal);font-size:14px;}
+
+.tsc-includes{list-style:none;padding:16px 20px;margin:0;display:flex;flex-direction:column;gap:7px;}
+.tsc-includes li{font-size:12px;color:var(--text-muted);display:flex;align-items:flex-start;gap:7px;line-height:1.4;}
+.tsc-includes li::before{content:'✓';color:var(--teal);font-weight:800;flex-shrink:0;font-size:11px;margin-top:1px;}
+
+/* Zero risk bar */
+.zero-risk-bar{background:linear-gradient(135deg,var(--navy-deep),#0a2030);border-radius:10px;padding:20px 28px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+.zrb-icon{font-size:28px;flex-shrink:0;}
+.zrb-text{flex:1;font-size:13px;color:rgba(255,255,255,.65);line-height:1.65;}
+.zrb-text strong{color:var(--white);}
+.zrb-cta{font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);border:1px solid rgba(197,164,78,.35);border-radius:6px;padding:8px 16px;white-space:nowrap;}
+
+/* ══════════════════════════════
+   HONEYCOMB CALLOUT SECTION
+══════════════════════════════ */
+.hc-section{background:var(--navy-deep);padding:80px 40px;border-bottom:2px solid rgba(197,164,78,.12);position:relative;overflow:hidden;}
+.hc-section::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,168,130,.06),transparent 65%);pointer-events:none;}
+.hc-section::after{content:'';position:absolute;bottom:-80px;left:-60px;width:400px;height:400px;background:radial-gradient(circle,rgba(197,164,78,.04),transparent 65%);pointer-events:none;}
+.hc-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.hc-badge-row{text-align:center;margin-bottom:48px;}
+.hc-badge{display:inline-flex;align-items:center;gap:10px;background:rgba(197,164,78,.08);border:1px solid rgba(197,164,78,.25);border-radius:24px;padding:8px 22px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);}
+.hc-badge-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulseDot 2s ease-in-out infinite;flex-shrink:0;}
+
+.hc-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
+
+/* Left */
+.hc-logos{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+.hc-logo{display:flex;flex-direction:column;gap:4px;}
+.hc-logo-mark{font-family:'Instrument Serif',serif;font-size:28px;color:var(--gold);line-height:1;}
+.hc-logo-name{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);}
+.hc-mark{font-size:24px;color:var(--gold);letter-spacing:-2px;}
+.hc-times{font-family:'Instrument Serif',serif;font-size:32px;color:rgba(197,164,78,.3);}
+.hc-headline{font-family:'Instrument Serif',serif;font-size:clamp(26px,3vw,40px);color:var(--white);font-weight:400;line-height:1.2;margin-bottom:16px;}
+.hc-body{font-size:15px;color:rgba(255,255,255,.5);line-height:1.75;margin-bottom:28px;}
+.hc-quote{border-left:3px solid rgba(197,164,78,.35);padding:16px 20px;background:rgba(197,164,78,.04);border-radius:0 8px 8px 0;}
+.hc-quote-mark{font-family:'Instrument Serif',serif;font-size:48px;color:rgba(197,164,78,.25);line-height:.5;margin-bottom:8px;}
+.hc-quote-text{font-size:14px;color:rgba(255,255,255,.55);line-height:1.75;font-style:italic;margin-bottom:10px;}
+.hc-quote-attr{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(197,164,78,.5);}
+
+/* Right */
+.hc-stats-header{font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:16px;}
+.hc-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px;}
+.hc-stat{background:rgba(17,34,64,.7);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:18px 16px;}
+.hc-stat.teal-stat{background:rgba(0,168,130,.08);border-color:rgba(0,168,130,.15);}
+.hc-stat.gold-stat{background:rgba(197,164,78,.06);border-color:rgba(197,164,78,.15);}
+.hc-stat-num{font-family:'Instrument Serif',serif;font-size:28px;color:var(--white);line-height:1;margin-bottom:4px;}
+.teal-stat .hc-stat-num{color:#4dd9b8;}
+.gold-stat .hc-stat-num{color:var(--gold);}
+.hc-stat-label{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.5px;line-height:1.4;}
+
+.hc-timeline-mini{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:18px 20px;margin-bottom:20px;}
+.hc-tl-label{font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:14px;}
+.hc-tl-row{display:flex;align-items:center;gap:12px;font-size:12px;color:rgba(255,255,255,.45);margin-bottom:10px;line-height:1.4;}
+.hc-tl-row:last-child{margin-bottom:0;}
+.hc-tl-row.done{color:rgba(255,255,255,.7);}
+.hc-tl-row.active{color:var(--teal);}
+.hc-tl-dot{width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;}
+.hc-tl-row.done .hc-tl-dot{background:rgba(0,168,130,.15);border-color:rgba(0,168,130,.3);color:var(--teal);}
+.hc-tl-row.active .hc-tl-dot{background:rgba(0,168,130,.2);border-color:var(--teal);color:var(--teal);box-shadow:0 0 0 3px rgba(0,168,130,.1);}
+.hc-tl-row strong{color:var(--white);}
+.hc-tl-row.active strong{color:var(--teal);}
+
+.hc-cta-block{background:linear-gradient(135deg,rgba(197,164,78,.1),rgba(197,164,78,.04));border:1px solid rgba(197,164,78,.2);border-radius:10px;padding:20px 22px;}
+.hc-cta-text{font-size:13px;color:rgba(255,255,255,.55);line-height:1.6;margin-bottom:14px;}
+.hc-cta-text strong{color:var(--white);}
+.hc-cta-btn{display:inline-block;background:var(--gold);color:var(--navy-deep);font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:12px 24px;border-radius:6px;text-decoration:none;transition:all .3s;}
+.hc-cta-btn:hover{background:var(--gold-bright);transform:translateY(-2px);box-shadow:0 6px 20px rgba(197,164,78,.3);}
+
+/* Responsive */
+@media(max-width:1024px){
+  .tier-show-grid{grid-template-columns:1fr;}
+  .hc-grid{grid-template-columns:1fr;gap:40px;}
+  .flow-track{flex-wrap:wrap;gap:24px;}
+  .flow-line{display:none;}
+  #calendly-section > div{grid-template-columns:1fr !important;}
+}
+@media(max-width:768px){
+  .ease-section,.hc-section{padding:48px 20px;}
+  .tier-showcase{padding:24px 16px;}
+  .hc-stats-grid{grid-template-columns:1fr 1fr;}
+}
+
+</style>
+</head>
+<body>
+
+<div class="preloader" id="preloader"><div class="preloader-wordmark">InPursuit Health</div></div>
+
+<!-- NAV -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <a class="top-bar-brand" href="index.html">
+      <div class="top-bar-wordmark">InPursuit Health</div>
+    </a>
+    <a class="nav-back" href="for-providers.html">
+      <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
+      For Providers
+    </a>
+  </div>
+</header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <div class="breadcrumb-inner">
+    <a href="index.html">Home</a><span class="bc-sep">›</span>
+    <a href="for-providers.html">For Providers</a><span class="bc-sep">›</span>
+    <span class="bc-cur">ACCESS Application — Cohort 1</span>
+  </div>
+</div>
+
+<!-- HERO STRIP -->
+<section class="hero-strip">
+  <div class="hero-strip-inner">
+    <div class="hero-strip-left">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,168,130,.1);border:1px solid rgba(0,168,130,.25);border-radius:20px;padding:5px 14px;margin-bottom:18px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:var(--teal);display:inline-block;animation:pulseDot 1.8s ease-in-out infinite;flex-shrink:0;"></span>
+        <span style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--teal);">Cohort 1 · March 20, 2026 Deadline</span>
+      </div>
+      <h1>CMS ACCESS Model<br><em>Cohort 1 Application</em></h1>
+      <p style="font-size:15px;color:rgba(255,255,255,.7);line-height:1.8;max-width:560px;margin-bottom:20px;">Schedule a 30-minute call — InPursuit prepares your complete CMS ACCESS application, deploys TETRA inside your EHR, and handles every compliance requirement. You review, approve, and submit through CMS. Both parties' IP is protected by mutual NDA. Zero upfront cost. Zero risk.</p>
+      <div class="guarantee-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:900px;">
+
+        <!-- Card 1: Zero Obligation -->
+        <div class="gcard">
+          <div class="gcard-accent" style="background:rgba(255,255,255,.15);"></div>
+          <div class="gcard-icon-wrap" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+          </div>
+          <div class="gcard-title" style="color:rgba(255,255,255,.9);">Zero Financial Obligation</div>
+          <div class="gcard-body">No fees. No contracts. No commitment of any kind. This LOI costs your practice nothing.</div>
+        </div>
+
+        <!-- Card 2: Full Risk Model -->
+        <div class="gcard gcard-teal">
+          <div class="gcard-accent" style="background:var(--teal);opacity:.9;"></div>
+          <div class="gcard-icon-wrap" style="background:rgba(0,168,130,.12);border-color:rgba(0,168,130,.25);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+          </div>
+          <div class="gcard-title" style="color:var(--teal);">Full Risk Model</div>
+          <div class="gcard-body">InPursuit earns only when CMS pays you. A share of what we help bring in — and nothing before that.</div>
+        </div>
+
+        <!-- Card 3: Mutual NDA -->
+        <div class="gcard gcard-gold">
+          <div class="gcard-accent" style="background:var(--gold);opacity:.8;"></div>
+          <div class="gcard-icon-wrap" style="background:rgba(197,164,78,.1);border-color:rgba(197,164,78,.25);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="gcard-title" style="color:var(--gold);">Mutual NDA — Immediate</div>
+          <div class="gcard-body">Both parties' IP is protected from your very first field. Secured before anything is shared.</div>
+        </div>
+
+        <!-- Card 4: Non-Binding -->
+        <div class="gcard">
+          <div class="gcard-accent" style="background:rgba(255,255,255,.15);"></div>
+          <div class="gcard-icon-wrap" style="background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1);">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="13" y2="17"/></svg>
+          </div>
+          <div class="gcard-title" style="color:rgba(255,255,255,.9);">Non-Binding LOI Only</div>
+          <div class="gcard-body">Not a technology contract. Either party may withdraw at any time before formal execution.</div>
+        </div>
+
+      </div>
+
+      <!-- CMS ACCESS Tools Directory callout -->
+      <div style="margin-top:20px;display:inline-flex;align-items:center;gap:10px;background:rgba(197,164,78,.08);border:1px solid rgba(197,164,78,.2);border-radius:8px;padding:10px 18px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <span style="font-size:12px;color:rgba(255,255,255,.65);line-height:1.5;">Choose InPursuit in the <a href="#" style="color:var(--gold);font-weight:700;text-decoration:underline;text-underline-offset:2px;" id="tools-directory-link">CMS ACCESS Tools Directory</a> <span style="color:rgba(255,255,255,.35);">· Link coming soon</span></span>
+      </div>
+
+    </div>
+    <div class="deadline-box" style="background:linear-gradient(135deg, rgba(10,22,40,.95), rgba(17,34,64,.9));border:2px solid rgba(197,164,78,.25);box-shadow:0 8px 32px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.06);">
+      <div class="deadline-label" style="color:rgba(255,255,255,.5);font-size:10px;letter-spacing:3px;">COHORT 1 DEADLINE</div>
+      <div style="font-family:'Instrument Serif',serif;font-size:32px;color:var(--gold);margin-bottom:8px;line-height:1.1;">March 20, 2026</div>
+      <div class="countdown-mini">
+        <div class="cm-unit" style="background:var(--navy-deep);border:1px solid rgba(197,164,78,.2);"><div class="cm-num" id="cdD" style="color:var(--gold);">--</div><div class="cm-label">Days</div></div>
+        <div class="cm-sep" style="color:rgba(197,164,78,.4);">:</div>
+        <div class="cm-unit" style="background:var(--navy-deep);border:1px solid rgba(197,164,78,.2);"><div class="cm-num" id="cdH" style="color:var(--gold);">--</div><div class="cm-label">Hrs</div></div>
+        <div class="cm-sep" style="color:rgba(197,164,78,.4);">:</div>
+        <div class="cm-unit" style="background:var(--navy-deep);border:1px solid rgba(197,164,78,.2);"><div class="cm-num" id="cdM" style="color:var(--gold);">--</div><div class="cm-label">Min</div></div>
+        <div class="cm-sep" style="color:rgba(197,164,78,.4);">:</div>
+        <div class="cm-unit" style="background:var(--navy-deep);border:1px solid rgba(197,164,78,.2);"><div class="cm-num" id="cdS" style="color:var(--gold);">--</div><div class="cm-label">Sec</div></div>
+      </div>
+      <div class="deadline-sub" style="color:rgba(255,255,255,.4);margin-bottom:18px;">Sign your LOI by <strong style="color:var(--white);">Feb 28</strong> to ensure<br>InPursuit has time to prepare your submission</div>
+      <a href="#calendly-section" class="deadline-apply-btn" style="background:var(--gold);color:var(--navy-deep);box-shadow:0 4px 14px rgba(197,164,78,.3);" onclick="document.getElementById('calendly-section').scrollIntoView({behavior:'smooth'});return false;">
+        Schedule Your Call
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     HOW EASY / REVENUE TIERS SECTION
+════════════════════════════════════════════════════ -->
+<section class="ease-section">
+  <div class="ease-inner">
+
+    <!-- Header -->
+    <div class="ease-header">
+      <div class="ease-overline">Zero Complexity. Real Revenue.</div>
+      <h2 class="ease-headline">InPursuit does the hard part.<br>You collect the check.</h2>
+      <p class="ease-sub">The CMS ACCESS Model pays monthly — up to $55 per patient per month — for care you're already delivering. TETRA becomes your certified technology infrastructure. InPursuit handles everything between you and that revenue. Here's how it flows:</p>
+    </div>
+
+    <!-- 5-step flow -->
+    <div class="flow-track">
+      <div class="flow-line"></div>
+      <div class="flow-step">
+        <div class="flow-num">01</div>
+        <div class="flow-dot"><span>📋</span></div>
+        <div class="flow-label">Sign LOI</div>
+        <div class="flow-desc">Non-binding. ~30 min. Mutual NDA instant.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">02</div>
+        <div class="flow-dot"><span>🔍</span></div>
+        <div class="flow-label">We Analyze</div>
+        <div class="flow-desc">InPursuit identifies your eligible Medicare patients.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">03</div>
+        <div class="flow-dot active"><span>📄</span></div>
+        <div class="flow-label">We Prepare</div>
+        <div class="flow-desc">InPursuit drafts your full CMS application. You review &amp; submit.</div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">04</div>
+        <div class="flow-dot"><span>⚡</span></div>
+        <div class="flow-label">TETRA Goes Live</div>
+        <div class="flow-desc">6-week deployment. Inside your existing EHR. Zero disruption.</div>
+      </div>
+      <div class="flow-step gold-step">
+        <div class="flow-num">05</div>
+        <div class="flow-dot gold"><span>💰</span></div>
+        <div class="flow-label">OAPs Flow</div>
+        <div class="flow-desc">CMS pays monthly. For 10 years. Your share hits first.</div>
+      </div>
+    </div>
+
+    <!-- Tier cards -->
+    <div class="tier-showcase">
+      <div class="tier-show-label">Choose your service level — your revenue share adjusts accordingly. <strong>No upfront cost on any tier.</strong></div>
+
+      <div class="tier-show-grid">
+
+        <!-- Tier 1 -->
+        <div class="tier-show-card t1-card">
+          <div class="tsc-top">
+            <div class="tsc-badge t1">Most Popular</div>
+            <div class="tsc-tier">Tier 1</div>
+            <div class="tsc-name">Full Service</div>
+            <div class="tsc-tagline">Best for practices with no IT staff or budget for complexity</div>
+          </div>
+          <div class="tsc-split-visual">
+            <div class="tsc-bar-wrap">
+              <div class="tsc-bar-you" style="width:65%">
+                <span>You</span>
+              </div>
+              <div class="tsc-bar-ip" style="width:35%">
+                <span>InPursuit</span>
+              </div>
+            </div>
+            <div class="tsc-pct-row">
+              <span class="tsc-big-pct you">65<small>%</small></span>
+              <span class="tsc-divider">of all OAPs</span>
+              <span class="tsc-big-pct ip">35<small>%</small></span>
+            </div>
+          </div>
+          <div class="tsc-example">
+            <div class="tsc-ex-label">Example — 1,000 eligible patients</div>
+            <div class="tsc-ex-row"><span>CMS pays (annual)</span><span class="tsc-ex-total">$564,000</span></div>
+            <div class="tsc-ex-row highlight"><span>Your share</span><span class="tsc-ex-yours">$366,600 / yr</span></div>
+          </div>
+          <ul class="tsc-includes">
+            <li>Full ACCESS application prepared for your submission</li>
+            <li>TETRA deployed inside your EHR</li>
+            <li>Staff training &amp; go-live support</li>
+            <li>All compliance &amp; CMS reporting</li>
+            <li>Dedicated implementation lead</li>
+          </ul>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="tier-show-card t2-card">
+          <div class="tsc-top">
+            <div class="tsc-badge t2">Supported</div>
+            <div class="tsc-tier">Tier 2</div>
+            <div class="tsc-name">Supported</div>
+            <div class="tsc-tagline">For practices with some internal capability &amp; shared ownership</div>
+          </div>
+          <div class="tsc-split-visual">
+            <div class="tsc-bar-wrap">
+              <div class="tsc-bar-you" style="width:70%">
+                <span>You</span>
+              </div>
+              <div class="tsc-bar-ip" style="width:30%">
+                <span>InPursuit</span>
+              </div>
+            </div>
+            <div class="tsc-pct-row">
+              <span class="tsc-big-pct you">70<small>%</small></span>
+              <span class="tsc-divider">of all OAPs</span>
+              <span class="tsc-big-pct ip">30<small>%</small></span>
+            </div>
+          </div>
+          <div class="tsc-example">
+            <div class="tsc-ex-label">Example — 1,000 eligible patients</div>
+            <div class="tsc-ex-row"><span>CMS pays (annual)</span><span class="tsc-ex-total">$564,000</span></div>
+            <div class="tsc-ex-row highlight"><span>Your share</span><span class="tsc-ex-yours">$394,800 / yr</span></div>
+          </div>
+          <ul class="tsc-includes">
+            <li>Full ACCESS application prepared for your submission</li>
+            <li>TETRA platform deployment</li>
+            <li>Shared implementation support</li>
+            <li>Ongoing compliance &amp; reporting</li>
+          </ul>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="tier-show-card t3-card">
+          <div class="tsc-top">
+            <div class="tsc-badge t3">Platform</div>
+            <div class="tsc-tier">Tier 3</div>
+            <div class="tsc-name">Platform Only</div>
+            <div class="tsc-tagline">For larger groups with internal IT &amp; clinical ops teams</div>
+          </div>
+          <div class="tsc-split-visual">
+            <div class="tsc-bar-wrap">
+              <div class="tsc-bar-you" style="width:75%">
+                <span>You</span>
+              </div>
+              <div class="tsc-bar-ip" style="width:25%">
+                <span>InPursuit</span>
+              </div>
+            </div>
+            <div class="tsc-pct-row">
+              <span class="tsc-big-pct you">75<small>%</small></span>
+              <span class="tsc-divider">of all OAPs</span>
+              <span class="tsc-big-pct ip">25<small>%</small></span>
+            </div>
+          </div>
+          <div class="tsc-example">
+            <div class="tsc-ex-label">Example — 1,000 eligible patients</div>
+            <div class="tsc-ex-row"><span>CMS pays (annual)</span><span class="tsc-ex-total">$312,000</span></div>
+            <div class="tsc-ex-row highlight"><span>Your share</span><span class="tsc-ex-yours">$234,000 / yr</span></div>
+          </div>
+          <ul class="tsc-includes">
+            <li>Full ACCESS application prepared for your submission</li>
+            <li>TETRA platform license</li>
+            <li>Light onboarding support</li>
+            <li>Self-serve compliance tools</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Zero risk callout -->
+      <div class="zero-risk-bar">
+        <div class="zrb-icon">🛡️</div>
+        <div class="zrb-text">
+          <strong>InPursuit only earns when CMS pays you.</strong> If your ACCESS application is denied or OAPs are not received, InPursuit's compensation is $0. No retainer. No kill fee. No risk to your practice.
+        </div>
+        <div class="zrb-cta">That's the deal.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     HONEYCOMB × INPURSUIT FIRST-MOVER CALLOUT
+════════════════════════════════════════════════════ -->
+<section class="hc-section">
+  <div class="hc-inner">
+
+    <div class="hc-badge-row">
+      <div class="hc-badge">
+        <span class="hc-badge-dot"></span>
+        First ACCESS Partnership in the Nation · Cohort 1
+      </div>
+    </div>
+
+    <div class="hc-grid">
+      <div class="hc-left">
+        <div class="hc-logos">
+          <div class="hc-logo ip-logo">
+            <div class="hc-logo-mark">IP</div>
+            <div class="hc-logo-name">InPursuit Health</div>
+          </div>
+          <div class="hc-times">×</div>
+          <div class="hc-logo hc-logo-hc">
+            <div class="hc-logo-mark hc-mark">⬡⬡</div>
+            <div class="hc-logo-name">Honeycomb Medical</div>
+          </div>
+        </div>
+        <h3 class="hc-headline">The first provider in<br>the nation to say yes.</h3>
+        <p class="hc-body">Honeycomb Medical Group in Tennessee signed InPursuit's first ACCESS Model LOI — before Cohort 1 even opens. They saw what their Medicare panel was leaving on the table and moved. That's what leadership looks like.</p>
+        <div class="hc-quote">
+          <div class="hc-quote-mark">"</div>
+          <div class="hc-quote-text">InPursuit removes every barrier we had. Zero upfront cost, they handle the application, TETRA lives inside eClinicalWorks. Our team focuses on patients — InPursuit makes sure we get paid for the outcomes we're already delivering.</div>
+          <div class="hc-quote-attr">— Honeycomb Medical Group · Tennessee · Cohort 1 Partner</div>
+        </div>
+      </div>
+
+      <div class="hc-right">
+        <div class="hc-stats-header">Honeycomb by the Numbers</div>
+        <div class="hc-stats-grid">
+          <div class="hc-stat">
+            <div class="hc-stat-num">6,400</div>
+            <div class="hc-stat-label">Medicare Patients</div>
+          </div>
+          <div class="hc-stat">
+            <div class="hc-stat-num">4,000</div>
+            <div class="hc-stat-label">ACCESS-Eligible</div>
+          </div>
+          <div class="hc-stat teal-stat">
+            <div class="hc-stat-num">$1.35M</div>
+            <div class="hc-stat-label">Annual OAPs (projected)</div>
+          </div>
+          <div class="hc-stat teal-stat">
+            <div class="hc-stat-num">$1.01M</div>
+            <div class="hc-stat-label">Practice Share (75%)</div>
+          </div>
+          <div class="hc-stat gold-stat" style="grid-column:span 2;">
+            <div class="hc-stat-num">10 Years</div>
+            <div class="hc-stat-label">CMS Program Duration · July 5, 2026 → 2036</div>
+          </div>
+        </div>
+
+        <div class="hc-timeline-mini">
+          <div class="hc-tl-label">Their Timeline</div>
+          <div class="hc-tl-row done"><div class="hc-tl-dot">✓</div><div><strong>LOI Signed</strong> — February 2026</div></div>
+          <div class="hc-tl-row active"><div class="hc-tl-dot">→</div><div><strong>ACCESS Application</strong> — March 20, 2026</div></div>
+          <div class="hc-tl-row"><div class="hc-tl-dot"></div><div><strong>TETRA Live + CCM/RPM billing starts</strong> — May 2026</div></div>
+          <div class="hc-tl-row"><div class="hc-tl-dot"></div><div><strong>CMS OAPs begin</strong> — July 5, 2026</div></div>
+        </div>
+
+        <div class="hc-cta-block">
+          <div class="hc-cta-text">Your practice could be next. The Cohort 1 window closes <strong>March 20, 2026.</strong></div>
+          <a href="#form" class="hc-cta-btn" onclick="document.querySelector('.main-wrap').scrollIntoView({behavior:'smooth'});return false;">Apply Below — Takes 10 Minutes →</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════════
+     TREASURE TROVE OPPORTUNITY BANNER
+════════════════════════════════════════════════════ -->
+<section style="background:var(--navy-deep);border-bottom:2px solid rgba(197,164,78,.15);padding:48px 40px;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 30% 50%,rgba(0,168,130,.06),transparent 55%),radial-gradient(ellipse at 80% 30%,rgba(197,164,78,.04),transparent 50%);pointer-events:none;"></div>
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr auto;gap:48px;align-items:center;position:relative;z-index:1;">
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(197,164,78,.08);border:1px solid rgba(197,164,78,.2);border-radius:20px;padding:5px 14px;margin-bottom:16px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block;flex-shrink:0;"></span>
+        <span style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold);">New CMS Payment Model · July 2026</span>
+      </div>
+      <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(24px,3vw,36px);color:var(--white);font-weight:400;line-height:1.2;margin-bottom:14px;">CMS is paying for technology-enabled<br>chronic care. <em style="color:var(--gold);">We help you collect.</em></h2>
+      <p style="font-size:15px;color:rgba(255,255,255,.5);line-height:1.75;max-width:560px;">The ACCESS Model pays monthly Outcome-Aligned Payments to Medicare providers managing chronic conditions with technology. InPursuit provides the platform, prepares your application, and handles the complexity — <strong style="color:rgba(255,255,255,.8);">at zero upfront cost to your practice.</strong></p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;min-width:220px;">
+      <div style="background:rgba(0,168,130,.08);border:1px solid rgba(0,168,130,.2);border-radius:10px;padding:18px 20px;text-align:center;">
+        <div style="font-family:'Instrument Serif',serif;font-size:32px;color:var(--teal);line-height:1;">$0</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:4px;">Upfront cost to you</div>
+      </div>
+      <div style="background:rgba(197,164,78,.06);border:1px solid rgba(197,164,78,.15);border-radius:10px;padding:18px 20px;text-align:center;">
+        <div style="font-family:'Instrument Serif',serif;font-size:32px;color:var(--gold);line-height:1;">10 yr</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:4px;">CMS program duration</div>
+      </div>
+      <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:18px 20px;text-align:center;">
+        <div style="font-family:'Instrument Serif',serif;font-size:32px;color:var(--white);line-height:1;">4</div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-top:4px;">Clinical tracks</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ════════════════════════════════════════════════════
+     SCHEDULE A CALL + REVENUE CALCULATOR
+════════════════════════════════════════════════════ -->
+<section id="calendly-section" style="background:var(--cream);padding:64px 40px 80px;border-bottom:1px solid var(--border);">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:48px;align-items:start;">
+
+    <!-- LEFT: CTA + Process -->
+    <div>
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(0,168,130,.08);border:1px solid rgba(0,168,130,.2);border-radius:20px;padding:5px 14px;margin-bottom:18px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--teal);display:inline-block;flex-shrink:0;animation:pulseDot 1.8s ease-in-out infinite;"></span>
+        <span style="font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--teal);">Start Here · 30-Minute Call</span>
+      </div>
+
+      <h2 style="font-family:'Instrument Serif',serif;font-size:clamp(28px,3.5vw,42px);color:var(--navy);font-weight:400;line-height:1.15;margin-bottom:16px;">Schedule a call.<br><em style="color:var(--teal);">We handle the rest.</em></h2>
+
+      <p style="font-size:15px;color:var(--text-muted);line-height:1.8;max-width:540px;margin-bottom:32px;">One call is all it takes to get started. We'll review your patient population, walk through the ACCESS opportunity, and begin preparing your application — all at zero cost. InPursuit prepares everything. You review, approve, and submit through CMS.</p>
+
+      <!-- Calendly Embed -->
+      <div style="background:var(--white);border:2px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:36px;box-shadow:0 4px 24px rgba(0,0,0,.06);">
+        <div style="padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;">
+          <div style="width:40px;height:40px;border-radius:10px;background:var(--navy-deep);display:flex;align-items:center;justify-content:center;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);">ACCESS Model Discovery Call</div>
+            <div style="font-size:12px;color:var(--text-muted);">30 minutes · Virtual · With InPursuit's ACCESS team</div>
+          </div>
+        </div>
+        <div style="padding:28px 24px;text-align:center;">
+          <a href="https://calendly.com/inpursuit-health" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:16px 40px;background:var(--teal);color:var(--white);font-size:13px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:8px;transition:all .3s;box-shadow:0 4px 16px rgba(0,168,130,.25);font-family:inherit;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 28px rgba(0,168,130,.35)'" onmouseout="this.style.transform='';this.style.boxShadow='0 4px 16px rgba(0,168,130,.25)'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Schedule on Calendly
+          </a>
+          <p style="font-size:11px;color:var(--text-muted);margin-top:14px;line-height:1.6;">No commitment required. Mutual NDA executes before the call. Your information is protected from minute one.</p>
+        </div>
+      </div>
+
+      <!-- What happens on the call -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:28px;box-shadow:0 2px 12px rgba(0,0,0,.04);">
+        <h4 style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px;">What happens after you schedule</h4>
+
+        <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:18px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--teal);color:var(--white);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;font-family:'Instrument Serif',serif;">1</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;">Discovery Call · 30 min</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.65;">Review your practice, patient mix, and eligibility. Mutual NDA signed before the call.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:18px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--gold);color:var(--navy-deep);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;font-family:'Instrument Serif',serif;">2</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;">Revenue Projection · 5–7 days</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.65;">We analyze your NPI data and deliver a signed projection with real numbers.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:18px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--navy-deep);color:var(--gold);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0;font-family:'Instrument Serif',serif;">3</div>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:3px;">We Prepare · You Submit by March 20</div>
+            <div style="font-size:13px;color:var(--text-muted);line-height:1.65;">InPursuit writes your full ACCESS application. You review, approve, and submit via CMS.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Revenue Calculator (sticky) -->
+    <div style="position:sticky;top:80px;display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Revenue Calculator -->
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.05);">
+        <h4 style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px;">Estimate Your Revenue</h4>
+
+        <div style="margin-bottom:18px;">
+          <label style="display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:8px;">Medicare FFS Patients</label>
+          <div class="range-wrap">
+            <input type="range" class="teal-range" id="medPts" min="50" max="8000" step="50" value="890" oninput="updateSlider(this,'medPtsVal');updateRevCalc()">
+            <div class="range-display" id="medPtsVal" style="color:var(--teal)">890</div>
+          </div>
+          <div class="range-labels"><span>50</span><span>4,000</span><span>8,000+</span></div>
+        </div>
+
+        <div style="margin-bottom:18px;">
+          <label style="display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:8px;">% with Chronic Conditions <span style="font-weight:400;letter-spacing:0;text-transform:none;color:var(--text-muted);font-size:10px;margin-left:4px;">CMS avg: 68%</span></label>
+          <div class="range-wrap">
+            <input type="range" class="teal-range" id="chronPct" min="30" max="95" step="5" value="70" oninput="updateSlider(this,'chronPctVal','%');updateRevCalc()">
+            <div class="range-display" id="chronPctVal" style="color:var(--teal)">70%</div>
+          </div>
+          <div class="range-labels"><span>30%</span><span>68% avg</span><span>95%</span></div>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <label style="display:block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--navy);margin-bottom:8px;">Programs to Activate</label>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;" id="programGroup">
+            <label class="prog-item checked" data-prog="ccm" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" checked style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Chronic Care Management</div></div></label>
+            <label class="prog-item checked" data-prog="rpm" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" checked style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Remote Patient Monitoring</div></div></label>
+            <label class="prog-item checked" data-prog="awv" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" checked style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Annual Wellness Visits</div></div></label>
+            <label class="prog-item" data-prog="tcm" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Transitional Care Management</div></div></label>
+            <label class="prog-item" data-prog="bhi" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Behavioral Health Integration</div></div></label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue Results Card -->
+      <div class="rev-card">
+        <div class="rev-card-header">
+          <h3>Your Revenue Estimate</h3>
+          <div class="rev-big" id="sb-total">$0</div>
+          <div class="rev-sub" id="sb-sub">Adjust sliders above</div>
+          <div id="sb-tier-strip" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.07);display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <div>
+              <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:3px;">Service Tier</div>
+              <div id="sb-tier-name" style="font-size:12px;font-weight:700;color:var(--gold);">Tier 1 · Full Service</div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:3px;">Your Share</div>
+              <div id="sb-tier-pct" style="font-family:'Instrument Serif',serif;font-size:24px;color:var(--teal);line-height:1;">65%</div>
+            </div>
+          </div>
+        </div>
+        <div class="rev-card-body">
+          <div class="rev-line"><span class="rev-prog" id="sb-access-label">ACCESS Model (Your 65%)</span><span class="rev-amount teal" id="sb-access">—</span></div>
+          <div class="rev-line"><span class="rev-prog">Chronic Care Mgmt (CCM)</span><span class="rev-amount" id="sb-ccm">—</span></div>
+          <div class="rev-line"><span class="rev-prog">Remote Patient Mon. (RPM)</span><span class="rev-amount" id="sb-rpm">—</span></div>
+          <div class="rev-line"><span class="rev-prog">Annual Wellness Visits</span><span class="rev-amount" id="sb-awv">—</span></div>
+          <div class="rev-line"><span class="rev-prog">Transitional Care (TCM)</span><span class="rev-amount dim" id="sb-tcm">—</span></div>
+          <div class="rev-line"><span class="rev-prog">Behavioral Health (BHI)</span><span class="rev-amount dim" id="sb-other">—</span></div>
+          <div class="rev-divider"></div>
+          <div class="rev-total-row">
+            <span class="rev-total-label">Total Annual</span>
+            <span class="rev-total-num" id="sb-grand">$0</span>
+          </div>
+        </div>
+        <div class="rev-card-footer">
+          <p>Estimates based on CMS published rates. <strong>Schedule a call for your actual NPI-based projection</strong> — delivered within 5–7 days. No commitment required.</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer class="site-footer" style="background:var(--navy-deep);border-top:1px solid rgba(197,164,78,.1);padding:40px 40px 28px;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+    <span style="font-family:'Instrument Serif',serif;font-size:18px;color:var(--gold);">InPursuit Health</span>
+    <span style="font-size:11px;color:rgba(255,255,255,.3);">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div style="display:flex;gap:20px;margin-top:20px;flex-wrap:wrap;max-width:1200px;margin-left:auto;margin-right:auto;padding-top:20px;border-top:1px solid rgba(197,164,78,.06);">
+    <a href="index.html" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Home</a>
+    <a href="for-providers.html" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">For Providers</a>
+    <a href="access-model.html" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">ACCESS Model</a>
+    <a href="privacy.html" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Privacy Policy</a>
+    <a href="terms.html" style="font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,.3)'">Terms of Service</a>
+  </div>
+  <p style="max-width:1200px;margin:16px auto 0;font-size:10px;color:rgba(255,255,255,.12);line-height:1.6;">Revenue estimates are illustrative and based on CMS published program rates. Signing this Letter of Intent does not constitute a binding financial or technology agreement. InPursuit will provide a signed revenue projection using your actual patient data before any formal partnership agreement is executed. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div style="text-align:center;margin-top:20px;font-family:'Instrument Serif',serif;font-size:13px;color:rgba(197,164,78,.28);letter-spacing:2px;">Harness the Power of Your Data™</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// PRELOADER
+window.addEventListener('load',()=>setTimeout(()=>document.getElementById('preloader').classList.add('hidden'),800));
+window.addEventListener('scroll',()=>document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10));
+
+// COUNTDOWN — March 20, 2026
+function updateClock(){
+  const deadline=new Date('2026-03-20T23:59:59');
+  const diff=deadline-new Date();
+  if(diff<=0){['cdD','cdH','cdM','cdS'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='00';});return;}
+  const d=Math.floor(diff/(864e5)),h=Math.floor((diff%864e5)/36e5),m=Math.floor((diff%36e5)/6e4),s=Math.floor((diff%6e4)/1e3);
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=String(v).padStart(2,'0');};
+  set('cdD',d);set('cdH',h);set('cdM',m);set('cdS',s);
+}
+updateClock();setInterval(updateClock,1000);
+
+// TIER (default)
+let activeTier={tier:1,provider:65,ip:35,name:'Tier 1 · Full Service'};
+
+// CHECKBOX PROGRAM ITEMS
+document.querySelectorAll('.prog-item').forEach(item=>{
+  item.addEventListener('click',e=>{
+    e.preventDefault();
+    item.classList.toggle('checked');
+    // Update visual
+    const cb=item.querySelector('.prog-cb');
+    const icon=item.querySelector('.prog-cb-icon');
+    if(item.classList.contains('checked')){
+      if(cb){cb.style.background='var(--teal)';cb.style.borderColor='var(--teal)';}
+      if(icon)icon.style.opacity='1';
+      item.style.borderColor='var(--teal)';
+      item.style.background='rgba(0,168,130,.04)';
+    } else {
+      if(cb){cb.style.background='';cb.style.borderColor='';}
+      if(icon)icon.style.opacity='0';
+      item.style.borderColor='';
+      item.style.background='';
+    }
+    updateRevCalc();
+  });
+});
+// Init checked state visuals
+document.querySelectorAll('.prog-item.checked').forEach(item=>{
+  const cb=item.querySelector('.prog-cb');
+  const icon=item.querySelector('.prog-cb-icon');
+  if(cb){cb.style.background='var(--teal)';cb.style.borderColor='var(--teal)';}
+  if(icon)icon.style.opacity='1';
+  item.style.borderColor='var(--teal)';
+  item.style.background='rgba(0,168,130,.04)';
+});
+
+// RANGE SLIDERS
+function updateSlider(el,displayId,suffix=''){
+  const min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+  const pct=((val-min)/(max-min))*100;
+  el.style.setProperty('--fill',pct+'%');
+  const disp=document.getElementById(displayId);
+  if(disp)disp.textContent=Number(val).toLocaleString()+suffix;
+}
+['medPts','chronPct'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(el){
+    const min=parseFloat(el.min),max=parseFloat(el.max),val=parseFloat(el.value);
+    el.style.setProperty('--fill',((val-min)/(max-min))*100+'%');
+  }
+});
+
+// REVENUE CALC
+function fmt(n){return '$'+Math.round(n).toLocaleString();}
+function updateRevCalc(){
+  const med=parseInt(document.getElementById('medPts')?.value||890);
+  const chron=parseInt(document.getElementById('chronPct')?.value||70)/100;
+  const active=new Set();
+  document.querySelectorAll('.prog-item.checked').forEach(p=>active.add(p.dataset.prog));
+  const providerPct=(activeTier.provider||65)/100;
+
+  const eligible=Math.round(med*chron*0.93);
+  const accessRev=eligible*47*12*providerPct;
+  const ccmRev=active.has('ccm')?Math.round(med*0.60*0.70*65*12):0;
+  const rpmRev=active.has('rpm')?Math.round(med*0.30*0.60*85*12):0;
+  const awvRev=active.has('awv')?Math.round(med*0.75*210):0;
+  const tcmRev=active.has('tcm')?Math.round(med*0.06*200*12):0;
+  const bhiRev=active.has('bhi')?Math.round(med*0.20*0.60*70*12):0;
+  const total=accessRev+ccmRev+rpmRev+awvRev+tcmRev+bhiRev;
+
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  set('sb-total',fmt(total));
+  set('sb-sub',med.toLocaleString()+' Medicare FFS · '+eligible.toLocaleString()+' ACCESS-eligible');
+  set('sb-access',fmt(accessRev));
+  set('sb-ccm',ccmRev?fmt(ccmRev):'—');
+  set('sb-rpm',rpmRev?fmt(rpmRev):'—');
+  set('sb-awv',awvRev?fmt(awvRev):'—');
+  set('sb-tcm',tcmRev?fmt(tcmRev):'—');
+  set('sb-other',bhiRev?fmt(bhiRev):'—');
+  set('sb-grand',fmt(total));
+}
+updateRevCalc();
+
+// REVEAL ANIMATIONS
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// PDF PLACEHOLDERS
+const PDF_NDA='',PDF_LOI='',PDF_TPA='';
+function downloadPDF(type, filename) {
+  const data = {NDA: PDF_NDA, LOI: PDF_LOI, TPA: PDF_TPA}[type];
+  if(!data){alert('Document will be available after scheduling your call.');return;}
+  const bytes = atob(data);
+  const arr = new Uint8Array(bytes.length);
+  for(let i=0;i<bytes.length;i++) arr[i]=bytes.charCodeAt(i);
+  const blob = new Blob([arr], {type:'application/pdf'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
