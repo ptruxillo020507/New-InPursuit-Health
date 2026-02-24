@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Day in the Life — A Patient | InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --red: #B22234;
+  --red-deep: #8B1A29;
+  --silver: #C0C0C0;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ===== PRELOADER ===== */
+.preloader {
+  position: fixed; inset: 0;
+  background: var(--navy-deep);
+  z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  animation: pulseFade 1.2s ease-in-out infinite;
+}
+@keyframes pulseFade {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ===== TOP BAR / NAV ===== */
+.top-bar {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(197,164,78,0.2);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.top-bar-brand {
+  display: flex; align-items: center;
+  text-decoration: none; cursor: pointer;
+}
+.top-bar-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.top-bar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-item {
+  position: relative;
+  padding: 20px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  background: none; border: none;
+  font-family: inherit;
+}
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu {
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--navy-mid);
+  border: 1px solid rgba(197,164,78,0.15);
+  border-radius: 4px;
+  padding: 8px 0;
+  min-width: 240px;
+  opacity: 0; visibility: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1; visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-item {
+  display: block;
+  padding: 12px 24px;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+.nav-dropdown-item:hover {
+  color: var(--gold);
+  background: rgba(197,164,78,0.05);
+}
+.nav-dropdown-item .sub-desc {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: none;
+  color: rgba(255,255,255,0.3);
+  margin-top: 2px;
+}
+.nav-toggle {
+  display: none;
+  background: none; border: none;
+  width: 32px; height: 32px;
+  cursor: pointer; position: relative;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--gold);
+  position: absolute; left: 5px;
+  transition: all 0.3s ease;
+}
+.nav-toggle span:nth-child(1) { top: 8px; }
+.nav-toggle span:nth-child(2) { top: 15px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* CTAs */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: var(--gold);
+  color: var(--navy-deep); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  transition: all 0.3s ease; border: none; cursor: pointer;
+}
+.btn-gold:hover {
+  background: var(--gold-bright); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: transparent; color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  border-radius: 4px; border: 1.5px solid rgba(197,164,78,0.4);
+  transition: all 0.3s ease; cursor: pointer;
+}
+.btn-outline:hover {
+  border-color: var(--gold); background: rgba(197,164,78,0.08);
+  transform: translateY(-2px);
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 85vh;
+  background: var(--navy-deep);
+  overflow: hidden;
+  padding-top: 64px;
+  display: flex; align-items: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(17,34,64,0.8), var(--navy-deep) 70%);
+}
+.hero-stars {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(197,164,78,0.4);
+  border-radius: 50%;
+}
+.star:nth-child(1) { top: 12%; left: 8%; width: 3px; height: 3px; }
+.star:nth-child(2) { top: 25%; left: 72%; }
+.star:nth-child(3) { top: 45%; left: 15%; width: 3px; height: 3px; }
+.star:nth-child(4) { top: 60%; left: 85%; }
+.star:nth-child(5) { top: 80%; left: 35%; }
+.star:nth-child(6) { top: 15%; left: 55%; width: 3px; height: 3px; }
+.star:nth-child(7) { top: 70%; left: 60%; }
+.star:nth-child(8) { top: 35%; left: 92%; width: 3px; height: 3px; }
+.star:nth-child(9) { top: 88%; left: 78%; }
+.star:nth-child(10) { top: 50%; left: 45%; }
+.star:nth-child(11) { top: 8%; left: 30%; }
+.star:nth-child(12) { top: 92%; left: 12%; width: 3px; height: 3px; }
+
+.hero-inner {
+  position: relative; z-index: 2;
+  max-width: 1200px; margin: 0 auto;
+  padding: 80px 40px;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px; align-items: center;
+}
+.hero-text .hero-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.hero-text h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(36px, 4.5vw, 58px);
+  font-weight: 400; color: var(--white); line-height: 1.15; margin-bottom: 24px;
+}
+.hero-text h1 em { font-style: italic; color: var(--gold); }
+.hero-text .hero-sub {
+  font-size: 17px; color: rgba(255,255,255,0.55);
+  line-height: 1.7; margin-bottom: 36px; max-width: 520px;
+}
+.hero-text .hero-cta-row {
+  display: flex; gap: 16px; flex-wrap: wrap;
+}
+.hero-promise {
+  display: flex; gap: 40px; margin-top: 36px;
+}
+.promise-item { text-align: center; }
+.promise-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px; color: var(--gold); line-height: 1;
+}
+.promise-label {
+  font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.4); margin-top: 6px;
+}
+
+/* Hero visual - Security card */
+.hero-visual { display: flex; align-items: center; justify-content: center; }
+.hero-tag {
+  display: inline-block; padding: 6px 16px;
+  border: 1px solid rgba(197,164,78,0.3); border-radius: 20px;
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.security-visual-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 12px;
+  padding: 40px;
+  max-width: 520px;
+  backdrop-filter: blur(10px);
+  opacity: 0; animation: floatIn 0.8s ease 0.4s forwards;
+}
+.security-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: 24px;
+  color: var(--white);
+  line-height: 1.3;
+  margin-bottom: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(197,164,78,0.15);
+}
+.security-headline em {
+  font-style: italic;
+  color: var(--gold);
+}
+.security-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+.security-feature {
+  text-align: center;
+  padding: 20px 12px;
+  background: rgba(6,14,26,0.4);
+  border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+.security-feature:hover {
+  background: rgba(6,14,26,0.6);
+  border-color: rgba(197,164,78,0.2);
+  transform: translateY(-2px);
+}
+.security-icon {
+  margin-bottom: 12px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 14px;
+  border-radius: 10px;
+  background: rgba(197,164,78,0.06);
+  border: 1px solid rgba(197,164,78,0.1);
+}
+.security-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.7);
+}
+@keyframes floatIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== GOLD TICKER ===== */
+.gold-ticker {
+  background: var(--gold); overflow: hidden;
+  padding: 14px 0; position: relative; z-index: 2;
+}
+.ticker-track {
+  display: flex; animation: ticker 30s linear infinite; width: max-content;
+}
+.ticker-item {
+  font-size: 11px; font-weight: 700; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--navy-deep);
+  white-space: nowrap; padding: 0 40px;
+  display: flex; align-items: center; gap: 16px;
+}
+.ticker-item::before { content: '★'; font-size: 8px; }
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ===== SECTIONS (matches index.html exactly) ===== */
+.section { padding: 100px 40px; }
+.section-inner { max-width: 1200px; margin: 0 auto; }
+.section-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.section-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;
+}
+.section-headline em { font-style: italic; color: var(--gold); }
+.section-desc {
+  font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 640px;
+}
+
+/* ===== ESTIMATOR ===== */
+.est-container { max-width: 900px; margin: 0 auto; }
+.est-step { display: none; }
+.est-step.active { display: block; animation: fadeUp 0.4s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+.est-question {
+  font-family: 'Instrument Serif', serif;
+  font-size: 26px; color: var(--navy); text-align: center; margin-bottom: 8px;
+}
+.est-hint { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 32px; }
+.est-options {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px; max-width: 700px; margin: 0 auto;
+}
+.est-opt {
+  padding: 24px 16px; border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  text-align: center; cursor: pointer; transition: all 0.3s ease; background: var(--cream);
+}
+.est-opt:hover { border-color: rgba(197,164,78,0.3); box-shadow: 0 8px 32px rgba(197,164,78,0.08); transform: translateY(-4px); }
+.est-opt.selected { border-color: var(--gold); box-shadow: 0 8px 32px rgba(197,164,78,0.15); background: rgba(197,164,78,0.04); }
+.est-opt-icon { height: 36px; display: flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+.est-opt-icon img { height: 28px; width: auto; object-fit: contain; }
+.est-opt-icon svg { width: 28px; height: 28px; }
+.est-opt-label { font-family: 'Instrument Serif', serif; font-size: 16px; color: var(--navy); }
+.est-opt-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+.est-progress { display: flex; justify-content: center; gap: 8px; margin-top: 32px; }
+.est-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid rgba(0,0,0,0.15); background: transparent; transition: all 0.3s ease; }
+.est-dot.active { background: var(--gold); border-color: var(--gold); width: 28px; border-radius: 8px; }
+.est-dot.done { background: #4ADE80; border-color: #4ADE80; }
+.est-results { display: none; animation: fadeUp 0.6s ease; }
+.est-results.active { display: block; }
+.results-header { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--navy); text-align: center; margin-bottom: 32px; }
+.results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 32px; }
+.result-card { text-align: center; padding: 32px 24px; border: 1px solid rgba(0,0,0,0.06); border-radius: 8px; transition: all 0.3s ease; }
+.result-card:hover { border-color: rgba(197,164,78,0.3); box-shadow: 0 8px 32px rgba(197,164,78,0.08); transform: translateY(-4px); }
+.result-number { font-family: 'Instrument Serif', serif; font-size: 42px; line-height: 1; margin-bottom: 8px; }
+.result-label { font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--text-dark); margin-bottom: 8px; }
+.result-detail { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+.result-card.money .result-number { color: #2D6A4F; }
+.result-card.time .result-number { color: #457B9D; }
+.result-card.outcomes .result-number { color: var(--gold); }
+.results-sources { text-align: center; padding: 20px 24px; border-radius: 8px; background: rgba(197,164,78,0.04); border: 1px solid rgba(197,164,78,0.1); }
+.results-sources p { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+.results-sources strong { color: var(--text-dark); }
+.est-restart { display: block; margin: 20px auto 0; padding: 8px 20px; border: 1px solid rgba(0,0,0,0.1); border-radius: 4px; background: transparent; color: var(--text-muted); font-size: 11px; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; transition: all 0.2s ease; }
+.est-restart:hover { border-color: var(--gold); color: var(--gold); }
+.est-back {
+  text-align: center; margin-top: 12px;
+  font-size: 12px; color: var(--text-muted); cursor: pointer;
+  transition: color 0.2s ease;
+}
+.est-back:hover { color: var(--gold); }
+
+/* ===== PIPELINE (light section) ===== */
+.pipeline { margin-top: 16px; }
+.pipe-label-muted {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;
+  opacity: 0.6;
+}
+.pipe-label-gold {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 12px;
+}
+.pipe-sources { display: flex; flex-direction: column; gap: 6px; margin-bottom: 0; }
+.pipe-src {
+  display: grid; grid-template-columns: 40px 130px 1fr;
+  align-items: center; gap: 12px;
+  padding: 12px 16px; border-radius: 6px;
+  background: var(--cream);
+  border: 1px solid rgba(0,0,0,0.04);
+  opacity: 0; transform: translateX(-16px);
+  animation: srcIn 0.4s ease forwards;
+}
+.pipe-src[data-d="0"] { animation-delay: 0.1s; }
+.pipe-src[data-d="1"] { animation-delay: 0.2s; }
+.pipe-src[data-d="2"] { animation-delay: 0.3s; }
+.pipe-src[data-d="3"] { animation-delay: 0.4s; }
+.pipe-src[data-d="4"] { animation-delay: 0.5s; }
+@keyframes srcIn { to { opacity: 0.6; transform: translateX(0); } }
+.pipe-src-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 14px; color: rgba(197,164,78,0.4);
+}
+.pipe-src-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 15px; color: var(--text-dark);
+}
+.pipe-src-detail { font-size: 12px; color: var(--text-muted); }
+
+/* InPursuit Engine Bar (light theme) */
+.pipe-engine {
+  margin: 20px 0;
+  border-radius: 8px;
+  background: var(--navy-deep);
+  overflow: hidden; position: relative;
+}
+.pipe-engine-sweep {
+  position: absolute; inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(197,164,78,0.08) 50%, transparent 100%);
+  animation: pulseSweep 2.5s ease-in-out infinite;
+  z-index: 1;
+}
+@keyframes pulseSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.pipe-engine-inner {
+  display: flex; align-items: center; gap: 16px;
+  padding: 20px 24px; position: relative; z-index: 2;
+}
+.pipe-engine-icon {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: rgba(197,164,78,0.1); border: 1px solid rgba(197,164,78,0.2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden;
+}
+.pipe-engine-icon img { width: 100%; height: 100%; object-fit: cover; }
+.pipe-engine-text { flex: 1; }
+.pipe-engine-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--gold);
+}
+.pipe-engine-sub {
+  font-size: 11px; letter-spacing: 1px;
+  color: rgba(197,164,78,0.5); margin-left: 8px;
+}
+.pipe-engine-counter {
+  text-align: center; padding: 8px 16px; border-radius: 6px;
+  background: rgba(197,164,78,0.06);
+  border: 1px solid rgba(197,164,78,0.1);
+}
+.pipe-counter-num {
+  display: block;
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--gold); line-height: 1;
+}
+.pipe-counter-label {
+  display: block;
+  font-size: 8px; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(197,164,78,0.4);
+}
+.pipe-engine-bar { height: 3px; background: rgba(197,164,78,0.08); }
+.pipe-bar-fill {
+  height: 100%; width: 0;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+  transition: width 0.3s ease;
+}
+
+/* ===== MULTI-VIEW PHONE ===== */
+.pipe-proactive { margin-top: 8px; }
+
+/* View tabs */
+.view-tabs {
+  display: flex; justify-content: center; gap: 6px; margin-bottom: 28px;
+}
+.view-tab {
+  padding: 10px 22px; border-radius: 24px;
+  border: 1px solid rgba(0,0,0,0.06); background: var(--white);
+  font-size: 12px; font-weight: 700; letter-spacing: 0.3px;
+  color: var(--text-muted); cursor: pointer; transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+.view-tab:hover { border-color: rgba(197,164,78,0.35); color: var(--navy); }
+.view-tab.active {
+  background: var(--navy-deep); color: var(--gold);
+  border-color: var(--navy-deep);
+  box-shadow: 0 4px 16px rgba(10,22,40,0.3);
+}
+
+/* ===== REALISTIC iPHONE FRAME ===== */
+.phone-mock {
+  width: 375px; max-width: 100%; margin: 0 auto;
+  border-radius: 48px;
+  background: #000;
+  border: 4px solid #2a2a2e;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.08),
+    0 40px 100px -20px rgba(0,0,0,0.5),
+    0 0 60px -10px rgba(197,164,78,0.08),
+    inset 0 0 0 1px rgba(255,255,255,0.04);
+  position: relative;
+}
+.view-panel { display: none; }
+.view-panel.active { display: block; }
+
+/* Dynamic Island */
+.phone-notch {
+  width: 126px; height: 36px; margin: 0 auto;
+  background: #000; border-radius: 0 0 20px 20px;
+  position: relative; z-index: 10;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.phone-notch::before {
+  content: ''; position: absolute;
+  left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 10px; height: 10px; border-radius: 50%;
+  background: radial-gradient(circle, #1a1a2e 30%, #0d0d15 70%);
+  box-shadow: inset 0 0 2px rgba(255,255,255,0.1);
+}
+
+/* Status bar */
+.phone-status {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 2px 28px 6px;
+  font-size: 14px; font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+.phone-status-icons {
+  display: flex; align-items: center; gap: 5px;
+}
+.phone-status-icons svg { width: 16px; height: 16px; }
+
+/* Feed area */
+.phone-feed {
+  max-height: 500px; overflow-y: auto; padding: 4px 14px 8px;
+  scrollbar-width: thin; scrollbar-color: rgba(197,164,78,0.15) transparent;
+}
+.phone-feed::-webkit-scrollbar { width: 2px; }
+.phone-feed::-webkit-scrollbar-thumb { background: rgba(197,164,78,0.15); border-radius: 2px; }
+
+/* Home indicator bar */
+.phone-home-bar {
+  width: 134px; height: 5px; margin: 6px auto 8px;
+  border-radius: 5px; background: rgba(255,255,255,0.2);
+}
+
+/* IP icon in notifications */
+.ip-icon {
+  width: 20px; height: 20px; border-radius: 5px;
+  object-fit: cover;
+}
+
+/* Notification screen header */
+.phone-screen-label {
+  text-align: center; font-size: 13px; font-weight: 600;
+  color: rgba(255,255,255,0.25); padding: 6px 0 2px;
+  letter-spacing: 0.3px;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+
+/* ---- iOS-STYLE NOTIFICATION CARDS ---- */
+.notif-card {
+  margin-bottom: 8px; padding: 12px 14px;
+  border-radius: 20px;
+  background: rgba(40, 44, 52, 0.75);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 0.5px solid rgba(255,255,255,0.08);
+  transition: all 0.3s ease;
+  opacity: 0; transform: translateY(10px);
+}
+.notif-card.animate { animation: notifIn 0.35s ease forwards; }
+@keyframes notifIn { to { opacity: 1; transform: translateY(0); } }
+.notif-card:hover { background: rgba(50, 55, 65, 0.85); }
+.notif-app {
+  display: flex; align-items: center; gap: 6px; margin-bottom: 5px;
+}
+.notif-app-name {
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); flex: 1;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+.notif-time { font-size: 12px; color: rgba(255,255,255,0.25); font-weight: 400; }
+.notif-title {
+  font-size: 14px; font-weight: 600; color: #fff; line-height: 1.35; margin-bottom: 3px;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+.notif-body {
+  font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.45; margin-bottom: 10px;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.notif-actions { display: flex; gap: 6px; }
+.notif-btn {
+  padding: 7px 16px; border-radius: 14px;
+  background: rgba(120, 200, 250, 0.15); color: #7DD3FC;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  border: 0.5px solid rgba(120,200,250,0.1);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  transition: background 0.2s ease;
+}
+.notif-btn:hover { background: rgba(120,200,250,0.25); }
+.notif-btn-ghost {
+  padding: 7px 16px; border-radius: 14px;
+  background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.35);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  border: 0.5px solid rgba(255,255,255,0.04);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.notif-reward {
+  background: rgba(197,164,78,0.08);
+  border-color: rgba(197,164,78,0.15);
+}
+.notif-reward:hover { background: rgba(197,164,78,0.14); }
+
+/* ---- APP DASHBOARD UI ---- */
+.app-dashboard {
+  max-height: 520px; overflow-y: auto; padding: 0 16px 8px;
+  background: linear-gradient(180deg, #0a1628 0%, #0f1b2e 30%, #0a1628 100%);
+  scrollbar-width: thin; scrollbar-color: rgba(197,164,78,0.15) transparent;
+}
+.app-dashboard::-webkit-scrollbar { width: 2px; }
+.app-dashboard::-webkit-scrollbar-thumb { background: rgba(197,164,78,0.15); border-radius: 2px; }
+
+.app-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 0 14px;
+}
+.app-header-left {
+  display: flex; align-items: center; gap: 10px;
+}
+.app-logo-mark {
+  width: 34px; height: 34px; border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+.app-greeting {
+  font-size: 13px; color: rgba(255,255,255,0.4);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.app-username {
+  font-size: 22px; font-weight: 700; color: #fff;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  letter-spacing: -0.3px;
+}
+.app-avatar-photo {
+  width: 40px; height: 40px; border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(197,164,78,0.3);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.app-stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+  margin-bottom: 12px;
+  opacity: 0; transform: translateY(12px);
+}
+.app-stat-pill {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 12px 6px 10px; border-radius: 16px;
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+}
+.app-stat-icon { font-size: 16px; margin-bottom: 4px; }
+.app-stat-value {
+  font-size: 20px; font-weight: 700; line-height: 1.1;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+.app-stat-label {
+  font-size: 9px; text-transform: uppercase; letter-spacing: 0.8px;
+  color: rgba(255,255,255,0.3); margin-top: 2px;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.app-stat-pill.save-money .app-stat-value { color: #4ADE80; }
+.app-stat-pill.save-time .app-stat-value { color: #7DD3FC; }
+.app-stat-pill.rewards .app-stat-value { color: var(--gold); }
+
+.app-action-banner {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 14px; margin-bottom: 12px;
+  background: rgba(74,222,128,0.06);
+  border: 0.5px solid rgba(74,222,128,0.12);
+  opacity: 0; transform: translateY(12px);
+}
+.app-action-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  background: #4ADE80;
+  box-shadow: 0 0 8px rgba(74,222,128,0.5);
+  animation: pulse 2s ease-in-out infinite;
+}
+.app-action-text {
+  font-size: 12px; color: rgba(255,255,255,0.55); flex: 1;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.app-action-text strong { color: #4ADE80; }
+.app-action-arrow { color: rgba(255,255,255,0.25); font-size: 20px; font-weight: 300; }
+
+/* App Cards */
+.app-card {
+  padding: 14px; border-radius: 18px; margin-bottom: 10px;
+  background: rgba(40, 44, 52, 0.6);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 0.5px solid rgba(255,255,255,0.06);
+  transition: all 0.3s ease;
+  opacity: 0; transform: translateY(12px);
+}
+.app-card:hover { background: rgba(50, 55, 65, 0.7); }
+.app-card-reward {
+  background: rgba(197,164,78,0.06);
+  border-color: rgba(197,164,78,0.12);
+}
+.app-card-reward:hover { background: rgba(197,164,78,0.10); }
+
+.app-card-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 8px;
+}
+.app-card-tag {
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 20px; letter-spacing: 0.3px;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.tag-money { background: rgba(74,222,128,0.12); color: #4ADE80; }
+.tag-outcome { background: rgba(125,211,252,0.12); color: #7DD3FC; }
+.tag-reward { background: rgba(197,164,78,0.15); color: var(--gold); }
+.app-card-time {
+  font-size: 11px; color: rgba(255,255,255,0.2);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.app-card-title {
+  font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 5px;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  line-height: 1.3;
+}
+.app-card-body {
+  font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5;
+  margin-bottom: 10px;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.app-card-body strong { color: rgba(255,255,255,0.8); }
+
+.app-card-actions { display: flex; gap: 6px; }
+.app-btn-primary {
+  padding: 7px 16px; border-radius: 14px;
+  background: rgba(120,200,250,0.12); color: #7DD3FC;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  border: 0.5px solid rgba(120,200,250,0.08);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  transition: background 0.2s ease;
+}
+.app-btn-primary:hover { background: rgba(120,200,250,0.22); }
+.app-btn-ghost {
+  padding: 7px 16px; border-radius: 14px;
+  background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.3);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  border: 0.5px solid rgba(255,255,255,0.03);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.app-btn-gold {
+  padding: 8px 20px; border-radius: 14px;
+  background: rgba(197,164,78,0.15); color: var(--gold);
+  font-size: 13px; font-weight: 700; cursor: pointer;
+  border: 0.5px solid rgba(197,164,78,0.15);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  transition: background 0.2s ease; width: 100%; text-align: center;
+}
+.app-btn-gold:hover { background: rgba(197,164,78,0.25); }
+
+/* Offer list inside reward card */
+.app-offer-list {
+  display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px;
+}
+.app-offer-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 12px; border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 0.5px solid rgba(255,255,255,0.04);
+}
+.app-offer-brand {
+  font-size: 13px; font-weight: 700; color: rgba(255,255,255,0.8);
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+}
+.app-offer-deal {
+  font-size: 12px; color: var(--gold); font-weight: 600;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+
+/* Bottom Navigation */
+.app-bottom-nav {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  padding: 6px 8px 2px; background: rgba(15, 20, 30, 0.95);
+  border-top: 0.5px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+}
+.app-nav-item {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 4px 0; cursor: pointer;
+  color: rgba(255,255,255,0.25);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  transition: color 0.2s ease;
+}
+.app-nav-item span { font-size: 9px; font-weight: 500; }
+.app-nav-item.active { color: var(--gold); }
+.app-nav-item:hover { color: rgba(255,255,255,0.5); }
+.app-nav-item.active:hover { color: var(--gold); }
+
+/* ---- iOS LOCK SCREEN ---- */
+.lock-screen {
+  padding: 30px 20px 16px; text-align: center;
+  min-height: 540px;
+  background: linear-gradient(165deg, #0a1628 0%, #0f2545 40%, #0a1628 100%);
+  position: relative; overflow: hidden;
+}
+.lock-screen::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 300px 200px at 70% 25%, rgba(197,164,78,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 300px at 20% 80%, rgba(69,123,157,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.lock-time {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-size: 76px; color: var(--white); line-height: 1;
+  font-weight: 700; letter-spacing: 2px;
+  margin-top: 10px;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+}
+.lock-date {
+  font-size: 17px; color: rgba(255,255,255,0.6);
+  margin-bottom: 36px; letter-spacing: 0px;
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-weight: 400;
+}
+.lock-notifs { text-align: left; position: relative; z-index: 1; }
+.lock-notif {
+  padding: 12px 14px; margin-bottom: 6px;
+  border-radius: 16px;
+  background: rgba(40, 44, 52, 0.65);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 0.5px solid rgba(255,255,255,0.06);
+  opacity: 0; transform: translateY(8px);
+}
+.lock-notif.animate { animation: notifIn 0.35s ease forwards; }
+.lock-notif-header {
+  display: flex; align-items: center; gap: 6px; margin-bottom: 3px;
+}
+.lock-notif-header span {
+  font-size: 12px; color: rgba(255,255,255,0.4);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.lock-notif-text {
+  font-size: 13px; color: rgba(255,255,255,0.6); line-height: 1.45;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.lock-notif-text strong { color: #fff; }
+
+/* ---- iOS WIDGET SCREEN ---- */
+.widget-screen {
+  padding: 14px; min-height: 480px;
+  background: linear-gradient(180deg, #0f1b2e 0%, #0a1628 100%);
+  position: relative;
+}
+.widget-screen::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 250px 150px at 30% 30%, rgba(74,222,128,0.03) 0%, transparent 70%),
+    radial-gradient(ellipse 200px 250px at 80% 70%, rgba(197,164,78,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+.widget-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.18);
+  text-align: center; margin-bottom: 10px;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+  position: relative; z-index: 1;
+}
+.widget-card {
+  padding: 16px; border-radius: 22px;
+  background: rgba(40, 44, 52, 0.6);
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 0.5px solid rgba(255,255,255,0.06);
+  margin-bottom: 10px;
+  position: relative; z-index: 1;
+}
+.widget-header {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 14px;
+}
+.widget-title {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-size: 15px; color: #fff; flex: 1; font-weight: 600;
+}
+.widget-streak {
+  font-size: 12px; color: rgba(255,255,255,0.4);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.widget-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px;
+  margin-bottom: 14px;
+}
+.widget-stat {
+  text-align: center; padding: 8px 4px; border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+}
+.widget-stat-num {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-size: 22px; line-height: 1; font-weight: 700;
+}
+.widget-stat-label {
+  font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase;
+  color: rgba(255,255,255,0.3); margin-top: 4px;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.widget-alert {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 14px;
+  background: rgba(74,222,128,0.06);
+  border: 0.5px solid rgba(74,222,128,0.12);
+}
+.widget-alert-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #4ADE80; flex-shrink: 0;
+  box-shadow: 0 0 8px rgba(74,222,128,0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+}
+.widget-alert-text {
+  font-size: 12px; color: rgba(255,255,255,0.55); flex: 1;
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.widget-alert-text strong { color: #4ADE80; }
+.widget-alert-arrow { color: rgba(255,255,255,0.3); font-size: 16px; }
+.widget-card-small { }
+.widget-mini-header {
+  display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+}
+.widget-mini-header span {
+  font-family: -apple-system, 'SF Pro Display', 'Helvetica Neue', sans-serif;
+  font-size: 14px; color: rgba(255,255,255,0.6); font-weight: 600;
+}
+.widget-mini-items { display: flex; flex-direction: column; gap: 8px; }
+.widget-mini-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: rgba(255,255,255,0.5);
+  font-family: -apple-system, 'SF Pro Text', 'Helvetica Neue', sans-serif;
+}
+.wmi-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+/* ===== PERSONAS (cream section like pillars-section) ===== */
+.persona-section { background: var(--cream); }
+
+.persona-selector {
+  display: flex; justify-content: center; gap: 16px;
+  margin-top: 48px; margin-bottom: 48px; flex-wrap: wrap;
+}
+/* Persona buttons styled like pillar-cards */
+.persona-btn {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  padding: 20px 28px; min-width: 180px;
+  text-align: center; cursor: pointer;
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.persona-btn::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.4s ease;
+}
+.persona-btn:hover::before, .persona-btn.active::before { transform: scaleX(1); }
+.persona-btn:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.persona-btn.active {
+  border-color: rgba(197,164,78,0.3);
+  box-shadow: 0 8px 32px rgba(197,164,78,0.1);
+}
+.persona-btn-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--navy); margin-bottom: 4px;
+}
+.persona-btn-desc { font-size: 12px; color: var(--text-muted); }
+.persona-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  object-fit: cover; margin: 0 auto 10px;
+  display: block;
+  border: 2px solid rgba(197,164,78,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: all 0.3s ease;
+}
+.persona-btn:hover .persona-avatar,
+.persona-btn.active .persona-avatar {
+  border-color: rgba(197,164,78,0.5);
+  box-shadow: 0 4px 16px rgba(197,164,78,0.15);
+}
+
+.day-panel { display: none; }
+.day-panel.active { display: block; }
+
+/* Persona intro card */
+.persona-intro {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  margin-bottom: 48px; padding: 40px;
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+}
+.persona-story h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 26px; color: var(--navy); margin-bottom: 12px; line-height: 1.3;
+}
+.persona-story-header {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 4px;
+}
+.persona-story-avatar {
+  width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
+  object-fit: cover;
+  border: 3px solid rgba(197,164,78,0.2);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+.persona-story p { font-size: 15px; color: var(--text-muted); line-height: 1.7; }
+.persona-context { display: flex; flex-direction: column; gap: 10px; }
+.ctx-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; border-radius: 6px;
+  background: var(--cream); font-size: 13px; color: var(--text-dark);
+}
+.ctx-icon {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: rgba(197,164,78,0.08);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.ctx-icon svg { width: 16px; height: 16px; fill: var(--gold); }
+.ctx-apps { display: flex; flex-wrap: wrap; gap: 6px; padding: 4px 14px; }
+.ctx-app {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; padding: 4px 8px 4px 5px;
+  border-radius: 4px;
+  background: rgba(197,164,78,0.06);
+  border: 1px solid rgba(197,164,78,0.1);
+  color: var(--text-muted);
+}
+.ctx-app img {
+  width: 14px; height: 14px; border-radius: 2px;
+  object-fit: contain; background: white; padding: 1px;
+}
+
+/* ===== TIMELINE ===== */
+.timeline { position: relative; padding-left: 48px; }
+.timeline::before {
+  content: ''; position: absolute; left: 18px; top: 0; bottom: 0;
+  width: 1px; background: linear-gradient(to bottom, var(--gold), rgba(197,164,78,0.1));
+}
+.moment {
+  position: relative; margin-bottom: 32px;
+  opacity: 0; transform: translateY(20px);
+  transition: all 0.8s ease;
+}
+.moment.visible { opacity: 1; transform: translateY(0); }
+.moment-dot {
+  position: absolute; left: -38px; top: 24px;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--gold); background: var(--cream);
+}
+.moment-time {
+  font-size: 10px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 8px;
+}
+.moment-time.save { color: #2D6A4F; }
+.moment-time.time { color: #457B9D; }
+.moment-time.outcome { color: var(--gold); }
+
+/* Moment cards styled like pillar-cards */
+.moment-card {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  padding: 28px 32px;
+  transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.moment-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.4s ease;
+}
+.moment-card:hover::before { transform: scaleX(1); }
+.moment-card:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.moment-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; margin-bottom: 12px;
+}
+.moment-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--navy); line-height: 1.3;
+}
+.moment-tag {
+  flex-shrink: 0; font-size: 10px; font-weight: 600;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 5px 12px; border-radius: 4px; white-space: nowrap;
+  border: 1px solid;
+}
+.tag-save { color: #2D6A4F; border-color: rgba(45,106,79,0.2); background: rgba(45,106,79,0.04); }
+.tag-time { color: #457B9D; border-color: rgba(69,123,157,0.2); background: rgba(69,123,157,0.04); }
+.tag-outcome { color: var(--gold); border-color: rgba(197,164,78,0.2); background: rgba(197,164,78,0.04); }
+
+/* Source badges */
+.moment-sources { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.src-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 9px; font-weight: 700; letter-spacing: 0.5px;
+  padding: 3px 8px 3px 4px; border-radius: 4px;
+  text-transform: uppercase;
+  background: rgba(197,164,78,0.04);
+  border: 1px solid rgba(197,164,78,0.08);
+  color: var(--text-muted);
+}
+.src-badge img {
+  width: 12px; height: 12px; border-radius: 2px;
+  object-fit: contain; background: white; padding: 1px;
+}
+.moment-body {
+  font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px;
+}
+.moment-body strong { color: var(--text-dark); }
+.moment-value {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: 'Instrument Serif', serif; font-size: 16px;
+  padding: 8px 16px; border-radius: 4px;
+}
+.value-save { background: rgba(45,106,79,0.04); color: #2D6A4F; border: 1px solid rgba(45,106,79,0.1); }
+.value-time { background: rgba(69,123,157,0.04); color: #457B9D; border: 1px solid rgba(69,123,157,0.1); }
+.value-outcome { background: rgba(197,164,78,0.04); color: var(--gold); border: 1px solid rgba(197,164,78,0.1); }
+
+/* ===== CTA SECTION ===== */
+.cta-section {
+  background: var(--navy); text-align: center;
+  padding: 100px 40px; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(197,164,78,0.06) 0%, transparent 60%);
+}
+.cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.cta-content h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  color: var(--white); line-height: 1.3; margin-bottom: 20px;
+}
+.cta-content h2 em { font-style: italic; color: var(--gold); }
+.cta-content p {
+  font-size: 16px; color: rgba(255,255,255,0.5);
+  line-height: 1.7; margin-bottom: 36px;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--navy-deep);
+  border-top: 1px solid rgba(197,164,78,0.1);
+  padding: 48px 40px 32px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px; color: var(--gold); letter-spacing: 1px;
+}
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+.footer-nav {
+  display: flex; gap: 24px; margin-top: 24px;
+  width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto;
+  padding-top: 24px; border-top: 1px solid rgba(197,164,78,0.08);
+  flex-wrap: wrap;
+}
+.footer-nav a {
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  text-decoration: none; transition: color 0.3s ease;
+}
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer {
+  max-width: 1200px; margin: 24px auto 0;
+  font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.6;
+}
+.footer-tagline {
+  text-align: center; margin-top: 24px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 13px; color: rgba(197,164,78,0.3); letter-spacing: 2px;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .hero-visual { margin-top: 20px; }
+  .security-visual-card { padding: 24px; }
+  .security-headline { font-size: 20px; margin-bottom: 24px; padding-bottom: 20px; }
+  .security-features { gap: 12px; }
+  .security-feature { padding: 14px 8px; }
+  .security-icon { font-size: 24px; margin-bottom: 8px; }
+  .results-grid { grid-template-columns: 1fr; }
+  .persona-intro { grid-template-columns: 1fr; }
+  .phone-mock { max-width: 100%; border-radius: 24px; }
+  .phone-notch { width: 100px; height: 22px; }
+  .view-tabs { flex-wrap: wrap; }
+  .results-grid { grid-template-columns: 1fr; }
+  .pipe-src { grid-template-columns: 40px 1fr; }
+  .pipe-src-detail { display: none; }
+  .pipe-engine-inner { flex-wrap: wrap; }
+  .pipe-engine-sub { display: block; margin-left: 0; margin-top: 2px; }
+}
+@media (max-width: 768px) {
+  .top-bar-inner { padding: 0 20px; }
+  .top-bar-nav { display: none; }
+  .nav-toggle { display: block; }
+  .top-bar-nav.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy-deep);
+    border-bottom: 1px solid rgba(197,164,78,0.2);
+    padding: 16px 0;
+  }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .top-bar-nav.open .nav-dropdown-menu {
+    position: static; transform: none;
+    opacity: 1; visibility: visible;
+    background: rgba(0,0,0,0.2); box-shadow: none;
+    border: none; border-radius: 0; padding-left: 20px;
+  }
+  .section { padding: 60px 20px; }
+  .hero-inner { padding: 60px 20px; }
+  .hero-promise { gap: 24px; }
+  .persona-selector { gap: 8px; }
+  .persona-btn { min-width: 140px; padding: 14px 16px; }
+  .persona-avatar { width: 44px; height: 44px; margin-bottom: 8px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-wordmark">InPursuit Health</div>
+</div>
+
+<!-- Top Bar -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a class="top-bar-brand" href="index.html">
+        <div class="top-bar-wordmark">InPursuit Health</div>
+      </a>
+      <span style="color: rgba(255,255,255,0.4); margin: 0 4px;">|</span>
+      <a href="maha.html" style="font-size: 13px; color: var(--white); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap; font-weight: 500;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white)'">MAHA Policy Alignment</a>
+    </div>
+    <nav class="top-bar-nav" id="mainNav">
+      <a class="nav-item active" href="for-you.html">For You</a>
+      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars">
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-tag">Security &amp; Trust</div>
+      <p class="hero-overline">Harness the Power of Your Data&trade;</p>
+      <h1>Your Data Is Yours.<br>We Guard It Like It&rsquo;s <em>Ours.</em></h1>
+      <p class="hero-sub">Every American trusting InPursuit with their health data deserves more than a privacy policy. They deserve infrastructure built for the most security-sensitive environments on earth &mdash; and an AI oversight system that ensures no algorithm ever makes a decision without a human safety net.</p>
+      <div class="hero-cta-row">
+        <a class="btn-gold" href="#estimator">Estimate Your Impact &rarr;</a>
+        <a class="btn-outline" href="#personas">See the Stories</a>
+      </div>
+      <div class="hero-promise">
+        <div class="promise-item"><div class="promise-num">$4,800+</div><div class="promise-label">Avg. Family Savings / Year</div></div>
+        <div class="promise-item"><div class="promise-num">40+</div><div class="promise-label">Hours Saved / Year</div></div>
+        <div class="promise-item"><div class="promise-num">$1,200+</div><div class="promise-label">In Rewards &amp; Offers / Year</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="security-visual-card">
+        <div class="security-headline">
+          Protecting Americans <em>from</em> AI<br>&mdash; Not Just Connecting Them <em>to</em> It
+        </div>
+        <div class="security-features">
+          <div class="security-feature">
+            <div class="security-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14 2L4 7v7c0 6.075 4.25 11.425 10 12.75 5.75-1.325 10-6.675 10-12.75V7L14 2z" stroke="var(--gold)" stroke-width="1.5" fill="none"/>
+                <path d="M10 14l3 3 5-6" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="security-label">Battle-Tested<br>DoD/VA Validated</div>
+          </div>
+          <div class="security-feature">
+            <div class="security-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="13" width="16" height="11" rx="2" stroke="var(--gold)" stroke-width="1.5"/>
+                <path d="M10 13V9a4 4 0 1 1 8 0v4" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="14" cy="19" r="1.5" fill="var(--gold)"/>
+              </svg>
+            </div>
+            <div class="security-label">Patient-Owned<br>Patient-Controlled</div>
+          </div>
+          <div class="security-feature">
+            <div class="security-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="5" y="3" width="18" height="22" rx="2" stroke="var(--gold)" stroke-width="1.5"/>
+                <path d="M9 9h10M9 13h10M9 17h6" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="security-label">Complete Audit Trail<br>1.8M+ Transactions/Hour</div>
+          </div>
+          <div class="security-feature">
+            <div class="security-icon">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="14" cy="14" r="10" stroke="var(--gold)" stroke-width="1.5"/>
+                <path d="M9 14.5l3.5 3.5L19 11" stroke="var(--gold)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <div class="security-label">HIPAA, FedRAMP<br>FHIR/TEFCA Native</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Gold Ticker -->
+<div class="gold-ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">400+ Connected Devices</span>
+    <span class="ticker-item">1,500+ Insurance Payers</span>
+    <span class="ticker-item">Rx Price Intelligence</span>
+    <span class="ticker-item">Real-Time Cost Transparency</span>
+    <span class="ticker-item">TETRA&trade; Intelligence Engine</span>
+    <span class="ticker-item">Your Data, Your Control</span>
+    <span class="ticker-item">Federally Validated</span>
+    <span class="ticker-item">CMS Ecosystem Approved</span>
+    <span class="ticker-item">400+ Connected Devices</span>
+    <span class="ticker-item">1,500+ Insurance Payers</span>
+    <span class="ticker-item">Rx Price Intelligence</span>
+    <span class="ticker-item">Real-Time Cost Transparency</span>
+    <span class="ticker-item">TETRA&trade; Intelligence Engine</span>
+    <span class="ticker-item">Your Data, Your Control</span>
+    <span class="ticker-item">Federally Validated</span>
+    <span class="ticker-item">CMS Ecosystem Approved</span>
+  </div>
+</div>
+
+<!-- TRANSFORMATION -->
+<section class="section est-section" id="transformation">
+  <div class="section-inner">
+    <p class="section-overline reveal" style="text-align:center;">The InPursuit Difference</p>
+    <h2 class="section-headline reveal" style="text-align:center;">Passive &amp; incomplete data in.<br><em>Proactive &amp; personalized knowledge out.</em></h2>
+    <p class="section-desc reveal" style="text-align:center;max-width:640px;margin:0 auto 48px;">In seconds, InPursuit securely connects to your clinical records, insurance plan, devices, apps, and social signals, transforming scattered data into intelligence that saves you money, time, and potentially your life.</p>
+
+    <!-- INTERACTIVE ESTIMATOR -->
+    <div class="est-container" id="estimator">
+      <div class="est-step active" id="estStep0">
+        <div class="est-question">What type of insurance do you have?</div>
+        <div class="est-hint">This helps us estimate your coverage benefits and savings potential.</div>
+        <div class="est-options">
+          <div class="est-opt" onclick="selectOpt(0,this,'employer')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#457B9D"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg></div><div class="est-opt-label">Employer Plan</div><div class="est-opt-sub">PPO, HMO, HDHP</div></div>
+          <div class="est-opt" onclick="selectOpt(0,this,'marketplace')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="est-opt-label">Marketplace / ACA</div><div class="est-opt-sub">Healthcare.gov</div></div>
+          <div class="est-opt" onclick="selectOpt(0,this,'medicare')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#C5A44E"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="est-opt-label">Medicare</div><div class="est-opt-sub">Original or Advantage</div></div>
+          <div class="est-opt" onclick="selectOpt(0,this,'none')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#6B7280"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg></div><div class="est-opt-label">Uninsured</div><div class="est-opt-sub">Cash pay</div></div>
+        </div>
+        <div class="est-progress"><div class="est-dot active"></div><div class="est-dot"></div><div class="est-dot"></div><div class="est-dot"></div><div class="est-dot"></div></div>
+      </div>
+
+      <div class="est-step" id="estStep1">
+        <div class="est-question">How many dependents are on your plan?</div>
+        <div class="est-hint">More family members means more savings opportunities across prescriptions, preventive care, and benefits.</div>
+        <div class="est-options">
+          <div class="est-opt" onclick="selectOpt(1,this,'0')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#457B9D"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div><div class="est-opt-label">Just me</div></div>
+          <div class="est-opt" onclick="selectOpt(1,this,'1')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div><div class="est-opt-label">Me + 1</div><div class="est-opt-sub">Spouse / partner</div></div>
+          <div class="est-opt" onclick="selectOpt(1,this,'2-3')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#C5A44E"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div><div class="est-opt-label">Me + 2&ndash;3</div><div class="est-opt-sub">Family plan</div></div>
+          <div class="est-opt" onclick="selectOpt(1,this,'4+')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#E76F51"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div><div class="est-opt-label">Me + 4 or more</div><div class="est-opt-sub">Large family</div></div>
+        </div>
+        <div class="est-progress"><div class="est-dot done"></div><div class="est-dot active"></div><div class="est-dot"></div><div class="est-dot"></div><div class="est-dot"></div></div>
+        <div class="est-back" onclick="goBack(1)">&larr; Back</div>
+      </div>
+
+      <div class="est-step" id="estStep2">
+        <div class="est-question">How many prescriptions do you take?</div>
+        <div class="est-hint">InPursuit finds cheaper pharmacies and alternatives for every medication.</div>
+        <div class="est-options">
+          <div class="est-opt" onclick="selectOpt(2,this,'0')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div><div class="est-opt-label">None</div></div>
+          <div class="est-opt" onclick="selectOpt(2,this,'1-2')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#457B9D"><path d="M4.22 11.29l4.56-4.56a2.41 2.41 0 013.41 0L16.78 11.29a2.41 2.41 0 010 3.41L12.22 19.27a2.41 2.41 0 01-3.41 0L4.22 14.71a2.41 2.41 0 010-3.42z"/></svg></div><div class="est-opt-label">1&ndash;2</div></div>
+          <div class="est-opt" onclick="selectOpt(2,this,'3-5')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#E76F51"><path d="M4.22 11.29l4.56-4.56a2.41 2.41 0 013.41 0L16.78 11.29a2.41 2.41 0 010 3.41L12.22 19.27a2.41 2.41 0 01-3.41 0L4.22 14.71a2.41 2.41 0 010-3.42z"/></svg></div><div class="est-opt-label">3&ndash;5</div></div>
+          <div class="est-opt" onclick="selectOpt(2,this,'6+')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#B22234"><path d="M4.22 11.29l4.56-4.56a2.41 2.41 0 013.41 0L16.78 11.29a2.41 2.41 0 010 3.41L12.22 19.27a2.41 2.41 0 01-3.41 0L4.22 14.71a2.41 2.41 0 010-3.42z"/></svg></div><div class="est-opt-label">6 or more</div></div>
+        </div>
+        <div class="est-progress"><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot active"></div><div class="est-dot"></div><div class="est-dot"></div></div>
+        <div class="est-back" onclick="goBack(2)">&larr; Back</div>
+      </div>
+
+      <div class="est-step" id="estStep3">
+        <div class="est-question">Which devices or apps do you use?</div>
+        <div class="est-hint">Select all that apply. Each connection deepens your personalized insights.</div>
+        <div class="est-options" id="deviceOpts">
+          <div class="est-opt" onclick="toggleOpt(this,'watch')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/apple.com" alt="Apple"></div><div class="est-opt-label">Apple Watch</div></div>
+          <div class="est-opt" onclick="toggleOpt(this,'garmin')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/garmin.com" alt="Garmin"></div><div class="est-opt-label">Garmin / Fitbit</div></div>
+          <div class="est-opt" onclick="toggleOpt(this,'whoop')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/whoop.com" alt="WHOOP"></div><div class="est-opt-label">WHOOP / Oura</div></div>
+          <div class="est-opt" onclick="toggleOpt(this,'peloton')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/onepeloton.com" alt="Peloton"></div><div class="est-opt-label">Peloton / Strava</div></div>
+          <div class="est-opt" onclick="toggleOpt(this,'cgm')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/dexcom.com" alt="Dexcom"></div><div class="est-opt-label">Dexcom / CGM</div></div>
+          <div class="est-opt" onclick="toggleOpt(this,'nutrition')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/myfitnesspal.com" alt="MFP"></div><div class="est-opt-label">MFP / Noom</div></div>
+          <div class="est-opt" onclick="toggleOpt(this,'mental')"><div class="est-opt-icon"><img src="https://logo.clearbit.com/headspace.com" alt="Headspace"></div><div class="est-opt-label">Calm / Headspace</div></div>
+          <div class="est-opt" onclick="toggleOpt(this,'none')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#6B7280"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></div><div class="est-opt-label">None yet</div></div>
+        </div>
+        <div style="text-align:center;margin-top:24px;"><button class="btn-outline" style="color:var(--gold);" onclick="advanceFromDevices()">Continue &rarr;</button></div>
+        <div class="est-progress"><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot active"></div><div class="est-dot"></div></div>
+        <div class="est-back" onclick="goBack(3)">&larr; Back</div>
+      </div>
+
+      <div class="est-step" id="estStep4">
+        <div class="est-question">What matters most to you?</div>
+        <div class="est-hint">This shapes how we prioritize your personalized Health Feed.</div>
+        <div class="est-options">
+          <div class="est-opt" onclick="selectOpt(4,this,'cost')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#2D6A4F"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.93V18h-2v-1.07A4 4 0 018 13h2a2 2 0 004 0c0-1.1-.9-2-2-2a4 4 0 01-1-7.93V2h2v1.07A4 4 0 0116 7h-2a2 2 0 00-4 0c0 1.1.9 2 2 2a4 4 0 011 7.93z"/></svg></div><div class="est-opt-label">Spending Less</div><div class="est-opt-sub">on healthcare</div></div>
+          <div class="est-opt" onclick="selectOpt(4,this,'fitness')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#457B9D"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div><div class="est-opt-label">Fitness Goals</div><div class="est-opt-sub">performance &amp; recovery</div></div>
+          <div class="est-opt" onclick="selectOpt(4,this,'chronic')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#B22234"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div><div class="est-opt-label">Managing a Condition</div><div class="est-opt-sub">diabetes, heart, etc.</div></div>
+          <div class="est-opt" onclick="selectOpt(4,this,'prevent')"><div class="est-opt-icon"><svg viewBox="0 0 24 24" fill="#C5A44E"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div><div class="est-opt-label">Staying Healthy</div><div class="est-opt-sub">prevention &amp; longevity</div></div>
+        </div>
+        <div class="est-progress"><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot done"></div><div class="est-dot active"></div></div>
+        <div class="est-back" onclick="goBack(4)">&larr; Back</div>
+      </div>
+
+      <div class="est-results" id="estResults">
+        <div class="results-header">Your data, transformed into value:</div>
+        <div class="results-grid">
+          <div class="result-card money"><div class="result-number" id="resMoney">$4,800+</div><div class="result-label">Estimated Annual Savings</div><div class="result-detail" id="resMoneyDetail">Through Rx intelligence, procedure price transparency, insurance benefit maximization, deductible strategy, and catching preventable conditions early.</div></div>
+          <div class="result-card time"><div class="result-number" id="resTime">42+ hrs</div><div class="result-label">Time Saved Per Year</div><div class="result-detail" id="resTimeDetail">No more calling insurance, searching for providers, comparing pharmacy prices, deciphering EOBs, or sitting on hold.</div></div>
+          <div class="result-card outcomes"><div class="result-number" id="resOutcome">$1,200+</div><div class="result-label" id="resOutcomeLabel">In Rewards &amp; Offers Per Year</div><div class="result-detail" id="resOutcomeDetail">Your health engagement signals are worth more to brands than any social media like. Personalized offers from supplement brands, fitness companies, healthy meal delivery, wellness products, and pharma &mdash; plus points from healthy actions redeemable for HSA contributions, gift cards, and partner credits.</div></div>
+        </div>
+        <div class="results-sources"><p><strong>How we calculated this:</strong> Your <span id="resInsurance">employer plan</span> combined with <span id="resDevices">3 connected devices</span> and <span id="resRx">your prescriptions</span> creates a data profile that enables Rx price optimization ($500&ndash;2,000 alone), procedure cost comparison (avg. $1,200 saved per event), and insurance benefit maximization &mdash; all powered by InPursuit Health. Rewards include points from healthy actions (screenings, streaks, goals) <strong>plus personalized offers from partner brands</strong> &mdash; supplement companies, fitness brands, meal delivery, wearables, and wellness products &mdash; who pay premium to reach engaged, health-conscious consumers like you. Your engagement signals are worth far more than a social media like.</p></div>
+        <button class="est-restart" onclick="restartEst()">Start over</button>
+      </div>
+    </div>
+
+    <div class="pipeline" id="pipeline">
+      <!-- INPURSUIT ENGINE BAR -->
+      <div class="pipe-engine" id="pipeEngine">
+        <div class="pipe-engine-sweep"></div>
+        <div class="pipe-engine-inner">
+          <div class="pipe-engine-icon"><img src="data:image/png;base64,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" alt="IP" style="width:32px;height:32px;border-radius:50%;"></div>
+          <div class="pipe-engine-text"><span class="pipe-engine-name">InPursuit Health</span> <span class="pipe-engine-sub">Secured &middot; Normalized &middot; Personalized</span></div>
+          <div class="pipe-engine-counter"><span class="pipe-counter-num" id="pipeCounter">0</span><span class="pipe-counter-label">data points / sec</span></div>
+        </div>
+        <div class="pipe-engine-bar"><div class="pipe-bar-fill" id="pipeBarFill"></div></div>
+      </div>
+
+      <!-- INTELLIGENCE FEED VIEWS -->
+      <div class="pipe-proactive">
+        <div class="pipe-label-gold" style="text-align:center;">Intelligence delivered to you &mdash; not another app to manage.</div>
+        <p style="text-align:center;font-size:13px;color:var(--text-muted);max-width:520px;margin:0 auto 32px;line-height:1.6;">InPursuit works behind the scenes with the apps and devices you already love. No new screens to check. No new habits to build. Just smarter alerts, exactly when they matter.</p>
+
+        <div class="view-tabs" id="viewTabs">
+          <button class="view-tab active" onclick="switchView(0)">&#128241; App Home</button>
+          <button class="view-tab" onclick="switchView(1)">&#128241; Lock Screen</button>
+          <button class="view-tab" onclick="switchView(2)">&#9638; Widget</button>
+        </div>
+
+        <!-- VIEW 0: NOTIFICATIONS -->
+        <div class="phone-mock view-panel active" id="viewPanel0">
+          <div class="phone-notch"></div>
+          <div class="phone-status"><span>9:41</span><span class="phone-status-right">&#9679;&#9679;&#9679; &#128267;</span></div>
+          
+          <div class="app-dashboard">
+            <!-- App Header -->
+            <div class="app-header">
+              <div class="app-header-left">
+                <img src="data:image/png;base64,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" alt="InPursuit" class="app-logo-mark">
+                <div>
+                  <div class="app-greeting">Good morning</div>
+                  <div class="app-username">Sarah</div>
+                </div>
+              </div>
+              <div class="app-header-right">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" alt="Sarah" class="app-avatar-photo">
+              </div>
+            </div>
+
+            <!-- Hero Stats -->
+            <div class="app-stats-row">
+              <div class="app-stat-pill save-money"><span class="app-stat-icon">&#128176;</span><span class="app-stat-value">$5,072</span><span class="app-stat-label">Saved</span></div>
+              <div class="app-stat-pill save-time"><span class="app-stat-icon">&#129328;</span><span class="app-stat-value">28 wks</span><span class="app-stat-label">Along</span></div>
+              <div class="app-stat-pill rewards"><span class="app-stat-icon">&#127942;</span><span class="app-stat-value">$284</span><span class="app-stat-label">Rewards</span></div>
+            </div>
+
+            <!-- Action Banner -->
+            <div class="app-action-banner">
+              <div class="app-action-dot"></div>
+              <div class="app-action-text"><strong>2 actions</strong> can save you <strong>$5,072+</strong> before delivery</div>
+              <div class="app-action-arrow">&#8250;</div>
+            </div>
+
+            <!-- Sleep Reassurance Card -->
+            <div class="app-card">
+              <div class="app-card-header">
+                <span class="app-card-tag tag-outcome">&#128164; Sleep</span>
+                <span class="app-card-time">6:30 AM</span>
+              </div>
+              <div class="app-card-title">Woke up 4x &mdash; normal at 28 wks</div>
+              <div class="app-card-body">Third-trimester sleep disruption is common. <strong>Headspace prenatal rest session</strong> ready for you.</div>
+              <div class="app-card-actions">
+                <span class="app-btn-primary">Play Session</span>
+                <span class="app-btn-ghost">Later</span>
+              </div>
+            </div>
+
+            <!-- Delivery Cost Card -->
+            <div class="app-card">
+              <div class="app-card-header">
+                <span class="app-card-tag tag-money">&#128181; Delivery</span>
+                <span class="app-card-time">10:30 AM</span>
+              </div>
+              <div class="app-card-title">Save $4,700 on delivery</div>
+              <div class="app-card-body">Piedmont: <strong>$4,200</strong> vs. Northside: $8,900 &mdash; both in-network, both Level III NICUs.</div>
+              <div class="app-card-actions">
+                <span class="app-btn-primary">Compare Hospitals</span>
+                <span class="app-btn-ghost">Save</span>
+              </div>
+            </div>
+
+            <!-- Glucose Screening Card -->
+            <div class="app-card">
+              <div class="app-card-header">
+                <span class="app-card-tag tag-outcome">&#129658; Screening</span>
+                <span class="app-card-time">1:00 PM</span>
+              </div>
+              <div class="app-card-title">Glucose screen due next week</div>
+              <div class="app-card-body">Gestational diabetes test at 28 wks &mdash; <strong>covered at $0</strong>. Nearest lab: 1.2 mi, 10 min wait.</div>
+              <div class="app-card-actions">
+                <span class="app-btn-primary">Book Lab</span>
+                <span class="app-btn-ghost">Details</span>
+              </div>
+            </div>
+
+            <!-- Prenatal Anxiety Card -->
+            <div class="app-card" style="border-color: rgba(147,130,220,0.15);">
+              <div class="app-card-header">
+                <span class="app-card-tag" style="background:rgba(147,130,220,0.12);color:#b8a9e8;">&#128156; Mental Health</span>
+                <span class="app-card-time">4:00 PM</span>
+              </div>
+              <div class="app-card-title">Feeling anxious? You&rsquo;re covered.</div>
+              <div class="app-card-body">Your Cigna plan covers <strong>20 therapy sessions at $30/ea</strong>. 3 prenatal-focused therapists near you.</div>
+              <div class="app-card-actions">
+                <span class="app-btn-primary">Find a Therapist</span>
+                <span class="app-btn-ghost">Learn More</span>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom Nav -->
+          <div class="app-bottom-nav">
+            <div class="app-nav-item active"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg><span>Home</span></div>
+            <div class="app-nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg><span>Savings</span></div>
+            <div class="app-nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg><span>Rewards</span></div>
+            <div class="app-nav-item"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg><span>Profile</span></div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+
+        <!-- VIEW 1: LOCK SCREEN -->
+        <div class="phone-mock view-panel" id="viewPanel1">
+          <div class="phone-notch"></div>
+          <div class="lock-screen">
+            <div class="lock-time">9:41</div>
+            <div class="lock-date">Sunday, February 23</div>
+            <div class="lock-notifs">
+              <div class="lock-notif" data-d="0"><div class="lock-notif-header"><img src="data:image/png;base64,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" alt="IP" class="notif-icon ip-icon"><span>InPursuit Health &middot; 6:30 AM</span></div><div class="lock-notif-text"><strong>&#128164; Woke up 4x last night</strong> &mdash; Normal at 28 weeks. Headspace prenatal rest session ready.</div></div>
+              <div class="lock-notif" data-d="1"><div class="lock-notif-header"><img src="data:image/png;base64,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" alt="IP" class="notif-icon ip-icon"><span>InPursuit Health &middot; 10:30 AM</span></div><div class="lock-notif-text"><strong>&#128181; Delivery: Save $4,700</strong> &mdash; Piedmont $4,200 vs Northside $8,900. Both in-network, both Level III NICU.</div></div>
+              <div class="lock-notif" data-d="2"><div class="lock-notif-header"><img src="data:image/png;base64,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" alt="IP" class="notif-icon ip-icon"><span>InPursuit Health &middot; 4:00 PM</span></div><div class="lock-notif-text"><strong>&#128156; Feeling anxious?</strong> &mdash; Your Cigna plan covers 20 therapy sessions. 3 prenatal specialists near you.</div></div>
+            </div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+
+        <!-- VIEW 2: WIDGET -->
+        <div class="phone-mock view-panel" id="viewPanel2">
+          <div class="phone-notch"></div>
+          <div class="phone-status"><span>9:41</span><span class="phone-status-right">&#9679;&#9679;&#9679; &#128267;</span></div>
+          <div class="widget-screen">
+            <div class="widget-label">Home Screen Widget</div>
+            <div class="widget-card">
+              <div class="widget-header"><img src="data:image/png;base64,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" alt="IP" class="notif-icon ip-icon"><img src="data:image/png;base64,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" alt="IP" class="notif-icon ip-icon" style="width:22px;height:22px;border-radius:6px;"><span class="widget-title">InPursuit Health</span><span class="widget-streak">&#128293; 14 days</span></div>
+              <div class="widget-stats"><div class="widget-stat"><div class="widget-stat-num" style="color:#4ADE80;">$1,556</div><div class="widget-stat-label">Saved YTD</div></div><div class="widget-stat"><div class="widget-stat-num" style="color:#7DD3FC;">14 hrs</div><div class="widget-stat-label">Time Saved</div></div><div class="widget-stat"><div class="widget-stat-num" style="color:var(--gold);">$284</div><div class="widget-stat-label">Rewards &amp; Offers</div></div></div>
+              <div class="widget-alert"><div class="widget-alert-dot"></div><div class="widget-alert-text"><strong>2 savings + 3 partner offers</strong> worth <strong>$1,280+</strong> today</div><div class="widget-alert-arrow">&rarr;</div></div>
+            </div>
+            <div class="widget-card widget-card-small">
+              <div class="widget-mini-header"><img src="data:image/png;base64,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" alt="IP" class="notif-icon ip-icon"><span>Daily Digest</span></div>
+              <div class="widget-mini-items"><div class="widget-mini-item"><span class="wmi-dot" style="background:#4ADE80;"></span>Prenatal Rx: Save $31/mo switching to Cigna formulary</div><div class="widget-mini-item"><span class="wmi-dot" style="background:#7DD3FC;"></span>Delivery cost: Piedmont saves $4,700 vs Northside</div><div class="widget-mini-item"><span class="wmi-dot" style="background:var(--gold);"></span>Glucose screen due next week &mdash; covered at $0</div></div>
+            </div>
+          </div>
+          <div class="phone-home-bar"></div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PERSONAS -->
+<section class="section persona-section" id="personas">
+  <div class="section-inner">
+    <p class="section-overline reveal" style="text-align:center;">Real People, Real Value</p>
+    <h2 class="section-headline reveal" style="text-align:center;">See how InPursuit works in the <em>moments that matter.</em></h2>
+    <p class="section-desc reveal" style="text-align:center;max-width:640px;margin:0 auto;">Five Americans. One ordinary day. Dozens of moments where InPursuit saves them money, saves them time, and helps them make better decisions.</p>
+
+    <div class="persona-selector reveal">
+      <div class="persona-btn active" onclick="selectPersona(0)"><img src="https://images.unsplash.com/photo-1566616213894-2d4e1baee5d8?w=200&h=200&fit=crop&crop=face" alt="Robert, 58" class="persona-avatar"><div class="persona-btn-name">Robert, 58</div><div class="persona-btn-desc">Type 2 Diabetes &middot; Medicare</div></div>
+      <div class="persona-btn" onclick="selectPersona(1)"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" alt="Sarah, 32" class="persona-avatar"><div class="persona-btn-name">Sarah, 32</div><div class="persona-btn-desc">Expecting Mom &middot; Cigna PPO</div></div>
+      <div class="persona-btn" onclick="selectPersona(2)"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="Patrick, 41" class="persona-avatar"><div class="persona-btn-name">Patrick, 41</div><div class="persona-btn-desc">Executive &middot; Anthem BCBS</div></div>
+      <div class="persona-btn" onclick="selectPersona(3)"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=face" alt="Maya, 20" class="persona-avatar"><div class="persona-btn-name">Maya, 20</div><div class="persona-btn-desc">D1 Athlete &middot; Parent&rsquo;s UHC</div></div>
+      <div class="persona-btn" onclick="selectPersona(4)"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="David, 45" class="persona-avatar"><div class="persona-btn-name">David, 45</div><div class="persona-btn-desc">Intl. Traveler &middot; Aetna PPO</div></div>
+    </div>
+
+    <!-- ROBERT -->
+    <div class="day-panel active" id="panel0">
+      <div class="persona-intro">
+        <div class="persona-story"><div class="persona-story-header"><img src="https://images.unsplash.com/photo-1566616213894-2d4e1baee5d8?w=200&h=200&fit=crop&crop=face" alt="" class="persona-story-avatar"><h3>Robert is managing Type 2 Diabetes on Medicare.</h3></div><p>Recently diagnosed, Robert juggles metformin, diet changes, and a new exercise routine. Before InPursuit, he was overpaying for prescriptions and missing preventive screenings he didn&rsquo;t know were free.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Medicare Advantage (Humana) &mdash; $0 PCP, $20 specialist</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected devices &amp; apps:</div>
+          <div class="ctx-apps">
+            <span class="ctx-app"><img src="https://logo.clearbit.com/fitbit.com" alt="">Fitbit Sense</span>
+            <span class="ctx-app"><img src="https://logo.clearbit.com/dexcom.com" alt="">Dexcom G7</span>
+            <span class="ctx-app"><img src="https://logo.clearbit.com/myfitnesspal.com" alt="">MyFitnessPal</span>
+          </div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; EHR &mdash; full lab history, Rx records, diagnoses</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">6:45 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Your metformin costs $47 at CVS. It&rsquo;s $4 at Costco &mdash; on your plan.</div><div class="moment-tag tag-save">Rx Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; EHR</span><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">Humana Formulary</span><span class="src-badge"><img src="https://logo.clearbit.com/goodrx.com" alt="">GoodRx API</span></div><div class="moment-body">InPursuit knows his prescriptions from his medical records and his formulary tier from his Humana plan. It found the <strong>same medication at 91% less</strong> at a pharmacy 2 miles away.</div><div class="moment-value value-save">Saves $516/year on one medication</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">7:30 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Glucose spiked to 168 after last night&rsquo;s pasta. Here&rsquo;s what helps.</div><div class="moment-tag tag-outcome">Device + Social</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/dexcom.com" alt="">Dexcom G7</span><span class="src-badge"><img src="https://logo.clearbit.com/myfitnesspal.com" alt="">MyFitnessPal</span><span class="src-badge"><img src="https://logo.clearbit.com/youtube.com" alt="">YouTube Subs</span></div><div class="moment-body">His Dexcom data shows a post-dinner spike. InPursuit correlates this with his MFP meal log and surfaces research from <strong>the diabetes channels he subscribes to on YouTube</strong>.</div><div class="moment-value value-outcome">Glucose spikes reduced 22% in 3 months</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">9:15 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Quarterly A1C lab is covered at $0. Last test was 11 weeks ago.</div><div class="moment-tag tag-save">Insurance + Clinical</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">Humana MA</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; Labs</span></div><div class="moment-body">Medicare Advantage covers quarterly A1C at no cost. InPursuit knows when his last test was from his EHR and <strong>surfaces the reminder at exactly the right time</strong>.</div><div class="moment-value value-save">$0 &mdash; fully covered preventive care</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">10:00 AM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">3 in-network endocrinologists near you. Tap to book.</div><div class="moment-tag tag-time">Scheduling</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">In-Network</span><span class="src-badge"><img src="https://logo.clearbit.com/zocdoc.com" alt="">Zocdoc API</span></div><div class="moment-body">His A1C trend suggests a specialist. InPursuit shows three endocrinologists <strong>in his Humana network</strong>, with real-time availability and his exact copay ($20).</div><div class="moment-value value-time">Booked in 30 seconds, not 30 minutes</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">12:30 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">15-min post-lunch walk reduces your spike by 30%. Fitbit is tracking.</div><div class="moment-tag tag-outcome">Care Navigation</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/dexcom.com" alt="">Dexcom</span><span class="src-badge"><img src="https://logo.clearbit.com/fitbit.com" alt="">Fitbit</span></div><div class="moment-body">InPursuit learned from his Dexcom data that worst spikes happen after lunch. It suggests a walk &mdash; <strong>timed to his actual spike window</strong> &mdash; and Fitbit tracks it automatically.</div><div class="moment-value value-outcome">Post-meal glucose improved 31 mg/dL avg</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">5:00 PM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Diabetic eye exam covered at $20. You&rsquo;re 14 months overdue.</div><div class="moment-tag tag-save">Preventive Timeline</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">T2D Diagnosis</span><span class="src-badge"><img src="https://logo.clearbit.com/humana.com" alt="">Eye Benefit</span></div><div class="moment-body">Robert didn&rsquo;t know he was overdue. InPursuit cross-references his diagnosis, coverage, and visit history to surface this <strong>before it becomes a problem</strong>.</div><div class="moment-value value-save">$20 screening prevents $15,000+ treatment</div></div></div>
+      </div>
+    </div>
+
+    <!-- SARAH -->
+    <div class="day-panel" id="panel1">
+      <div class="persona-intro">
+        <div class="persona-story"><div class="persona-story-header"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face" alt="" class="persona-story-avatar"><h3>Sarah is 28 weeks pregnant with her first baby &mdash; and overwhelmed.</h3></div><p>Everything is new. Every symptom triggers a Google spiral. She doesn&rsquo;t know what her insurance covers, what delivery will cost, or whether her anxiety is normal. She needs clarity &mdash; not more noise.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Cigna PPO &mdash; $30 PCP, $0 preventive, $250 ER copay</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected:</div>
+          <div class="ctx-apps"><span class="ctx-app"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span><span class="ctx-app"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span><span class="ctx-app"><img src="https://logo.clearbit.com/ovia.com" alt="">Ovia Pregnancy</span><span class="ctx-app"><img src="https://logo.clearbit.com/babycenter.com" alt="">BabyCenter</span></div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; &mdash; OB/GYN records, prenatal labs, Rx history, ultrasound reports</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">6:30 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">You woke up 4 times last night. At 28 weeks, that&rsquo;s actually normal.</div><div class="moment-tag tag-outcome">Reassurance</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span><span class="src-badge"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span></div><div class="moment-body">Sarah&rsquo;s Apple Watch shows 4.6 hours of broken sleep. Before InPursuit, that triggers a 2 AM anxiety spiral: <em>&ldquo;Is something wrong with the baby?&rdquo;</em> Instead, she wakes up to a calm message: <strong>third-trimester sleep disruption is common</strong> &mdash; with a Headspace session designed for prenatal rest.</div><div class="moment-value value-outcome">Anxiety replaced with understanding</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">8:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Prenatal vitamins: $42/mo at Target. Same formula: $11 on your Cigna plan.</div><div class="moment-tag tag-save">Rx Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; Rx</span><span class="src-badge"><img src="https://logo.clearbit.com/cigna.com" alt="">Cigna Formulary</span></div><div class="moment-body">Her OB prescribed a prenatal vitamin she&rsquo;s been buying OTC at $42/month. InPursuit found a <strong>clinically identical prescription prenatal covered at $11 copay</strong> on her Cigna formulary &mdash; confirmed same DHA, folate, and iron her doctor wants.</div><div class="moment-value value-save">Saves $372/year on one supplement</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">10:30 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Delivery cost: $4,200 at Piedmont vs. $8,900 at Northside. Both in-network.</div><div class="moment-tag tag-save">Price Transparency</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/cigna.com" alt="">Cigna PPO</span><span class="src-badge"><img src="https://logo.clearbit.com/turquoisehealth.com" alt="">Turquoise</span></div><div class="moment-body">This is the question that keeps expecting parents up at night: <em>what will delivery actually cost?</em> InPursuit pulls real price transparency data for both hospitals, matched to her specific Cigna plan. <strong>Same in-network status. Same quality rating. Same Level III NICU. $4,700 difference.</strong></div><div class="moment-value value-save">$4,700 savings on the biggest bill of the year</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">1:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Glucose screening is due next week. Here&rsquo;s what to expect &mdash; and it&rsquo;s $0.</div><div class="moment-tag tag-outcome">Care Timeline</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; OB</span><span class="src-badge"><img src="https://logo.clearbit.com/cigna.com" alt="">Preventive</span></div><div class="moment-body">Her OB ordered a gestational diabetes screen for 28&ndash;29 weeks. InPursuit knows the timing, explains the glucose tolerance test in plain language, <strong>shows the nearest lab with shortest wait times</strong>, and confirms it&rsquo;s covered at $0 as preventive care. One less thing to worry about.</div><div class="moment-value value-outcome">Prepared, not panicked</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">4:00 PM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Feeling anxious is normal. Your plan covers 20 therapy sessions at $30.</div><div class="moment-tag tag-time">Mental Health</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/apple.com" alt="">HRV Data</span><span class="src-badge"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span><span class="src-badge"><img src="https://logo.clearbit.com/cigna.com" alt="">Mental Health</span></div><div class="moment-body">Her Apple Watch shows elevated resting heart rate and declining HRV &mdash; consistent with sustained stress. Headspace usage is up 40% this month. InPursuit doesn&rsquo;t diagnose &mdash; it gently surfaces the fact that <strong>her Cigna plan covers 20 therapy sessions per year</strong> and shows 3 therapists specializing in prenatal anxiety, including telehealth from home.</div><div class="moment-value value-time">Support when she needs it, not when it&rsquo;s too late</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">7:30 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Blood pressure 128/82. Let&rsquo;s track this week and share with your OB.</div><div class="moment-tag tag-outcome">Monitoring</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; OB</span></div><div class="moment-body">Apple Watch logged a slightly elevated reading. Not alarming on its own, but InPursuit knows preeclampsia monitoring matters in the third trimester. It creates a <strong>7-day BP tracking card</strong> Sarah can share directly with her OB at her next visit &mdash; no frantic ER trip, no ignored warning sign.</div><div class="moment-value value-outcome">The space between panic and neglect</div></div></div>
+      </div>
+    </div>
+
+    <!-- PATRICK -->
+    <div class="day-panel" id="panel2">
+      <div class="persona-intro">
+        <div class="persona-story"><div class="persona-story-header"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face" alt="" class="persona-story-avatar"><h3>Patrick is a data-driven executive focused on longevity.</h3></div><p>With five connected devices and a deep interest in performance optimization, Patrick generates more health data than almost anyone. Before InPursuit, none of it connected to what his insurance covers.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Anthem BCBS PPO &mdash; $1,200 deductible remaining</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected:</div>
+          <div class="ctx-apps"><span class="ctx-app"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="ctx-app"><img src="https://logo.clearbit.com/ouraring.com" alt="">Oura Ring</span><span class="ctx-app"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span><span class="ctx-app"><img src="https://logo.clearbit.com/onepeloton.com" alt="">Peloton</span><span class="ctx-app"><img src="https://logo.clearbit.com/levelshealth.com" alt="">Levels CGM</span></div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; &mdash; full medical records, lab trends</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">5:30 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Oura: 14% deep sleep. WHOOP recovery: 62%. Today is a Zone 2 day.</div><div class="moment-tag tag-outcome">Multi-Device</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/ouraring.com" alt="">Oura</span><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span></div><div class="moment-body">Five devices, one recommendation. InPursuit synthesizes Oura sleep, WHOOP recovery, and Strava load into <strong>a single actionable insight</strong> &mdash; aligned with Zone 2 protocols he follows.</div><div class="moment-value value-outcome">Training calibrated to recovery, not guesswork</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">7:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Advanced blood panel: $340 at LabCorp vs. $890 at the hospital.</div><div class="moment-tag tag-save">Price Transparency</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/anthem.com" alt="">Anthem PPO</span><span class="src-badge"><img src="https://logo.clearbit.com/turquoisehealth.com" alt="">Turquoise</span></div><div class="moment-body">InPursuit uses price transparency data matched to his Anthem PPO to show the <strong>exact cost at every nearby lab</strong> &mdash; the $340 option counts toward his deductible.</div><div class="moment-value value-save">Saves $550 on a single lab order</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">9:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Deductible resets in 6 weeks. $1,200 remaining &mdash; use it strategically.</div><div class="moment-tag tag-save">Insurance Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/anthem.com" alt="">Deductible Tracker</span></div><div class="moment-body">With $1,200 remaining and a reset approaching, InPursuit suggests <strong>scheduling the blood panel + physical now</strong> &mdash; maximizing value before it resets to zero.</div><div class="moment-value value-save">Strategic timing saves $800+ in deductible waste</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">12:00 PM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Training load high. Preventive PT &mdash; 12 visits covered on your plan.</div><div class="moment-tag tag-time">Care Navigation</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/anthem.com" alt="">PT Benefit</span></div><div class="moment-body">8+ hours/week training with elevated strain. InPursuit suggests using <strong>12 covered PT visits for injury prevention</strong> &mdash; not waiting until something breaks.</div><div class="moment-value value-time">In-network sports PT, $35 copay, booked in 2 taps</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">8:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Glucose variability: 18 mg/dL today vs. 24 last month. On track.</div><div class="moment-tag tag-outcome">Outcomes</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/levelshealth.com" alt="">Levels CGM</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">TETRA&trade; Labs</span></div><div class="moment-body">Levels CGM data combined with 6 months of labs shows a clear trajectory. <strong>InPursuit connects the dots across time</strong> &mdash; the longitudinal health story no other app can tell.</div><div class="moment-value value-outcome">Metabolic health trending in the right direction</div></div></div>
+      </div>
+    </div>
+
+    <!-- MAYA -->
+    <div class="day-panel" id="panel3">
+      <div class="persona-intro">
+        <div class="persona-story"><div class="persona-story-header"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=face" alt="" class="persona-story-avatar"><h3>Maya is a D1 college athlete on her parent&rsquo;s insurance.</h3></div><p>As a sophomore forward, Maya&rsquo;s life revolves around performance, recovery, and nutrition. She doesn&rsquo;t think about insurance &mdash; but her parent&rsquo;s plan covers more than she realizes.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Parent&rsquo;s UnitedHealthcare PPO &mdash; $25 PCP, $40 specialist</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected:</div>
+          <div class="ctx-apps"><span class="ctx-app"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span><span class="ctx-app"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="ctx-app"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span><span class="ctx-app"><img src="https://logo.clearbit.com/cronometer.com" alt="">Cronometer</span></div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>TETRA&trade; &mdash; sports medicine records, immunizations</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">6:30 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">WHOOP recovery: 52%. Your body is asking for a rest day.</div><div class="moment-tag tag-outcome">Multi-Device</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span><span class="src-badge"><img src="https://logo.clearbit.com/tiktok.com" alt="">TikTok</span></div><div class="moment-body">Both devices confirm she&rsquo;s under-recovered. InPursuit shows recovery protocols from <strong>sports nutrition accounts she follows on TikTok</strong>.</div><div class="moment-value value-outcome">Injury prevention through data-driven recovery</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">8:00 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Pre-game fueling: 600+ cal 3 hours before. Here&rsquo;s a plan.</div><div class="moment-tag tag-outcome">Nutrition + Devices</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/cronometer.com" alt="">Cronometer</span><span class="src-badge"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span></div><div class="moment-body">Cronometer shows Maya typically under-fuels. InPursuit correlates <strong>Garmin performance data with her nutrition logs</strong> to create a personalized pre-game plan.</div><div class="moment-value value-outcome">Performance fueling personalized to her data</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">11:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Sports medicine visit: $40 on your parent&rsquo;s plan. 3 docs near campus.</div><div class="moment-tag tag-save">Insurance + Scheduling</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/unitedhealthgroup.com" alt="">UHC PPO</span><span class="src-badge"><img src="https://logo.clearbit.com/zocdoc.com" alt="">Zocdoc</span></div><div class="moment-body">Device data shows overtraining signals. InPursuit surfaces her parent&rsquo;s UHC coverage &mdash; <strong>something Maya never thought to check</strong> &mdash; and shows sports medicine doctors near campus.</div><div class="moment-value value-time">Discovered coverage she didn&rsquo;t know she had</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">3:00 PM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Iron supplement: $28 at campus pharmacy. $7 at Walmart. Same product.</div><div class="moment-tag tag-save">Rx Intelligence</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/cronometer.com" alt="">Low Iron Flag</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">Anemia History</span><span class="src-badge"><img src="https://logo.clearbit.com/goodrx.com" alt="">GoodRx</span></div><div class="moment-body">Cronometer flagged low iron. Medical records confirm sports-related anemia. InPursuit found the <strong>same supplement at 75% less</strong> nearby.</div><div class="moment-value value-save">Saves $252/year</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">9:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Season dashboard: VO2 max up 8%. Injury days: 0. Recovery: 91%.</div><div class="moment-tag tag-outcome">Outcomes</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/garmin.com" alt="">Garmin</span><span class="src-badge"><img src="https://logo.clearbit.com/whoop.com" alt="">WHOOP</span><span class="src-badge"><img src="https://logo.clearbit.com/strava.com" alt="">Strava</span></div><div class="moment-body">Longitudinal performance story &mdash; VO2 max, recovery trends, zero missed games. <strong>The proof that listening to her data is working.</strong></div><div class="moment-value value-outcome">Best season of her career, backed by data</div></div></div>
+      </div>
+    </div>
+
+    <!-- DAVID, 45 -->
+    <div class="day-panel" id="panel4">
+      <div class="persona-intro">
+        <div class="persona-story"><div class="persona-story-header"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face" alt="" class="persona-story-avatar"><h3>David is a consultant traveling internationally with a chronic condition.</h3></div><p>David manages hypertension and takes three medications. He&rsquo;s in Tokyo for two weeks and doesn&rsquo;t speak Japanese. Before InPursuit, an ER visit abroad meant language barriers, unknown drug names, and insurance chaos.</p></div>
+        <div class="persona-context">
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>Aetna International PPO &mdash; global coverage, $500 deductible abroad</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm4.2 14.2L11 13V7h1.5v5.2l4.5 2.7-.8 1.3z"/></svg></div>Connected:</div>
+          <div class="ctx-apps"><span class="ctx-app"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span><span class="ctx-app"><img src="https://logo.clearbit.com/withings.com" alt="">Withings BP</span><span class="ctx-app"><img src="https://logo.clearbit.com/headspace.com" alt="">Headspace</span></div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg></div>Medications: Lisinopril 20mg, Amlodipine 5mg, Atorvastatin 10mg</div>
+          <div class="ctx-item"><div class="ctx-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>Location: Tokyo, Japan &middot; Language barrier</div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">6:00 AM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">BP trending up: 148/92 avg over 3 days. Jet lag + sodium likely factors.</div><div class="moment-tag tag-outcome">Device + Clinical</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/withings.com" alt="">Withings BP</span><span class="src-badge"><img src="https://logo.clearbit.com/apple.com" alt="">Apple Watch</span></div><div class="moment-body">Withings BP monitor + Apple Watch show sustained elevation since arriving in Tokyo. InPursuit correlates with <strong>time zone change, disrupted sleep, and high-sodium meals</strong> &mdash; and flags it before it becomes an emergency.</div><div class="moment-value value-outcome">Early warning: 3 days before it became dangerous</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">8:30 AM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Your medication card &mdash; translated to Japanese. Show this at any pharmacy.</div><div class="moment-tag tag-time">Language + Clinical</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">EHR Rx List</span><span class="src-badge"><img src="https://logo.clearbit.com/aetna.com" alt="">Aetna Intl</span></div><div class="moment-body">InPursuit generated a <strong>translated medication card with Japanese drug names, dosages, and his allergies</strong>. Lisinopril &rarr; &#12522;&#12471;&#12494;&#12503;&#12522;&#12523;. No more pantomiming at a pharmacy counter.</div><div class="moment-value value-time">Eliminated the language barrier for medication access</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">11:00 AM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Urgent care covered abroad: &yen;3,200 ($22) copay. Hospital 0.4 mi away.</div><div class="moment-tag tag-save">Insurance + Location</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/aetna.com" alt="">Aetna Intl PPO</span><span class="src-badge"><img src="https://logo.clearbit.com/zocdoc.com" alt="">Provider Locator</span></div><div class="moment-body">BP spike triggered a care recommendation. InPursuit located an <strong>English-speaking doctor at St. Luke&rsquo;s International Hospital</strong> in Chuo-ku &mdash; in-network on his Aetna global plan. Most travelers would have gone to the nearest ER and paid $2,000+.</div><div class="moment-value value-save">Saved $1,800+ vs. out-of-network ER visit</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time time">2:00 PM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Emergency medical summary &mdash; translated, shareable, complete.</div><div class="moment-tag tag-time">Clinical + Language</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">Full EHR</span><span class="src-badge"><img src="https://logo.clearbit.com/withings.com" alt="">BP Trends</span></div><div class="moment-body">When David arrived at St. Luke&rsquo;s, he tapped &ldquo;Share with Provider&rdquo; and the doctor received his <strong>full medical history, current medications, allergies, and 90-day BP trend &mdash; in Japanese</strong>. No forms. No faxes. No phone calls to his PCP back home.</div><div class="moment-value value-time">Saved 45+ minutes of intake paperwork abroad</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time save">5:00 PM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Aetna claim pre-filed. Reimbursement processing. No paperwork needed.</div><div class="moment-tag tag-save">Insurance Automation</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/aetna.com" alt="">Aetna Intl</span></div><div class="moment-body">InPursuit auto-generated the international claim with diagnosis codes, provider details, and visit documentation. <strong>David didn&rsquo;t fill out a single form</strong> &mdash; the claim was submitted before he left the clinic.</div><div class="moment-value value-save">$0 out-of-pocket surprise bills</div></div></div>
+        <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">9:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">BP stabilizing: 132/85. Medication adjustment confirmed with your PCP.</div><div class="moment-tag tag-outcome">Continuity of Care</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/withings.com" alt="">Withings BP</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">PCP Record</span></div><div class="moment-body">The Tokyo doctor adjusted David&rsquo;s lisinopril dose. InPursuit <strong>synced the change to his PCP&rsquo;s records back in Charlotte</strong> in real time. When he gets home, his doctor already knows what happened &mdash; no lost-in-translation gaps.</div><div class="moment-value value-outcome">Zero continuity gaps between countries</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-content reveal">
+    <p class="section-overline">Get Started</p>
+    <h2>Your health data has been locked away <em>long enough.</em></h2>
+    <p>InPursuit Health connects your devices, your insurance, and your medical records into one experience &mdash; powered by TETRA&trade;, the same technology trusted by the Department of Defense.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a class="btn-gold" href="contact.html">Request Early Access &rarr;</a>
+      <a class="btn-outline" href="index.html">Back to Home</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="tetra.html">TETRA</a>
+    <a href="day-in-the-life-patient.html">Patient Journey</a>
+    <a href="day-in-the-life-provider.html">Provider Solutions</a>
+    <a href="ai-and-your-data.html">AI &amp; Your Data</a>
+    <a href="maha.html">MAHA</a>
+    <a href="veterans-first.html">Veterans First</a>
+    <a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a>
+    <a href="leadership.html">Leadership</a>
+    <a href="security-center.html">Security Center</a>
+    <a href="contact.html">Contact</a>
+    <a href="careers.html">Careers</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+// Preloader
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 800);
+  setTimeout(() => switchView(0), 1200);
+});
+
+// Top bar scroll shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Mobile nav toggle
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('mainNav').classList.toggle('open');
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Star parallax
+document.addEventListener('mousemove', (e) => {
+  const stars = document.querySelectorAll('.star');
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  stars.forEach((star, i) => {
+    const depth = (i % 3 + 1) * 0.3;
+    star.style.transform = 'translate(' + (x * depth) + 'px, ' + (y * depth) + 'px)';
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+});
+
+// ===== ESTIMATOR =====
+const answers = {};
+let deviceSelections = [];
+function selectOpt(step, el, val) {
+  el.parentElement.querySelectorAll('.est-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[step] = val;
+  setTimeout(() => {
+    document.getElementById('estStep' + step).classList.remove('active');
+    if (step < 4) { document.getElementById('estStep' + (step + 1)).classList.add('active'); }
+    else { showResults(); }
+  }, 300);
+}
+function toggleOpt(el, val) {
+  el.classList.toggle('selected');
+  if (el.classList.contains('selected')) deviceSelections.push(val);
+  else deviceSelections = deviceSelections.filter(d => d !== val);
+}
+function advanceFromDevices() {
+  answers[3] = deviceSelections;
+  document.getElementById('estStep3').classList.remove('active');
+  document.getElementById('estStep4').classList.add('active');
+}
+function showResults() {
+  document.getElementById('estStep4').classList.remove('active');
+  document.getElementById('estResults').classList.add('active');
+  let savings = 2400, time = 24, rewards = 600;
+  const ins = answers[0], deps = answers[1], rx = answers[2], devs = answers[3] || [], focus = answers[4];
+
+  // Insurance type
+  if (ins === 'employer') { savings += 1800; time += 8; rewards += 200; }
+  else if (ins === 'medicare') { savings += 2400; time += 12; rewards += 280; }
+  else if (ins === 'marketplace') { savings += 1200; time += 6; rewards += 160; }
+  else { savings += 600; time += 4; rewards += 80; }
+
+  // Dependents multiplier
+  let depMult = 1;
+  if (deps === '1') { depMult = 1.6; }
+  else if (deps === '2-3') { depMult = 2.2; }
+  else if (deps === '4+') { depMult = 2.8; }
+  savings = Math.round(savings * depMult);
+  time = Math.round(time * (depMult * 0.7 + 0.3));
+  rewards = Math.round(rewards * depMult);
+
+  // Prescriptions - more Rx = more valuable to pharma/supplement brands
+  if (rx === '1-2') { savings += 800; time += 4; rewards += 180; }
+  else if (rx === '3-5') { savings += 2200; time += 8; rewards += 360; }
+  else if (rx === '6+') { savings += 4200; time += 14; rewards += 520; }
+
+  // Devices - more signals = more valuable profile for brand offers
+  const dc = devs.length;
+  time += dc * 2; rewards += dc * 80; savings += dc * 200;
+  if (devs.includes('cgm')) { savings += 800; rewards += 150; }
+  if (devs.includes('whoop') || devs.includes('garmin')) { rewards += 120; }
+  if (devs.includes('nutrition')) { rewards += 100; }
+
+  // Focus
+  if (focus === 'cost') savings += 600;
+  else if (focus === 'chronic') { savings += 1600; rewards += 240; time += 6; }
+  else if (focus === 'fitness') { rewards += 300; time += 4; }
+  else if (focus === 'prevent') { savings += 800; rewards += 180; }
+
+  savings = Math.round(savings / 100) * 100;
+  time = Math.round(time);
+  rewards = Math.round(rewards / 50) * 50;
+  document.getElementById('resMoney').textContent = '$' + savings.toLocaleString() + '+';
+  document.getElementById('resTime').textContent = time + '+ hrs';
+  document.getElementById('resOutcome').textContent = '$' + rewards + '+';
+  const insLabels = { employer: 'employer PPO/HMO plan', marketplace: 'ACA marketplace plan', medicare: 'Medicare coverage', none: 'cash-pay status' };
+  const depLabels = { '0': 'individual', '1': '2-person', '2-3': 'family', '4+': 'large family' };
+  document.getElementById('resInsurance').textContent = (depLabels[deps] || '') + ' ' + (insLabels[ins] || 'your insurance');
+  document.getElementById('resDevices').textContent = dc > 0 ? dc + ' connected device' + (dc > 1 ? 's' : '') : 'health app connections';
+  const rxLabels = { '0': 'preventive care optimization', '1-2': '1-2 prescriptions', '3-5': '3-5 prescriptions', '6+': '6+ prescriptions' };
+  document.getElementById('resRx').textContent = rxLabels[rx] || 'your health profile';
+  if (focus === 'chronic') document.getElementById('resOutcomeLabel').textContent = 'In Rewards & Offers / Year (Condition Mgmt)';
+  else if (focus === 'fitness') document.getElementById('resOutcomeLabel').textContent = 'In Rewards & Offers / Year (Performance)';
+}
+function goBack(step) {
+  document.getElementById('estStep' + step).classList.remove('active');
+  document.getElementById('estStep' + (step - 1)).classList.add('active');
+}
+function restartEst() {
+  document.getElementById('estResults').classList.remove('active');
+  document.querySelectorAll('.est-step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.est-opt').forEach(o => o.classList.remove('selected'));
+  document.getElementById('estStep0').classList.add('active');
+  deviceSelections = [];
+}
+
+// ===== VIEW SWITCHER =====
+function switchView(idx) {
+  document.querySelectorAll('.view-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  document.querySelectorAll('.view-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+    if (i === idx) {
+      // Animate app dashboard elements
+      p.querySelectorAll('.app-card, .app-action-banner, .app-stats-row').forEach((c, j) => {
+        c.style.opacity = '0'; c.style.transform = 'translateY(12px)';
+        setTimeout(() => { c.style.transition = 'all 0.35s ease'; c.style.opacity = '1'; c.style.transform = 'translateY(0)'; }, 80 + j * 100);
+      });
+      // Animate lock screen + widget cards
+      const cards = p.querySelectorAll('.notif-card, .lock-notif, .widget-card');
+      cards.forEach((c, j) => {
+        c.classList.remove('animate');
+        setTimeout(() => c.classList.add('animate'), j * 150);
+      });
+    }
+  });
+}
+
+// ===== PIPELINE ANIMATION =====
+(function() {
+  const pipeline = document.getElementById('pipeline');
+  if (!pipeline) return;
+  const counter = document.getElementById('pipeCounter');
+  const fill = document.getElementById('pipeBarFill');
+  const cards = document.querySelectorAll('#viewPanel0 .notif-card');
+  let animated = false;
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !animated) {
+        animated = true;
+        // Counter animation
+        let count = 0;
+        const target = 1847;
+        function tick() {
+          count = Math.min(count + Math.ceil((target - count) / 25) + Math.floor(Math.random() * 30), target);
+          counter.textContent = count.toLocaleString();
+          if (count < target) requestAnimationFrame(tick);
+          else setInterval(() => {
+            counter.textContent = (target + Math.floor(Math.random() * 80 - 40)).toLocaleString();
+          }, 1200);
+        }
+        setTimeout(tick, 800);
+        // Fill bar
+        setTimeout(() => { fill.style.width = '100%'; fill.style.transition = 'width 1.8s ease'; }, 600);
+        // Cascade phone cards
+        cards.forEach((c, i) => {
+          setTimeout(() => c.classList.add('animate'), 1400 + i * 220);
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+  obs.observe(pipeline);
+})();
+
+// ===== PERSONAS =====
+function selectPersona(idx) {
+  document.querySelectorAll('.persona-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+  document.querySelectorAll('.day-panel').forEach((p, i) => p.classList.toggle('active', i === idx));
+  setTimeout(observeMoments, 100);
+}
+
+function observeMoments() {
+  const moments = document.querySelectorAll('.day-panel.active .moment');
+  const mObs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 120);
+        mObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  moments.forEach(m => { m.classList.remove('visible'); mObs.observe(m); });
+}
+observeMoments();
+
+// Handle broken logo images
+document.querySelectorAll('img').forEach(img => {
+  img.onerror = function() { this.style.display = 'none'; };
+});
+
+</script>
+</body>
+</html>

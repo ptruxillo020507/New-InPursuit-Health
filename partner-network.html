@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InPursuit Partner Network — Build on TETRA™</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --navy-light: #243352;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --gold-dim: rgba(197,164,78,0.15);
+  --accent-teal: #00A878;
+  --accent-blue: #2E75B6;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --white-dim: rgba(255,255,255,0.6);
+  --white-faint: rgba(255,255,255,0.08);
+  --red: #B22234;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'Instrument Sans', -apple-system, sans-serif;
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  background: var(--navy-deep);
+  color: var(--off-white);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── AMBIENT BACKGROUND ── */
+.bg-ambient {
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 20%, rgba(46,117,182,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 800px at 80% 60%, rgba(197,164,78,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 1200px 600px at 50% 100%, rgba(0,168,120,0.03) 0%, transparent 60%);
+}
+
+/* ── TOP BAR / NAV (synced with index.html) ── */
+.top-bar {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(197,164,78,0.2);
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 64px;
+}
+.top-bar-brand {
+  display: flex; align-items: center;
+  text-decoration: none; cursor: pointer;
+}
+.top-bar-wordmark {
+  font-family: var(--serif);
+  font-size: 22px;
+  color: var(--gold);
+  letter-spacing: 1px;
+  line-height: 1;
+}
+.top-bar-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.nav-item {
+  position: relative;
+  padding: 20px 14px;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.3s ease;
+  cursor: pointer;
+  background: none; border: none;
+  font-family: inherit;
+}
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-toggle {
+  display: none;
+  background: none; border: none;
+  width: 32px; height: 32px;
+  cursor: pointer; position: relative;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--gold);
+  position: absolute; left: 5px;
+  transition: all 0.3s ease;
+}
+.nav-toggle span:nth-child(1) { top: 8px; }
+.nav-toggle span:nth-child(2) { top: 15px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* ── HERO (synced with index.html) ── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh; display: flex; align-items: center; justify-content: center;
+  padding: 64px 40px 80px;
+  padding-top: calc(64px + 60px);
+  text-align: center;
+  background: var(--navy-deep);
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(17,34,64,0.8), var(--navy-deep) 70%);
+}
+.hero-stars {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: rgba(197,164,78,0.4);
+  border-radius: 50%;
+}
+.star:nth-child(1) { top: 12%; left: 8%; width: 3px; height: 3px; }
+.star:nth-child(2) { top: 25%; left: 72%; }
+.star:nth-child(3) { top: 45%; left: 15%; width: 3px; height: 3px; }
+.star:nth-child(4) { top: 60%; left: 85%; }
+.star:nth-child(5) { top: 80%; left: 35%; }
+.star:nth-child(6) { top: 15%; left: 55%; width: 3px; height: 3px; }
+.star:nth-child(7) { top: 70%; left: 60%; }
+.star:nth-child(8) { top: 35%; left: 92%; width: 3px; height: 3px; }
+.star:nth-child(9) { top: 88%; left: 78%; }
+.star:nth-child(10) { top: 50%; left: 45%; }
+.star:nth-child(11) { top: 8%; left: 30%; }
+.star:nth-child(12) { top: 92%; left: 12%; width: 3px; height: 3px; }
+.hero-content { max-width: 900px; position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 24px; font-weight: 600;
+  opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+}
+.hero h1 {
+  font-family: var(--serif); font-size: clamp(36px, 5vw, 64px);
+  font-weight: 400;
+  line-height: 1.15; color: var(--white); margin-bottom: 8px;
+  opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+}
+.hero h1 em {
+  font-style: italic; color: var(--gold);
+}
+.hero-sub {
+  font-size: 17px;
+  font-family: var(--sans);
+  font-style: normal;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.7;
+  margin: 24px auto 40px; max-width: 640px;
+  opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+}
+.hero-actions {
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: var(--gold);
+  color: var(--navy-deep); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  transition: all 0.3s ease; border: none; cursor: pointer;
+  font-family: var(--sans);
+}
+.btn-primary:hover {
+  background: var(--gold-bright); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
+}
+.btn-secondary {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: transparent; color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  border-radius: 4px; border: 1.5px solid rgba(197,164,78,0.4);
+  transition: all 0.3s ease; cursor: pointer;
+  font-family: var(--sans);
+}
+.btn-secondary:hover {
+  border-color: var(--gold); background: rgba(197,164,78,0.08);
+  transform: translateY(-2px);
+}
+
+/* ── CONSTELLATION ORBIT (Hero background) ── */
+.hero-orbit {
+  position: absolute; top: 50%; left: 50%;
+  width: 700px; height: 700px;
+  transform: translate(-50%, -50%);
+  pointer-events: none; opacity: 0.12;
+  z-index: 1;
+}
+.orbit-ring {
+  position: absolute; inset: 0;
+  border: 1.5px solid rgba(197,164,78,0.2);
+  border-radius: 50%;
+  animation: orbitSpin 40s linear infinite;
+}
+.orbit-ring::after {
+  content: '';
+  position: absolute; top: -3px; left: 50%;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); box-shadow: 0 0 15px var(--gold);
+}
+.orbit-ring-2 {
+  position: absolute; inset: 80px;
+  border: 1px solid rgba(46,117,182,0.15);
+  border-radius: 50%;
+  animation: orbitSpin 30s linear infinite reverse;
+}
+.orbit-ring-2::after {
+  content: '';
+  position: absolute; bottom: -2px; right: 30%;
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue);
+}
+.orbit-ring-3 {
+  position: absolute; inset: 180px;
+  border: 1px solid rgba(0,168,120,0.12);
+  border-radius: 50%;
+  animation: orbitSpin 22s linear infinite;
+}
+@keyframes orbitSpin { to { transform: rotate(360deg); } }
+
+/* ── SECTIONS ── */
+section { position: relative; z-index: 1; }
+.section-inner {
+  max-width: 1200px; margin: 0 auto; padding: 100px 40px;
+}
+.section-eyebrow {
+  font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 16px; font-weight: 500;
+}
+.section-title {
+  font-family: var(--serif); font-size: clamp(36px, 5vw, 56px);
+  line-height: 1.1; margin-bottom: 20px;
+}
+.section-subtitle {
+  font-size: 17px; color: var(--white-dim); max-width: 660px;
+  line-height: 1.7; margin-bottom: 60px;
+}
+
+/* ── FOUNDING PARTNERS SECTION ── */
+.founding-partners {
+  background: linear-gradient(180deg, transparent, rgba(197,164,78,0.02) 50%, transparent);
+  border-top: 1px solid var(--white-faint);
+}
+.fp-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  margin-bottom: 60px;
+}
+.fp-card {
+  background: linear-gradient(145deg, rgba(26,39,68,0.6), rgba(17,24,39,0.8));
+  border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 8px; padding: 48px 40px;
+  transition: border-color 0.4s, transform 0.3s;
+  position: relative; overflow: hidden;
+}
+.fp-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--accent-teal));
+  opacity: 0; transition: opacity 0.4s;
+}
+.fp-card:hover { border-color: rgba(197,164,78,0.3); transform: translateY(-4px); }
+.fp-card:hover::before { opacity: 1; }
+.fp-badge {
+  display: inline-block; padding: 4px 14px; border-radius: 20px;
+  font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700;
+  margin-bottom: 20px;
+}
+.fp-badge.wearable { background: rgba(0,168,120,0.15); color: var(--accent-teal); }
+.fp-badge.care-coord { background: rgba(46,117,182,0.15); color: var(--accent-blue); }
+.fp-card h3 {
+  font-family: var(--serif); font-size: 28px; margin-bottom: 8px;
+}
+.fp-card .fp-url {
+  font-size: 13px; color: var(--gold); margin-bottom: 16px;
+  text-decoration: none; display: inline-block;
+  border-bottom: 1px solid transparent; transition: border-color 0.3s;
+}
+.fp-card .fp-url:hover { border-color: var(--gold); }
+.fp-card p { font-size: 15px; color: var(--white-dim); line-height: 1.7; margin-bottom: 20px; }
+.fp-fit {
+  padding: 16px 20px; background: rgba(197,164,78,0.05);
+  border-left: 2px solid var(--gold); border-radius: 0 6px 6px 0;
+}
+.fp-fit strong { color: var(--gold); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+.fp-fit span { font-size: 14px; color: var(--white-dim); line-height: 1.6; }
+
+/* ── TIERS ── */
+.tiers-section {
+  border-top: 1px solid var(--white-faint);
+}
+.tiers-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+}
+.tier-card {
+  background: linear-gradient(160deg, rgba(26,39,68,0.5), rgba(17,24,39,0.7));
+  border: 1px solid var(--white-faint);
+  border-radius: 8px; padding: 40px 28px; text-align: center;
+  transition: border-color 0.4s, transform 0.3s;
+  position: relative;
+}
+.tier-card:hover { transform: translateY(-6px); }
+.tier-card.highlighted {
+  border-color: var(--gold);
+  box-shadow: 0 0 60px rgba(197,164,78,0.08);
+}
+.tier-card.highlighted::before {
+  content: 'MOST POPULAR'; position: absolute; top: -12px; left: 50%;
+  transform: translateX(-50%); padding: 4px 16px;
+  background: var(--gold); color: var(--navy-deep);
+  font-size: 9px; font-weight: 700; letter-spacing: 2px;
+  border-radius: 20px;
+}
+.tier-icon {
+  width: 56px; height: 56px; border-radius: 50%; margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px;
+}
+.tier-icon.basic { background: rgba(240,237,230,0.06); }
+.tier-icon.silver { background: rgba(170,180,195,0.1); }
+.tier-icon.gold { background: rgba(197,164,78,0.12); }
+.tier-icon.platinum { background: rgba(123,135,148,0.12); }
+.tier-name {
+  font-family: var(--serif); font-size: 24px; margin-bottom: 4px;
+}
+.tier-price {
+  font-size: 14px; color: var(--gold); margin-bottom: 24px; font-weight: 500;
+}
+.tier-features {
+  list-style: none; text-align: left;
+  border-top: 1px solid var(--white-faint);
+  padding-top: 20px;
+}
+.tier-features li {
+  font-size: 13px; color: var(--white-dim);
+  padding: 8px 0; display: flex; gap: 10px; align-items: flex-start;
+}
+.tier-features li::before {
+  content: '→'; color: var(--gold); flex-shrink: 0; font-size: 12px; margin-top: 1px;
+}
+.tier-cta {
+  display: block; width: 100%; margin-top: 28px; padding: 14px;
+  border: 1.5px solid var(--white-faint); border-radius: 4px;
+  background: transparent; color: var(--white); font-family: var(--sans);
+  font-size: 12px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; text-align: center; text-decoration: none;
+  transition: all 0.3s;
+}
+.tier-cta:hover {
+  border-color: var(--gold); color: var(--gold);
+  box-shadow: 0 4px 20px rgba(197,164,78,0.15);
+}
+.tier-cta.gold-cta {
+  background: linear-gradient(135deg, var(--gold), var(--gold-bright));
+  color: var(--navy-deep); border-color: var(--gold);
+}
+.tier-cta.gold-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.35);
+}
+
+/* ── ACTION ITEMS / ROADMAP ── */
+.roadmap-section {
+  background: linear-gradient(180deg, transparent, rgba(0,168,120,0.02) 50%, transparent);
+  border-top: 1px solid var(--white-faint);
+}
+.timeline {
+  position: relative; padding-left: 60px;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 24px; top: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--gold), var(--accent-teal), var(--accent-blue));
+}
+.tl-item {
+  position: relative; margin-bottom: 48px;
+  padding: 32px 36px;
+  background: linear-gradient(145deg, rgba(26,39,68,0.4), rgba(17,24,39,0.6));
+  border: 1px solid var(--white-faint);
+  border-radius: 8px;
+  transition: border-color 0.3s;
+}
+.tl-item:hover { border-color: rgba(197,164,78,0.25); }
+.tl-dot {
+  position: absolute; left: -48px; top: 36px;
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid var(--gold); background: var(--navy-deep);
+  box-shadow: 0 0 12px rgba(197,164,78,0.3);
+}
+.tl-item.active .tl-dot {
+  background: var(--gold);
+  box-shadow: 0 0 20px rgba(197,164,78,0.5);
+}
+.tl-phase {
+  font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--gold); font-weight: 700; margin-bottom: 4px;
+}
+.tl-title {
+  font-family: var(--serif); font-size: 24px; margin-bottom: 8px;
+}
+.tl-date {
+  font-size: 12px; color: var(--white-dim); margin-bottom: 16px;
+  font-weight: 500; letter-spacing: 1px;
+}
+.tl-tasks { list-style: none; }
+.tl-tasks li {
+  padding: 10px 0; font-size: 14px; color: var(--white-dim);
+  display: flex; gap: 12px; align-items: flex-start;
+  border-bottom: 1px solid rgba(240,237,230,0.04);
+}
+.tl-tasks li:last-child { border-bottom: none; }
+.tl-check {
+  flex-shrink: 0; width: 20px; height: 20px; border-radius: 4px;
+  border: 1.5px solid rgba(197,164,78,0.3); margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; color: var(--gold);
+}
+.tl-check.done {
+  background: rgba(0,168,120,0.15); border-color: var(--accent-teal);
+  color: var(--accent-teal);
+}
+.tl-owner {
+  margin-left: auto; flex-shrink: 0;
+  font-size: 11px; color: var(--gold); opacity: 0.7;
+  letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* ── STATS BAR ── */
+.stats-bar {
+  border-top: 1px solid var(--white-faint);
+  border-bottom: 1px solid var(--white-faint);
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  max-width: 1200px; margin: 0 auto;
+}
+.stat-item {
+  padding: 48px 40px; text-align: center;
+  border-right: 1px solid var(--white-faint);
+}
+.stat-item:last-child { border-right: none; }
+.stat-number {
+  font-family: var(--serif); font-size: 48px; color: var(--gold);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 12px; color: var(--white-dim); letter-spacing: 2px;
+  text-transform: uppercase; margin-top: 8px;
+}
+
+/* ── CTA SECTION ── */
+.cta-section {
+  text-align: center;
+  background: linear-gradient(180deg, transparent 0%, rgba(197,164,78,0.03) 50%, transparent 100%);
+  border-top: 1px solid var(--white-faint);
+}
+.cta-section .section-title { max-width: 700px; margin: 0 auto 20px; }
+.cta-section .section-subtitle { margin: 0 auto 40px; text-align: center; }
+
+/* ── FOOTER (synced with index.html) ── */
+.site-footer {
+  background: var(--navy-deep);
+  border-top: 1px solid rgba(197,164,78,0.1);
+  padding: 48px 40px 32px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-wordmark {
+  font-family: var(--serif);
+  font-size: 18px; color: var(--gold); letter-spacing: 1px;
+}
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+.footer-nav {
+  display: flex; gap: 24px; margin-top: 24px;
+  width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto;
+  padding-top: 24px; border-top: 1px solid rgba(197,164,78,0.08);
+  flex-wrap: wrap;
+}
+.footer-nav a {
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  text-decoration: none; transition: color 0.3s ease;
+}
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer {
+  max-width: 1200px; margin: 24px auto 0;
+  font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.6;
+}
+.footer-tagline {
+  text-align: center; margin-top: 24px;
+  font-family: var(--serif);
+  font-size: 13px; color: rgba(197,164,78,0.3); letter-spacing: 2px;
+}
+
+/* ── ECOSYSTEM VISUAL ── */
+.ecosystem-section {
+  position: relative;
+  border-top: 1px solid var(--white-faint);
+  background: linear-gradient(180deg, transparent, rgba(197,164,78,0.015) 50%, transparent);
+  overflow: hidden;
+}
+.ecosystem-section::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 900px 700px at 50% 40%, rgba(197,164,78,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 600px 600px at 20% 70%, rgba(0,168,120,0.03) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 600px at 80% 80%, rgba(46,117,182,0.03) 0%, transparent 60%);
+  pointer-events: none;
+}
+.eco-canvas-wrap {
+  position: relative;
+  width: 100%; max-width: 900px;
+  aspect-ratio: 1 / 1;
+  margin: -20px auto 0;
+}
+.eco-canvas-wrap canvas { width: 100%; height: 100%; display: block; cursor: pointer; }
+.eco-hint {
+  text-align: center; font-size: 12px; color: rgba(240,237,230,0.25);
+  letter-spacing: 1px; margin-top: 8px;
+}
+.eco-detail-panel {
+  position: absolute; z-index: 10;
+  background: linear-gradient(145deg, rgba(17,34,64,0.95), rgba(10,22,40,0.98));
+  border: 1px solid rgba(197,164,78,0.25); border-radius: 12px; padding: 28px 32px;
+  max-width: 320px; width: max-content; pointer-events: none;
+  opacity: 0; transform: translateY(8px) scale(0.96);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px rgba(197,164,78,0.05);
+}
+.eco-detail-panel.visible { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+.edp-icon-wrap {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+}
+.edp-icon-wrap svg { width: 24px; height: 24px; }
+.edp-category { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 6px; }
+.edp-title { font-family: var(--serif); font-size: 22px; color: var(--white); margin-bottom: 10px; line-height: 1.2; }
+.edp-desc { font-size: 13px; color: rgba(240,237,230,0.55); line-height: 1.65; margin-bottom: 16px; }
+.edp-gives { padding-top: 14px; border-top: 1px solid rgba(197,164,78,0.15); }
+.edp-gives-label { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.edp-gives-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.edp-tag { font-size: 10px; padding: 4px 10px; border-radius: 20px; background: rgba(197,164,78,0.08); border: 1px solid rgba(197,164,78,0.15); color: var(--gold-light); letter-spacing: 0.5px; font-weight: 500; }
+
+.eco-philosophy {
+  display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
+  margin-top: 0; padding-bottom: 20px;
+}
+.eco-phil-item { text-align: center; max-width: 200px; }
+.eco-phil-icon {
+  width: 48px; height: 48px; border-radius: 50%; margin: 0 auto 10px;
+  background: rgba(197,164,78,0.06); border: 1px solid rgba(197,164,78,0.12);
+  display: flex; align-items: center; justify-content: center;
+}
+.eco-phil-icon svg { width: 22px; height: 22px; fill: var(--gold); opacity: 0.8; }
+.eco-phil-label { font-family: var(--serif); font-size: 18px; color: var(--white); margin-bottom: 4px; }
+.eco-phil-desc { font-size: 12px; color: rgba(240,237,230,0.4); line-height: 1.5; }
+
+/* TETRA center hover panel */
+.tetra-center-panel {
+  position: absolute; z-index: 20;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  background: radial-gradient(ellipse at center, rgba(17,34,64,0.98), rgba(6,14,26,0.99));
+  border: 1.5px solid rgba(197,164,78,0.4);
+  border-radius: 16px; padding: 36px 40px;
+  width: 380px; pointer-events: none;
+  opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
+  backdrop-filter: blur(30px);
+  box-shadow:
+    0 0 60px rgba(197,164,78,0.12),
+    0 0 120px rgba(197,164,78,0.06),
+    0 30px 80px rgba(0,0,0,0.6);
+  text-align: center;
+}
+.tetra-center-panel.visible {
+  opacity: 1; transform: translate(-50%, -50%) scale(1); pointer-events: auto;
+}
+.tcp-glow {
+  position: absolute; inset: -2px; border-radius: 18px;
+  background: linear-gradient(135deg, rgba(197,164,78,0.2), transparent 40%, transparent 60%, rgba(197,164,78,0.15));
+  z-index: -1; filter: blur(1px);
+}
+.tcp-eyebrow {
+  font-size: 9px; letter-spacing: 4px; text-transform: uppercase;
+  color: var(--gold); font-weight: 700; margin-bottom: 8px;
+}
+.tcp-logo {
+  font-family: var(--serif); font-size: 36px; color: var(--gold);
+  margin-bottom: 4px; letter-spacing: 2px;
+}
+.tcp-tagline {
+  font-family: var(--serif); font-style: italic;
+  font-size: 16px; color: rgba(197,164,78,0.6); margin-bottom: 20px;
+}
+.tcp-desc {
+  font-size: 13px; color: rgba(240,237,230,0.55); line-height: 1.7; margin-bottom: 24px;
+}
+.tcp-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  padding-top: 20px; border-top: 1px solid rgba(197,164,78,0.15);
+}
+.tcp-stat-num {
+  font-family: var(--serif); font-size: 24px; color: var(--gold); line-height: 1;
+}
+.tcp-stat-label {
+  font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase;
+  color: rgba(240,237,230,0.35); margin-top: 4px;
+}
+.tcp-badge {
+  display: inline-block; margin-top: 20px; padding: 6px 16px;
+  background: rgba(197,164,78,0.08); border: 1px solid rgba(197,164,78,0.2);
+  border-radius: 20px; font-size: 10px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--gold);
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .tiers-grid { grid-template-columns: repeat(2, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .stat-item:nth-child(2) { border-right: none; }
+}
+@media (max-width: 768px) {
+  .top-bar-inner { padding: 0 20px; }
+  .top-bar-nav { display: none; }
+  .nav-toggle { display: block; }
+  .top-bar-nav.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy-deep);
+    border-bottom: 1px solid rgba(197,164,78,0.2);
+    padding: 16px 0;
+  }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .fp-grid { grid-template-columns: 1fr; }
+  .tiers-grid { grid-template-columns: 1fr; }
+  .stats-grid { grid-template-columns: 1fr; }
+  .stat-item { border-right: none; border-bottom: 1px solid var(--white-faint); }
+  .hero { padding: 100px 24px 60px; }
+  .section-inner { padding: 60px 24px; }
+  .timeline { padding-left: 48px; }
+  .tl-dot { left: -36px; }
+  .timeline::before { left: 12px; }
+  .eco-detail-panel { max-width: 260px; padding: 20px 24px; }
+  .tetra-center-panel { width: 300px; padding: 28px 24px; }
+  .tcp-logo { font-size: 28px; }
+  .tcp-stats { gap: 8px; }
+  .tcp-stat-num { font-size: 20px; }
+  .eco-philosophy { gap: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-ambient"></div>
+
+<!-- Top Bar (synced with index.html) -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a class="top-bar-brand" href="index.html">
+        <div class="top-bar-wordmark">InPursuit Health</div>
+      </a>
+      <span style="color: rgba(255,255,255,0.4); margin: 0 4px;">|</span>
+      <a href="maha.html" style="font-size: 13px; color: var(--white); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap; font-weight: 500;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white)'">MAHA Policy Alignment</a>
+    </div>
+    <nav class="top-bar-nav" id="topNav">
+      <a class="nav-item" href="for-you.html">For You</a>
+      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
+      <a class="nav-item active" href="partner-network.html">Partner Network</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars">
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+    <div class="star"></div><div class="star"></div><div class="star"></div>
+  </div>
+  <div class="hero-orbit">
+    <div class="orbit-ring"></div>
+    <div class="orbit-ring-2"></div>
+    <div class="orbit-ring-3"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">InPursuit Partner Network &nbsp;·&nbsp; Now Accepting Members</div>
+    <h1>Your Innovation.<br>Our <em>Infrastructure.</em><br>Limitless Reach.<br><em>Think Like TETRA&trade;</em></h1>
+    <p class="hero-sub">
+      Build on TETRA™ — the healthcare data fabric connecting providers, payers, consumers, and pharmacies. Access powerful APIs, AI toolkits, and a built-in marketplace of millions. You keep your IP. We help you grow.
+    </p>
+    <div class="hero-actions">
+      <a href="#apply" class="btn-primary">Join the Network</a>
+      <a href="#tiers" class="btn-secondary">See What You Get</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">$0</div>
+      <div class="stat-label">Free Tier. Build First, Pay When You Scale.</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">140M+</div>
+      <div class="stat-label">Lives You Can't Reach on AWS</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">Inherited</div>
+      <div class="stat-label">Your App Gets Our DoD · VA · CMS Credentials</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">Yours</div>
+      <div class="stat-label">IP, Customers &amp; Exit — We Never Touch It</div>
+    </div>
+  </div>
+</section>
+
+<!-- ECOSYSTEM VISUAL -->
+<section class="ecosystem-section" id="ecosystem">
+  <div class="section-inner">
+    <div class="section-eyebrow">The TETRA Ecosystem</div>
+    <h2 class="section-title">We succeed when <em>you</em> succeed.</h2>
+    <p class="section-subtitle">TETRA is the invisible engine beneath your innovation. We handle the data infrastructure, compliance, and connectivity — so you can focus on building what matters.</p>
+
+    <p class="eco-hint">Hover over any node to explore</p>
+
+    <div class="eco-canvas-wrap" id="ecoWrap">
+      <canvas id="ecoCanvas"></canvas>
+      <div class="eco-detail-panel" id="ecoPanel">
+        <div class="edp-icon-wrap" id="edpIconWrap"></div>
+        <div class="edp-category" id="edpCat"></div>
+        <div class="edp-title" id="edpTitle"></div>
+        <div class="edp-desc" id="edpDesc"></div>
+        <div class="edp-gives">
+          <div class="edp-gives-label">What TETRA Gives You</div>
+          <div class="edp-gives-list" id="edpTags"></div>
+        </div>
+      </div>
+
+      <!-- TETRA Center Hover Panel -->
+      <div class="tetra-center-panel" id="tetraCenterPanel">
+        <div class="tcp-glow"></div>
+        <div class="tcp-eyebrow">The Engine Behind Everything</div>
+        <div class="tcp-logo">TETRA</div>
+        <div class="tcp-tagline">Harness the Power of Your Data&trade;</div>
+        <div class="tcp-desc">The federally validated health data platform that powers an entire ecosystem. We solved the hardest problems in healthcare IT — interoperability, compliance, real-time data — so our partners never have to.</div>
+        <div class="tcp-stats">
+          <div><div class="tcp-stat-num">95%</div><div class="tcp-stat-label">Interop Rate</div></div>
+          <div><div class="tcp-stat-num">1.8M+</div><div class="tcp-stat-label">Txns / Hour</div></div>
+          <div><div class="tcp-stat-num">140M+</div><div class="tcp-stat-label">Lives Reached</div></div>
+        </div>
+        <span class="tcp-badge">DoD · VA · CMS Validated</span>
+      </div>
+    </div>
+
+    <div class="eco-philosophy">
+      <div class="eco-phil-item">
+        <div class="eco-phil-icon"><svg viewBox="0 0 24 24"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg></div>
+        <div class="eco-phil-label">Serve First</div>
+        <div class="eco-phil-desc">Your success is the only metric that matters to us.</div>
+      </div>
+      <div class="eco-phil-item">
+        <div class="eco-phil-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6h2c0-1.66 1.34-3 3-3s3 1.34 3 3v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm0 12H6V10h12v10z"/></svg></div>
+        <div class="eco-phil-label">Open Platform</div>
+        <div class="eco-phil-desc">Build freely. Your code, your IP, your customers.</div>
+      </div>
+      <div class="eco-phil-item">
+        <div class="eco-phil-icon"><svg viewBox="0 0 24 24"><path d="M11 21h-1l1-7H7.5c-.88 0-.33-.75-.31-.78C8.48 10.94 10.42 7.54 13.01 3h1l-1 7h3.51c.4 0 .62.19.4.66C12.97 17.55 11 21 11 21z"/></svg></div>
+        <div class="eco-phil-label">Zero Friction</div>
+        <div class="eco-phil-desc">From first API call to production in days, not months.</div>
+      </div>
+      <div class="eco-phil-item">
+        <div class="eco-phil-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+        <div class="eco-phil-label">We Do the Hard Part</div>
+        <div class="eco-phil-desc">HIPAA, FHIR, TEFCA, CMS — already handled.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOUNDING PARTNERS -->
+<section class="founding-partners" id="partners">
+  <div class="section-inner">
+    <div class="section-eyebrow">Who's Building on TETRA</div>
+    <h2 class="section-title">Meet Our Founding Partners</h2>
+    <p class="section-subtitle">
+      These companies are already integrating with TETRA™ and shaping the future of the network. As a Founding Partner, you get early access, direct input on platform direction, and a head start in the marketplace.
+    </p>
+
+    <div class="fp-grid">
+      <!-- PISON -->
+      <div class="fp-card">
+        <span class="fp-badge wearable">Neural Wearable Technology</span>
+        <h3>Pison Technology</h3>
+        <a href="https://pison.com" target="_blank" class="fp-url">pison.com →</a>
+        <p>
+          Pison's AI-powered neural sensors capture neurological and cognitive performance data from a wrist-worn wearable — developed with the NIH, DoD, and NSF. Their CARE platform enables early detection and remote monitoring of neurological disorders, while PERFORM tracks mental agility, focus, and readiness for athletes and workers.
+        </p>
+        <div class="fp-fit">
+          <strong>What They're Building on TETRA</strong>
+          <span>Pison is integrating their neural biometric data streams into THP's data fabric — giving their customers a unified health profile that combines cognitive performance with clinical records, wearable data, and wellness metrics. Through the InPursuit Marketplace, Pison's technology reaches providers, employers, and consumers already on the platform.</span>
+        </div>
+      </div>
+
+      <!-- CSA -->
+      <div class="fp-card">
+        <span class="fp-badge care-coord">Care Coordination & PHR</span>
+        <h3>Coordinated Services of America</h3>
+        <a href="https://coordinatedservicesofamerica.com" target="_blank" class="fp-url">coordinatedservicesofamerica.com →</a>
+        <p>
+          CSA's MyDocs™ platform creates patient-owned portable health records, enabling consumers to upload, consolidate, and share medical documents with their care team. Their solution addresses the core problem of fragmented physician-to-physician and physician-to-patient communication with HIPAA-compliant document management, telemedicine integration, and caregiver access controls.
+        </p>
+        <div class="fp-fit">
+          <strong>What They're Building on TETRA</strong>
+          <span>CSA is connecting their MyDocs™ portable health records into THP's data fabric — giving patients a single place to manage documents, share records with providers, and access AI-powered health insights. Their ACO leadership team brings decades of care coordination expertise and a direct pipeline to provider networks and Medicare populations.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIERS -->
+<section class="tiers-section" id="tiers">
+  <div class="section-inner">
+    <div class="section-eyebrow">What You Get</div>
+    <h2 class="section-title">Pick Your Path</h2>
+    <p class="section-subtitle">
+      Whether you're exploring the platform or ready to white-label it — there's a membership designed for where you are and where you're headed.
+    </p>
+
+    <div class="tiers-grid">
+      <!-- BASIC -->
+      <div class="tier-card">
+        <div class="tier-icon basic">◇</div>
+        <div class="tier-name">Basic</div>
+        <div class="tier-price">Free</div>
+        <ul class="tier-features">
+          <li>Core REST APIs & documentation</li>
+          <li>Sandbox with synthetic data</li>
+          <li>Community forum access</li>
+          <li>Quarterly webinars</li>
+          <li>Partner Directory listing</li>
+          <li>10,000 API calls/month</li>
+        </ul>
+        <a href="#apply" class="tier-cta">Get Started</a>
+      </div>
+
+      <!-- SILVER -->
+      <div class="tier-card">
+        <div class="tier-icon silver">◈</div>
+        <div class="tier-name">Silver</div>
+        <div class="tier-price">$500/month</div>
+        <ul class="tier-features">
+          <li>Everything in Basic</li>
+          <li>Production API access (100K/mo)</li>
+          <li>Beta features & SDKs early access</li>
+          <li>Priority engineering support</li>
+          <li>2 certification seats</li>
+          <li>Partner badge & enhanced listing</li>
+        </ul>
+        <a href="#apply" class="tier-cta">Apply Now</a>
+      </div>
+
+      <!-- GOLD -->
+      <div class="tier-card highlighted">
+        <div class="tier-icon gold">✦</div>
+        <div class="tier-name">Gold</div>
+        <div class="tier-price">$2,000/month</div>
+        <ul class="tier-features">
+          <li>Everything in Silver</li>
+          <li>Unlimited API access</li>
+          <li>Full AI/ML toolkits & FHIR R4</li>
+          <li>Co-marketing & case studies</li>
+          <li>10% Marketplace revenue share</li>
+          <li>Lead referral program</li>
+          <li>Partner Success Manager</li>
+          <li>Annual Summit invitation</li>
+        </ul>
+        <a href="#apply" class="tier-cta gold-cta">Apply Now</a>
+      </div>
+
+      <!-- PLATINUM -->
+      <div class="tier-card">
+        <div class="tier-icon platinum">⬡</div>
+        <div class="tier-name">Platinum</div>
+        <div class="tier-price">$10,000+/month</div>
+        <ul class="tier-features">
+          <li>Everything in Gold</li>
+          <li>White-label licensing</li>
+          <li>Dedicated engineering team</li>
+          <li>Joint ventures & co-dev</li>
+          <li>Up to 20% revenue share</li>
+          <li>Federal contract access</li>
+          <li>C-Suite executive sponsor</li>
+          <li>Advisory Council seat</li>
+        </ul>
+        <a href="#apply" class="tier-cta">Contact Us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP / ACTION ITEMS -->
+<section class="roadmap-section" id="roadmap">
+  <div class="section-inner">
+    <div class="section-eyebrow">What's Ahead</div>
+    <h2 class="section-title">Network Roadmap</h2>
+    <p class="section-subtitle">
+      Here's what we're building and when you can expect it. Founding Partners get early access to everything before general availability.
+    </p>
+
+    <div class="timeline">
+      <!-- NOW -->
+      <div class="tl-item active">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Now Available</div>
+        <div class="tl-title">Founding Partner Program</div>
+        <div class="tl-date">Open Now</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check done">✓</span>
+            Core TETRA™ API access and developer documentation
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Sandbox environment with synthetic healthcare data for building and testing integrations
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Direct access to InPursuit engineering and product teams during your integration
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Founding Partner MOU with full IP ownership guarantee — your code, your algorithms, your data models belong to you
+          </li>
+          <li>
+            <span class="tl-check done">✓</span>
+            Input on platform roadmap and API feature priorities
+          </li>
+        </ul>
+      </div>
+
+      <!-- COMING Q2 -->
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Coming Q2 2026</div>
+        <div class="tl-title">Partner Portal & Marketplace Beta</div>
+        <div class="tl-date">April – June 2026</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check">○</span>
+            Self-service partner portal — manage API keys, monitor usage, access billing
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            InPursuit Marketplace beta — list your solution where providers, payers, and consumers are already shopping
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            AI/ML toolkit access — plug into TETRA's predictive analytics and NLP engines
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            FHIR R4 endpoints for standardized clinical data exchange
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Partner badge program — display your verified partnership on your website and sales materials
+          </li>
+        </ul>
+      </div>
+
+      <!-- COMING Q3-Q4 -->
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">Coming Q3–Q4 2026</div>
+        <div class="tl-title">Full Network Launch</div>
+        <div class="tl-date">July – December 2026</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check">○</span>
+            InPursuit University — certification courses, technical training, and sales enablement for your team
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Revenue share program goes live — earn commissions on Marketplace sales
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Co-marketing engine — joint case studies, webinars, and PR with InPursuit's customer base
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Lead referral program — get qualified opportunities from InPursuit's sales pipeline
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Inaugural IPN Partner Summit in Charlotte, NC — networking, demos, and roadmap preview
+          </li>
+        </ul>
+      </div>
+
+      <!-- 2027 -->
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-phase">2027 & Beyond</div>
+        <div class="tl-title">Scale & Network Effects</div>
+        <div class="tl-date">Ongoing</div>
+        <ul class="tl-tasks">
+          <li>
+            <span class="tl-check">○</span>
+            White-label licensing — deploy TETRA-powered solutions under your own brand
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Federal contract access — subcontracting opportunities through InPursuit's DoD, VA, and CMS vehicles
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Partner Advisory Council — Platinum members shape the platform roadmap directly
+          </li>
+          <li>
+            <span class="tl-check">○</span>
+            Global expansion — international market access as TETRA scales beyond U.S. healthcare
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="apply">
+  <div class="section-inner">
+    <div class="section-eyebrow">Get Started</div>
+    <h2 class="section-title">Your Next Product Starts Here</h2>
+    <p class="section-subtitle">
+      Whether you're building a clinical AI tool, a consumer wellness app, or an enterprise integration — TETRA™ gives you the data fabric, compliance infrastructure, and marketplace to get to market faster. Founding Partner spots are limited.
+    </p>
+    <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
+      <a href="/cdn-cgi/l/email-protection#afdfcedddbc1cadddcc7c6dfdcefc6c1dfdadddcdac6dbc7cacec3dbc781ccc0c290dcdacdc5caccdb92e6ffe18a9d9fffcedddbc1cadd8a9d9feedfdfc3c6cccedbc6c0c1" class="btn-primary">Apply to Join</a>
+      <a href="#tiers" class="btn-secondary">Compare Tiers</a>
+    </div>
+    <p style="margin-top:24px; font-size:13px; color:var(--white-dim); opacity:0.5;">
+      <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3747564543595245445f5e4744775e5947424544425e435f52565b435f1954585a">[email&#160;protected]</a> &nbsp;·&nbsp; Founding cohort limited to 10 companies
+    </p>
+  </div>
+</section>
+
+<!-- Footer (synced with index.html) -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="for-you.html">For You</a>
+    <a href="for-providers.html">For Providers</a>
+    <a href="data-security-ai.html">Data Security &amp; AI</a>
+    <a href="maha.html">MAHA</a>
+    <a href="veterans-first.html">Veterans First</a>
+    <a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a>
+    <a href="leadership.html">Leadership</a>
+    <a href="security-center.html">Security Center</a>
+    <a href="contact.html">Contact</a>
+    <a href="careers.html">Careers</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+// Top bar scroll shadow
+window.addEventListener('scroll', () => {
+  document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Mobile nav toggle
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('topNav').classList.toggle('open');
+});
+
+// Star parallax
+document.addEventListener('mousemove', (e) => {
+  const stars = document.querySelectorAll('.star');
+  const x = (e.clientX / window.innerWidth - 0.5) * 20;
+  const y = (e.clientY / window.innerHeight - 0.5) * 20;
+  stars.forEach((star, i) => {
+    const depth = (i % 3 + 1) * 0.3;
+    star.style.transform = 'translate(' + (x * depth) + 'px, ' + (y * depth) + 'px)';
+  });
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      const top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+});
+
+// ===== ECOSYSTEM VISUAL =====
+(function(){
+  var canvas = document.getElementById('ecoCanvas');
+  var wrap = document.getElementById('ecoWrap');
+  if (!canvas || !wrap) return;
+  var ctx = canvas.getContext('2d');
+  var panel = document.getElementById('ecoPanel');
+  var dpr = window.devicePixelRatio || 1;
+  var W, H, cx, cy, isVisible = false;
+
+  function resize() {
+    var rect = wrap.getBoundingClientRect();
+    W = rect.width; H = rect.height;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+  }
+  resize();
+  window.addEventListener('resize', function(){ resize(); buildNodes(); });
+
+  // Lazy start animation when visible
+  var ecoObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { isVisible = e.isIntersecting; });
+  }, { threshold: 0.05 });
+  ecoObserver.observe(wrap);
+
+  var iconPaths = {
+    wearable: 'M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm.5-13H11v6l5.2 3.2.8-1.3-4.5-2.7V7z',
+    ai: 'M13 1.07V9h7c0-4.08-3.05-7.44-7-7.93zM4 15c0 4.42 3.58 8 8 8s8-3.58 8-8v-4H4v4zm7-13.93C7.05 1.56 4 4.92 4 9h7V1.07z',
+    telehealth: 'M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zM14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z',
+    phr: 'M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z',
+    rpm: 'M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z',
+    pharma: 'M6 3v2h12V3H6zm0 18h12v-2H6v2zm8-14H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8h-4v-2h4v2zm0-4h-4V9h4v2z',
+    behavioral: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z',
+    analytics: 'M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z'
+  };
+
+  var partnerData = [
+    { id:'wearable', label:'Wearable\nDevices', iconKey:'wearable', color:'#00A878',
+      category:'DEVICE & WEARABLE PARTNERS', title:'Wearable & Device Companies',
+      desc:'Your sensors generate incredible data. TETRA gives it a home \u2014 connecting device data to clinical records, provider workflows, and patient profiles.',
+      tags:['FHIR Data Pipes','Clinical Context','Provider Reach','Patient Consent Layer'] },
+    { id:'ai', label:'AI & ML\nStartups', iconKey:'ai', color:'#8B6FC0',
+      category:'AI & ANALYTICS PARTNERS', title:'AI & Machine Learning Startups',
+      desc:'You build the algorithms. We give you the richest, cleanest, most interoperable health data to train and deploy \u2014 with full compliance built in.',
+      tags:['Clean Data Feeds','ML-Ready Pipelines','HIPAA Sandbox','Real-World Evidence'] },
+    { id:'telehealth', label:'Telehealth\nPlatforms', iconKey:'telehealth', color:'#2E75B6',
+      category:'VIRTUAL CARE PARTNERS', title:'Telehealth & Virtual Care',
+      desc:'Your platform connects patients and providers virtually. TETRA adds the full medical context \u2014 so every virtual visit is informed by real clinical history.',
+      tags:['EHR Integration','Patient History','Care Coordination','Outcome Tracking'] },
+    { id:'phr', label:'Patient\nHealth Apps', iconKey:'phr', color:'#E8735A',
+      category:'CONSUMER HEALTH PARTNERS', title:'Patient Health Record Apps',
+      desc:'You\'re building the future of patient empowerment. TETRA gives your app access to the full clinical picture \u2014 labs, meds, conditions, visits.',
+      tags:['Patient Data Access','Consent Management','TEFCA Connectivity','Marketplace Listing'] },
+    { id:'rpm', label:'Remote\nMonitoring', iconKey:'rpm', color:'#4ECDC4',
+      category:'RPM & CCM PARTNERS', title:'Remote Patient Monitoring',
+      desc:'Your monitoring catches what happens between visits. TETRA routes those insights directly into provider workflows and CMS reporting.',
+      tags:['Provider Alerts','CMS Reporting','Billing Integration','Care Gap Detection'] },
+    { id:'pharma', label:'Pharmacy\n& Rx', iconKey:'pharma', color:'#F2A65A',
+      category:'PHARMACY & RX PARTNERS', title:'Pharmacy & Medication Platforms',
+      desc:'Medication management is fragmented. TETRA connects your pharmacy tools to the full clinical picture \u2014 closing the loop on medication safety.',
+      tags:['Rx Data Exchange','Adherence Tracking','Provider Messaging','Formulary Access'] },
+    { id:'behavioral', label:'Behavioral\nHealth', iconKey:'behavioral', color:'#7B8CDE',
+      category:'BEHAVIORAL HEALTH PARTNERS', title:'Behavioral & Mental Health',
+      desc:'Mental health can\'t live in a silo. TETRA lets your tools share insights with primary care and specialists \u2014 with patient consent always in control.',
+      tags:['Secure Data Sharing','Care Team Visibility','Consent Controls','Outcome Measurement'] },
+    { id:'analytics', label:'Population\nHealth', iconKey:'analytics', color:'#45B7D1',
+      category:'POPULATION HEALTH PARTNERS', title:'Population Health & Analytics',
+      desc:'You see patterns across populations. TETRA gives you real-time interoperable data streams so your analytics drive action, not just dashboards.',
+      tags:['Multi-Source Data','Real-Time Streams','Quality Measures','Risk Stratification'] }
+  ];
+
+  var nodes = [];
+  function getCR() { return Math.min(W, H) * 0.065; }
+  function buildNodes() {
+    var orbitR = Math.min(W, H) * 0.34;
+    var nodeR = Math.min(W, H) * 0.055;
+    nodes = partnerData.map(function(d, i) {
+      var angle = (i / partnerData.length) * Math.PI * 2 - Math.PI / 2;
+      return {
+        id:d.id, label:d.label, iconKey:d.iconKey, color:d.color,
+        category:d.category, title:d.title, desc:d.desc, tags:d.tags,
+        baseAngle:angle, orbitR:orbitR, r:nodeR,
+        x: cx + Math.cos(angle) * orbitR, y: cy + Math.sin(angle) * orbitR,
+        hover:0, pulsePhase: Math.random() * Math.PI * 2, _iconCanvas:null
+      };
+    });
+  }
+  buildNodes();
+
+  var particles = [];
+  function spawnParticle() {
+    if (!nodes.length || !isVisible) return;
+    var target = nodes[Math.floor(Math.random() * nodes.length)];
+    var angle = Math.random() * Math.PI * 2;
+    var startR = getCR() * 0.6;
+    particles.push({ sx:cx+Math.cos(angle)*startR, sy:cy+Math.sin(angle)*startR,
+      tx:target.x, ty:target.y, progress:0, speed:0.004+Math.random()*0.004,
+      color:target.color, size:1.5+Math.random()*1.5 });
+  }
+  setInterval(spawnParticle, 200);
+
+  var orbitDots = [];
+  for (var oi = 0; oi < 40; oi++) {
+    orbitDots.push({ angle:Math.random()*Math.PI*2, speed:0.001+Math.random()*0.003,
+      radiusOffset:(Math.random()-0.5)*30, size:0.5+Math.random()*1.5, alpha:0.1+Math.random()*0.15 });
+  }
+
+  var hoveredNode = null;
+  var hoveredCenter = false;
+  var centerHoverAnim = 0;
+  var tetraPanel = document.getElementById('tetraCenterPanel');
+
+  function getHovered(mx, my) {
+    // Check outer nodes first
+    for (var i = 0; i < nodes.length; i++) {
+      var n = nodes[i], dx = mx-n.x, dy = my-n.y;
+      if (Math.sqrt(dx*dx+dy*dy) < n.r*1.3) return { type:'node', node:n };
+    }
+    // Check center hub
+    var cdx = mx-cx, cdy = my-cy;
+    if (Math.sqrt(cdx*cdx+cdy*cdy) < getCR()*1.5) return { type:'center' };
+    return null;
+  }
+  function hexToRgba(hex, a) {
+    return 'rgba('+parseInt(hex.slice(1,3),16)+','+parseInt(hex.slice(3,5),16)+','+parseInt(hex.slice(5,7),16)+','+a+')';
+  }
+
+  function handleHover(mx, my) {
+    var hit = getHovered(mx, my);
+    var newNode = hit && hit.type === 'node' ? hit.node : null;
+    var newCenter = hit && hit.type === 'center';
+
+    if (newNode !== hoveredNode) {
+      hoveredNode = newNode;
+      newNode ? showPanel(newNode) : hidePanel();
+    }
+    if (newCenter !== hoveredCenter) {
+      hoveredCenter = newCenter;
+      newCenter ? tetraPanel.classList.add('visible') : tetraPanel.classList.remove('visible');
+      if (newCenter) hidePanel();
+    }
+  }
+
+  wrap.addEventListener('mousemove', function(e) {
+    var rect = wrap.getBoundingClientRect();
+    handleHover(e.clientX-rect.left, e.clientY-rect.top);
+  });
+  wrap.addEventListener('mouseleave', function() {
+    hoveredNode = null; hoveredCenter = false;
+    hidePanel(); tetraPanel.classList.remove('visible');
+  });
+  wrap.addEventListener('touchstart', function(e) {
+    var rect = wrap.getBoundingClientRect(), t = e.touches[0];
+    handleHover(t.clientX-rect.left, t.clientY-rect.top);
+  });
+
+  function showPanel(node) {
+    // Hide center panel if showing node
+    tetraPanel.classList.remove('visible'); hoveredCenter = false;
+
+    var iw = document.getElementById('edpIconWrap');
+    iw.style.background = hexToRgba(node.color, 0.12);
+    iw.style.border = '1px solid '+hexToRgba(node.color, 0.25);
+    iw.innerHTML = '<svg viewBox="0 0 24 24" fill="'+node.color+'"><path d="'+iconPaths[node.iconKey]+'"/></svg>';
+    document.getElementById('edpCat').textContent = node.category;
+    document.getElementById('edpTitle').textContent = node.title;
+    document.getElementById('edpDesc').textContent = node.desc;
+    document.getElementById('edpTags').innerHTML = node.tags.map(function(t){return '<span class="edp-tag">'+t+'</span>';}).join('');
+
+    // Position panel OUTWARD from center — use vector from center to node
+    var panelW = 320, panelH = 280;
+    var dx = node.x - cx, dy = node.y - cy;
+    var dist = Math.sqrt(dx*dx + dy*dy);
+    var dirX = dx / dist, dirY = dy / dist;
+
+    // Push panel outward from the node edge
+    var pushDist = node.r + 18;
+    var anchorX = node.x + dirX * pushDist;
+    var anchorY = node.y + dirY * pushDist;
+
+    // Offset so panel is centered on the anchor point perpendicular to direction
+    var px, py;
+    if (Math.abs(dirX) > Math.abs(dirY)) {
+      // Mostly horizontal — panel goes left or right
+      px = dirX > 0 ? anchorX : anchorX - panelW;
+      py = anchorY - panelH / 2;
+    } else {
+      // Mostly vertical — panel goes above or below
+      px = anchorX - panelW / 2;
+      py = dirY > 0 ? anchorY : anchorY - panelH;
+    }
+
+    // Clamp to stay within canvas bounds
+    if (px < 8) px = 8;
+    if (px + panelW > W - 8) px = W - panelW - 8;
+    if (py < 8) py = 8;
+    if (py + panelH > H - 8) py = H - panelH - 8;
+
+    panel.style.left = px+'px'; panel.style.top = py+'px';
+    panel.classList.add('visible');
+  }
+  function hidePanel() { panel.classList.remove('visible'); }
+
+  function drawNodeIcon(node, scale) {
+    var iconSize = (18+node.hover*4)*scale;
+    var path = iconPaths[node.iconKey]; if (!path) return;
+    var needsRedraw = !node._iconCanvas || Math.abs((node._lastHover||0)-node.hover)>0.3;
+    if (needsRedraw) {
+      var ic = document.createElement('canvas'), s = iconSize*dpr*1.5;
+      ic.width = s; ic.height = s;
+      var ictx = ic.getContext('2d');
+      ictx.setTransform(s/24,0,0,s/24,0,0);
+      ictx.fillStyle = hexToRgba(node.color, 0.85+node.hover*0.15);
+      ictx.fill(new Path2D(path));
+      node._iconCanvas = ic; node._lastHover = node.hover; node._lastSize = iconSize;
+    }
+    var ds = (node._lastSize||iconSize)*1.5;
+    ctx.drawImage(node._iconCanvas, node.x-ds/2, node.y-ds/2-4*scale, ds, ds);
+  }
+
+  var time = 0;
+  function draw() {
+    requestAnimationFrame(draw);
+    if (!isVisible) return;
+    time += 0.016;
+    ctx.clearRect(0,0,W,H);
+    var orbitR = nodes.length ? nodes[0].orbitR : 200;
+    var cR = getCR();
+
+    for (var ri = 0; ri < 3; ri++) {
+      ctx.beginPath(); ctx.arc(cx,cy,orbitR-20+ri*20,0,Math.PI*2);
+      ctx.strokeStyle = 'rgba(197,164,78,'+(0.03-ri*0.008)+')'; ctx.lineWidth=1; ctx.stroke();
+    }
+    orbitDots.forEach(function(d) {
+      d.angle += d.speed;
+      ctx.beginPath(); ctx.arc(cx+Math.cos(d.angle)*(orbitR+d.radiusOffset), cy+Math.sin(d.angle)*(orbitR+d.radiusOffset), d.size, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(197,164,78,'+d.alpha+')'; ctx.fill();
+    });
+
+    nodes.forEach(function(n) {
+      var breathe = Math.sin(time*0.5+n.pulsePhase)*4;
+      n.x = cx+Math.cos(n.baseAngle)*(n.orbitR+breathe);
+      n.y = cy+Math.sin(n.baseAngle)*(n.orbitR+breathe);
+      n.hover = hoveredNode===n ? Math.min(1,n.hover+0.08) : Math.max(0,n.hover-0.05);
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(n.x,n.y);
+      ctx.strokeStyle = hexToRgba(n.color,0.02+n.hover*0.06); ctx.lineWidth=6+n.hover*6; ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(n.x,n.y);
+      ctx.strokeStyle = hexToRgba(n.color,0.06+n.hover*0.12); ctx.lineWidth=1+n.hover; ctx.stroke();
+      ctx.beginPath(); ctx.setLineDash([3,6]); ctx.moveTo(cx,cy); ctx.lineTo(n.x,n.y);
+      ctx.strokeStyle='rgba(197,164,78,'+(0.04+n.hover*0.06)+')'; ctx.lineWidth=0.5; ctx.stroke(); ctx.setLineDash([]);
+    });
+
+    for (var pi = particles.length-1; pi >= 0; pi--) {
+      var p = particles[pi]; p.progress += p.speed;
+      if (p.progress>=1) { particles.splice(pi,1); continue; }
+      var t=p.progress, midX=(p.sx+p.tx)/2+(p.sy-p.ty)*0.15, midY=(p.sy+p.ty)/2+(p.tx-p.sx)*0.15;
+      var ppx=(1-t)*(1-t)*p.sx+2*(1-t)*t*midX+t*t*p.tx, ppy=(1-t)*(1-t)*p.sy+2*(1-t)*t*midY+t*t*p.ty;
+      var alpha=t<0.1?t*8:t>0.85?(1-t)*5:0.7;
+      ctx.beginPath(); ctx.arc(ppx,ppy,p.size,0,Math.PI*2); ctx.fillStyle=hexToRgba(p.color,alpha*0.8); ctx.fill();
+      ctx.beginPath(); ctx.arc(ppx,ppy,p.size*3,0,Math.PI*2); ctx.fillStyle=hexToRgba(p.color,alpha*0.15); ctx.fill();
+    }
+
+    nodes.forEach(function(n) {
+      var pulse=Math.sin(time*2+n.pulsePhase)*0.5+0.5, scale=1+n.hover*0.15, r=n.r*scale;
+      if (n.hover>0) { ctx.beginPath(); ctx.arc(n.x,n.y,r*2,0,Math.PI*2); ctx.fillStyle=hexToRgba(n.color,0.04*n.hover); ctx.fill(); }
+      ctx.beginPath(); ctx.arc(n.x,n.y,r+8+pulse*6,0,Math.PI*2);
+      ctx.strokeStyle=hexToRgba(n.color,0.08+n.hover*0.1); ctx.lineWidth=1; ctx.stroke();
+      ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2);
+      var grad=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r);
+      grad.addColorStop(0,hexToRgba(n.color,0.12+n.hover*0.08));
+      grad.addColorStop(1,'rgba(10,22,40,'+(0.85-n.hover*0.1)+')');
+      ctx.fillStyle=grad; ctx.fill();
+      ctx.beginPath(); ctx.arc(n.x,n.y,r,0,Math.PI*2);
+      ctx.strokeStyle=hexToRgba(n.color,0.3+n.hover*0.4); ctx.lineWidth=1.5+n.hover; ctx.stroke();
+      drawNodeIcon(n, scale);
+      var lines=n.label.split('\n');
+      ctx.font='600 '+(9+n.hover)+'px "Instrument Sans", sans-serif';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillStyle=hexToRgba(n.color,0.7+n.hover*0.3);
+      lines.forEach(function(line,li){ ctx.fillText(line, n.x, n.y+(14+li*12)*scale); });
+    });
+
+    var cPulse=Math.sin(time*1.5)*0.5+0.5;
+    centerHoverAnim = hoveredCenter ? Math.min(1, centerHoverAnim+0.06) : Math.max(0, centerHoverAnim-0.04);
+
+    // Expanded glow when hovered
+    if (centerHoverAnim > 0) {
+      var glowR = cR * (2.5 + centerHoverAnim * 2);
+      var hGrad = ctx.createRadialGradient(cx,cy,cR*0.5,cx,cy,glowR);
+      hGrad.addColorStop(0, 'rgba(197,164,78,'+(0.15*centerHoverAnim)+')');
+      hGrad.addColorStop(0.4, 'rgba(197,164,78,'+(0.06*centerHoverAnim)+')');
+      hGrad.addColorStop(1, 'transparent');
+      ctx.beginPath(); ctx.arc(cx,cy,glowR,0,Math.PI*2); ctx.fillStyle=hGrad; ctx.fill();
+    }
+
+    for (var ci=3;ci>=0;ci--) {
+      ctx.beginPath(); ctx.arc(cx,cy,cR+15+ci*12+cPulse*4,0,Math.PI*2);
+      ctx.strokeStyle='rgba(197,164,78,'+(0.04-ci*0.008 + centerHoverAnim*0.04)+')'; ctx.lineWidth=1; ctx.stroke();
+    }
+    var cGrad=ctx.createRadialGradient(cx,cy,0,cx,cy,cR*2);
+    cGrad.addColorStop(0,'rgba(197,164,78,'+(0.08+centerHoverAnim*0.06)+')'); cGrad.addColorStop(1,'transparent');
+    ctx.beginPath(); ctx.arc(cx,cy,cR*2,0,Math.PI*2); ctx.fillStyle=cGrad; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx,cy,cR*(1+centerHoverAnim*0.08),0,Math.PI*2);
+    var cg=ctx.createRadialGradient(cx,cy,0,cx,cy,cR);
+    cg.addColorStop(0,'rgba(17,34,64,0.95)'); cg.addColorStop(1,'rgba(6,14,26,0.98)');
+    ctx.fillStyle=cg; ctx.fill();
+    ctx.beginPath(); ctx.arc(cx,cy,cR*(1+centerHoverAnim*0.08),0,Math.PI*2);
+    ctx.strokeStyle='rgba(197,164,78,'+(0.35+cPulse*0.1+centerHoverAnim*0.35)+')';
+    ctx.lineWidth=2+centerHoverAnim*1; ctx.stroke();
+    ctx.font='22px "Instrument Serif", serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle='rgba(197,164,78,'+(0.9+centerHoverAnim*0.1)+')'; ctx.fillText('TETRA',cx,cy-8);
+    ctx.font='500 8px "Instrument Sans", sans-serif'; ctx.fillStyle='rgba(197,164,78,'+(0.45+centerHoverAnim*0.3)+')';
+    ctx.fillText('POWERING YOUR',cx,cy+10); ctx.fillText('INNOVATION',cx,cy+22);
+  }
+  draw();
+})();
+</script>
+
+</body>
+</html>

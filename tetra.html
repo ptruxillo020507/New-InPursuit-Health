@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TETRA™ — Model-Agnostic AI Orchestration | InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --red: #B22234;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--navy-deep);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ===== NAV ===== */
+.top-bar {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(197,164,78,0.2);
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner {
+  max-width: 1400px; margin: 0 auto; padding: 0 40px;
+  display: flex; justify-content: space-between;
+  align-items: center; height: 64px;
+}
+.top-bar-brand {
+  display: flex; align-items: center;
+  text-decoration: none; cursor: pointer;
+}
+.top-bar-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--gold); letter-spacing: 1px; line-height: 1;
+}
+.top-bar-nav {
+  display: flex; align-items: center; gap: 0;
+}
+.nav-item {
+  position: relative; padding: 20px 14px;
+  font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.6);
+  text-decoration: none; transition: color 0.3s ease;
+  cursor: pointer; background: none; border: none; font-family: inherit;
+}
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px; background: var(--gold);
+  transition: width 0.3s ease;
+}
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-toggle {
+  display: none; background: none; border: none;
+  width: 32px; height: 32px; cursor: pointer; position: relative;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--gold); position: absolute; left: 5px;
+  transition: all 0.3s ease;
+}
+.nav-toggle span:nth-child(1) { top: 8px; }
+.nav-toggle span:nth-child(2) { top: 15px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* ===== PAGE HERO ===== */
+.page-hero {
+  padding: 160px 40px 100px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: 30%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(197,164,78,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.page-hero-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 24px;
+  position: relative;
+}
+.page-hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(36px, 5vw, 68px);
+  font-weight: 400; color: var(--white);
+  line-height: 1.15; margin-bottom: 28px;
+  position: relative;
+}
+.page-hero h1 em { font-style: italic; color: var(--gold); }
+.page-hero-desc {
+  font-size: 18px; color: rgba(255,255,255,0.5);
+  line-height: 1.7; max-width: 700px; margin: 0 auto;
+  position: relative;
+}
+
+/* ===== ORCHESTRATION SECTION ===== */
+.orch-section {
+  padding: 40px 40px 80px;
+  position: relative;
+}
+.orch-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+
+/* Stage */
+.to-stage {
+  position: relative;
+  width: 100%; max-width: 820px;
+  height: 560px; margin: 0 auto 32px;
+}
+.to-canvas {
+  position: absolute; inset: 0; z-index: 1;
+}
+.to-orbit {
+  position: absolute; top: 50%; left: 50%;
+  border-radius: 50%; pointer-events: none;
+}
+.to-orbit.to-r1 { width: 200px; height: 200px; margin: -100px 0 0 -100px; border: 1px solid rgba(197,164,78,0.06); }
+.to-orbit.to-r2 { width: 340px; height: 340px; margin: -170px 0 0 -170px; border: 1px dashed rgba(197,164,78,0.035); }
+.to-orbit.to-r3 { width: 480px; height: 480px; margin: -240px 0 0 -240px; border: 1px solid rgba(197,164,78,0.02); }
+
+/* Hub */
+.to-hub {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); z-index: 20;
+}
+.to-hub-core {
+  width: 130px; height: 130px; border-radius: 50%;
+  background: radial-gradient(circle at 40% 35%, rgba(17,34,64,0.98) 0%, rgba(6,14,26,0.99) 100%);
+  border: 1.5px solid rgba(197,164,78,0.35);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  position: relative;
+  box-shadow: 0 0 0 5px rgba(197,164,78,0.03), 0 0 0 10px rgba(197,164,78,0.015),
+    0 0 80px rgba(197,164,78,0.06), inset 0 0 40px rgba(197,164,78,0.02);
+}
+.to-hub-ring {
+  position: absolute; inset: -8px; border-radius: 50%;
+  border: 1px solid rgba(197,164,78,0.1);
+  animation: toHubPulse 4s ease-in-out infinite;
+}
+.to-hub-ring-2 {
+  position: absolute; inset: -18px; border-radius: 50%;
+  border: 1px solid rgba(197,164,78,0.04);
+  animation: toHubPulse 4s ease-in-out infinite 2s;
+}
+@keyframes toHubPulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.015); }
+}
+.to-hub-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 30px; color: var(--gold);
+  letter-spacing: 3px; line-height: 1;
+}
+.to-hub-role {
+  font-size: 7px; font-weight: 600; letter-spacing: 2.5px;
+  text-transform: uppercase; color: rgba(197,164,78,0.35); margin-top: 5px;
+}
+
+/* Nodes */
+.to-node {
+  position: absolute; z-index: 10;
+  display: flex; align-items: center; gap: 0;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.to-node:hover { transform: scale(1.04); }
+.to-node-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: rgba(197,164,78,0.15); border: 1.5px solid rgba(197,164,78,0.25);
+  flex-shrink: 0; transition: all 0.5s ease; position: relative;
+}
+.to-node-dot::after {
+  content: ''; position: absolute; inset: -4px;
+  border-radius: 50%; border: 1px solid rgba(197,164,78,0);
+  transition: all 0.5s ease;
+}
+.to-node-label { display: flex; flex-direction: column; gap: 1px; transition: all 0.5s ease; }
+.to-node-name {
+  font-family: 'Instrument Serif', serif; font-size: 16px;
+  color: rgba(255,255,255,0.25); line-height: 1.1;
+  white-space: nowrap; transition: all 0.5s ease;
+}
+.to-node-sub {
+  font-size: 9px; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(197,164,78,0.15);
+  white-space: nowrap; transition: all 0.5s ease;
+}
+.to-node.to-active .to-node-dot { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 16px rgba(197,164,78,0.25); }
+.to-node.to-active .to-node-dot::after { border-color: rgba(197,164,78,0.15); }
+.to-node.to-active .to-node-name { color: var(--white); }
+.to-node.to-active .to-node-sub { color: rgba(197,164,78,0.5); }
+.to-node.to-primary .to-node-dot {
+  width: 14px; height: 14px; background: var(--gold);
+  box-shadow: 0 0 24px rgba(197,164,78,0.35), 0 0 60px rgba(197,164,78,0.1);
+}
+.to-node.to-primary .to-node-name { color: var(--gold); font-size: 18px; }
+.to-node.to-primary .to-node-sub { color: rgba(197,164,78,0.6); }
+
+.to-node[data-align="right"] { flex-direction: row; }
+.to-node[data-align="right"] .to-node-label { padding-left: 14px; text-align: left; }
+.to-node[data-align="left"] { flex-direction: row-reverse; }
+.to-node[data-align="left"] .to-node-label { padding-right: 14px; text-align: right; }
+
+.to-node[data-nid="clinical"]  { top: 48px; left: 50%; transform: translateX(-50%); flex-direction: column; }
+.to-node[data-nid="clinical"] .to-node-label { padding-bottom: 10px; text-align: center; order: -1; }
+.to-node[data-nid="clinical"] .to-node-dot { order: 1; }
+.to-node[data-nid="nlp"]       { top: 110px; right: 42px; }
+.to-node[data-nid="imaging"]   { top: 255px; right: 10px; }
+.to-node[data-nid="pharma"]    { bottom: 120px; right: 42px; }
+.to-node[data-nid="monitor"]   { bottom: 48px; left: 50%; transform: translateX(-50%); flex-direction: column; }
+.to-node[data-nid="monitor"] .to-node-label { padding-top: 10px; text-align: center; }
+.to-node[data-nid="cost"]      { bottom: 120px; left: 42px; }
+.to-node[data-nid="safety"]    { top: 255px; left: 10px; }
+.to-node[data-nid="records"]   { top: 110px; left: 42px; }
+
+/* Context bar */
+.to-context {
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px; margin-bottom: 48px;
+}
+.to-ctx-line { width: 40px; height: 1px; background: rgba(197,164,78,0.2); }
+.to-ctx-pulse {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); animation: toCtxPulse 1.5s ease-in-out infinite;
+}
+@keyframes toCtxPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1); }
+}
+.to-ctx-text {
+  font-size: 11px; font-weight: 500; letter-spacing: 2px;
+  text-transform: uppercase; color: rgba(255,255,255,0.35);
+}
+.to-ctx-scenario {
+  font-family: 'Instrument Serif', serif; font-size: 18px;
+  color: var(--gold); font-style: italic;
+  transition: opacity 0.4s ease; min-width: 160px;
+}
+
+/* Scenario strip */
+.to-scenarios {
+  display: flex; justify-content: center; gap: 8px;
+  margin-bottom: 0; flex-wrap: wrap;
+}
+.to-sc-btn {
+  background: transparent; border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 4px; padding: 14px 24px; cursor: pointer;
+  transition: all 0.4s ease; font-family: 'Instrument Sans', sans-serif;
+}
+.to-sc-btn:hover { border-color: rgba(197,164,78,0.25); background: rgba(197,164,78,0.02); }
+.to-sc-btn.to-sc-active { border-color: rgba(197,164,78,0.4); background: rgba(197,164,78,0.04); }
+.to-sc-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3); transition: color 0.3s ease;
+}
+.to-sc-btn.to-sc-active .to-sc-label { color: var(--gold); }
+
+/* ===== NARRATIVE ===== */
+.narrative-section {
+  padding: 100px 40px;
+  position: relative;
+}
+.narrative-section::before {
+  content: '';
+  position: absolute; top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: 80px;
+  background: linear-gradient(to bottom, rgba(197,164,78,0.3), transparent);
+}
+.narrative-inner {
+  max-width: 900px; margin: 0 auto;
+}
+.narrative-intro {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(24px, 3vw, 36px);
+  font-weight: 400; color: var(--white);
+  line-height: 1.45; text-align: center;
+  margin-bottom: 64px;
+}
+.narrative-intro em { font-style: italic; color: var(--gold); }
+.narrative-body {
+  columns: 2; column-gap: 48px;
+  font-size: 15px; color: rgba(255,255,255,0.45); line-height: 1.8;
+}
+.narrative-body p { margin-bottom: 20px; break-inside: avoid; }
+.narrative-body strong { color: rgba(255,255,255,0.7); font-weight: 600; }
+.narrative-body .gold-text { color: var(--gold); font-weight: 500; }
+.narrative-quote {
+  break-inside: avoid;
+  border-left: 2px solid rgba(197,164,78,0.3);
+  padding: 16px 0 16px 24px; margin: 28px 0;
+}
+.narrative-quote p {
+  font-family: 'Instrument Serif', serif; font-size: 17px;
+  color: rgba(255,255,255,0.6); font-style: italic;
+  line-height: 1.6; margin-bottom: 8px;
+}
+.narrative-quote cite {
+  font-family: 'Instrument Sans', sans-serif; font-size: 10px;
+  font-style: normal; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(197,164,78,0.4);
+}
+
+/* ===== ARCHITECTURE DEEP-DIVE ===== */
+.arch-section {
+  padding: 100px 40px;
+  position: relative;
+  background: rgba(17,34,64,0.15);
+  border-top: 1px solid rgba(197,164,78,0.06);
+  border-bottom: 1px solid rgba(197,164,78,0.06);
+}
+.arch-inner { max-width: 1200px; margin: 0 auto; }
+.arch-header { margin-bottom: 64px; }
+.arch-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.arch-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 20px;
+}
+.arch-headline em { font-style: italic; color: var(--gold); }
+.arch-desc {
+  font-size: 16px; color: rgba(255,255,255,0.45);
+  line-height: 1.7; max-width: 640px;
+}
+
+/* Architecture comparison */
+.arch-compare {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 32px; margin-bottom: 64px;
+}
+.arch-card {
+  border-radius: 8px; padding: 48px 36px;
+  position: relative; overflow: hidden;
+}
+.arch-card.legacy {
+  background: rgba(178,34,52,0.04);
+  border: 1px solid rgba(178,34,52,0.15);
+}
+.arch-card.tetra {
+  background: rgba(197,164,78,0.04);
+  border: 1px solid rgba(197,164,78,0.2);
+}
+.arch-card-tag {
+  font-size: 9px; font-weight: 600; letter-spacing: 2px;
+  text-transform: uppercase; margin-bottom: 20px;
+}
+.arch-card.legacy .arch-card-tag { color: rgba(178,34,52,0.6); }
+.arch-card.tetra .arch-card-tag { color: var(--gold); }
+.arch-card h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 24px; color: var(--white);
+  margin-bottom: 20px; line-height: 1.3;
+}
+.arch-card ul {
+  list-style: none; padding: 0;
+}
+.arch-card li {
+  font-size: 14px; color: rgba(255,255,255,0.4);
+  line-height: 1.6; padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  padding-left: 20px; position: relative;
+}
+.arch-card.legacy li::before {
+  content: '\00D7'; position: absolute; left: 0;
+  color: rgba(178,34,52,0.5); font-weight: 700;
+}
+.arch-card.tetra li::before {
+  content: '\2713'; position: absolute; left: 0;
+  color: rgba(197,164,78,0.6); font-weight: 700;
+}
+
+/* Value strip */
+.to-value-strip {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 64px;
+}
+.to-value-card {
+  background: rgba(17,34,64,0.3); border: 1px solid rgba(197,164,78,0.05);
+  border-radius: 8px; padding: 40px 32px; transition: all 0.4s ease;
+  position: relative; overflow: hidden;
+}
+.to-value-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(197,164,78,0.3), transparent);
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.to-value-card:hover::before { opacity: 1; }
+.to-value-card:hover {
+  border-color: rgba(197,164,78,0.12);
+  transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+}
+.to-value-num {
+  font-family: 'Instrument Serif', serif; font-size: 13px;
+  color: var(--gold); letter-spacing: 2px; margin-bottom: 16px; opacity: 0.5;
+}
+.to-value-title {
+  font-family: 'Instrument Serif', serif; font-size: 22px;
+  color: var(--white); margin-bottom: 12px; line-height: 1.3;
+}
+.to-value-desc {
+  font-size: 13px; color: rgba(255,255,255,0.35); line-height: 1.7;
+}
+
+/* ===== CREDENTIALS ===== */
+.creds-section {
+  padding: 100px 40px;
+}
+.creds-inner { max-width: 1200px; margin: 0 auto; }
+.creds-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 24px; margin-top: 48px;
+}
+.cred-card {
+  text-align: center; padding: 36px 20px;
+  border: 1px solid rgba(197,164,78,0.06);
+  border-radius: 8px; transition: all 0.3s ease;
+}
+.cred-card:hover {
+  border-color: rgba(197,164,78,0.2);
+  transform: translateY(-4px);
+}
+.cred-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 42px; color: var(--gold); line-height: 1; margin-bottom: 10px;
+}
+.cred-label {
+  font-size: 11px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 8px;
+}
+.cred-desc {
+  font-size: 12px; color: rgba(255,255,255,0.3); line-height: 1.5;
+}
+
+/* ===== CTA ===== */
+.cta-section {
+  padding: 100px 40px; text-align: center;
+  position: relative; overflow: hidden;
+  border-top: 1px solid rgba(197,164,78,0.06);
+}
+.cta-section::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, rgba(197,164,78,0.04) 0%, transparent 60%);
+}
+.cta-inner {
+  position: relative; z-index: 1; max-width: 700px; margin: 0 auto;
+}
+.cta-inner h2 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  color: var(--white); line-height: 1.3; margin-bottom: 20px;
+}
+.cta-inner h2 em { font-style: italic; color: var(--gold); }
+.cta-inner p {
+  font-size: 16px; color: rgba(255,255,255,0.45);
+  line-height: 1.7; margin-bottom: 36px;
+}
+
+/* CTAs */
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: var(--gold);
+  color: var(--navy-deep); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  transition: all 0.3s ease; border: none; cursor: pointer;
+}
+.btn-gold:hover {
+  background: var(--gold-bright); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: transparent; color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  border-radius: 4px; border: 1.5px solid rgba(197,164,78,0.4);
+  transition: all 0.3s ease; cursor: pointer;
+}
+.btn-outline:hover {
+  border-color: var(--gold); background: rgba(197,164,78,0.08);
+  transform: translateY(-2px);
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--navy-deep);
+  border-top: 1px solid rgba(197,164,78,0.1);
+  padding: 48px 40px 32px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between;
+  align-items: center; flex-wrap: wrap; gap: 16px;
+}
+.footer-brand { display: flex; align-items: center; gap: 12px; }
+.footer-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px; color: var(--gold); letter-spacing: 1px;
+}
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px; }
+.footer-nav {
+  display: flex; gap: 24px; margin-top: 24px;
+  width: 100%; max-width: 1200px; margin-left: auto; margin-right: auto;
+  padding-top: 24px; border-top: 1px solid rgba(197,164,78,0.08);
+  flex-wrap: wrap;
+}
+.footer-nav a {
+  font-size: 11px; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.3);
+  text-decoration: none; transition: color 0.3s ease;
+}
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer {
+  max-width: 1200px; margin: 24px auto 0;
+  font-size: 10px; color: rgba(255,255,255,0.15); line-height: 1.6;
+}
+.footer-tagline {
+  text-align: center; margin-top: 24px;
+  font-family: 'Instrument Serif', serif;
+  font-size: 13px; color: rgba(197,164,78,0.3); letter-spacing: 2px;
+}
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .arch-compare { grid-template-columns: 1fr; }
+  .to-value-strip { grid-template-columns: 1fr; max-width: 500px; margin: 64px auto 0; }
+  .creds-grid { grid-template-columns: repeat(2, 1fr); }
+  .narrative-body { columns: 1; }
+}
+@media (max-width: 768px) {
+  .top-bar-inner { padding: 0 20px; }
+  .top-bar-nav { display: none; }
+  .nav-toggle { display: block; }
+  .top-bar-nav.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy-deep);
+    border-bottom: 1px solid rgba(197,164,78,0.2);
+    padding: 16px 0;
+  }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .page-hero { padding: 120px 20px 60px; }
+  .orch-section { padding: 20px 20px 60px; }
+  .narrative-section { padding: 60px 20px; }
+  .arch-section { padding: 60px 20px; }
+  .creds-section { padding: 60px 20px; }
+  .cta-section { padding: 60px 20px; }
+  .to-stage { height: 420px; }
+  .to-hub-core { width: 100px; height: 100px; }
+  .to-hub-name { font-size: 24px; }
+  .to-node-name { font-size: 12px; }
+  .to-node.to-primary .to-node-name { font-size: 14px; }
+  .to-node-dot { width: 8px; height: 8px; }
+  .to-node.to-primary .to-node-dot { width: 11px; height: 11px; }
+  .to-node[data-nid="nlp"], .to-node[data-nid="pharma"] { right: 10px; }
+  .to-node[data-nid="cost"], .to-node[data-nid="records"] { left: 10px; }
+  .to-node[data-nid="safety"] { left: 0; }
+  .to-node[data-nid="imaging"] { right: 0; }
+  .to-sc-btn { padding: 10px 16px; }
+  .to-sc-label { font-size: 9px; }
+  .creds-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <a class="top-bar-brand" href="index.html">
+        <div class="top-bar-wordmark">InPursuit Health</div>
+      </a>
+      <span style="color: rgba(255,255,255,0.4); margin: 0 4px;">|</span>
+      <a href="maha.html" style="font-size: 13px; color: var(--white); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap; font-weight: 500;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white)'">MAHA Policy Alignment</a>
+    </div>
+    <nav class="top-bar-nav" id="topNav">
+      <a class="nav-item" href="for-you.html">For You</a>
+      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <a class="nav-item active" href="tetra.html">TETRA</a>
+      <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First</a>
+      <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <p class="page-hero-overline reveal">TETRA&trade; Platform</p>
+  <h1 class="reveal">One Platform. <em>Every AI.</em><br>The Right Intelligence, Every Time.</h1>
+</section>
+
+<!-- Opening Statement -->
+<section style="padding: 0 40px 60px; position: relative;">
+  <div style="max-width: 900px; margin: 0 auto;">
+    <p class="reveal" style="font-family: 'Instrument Serif', serif; font-size: clamp(24px, 3vw, 36px); font-weight: 400; color: var(--white); line-height: 1.45; text-align: center;">The healthcare industry is about to make <em style="font-style: italic; color: var(--gold);">the same mistake it has made before</em> &mdash; locking into a single AI the way it once locked into a single EHR, a single BI platform, a single claims system. TETRA exists to make sure you never have to.</p>
+  </div>
+</section>
+
+<!-- Orchestration Visual -->
+<section class="orch-section">
+  <div class="orch-inner">
+    <div class="to-stage reveal" id="toStage">
+      <canvas class="to-canvas" id="toCanvas"></canvas>
+      <div class="to-orbit to-r1"></div>
+      <div class="to-orbit to-r2"></div>
+      <div class="to-orbit to-r3"></div>
+      <div class="to-hub">
+        <div class="to-hub-core">
+          <div class="to-hub-ring"></div>
+          <div class="to-hub-ring-2"></div>
+          <span class="to-hub-name">TETRA</span>
+          <span class="to-hub-role">Orchestration</span>
+        </div>
+      </div>
+      <div class="to-node" data-nid="clinical" data-align="center">
+        <div class="to-node-label"><span class="to-node-name">Clinical Reasoning</span><span class="to-node-sub">Diagnostic AI</span></div>
+        <div class="to-node-dot"></div>
+      </div>
+      <div class="to-node" data-nid="nlp" data-align="left">
+        <div class="to-node-dot"></div>
+        <div class="to-node-label"><span class="to-node-name">Patient NLP</span><span class="to-node-sub">Conversational</span></div>
+      </div>
+      <div class="to-node" data-nid="imaging" data-align="left">
+        <div class="to-node-dot"></div>
+        <div class="to-node-label"><span class="to-node-name">Data Analytics</span><span class="to-node-sub">Population Health</span></div>
+      </div>
+      <div class="to-node" data-nid="pharma" data-align="left">
+        <div class="to-node-dot"></div>
+        <div class="to-node-label"><span class="to-node-name">Rx Intelligence</span><span class="to-node-sub">Medication AI</span></div>
+      </div>
+      <div class="to-node" data-nid="monitor" data-align="center">
+        <div class="to-node-dot"></div>
+        <div class="to-node-label"><span class="to-node-name">Wearable Monitor</span><span class="to-node-sub">Real-Time Vitals</span></div>
+      </div>
+      <div class="to-node" data-nid="cost" data-align="right">
+        <div class="to-node-dot"></div>
+        <div class="to-node-label"><span class="to-node-name">Cost Optimizer</span><span class="to-node-sub">Price Transparency</span></div>
+      </div>
+      <div class="to-node" data-nid="safety" data-align="right">
+        <div class="to-node-dot"></div>
+        <div class="to-node-label"><span class="to-node-name">Safety Oversight</span><span class="to-node-sub">Supervisory Agent</span></div>
+      </div>
+      <div class="to-node" data-nid="records" data-align="right">
+        <div class="to-node-dot"></div>
+        <div class="to-node-label"><span class="to-node-name">EHR Integration</span><span class="to-node-sub">Universal Connect</span></div>
+      </div>
+    </div>
+
+    <div class="to-context reveal">
+      <div class="to-ctx-line"></div>
+      <div class="to-ctx-pulse"></div>
+      <span class="to-ctx-text">Routing &rarr;</span>
+      <span class="to-ctx-scenario" id="toCtxValue">Medication Review</span>
+      <div class="to-ctx-pulse"></div>
+      <div class="to-ctx-line"></div>
+    </div>
+
+    <div class="to-scenarios reveal" id="toScenarios">
+      <button class="to-sc-btn to-sc-active" data-toscenario="medication"><div class="to-sc-label">Medication Review</div></button>
+      <button class="to-sc-btn" data-toscenario="emergency"><div class="to-sc-label">Cardiac Alert</div></button>
+      <button class="to-sc-btn" data-toscenario="wellness"><div class="to-sc-label">Wellness Check-In</div></button>
+      <button class="to-sc-btn" data-toscenario="cost"><div class="to-sc-label">Cost Savings</div></button>
+      <button class="to-sc-btn" data-toscenario="appointment"><div class="to-sc-label">Care Navigation</div></button>
+    </div>
+  </div>
+</section>
+
+<!-- Narrative -->
+<section class="narrative-section">
+  <div class="narrative-inner">
+
+    <div class="narrative-body reveal">
+      <p><strong>In 18 months, the &ldquo;best&rdquo; AI model changed four times.</strong> GPT-4 led. Claude surpassed it in reasoning. Gemini moved on multimodal. Llama started winning in specialized domains. Any organization that hardwired to one model is already rearchitecting.</p>
+
+      <p>At the clinical level, the divergence is sharper still. <span class="gold-text">One model excels at medication interaction analysis. Another at interpreting wearable ECG data. Another at patient communication in Spanish.</span> No single AI will be best at everything, for every patient, in every moment. That idea is already obsolete.</p>
+
+      <div class="narrative-quote">
+        <p>&ldquo;Human-in-the-loop is essentially human-on-the-hook, because clinicians find it very difficult to detect AI errors. Any system that relies solely on human oversight is almost certain to fail.&rdquo;</p>
+        <cite>ARPA-H Program Manager &mdash; ADVOCATE Initiative</cite>
+      </div>
+
+      <p><strong>A supervisory agent built on the same AI model it supervises cannot reliably detect that model&rsquo;s errors.</strong> Same blind spots. Same failure modes. Same architectural vulnerabilities. The supervisor must be structurally independent from the thing it supervises. That is not a preference &mdash; it is a safety requirement.</p>
+
+      <p>TETRA&rsquo;s model-agnostic orchestration layer guarantees that independence. <span class="gold-text">It is the infrastructure that makes every clinical AI agent safe, observable, and deployable</span> &mdash; regardless of foundation model, regardless of vendor, regardless of what comes next.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Architecture Deep-Dive -->
+<section class="arch-section">
+  <div class="arch-inner">
+    <div class="arch-header reveal">
+      <p class="arch-overline">Architecture</p>
+      <h2 class="arch-headline">Why model-agnostic isn&rsquo;t a feature.<br>It&rsquo;s a <em>safety requirement.</em></h2>
+      <p class="arch-desc">Every competitor who arrives already married to one AI model has already chosen their ceiling. Here&rsquo;s what that decision actually costs.</p>
+    </div>
+
+    <div class="arch-compare reveal">
+      <div class="arch-card legacy">
+        <div class="arch-card-tag">Single-Model Architecture</div>
+        <h3>Locked in. Locked down.</h3>
+        <ul>
+          <li>Supervisor shares blind spots with the agent it monitors</li>
+          <li>Rearchitecting required every time a better model emerges</li>
+          <li>Vendor pricing leverage increases over time</li>
+          <li>Cannot select optimal AI per clinical task</li>
+          <li>Single point of failure across entire system</li>
+          <li>Requires 5-year enterprise commitments before clinical validation</li>
+        </ul>
+      </div>
+      <div class="arch-card tetra">
+        <div class="arch-card-tag">TETRA&trade; MOSA Architecture</div>
+        <h3>Model-agnostic. Future-proof.</h3>
+        <ul>
+          <li>Supervisory layer architecturally independent of monitored agents</li>
+          <li>New models integrate in weeks, not quarters</li>
+          <li>No vendor lock-in &mdash; leverage stays with the platform</li>
+          <li>Routes to optimal AI per patient, per data type, per decision</li>
+          <li>Distributed resilience across heterogeneous systems</li>
+          <li>Proven at scale: 95% interoperability across DoD/VA/CMS</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="to-value-strip reveal">
+      <div class="to-value-card">
+        <div class="to-value-num">01</div>
+        <div class="to-value-title">Never Locked In</div>
+        <div class="to-value-desc">TETRA&rsquo;s modular architecture means your care isn&rsquo;t chained to one AI vendor. As technology evolves, your platform evolves &mdash; automatically, invisibly.</div>
+      </div>
+      <div class="to-value-card">
+        <div class="to-value-num">02</div>
+        <div class="to-value-title">Right AI, Right Moment</div>
+        <div class="to-value-desc">Different moments demand different intelligence. TETRA evaluates context and routes to the optimal capability in real-time &mdash; down to the millisecond.</div>
+      </div>
+      <div class="to-value-card">
+        <div class="to-value-num">03</div>
+        <div class="to-value-title">Battle-Tested Trust</div>
+        <div class="to-value-desc">Born in the DoD. Proven at the VA. Approved by CMS. 95% interoperability. 1.8M+ transactions per hour. Infrastructure that doesn&rsquo;t flinch.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Credentials -->
+<section class="creds-section">
+  <div class="creds-inner">
+    <p class="arch-overline reveal">Federal Validation</p>
+    <h2 class="arch-headline reveal">We didn&rsquo;t start in a garage.<br>We started in the <em>Department of Defense.</em></h2>
+    <div class="creds-grid reveal">
+      <div class="cred-card">
+        <div class="cred-num">95%</div>
+        <div class="cred-label">Interoperability</div>
+        <div class="cred-desc">Federally validated across DoD, VA, and CMS health systems. Outperformed IBM and SAP.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-num">1.8M+</div>
+        <div class="cred-label">Transactions / Hour</div>
+        <div class="cred-desc">Real-time data processing in production federal healthcare environments.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-num">140M+</div>
+        <div class="cred-label">Beneficiaries</div>
+        <div class="cred-desc">CMS Health Tech Ecosystem approval grants access to Medicare &amp; Medicaid populations.</div>
+      </div>
+      <div class="cred-card">
+        <div class="cred-num">20+</div>
+        <div class="cred-label">Years</div>
+        <div class="cred-desc">Two decades of healthcare technology expertise, from federal to commercial markets.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner reveal">
+    <p class="arch-overline">Get Started</p>
+    <h2>The platform beneath the AI<br>matters more than <em>the AI itself.</em></h2>
+    <p>Whether you&rsquo;re a provider adopting clinical AI, a partner building on our infrastructure, or an investor evaluating the future of healthcare technology &mdash; TETRA is the architecture that makes it all work.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a class="btn-gold" href="contact.html">Request a Demo &rarr;</a>
+      <a class="btn-outline" href="partner-network.html">Join the Partner Network</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="tetra.html">TETRA</a>
+    <a href="day-in-the-life-patient.html">Patient Journey</a>
+    <a href="day-in-the-life-provider.html">Provider Solutions</a>
+    <a href="ai-and-your-data.html">AI &amp; Your Data</a>
+    <a href="maha.html">MAHA</a>
+    <a href="veterans-first.html">Veterans First</a>
+    <a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a>
+    <a href="leadership.html">Leadership</a>
+    <a href="security-center.html">Security Center</a>
+    <a href="contact.html">Contact</a>
+    <a href="careers.html">Careers</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+// Top bar scroll shadow
+window.addEventListener('scroll', function() {
+  document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10);
+});
+
+// Mobile nav toggle
+document.getElementById('navToggle').addEventListener('click', function() {
+  document.getElementById('topNav').classList.toggle('open');
+});
+
+// Scroll reveal
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
+
+// ===== TETRA ORCHESTRATION =====
+(function() {
+  var toScenarios = {
+    medication: { label: 'Medication Review', active: ['pharma', 'clinical', 'records', 'safety'], primary: 'pharma' },
+    emergency: { label: 'Cardiac Alert', active: ['monitor', 'clinical', 'safety', 'records'], primary: 'monitor' },
+    wellness: { label: 'Wellness Check-In', active: ['monitor', 'nlp', 'imaging', 'records'], primary: 'nlp' },
+    cost: { label: 'Cost Optimization', active: ['cost', 'pharma', 'records', 'imaging'], primary: 'cost' },
+    appointment: { label: 'Care Navigation', active: ['nlp', 'records', 'clinical', 'cost'], primary: 'nlp' }
+  };
+
+  var toCurrentScenario = 'medication';
+  var toCanvas = document.getElementById('toCanvas');
+  if (!toCanvas) return;
+  var toCtx = toCanvas.getContext('2d');
+  var toStage = document.getElementById('toStage');
+  var toPulses = [];
+
+  function toResize() {
+    var r = toStage.getBoundingClientRect();
+    toCanvas.width = r.width;
+    toCanvas.height = r.height;
+  }
+  toResize();
+  window.addEventListener('resize', toResize);
+
+  function toDotCenter(node) {
+    var dot = node.querySelector('.to-node-dot');
+    var sr = toStage.getBoundingClientRect();
+    var dr = dot.getBoundingClientRect();
+    return { x: dr.left + dr.width/2 - sr.left, y: dr.top + dr.height/2 - sr.top };
+  }
+
+  function toHub() {
+    var sr = toStage.getBoundingClientRect();
+    return { x: sr.width/2, y: sr.height/2 };
+  }
+
+  function toSpawnPulse(fromNode) {
+    var hub = toHub();
+    var nc = toDotCenter(fromNode);
+    var outbound = Math.random() > 0.5;
+    toPulses.push({
+      fx: outbound ? hub.x : nc.x, fy: outbound ? hub.y : nc.y,
+      tx: outbound ? nc.x : hub.x, ty: outbound ? nc.y : hub.y,
+      progress: 0, speed: 0.005 + Math.random() * 0.004,
+      isPrimary: fromNode.dataset.nid === toScenarios[toCurrentScenario].primary
+    });
+  }
+
+  function toAnimate() {
+    toResize();
+    var hub = toHub();
+    var sc = toScenarios[toCurrentScenario];
+    var allNodes = document.querySelectorAll('.to-node');
+    toCtx.clearRect(0, 0, toCanvas.width, toCanvas.height);
+
+    allNodes.forEach(function(node) {
+      var nc = toDotCenter(node);
+      var id = node.dataset.nid;
+      var isActive = sc.active.includes(id);
+      var isPrimary = id === sc.primary;
+
+      if (isPrimary) {
+        toCtx.beginPath(); toCtx.moveTo(hub.x, hub.y); toCtx.lineTo(nc.x, nc.y);
+        toCtx.strokeStyle = 'rgba(197,164,78,0.06)'; toCtx.lineWidth = 8; toCtx.setLineDash([]); toCtx.stroke();
+        toCtx.beginPath(); toCtx.moveTo(hub.x, hub.y); toCtx.lineTo(nc.x, nc.y);
+        toCtx.strokeStyle = 'rgba(197,164,78,0.2)'; toCtx.lineWidth = 1.5; toCtx.stroke();
+      } else if (isActive) {
+        toCtx.beginPath(); toCtx.moveTo(hub.x, hub.y); toCtx.lineTo(nc.x, nc.y);
+        toCtx.strokeStyle = 'rgba(197,164,78,0.08)'; toCtx.lineWidth = 1; toCtx.setLineDash([]); toCtx.stroke();
+      } else {
+        toCtx.beginPath(); toCtx.moveTo(hub.x, hub.y); toCtx.lineTo(nc.x, nc.y);
+        toCtx.strokeStyle = 'rgba(197,164,78,0.02)'; toCtx.lineWidth = 0.5; toCtx.setLineDash([3, 5]); toCtx.stroke();
+      }
+      toCtx.setLineDash([]);
+    });
+
+    if (Math.random() < 0.035) {
+      var activeNodes = [];
+      allNodes.forEach(function(n) { if (sc.active.includes(n.dataset.nid)) activeNodes.push(n); });
+      if (activeNodes.length > 0) {
+        var node = activeNodes[Math.floor(Math.random() * activeNodes.length)];
+        toSpawnPulse(node);
+        if (node.dataset.nid === sc.primary && Math.random() > 0.4) toSpawnPulse(node);
+      }
+    }
+
+    for (var i = toPulses.length - 1; i >= 0; i--) {
+      var p = toPulses[i];
+      p.progress += p.speed;
+      if (p.progress >= 1) { toPulses.splice(i, 1); continue; }
+      var px = p.fx + (p.tx - p.fx) * p.progress;
+      var py = p.fy + (p.ty - p.fy) * p.progress;
+      var alpha = p.progress < 0.1 ? p.progress * 7 : p.progress > 0.85 ? (1 - p.progress) * 5.5 : 0.55;
+      var size = p.isPrimary ? 2.5 : 1.8;
+      toCtx.beginPath(); toCtx.arc(px, py, size * 3.5, 0, Math.PI * 2);
+      toCtx.fillStyle = 'rgba(197,164,78,' + (alpha * 0.1) + ')'; toCtx.fill();
+      toCtx.beginPath(); toCtx.arc(px, py, size, 0, Math.PI * 2);
+      toCtx.fillStyle = 'rgba(197,164,78,' + alpha + ')'; toCtx.fill();
+    }
+    requestAnimationFrame(toAnimate);
+  }
+
+  function toSetScenario(name) {
+    toCurrentScenario = name;
+    var sc = toScenarios[name];
+    document.querySelectorAll('.to-sc-btn').forEach(function(b) {
+      b.classList.toggle('to-sc-active', b.dataset.toscenario === name);
+    });
+    document.querySelectorAll('.to-node').forEach(function(node) {
+      var id = node.dataset.nid;
+      node.classList.remove('to-active', 'to-primary');
+      if (id === sc.primary) node.classList.add('to-primary');
+      else if (sc.active.includes(id)) node.classList.add('to-active');
+    });
+    var cv = document.getElementById('toCtxValue');
+    cv.style.opacity = '0';
+    setTimeout(function() { cv.textContent = sc.label; cv.style.opacity = '1'; }, 250);
+    toPulses.length = 0;
+  }
+
+  document.querySelectorAll('.to-sc-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      toSetScenario(btn.dataset.toscenario);
+      clearInterval(toAutoRotate);
+      setTimeout(toStartAutoRotate, 18000);
+    });
+  });
+
+  var toAutoRotate;
+  function toStartAutoRotate() {
+    var keys = Object.keys(toScenarios);
+    var idx = 0;
+    toAutoRotate = setInterval(function() {
+      idx = (idx + 1) % keys.length;
+      toSetScenario(keys[idx]);
+    }, 4500);
+  }
+
+  toSetScenario('medication');
+  toAnimate();
+  toStartAutoRotate();
+})();
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(function(a) {
+  a.addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      var top = target.getBoundingClientRect().top + window.pageYOffset - 64;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
