@@ -107,6 +107,12 @@ body {
   transition: width 0.3s ease;
 }
 .nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu { position: absolute; top: 100%; left: 50%; transform: translateX(-50%) translateY(8px); background: #112240; border: 1px solid rgba(197,164,78,0.15); border-radius: 4px; padding: 8px 0; min-width: 260px; opacity: 0; visibility: hidden; transition: all 0.3s ease; box-shadow: 0 12px 40px rgba(0,0,0,0.5); z-index: 1001; }
+.nav-dropdown:hover .nav-dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+.nav-dropdown-item { display: block; padding: 12px 24px; font-size: 12px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; transition: all 0.2s ease; }
+.nav-dropdown-item:hover { color: var(--gold); background: rgba(197,164,78,0.05); }
+.nav-dropdown-item .sub-desc { display: block; font-size: 10px; letter-spacing: 0.5px; text-transform: none; color: rgba(255,255,255,0.3); margin-top: 2px; }
 .nav-toggle {
   display: none;
   background: none; border: none;
@@ -272,6 +278,199 @@ section { position: relative; z-index: 1; }
 }
 
 /* ── FOUNDING PARTNERS SECTION ── */
+/* WHO THRIVES */
+.who-thrives-section {
+  padding: 100px 0 80px;
+  background: linear-gradient(180deg, #0a1628 0%, #0d1f3c 50%, #0a1628 100%);
+  position: relative;
+}
+.who-thrives-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent);
+}
+.wt-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 50px;
+}
+.wt-card {
+  background: linear-gradient(135deg, rgba(15,30,60,0.9), rgba(10,22,40,0.95));
+  border: 1px solid rgba(212,175,55,0.15);
+  border-radius: 16px;
+  padding: 36px 32px 32px;
+  position: relative;
+  transition: all 0.4s ease;
+  overflow: hidden;
+}
+.wt-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.4), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.wt-card:hover {
+  border-color: rgba(212,175,55,0.35);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(212,175,55,0.08);
+}
+.wt-card:hover::before { opacity: 1; }
+.wt-card-featured {
+  border-color: rgba(212,175,55,0.3);
+  background: linear-gradient(135deg, rgba(20,35,65,0.95), rgba(15,28,50,0.98));
+}
+.wt-card-featured::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+.wt-icon-wrap {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.12), rgba(212,175,55,0.05));
+  border: 1px solid rgba(212,175,55,0.2);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.wt-icon {
+  width: 30px;
+  height: 30px;
+  color: var(--gold);
+}
+.wt-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  background: rgba(212,175,55,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(212,175,55,0.25);
+}
+.wt-badge-teal {
+  background: rgba(0,200,180,0.12);
+  color: #00d4b4;
+  border-color: rgba(0,200,180,0.25);
+}
+.wt-badge-green {
+  background: rgba(50,205,50,0.12);
+  color: #5dde5d;
+  border-color: rgba(50,205,50,0.25);
+}
+.wt-badge-gold {
+  background: rgba(212,175,55,0.2);
+  color: #f0d060;
+  border-color: rgba(212,175,55,0.4);
+  animation: pulse-badge 2s ease-in-out infinite;
+}
+@keyframes pulse-badge {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.2); }
+  50% { box-shadow: 0 0 12px 3px rgba(212,175,55,0.15); }
+}
+.wt-title {
+  font-family: var(--heading);
+  font-size: 1.45rem;
+  color: #fff;
+  margin: 0 0 12px;
+}
+.wt-desc {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.7);
+  margin: 0 0 20px;
+}
+.wt-divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212,175,55,0.3), transparent);
+  margin-bottom: 20px;
+}
+.wt-what {
+  font-family: var(--heading);
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 14px;
+}
+.wt-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 22px;
+}
+.wt-list li {
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.8);
+  padding: 6px 0 6px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.wt-check {
+  color: var(--gold);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.wt-ideal {
+  font-size: 0.82rem;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.5);
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.wt-ideal strong {
+  color: rgba(255,255,255,0.7);
+}
+.wt-cta-mini {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(212,175,55,0.15);
+  text-align: center;
+}
+.wt-cta-link {
+  display: inline-block;
+  padding: 10px 28px;
+  background: linear-gradient(135deg, var(--gold), #b8941e);
+  color: #0a1628;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.04em;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.wt-cta-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(212,175,55,0.3);
+}
+@media(max-width:900px){
+  .wt-grid { grid-template-columns: 1fr; gap: 20px; }
+  .wt-card { padding: 28px 24px 24px; }
+}
+
 .founding-partners {
   background: linear-gradient(180deg, transparent, rgba(197,164,78,0.02) 50%, transparent);
   border-top: 1px solid var(--white-faint);
@@ -709,7 +908,14 @@ section { position: relative; z-index: 1; }
     </div>
     <nav class="top-bar-nav" id="topNav">
       <a class="nav-item" href="for-you.html">For You</a>
-      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <div class="nav-dropdown">
+        <a class="nav-item" href="for-providers.html">For Providers</a>
+        <div class="nav-dropdown-menu">
+          <a class="nav-dropdown-item" href="for-providers.html">Overview<span class="sub-desc">Value-based care, simplified</span></a>
+          <a class="nav-dropdown-item" href="access.html">CMS ACCESS Model<span class="sub-desc">Apply by March 20, 2026</span></a>
+          <a class="nav-dropdown-item" href="virtual-practice.html">Your Own Virtual Practice<span class="sub-desc">Platinum Partner &mdash; powered by TETRA</span></a>
+        </div>
+      </div>
       <a class="nav-item" href="tetra.html">TETRA</a>
       <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
       <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
@@ -833,6 +1039,139 @@ section { position: relative; z-index: 1; }
   </div>
 </section>
 
+<!-- WHO THRIVES -->
+<section class="who-thrives-section" id="who-thrives">
+  <div class="section-inner">
+    <div class="section-eyebrow">Built for Builders</div>
+    <h2 class="section-title">Who Thrives in the Network</h2>
+    <p class="section-subtitle">Whether you're a company, a consultant, a sales team, or a solo physician — TETRA meets you where you are and gives you everything you need to win.</p>
+
+    <div class="wt-grid">
+
+      <!-- HEALTH IT COMPANIES -->
+      <div class="wt-card">
+        <div class="wt-icon-wrap">
+          <svg class="wt-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="6" y="14" width="36" height="24" rx="3" stroke="currentColor" stroke-width="2.5"/>
+            <line x1="24" y1="14" x2="24" y2="38" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+            <line x1="6" y1="26" x2="42" y2="26" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+            <path d="M18 8h12M24 8v6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="15" cy="20" r="2" fill="currentColor" opacity="0.7"/>
+            <circle cx="33" cy="20" r="2" fill="currentColor" opacity="0.7"/>
+            <rect x="11" y="29" width="8" height="3" rx="1" fill="currentColor" opacity="0.4"/>
+            <rect x="29" y="29" width="8" height="3" rx="1" fill="currentColor" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="wt-badge">Most Popular</div>
+        <h3 class="wt-title">Health IT Companies</h3>
+        <p class="wt-desc">You've built something great — an EHR module, a clinical decision tool, a patient engagement app. But you're stuck in pilot purgatory, burning cash on compliance, and can't crack federal markets.</p>
+        <div class="wt-divider"></div>
+        <h4 class="wt-what">What TETRA Gives You</h4>
+        <ul class="wt-list">
+          <li><span class="wt-check">✓</span> Inherited DoD · VA · CMS security credentials — skip 18 months of compliance work</li>
+          <li><span class="wt-check">✓</span> Pre-built FHIR/HL7 interoperability layer — plug in, don't rebuild</li>
+          <li><span class="wt-check">✓</span> Distribution to 140M+ covered lives on Day 1</li>
+          <li><span class="wt-check">✓</span> Marketplace listing with co-marketing support</li>
+          <li><span class="wt-check">✓</span> You keep 100% of your IP, your customers, and your exit</li>
+        </ul>
+        <div class="wt-ideal">
+          <strong>Ideal for:</strong> EHR/EMR vendors, clinical SaaS startups, health data companies, digital therapeutics, remote monitoring platforms
+        </div>
+      </div>
+
+      <!-- CONSULTANTS & ADVISORS -->
+      <div class="wt-card">
+        <div class="wt-icon-wrap">
+          <svg class="wt-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="14" r="7" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M12 38c0-6.627 5.373-12 12-12s12 5.373 12 12" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M30 18l6-4M32 14l4 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+            <circle cx="38" cy="11" r="4" stroke="currentColor" stroke-width="2" opacity="0.6"/>
+            <path d="M33 28l3 2M36 30h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="wt-badge wt-badge-teal">High Margin</div>
+        <h3 class="wt-title">Consultants & Advisors</h3>
+        <p class="wt-desc">You know healthcare inside-out. You advise health systems, payers, and agencies — but your revenue stops when engagements end. What if every recommendation you made generated recurring income?</p>
+        <div class="wt-divider"></div>
+        <h4 class="wt-what">What TETRA Gives You</h4>
+        <ul class="wt-list">
+          <li><span class="wt-check">✓</span> Referral and implementation revenue shares — get paid when clients adopt</li>
+          <li><span class="wt-check">✓</span> White-label capabilities — brand TETRA solutions as your own</li>
+          <li><span class="wt-check">✓</span> Ready-made case studies and ROI frameworks for client proposals</li>
+          <li><span class="wt-check">✓</span> Co-branded thought leadership and conference opportunities</li>
+          <li><span class="wt-check">✓</span> No technical lift — we handle deployment, you handle relationships</li>
+        </ul>
+        <div class="wt-ideal">
+          <strong>Ideal for:</strong> Healthcare management consultants, HIT advisory firms, former CMS/VA executives, practice transformation specialists, policy advisors
+        </div>
+      </div>
+
+      <!-- SALES ORGANIZATIONS -->
+      <div class="wt-card">
+        <div class="wt-icon-wrap">
+          <svg class="wt-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 38V20l16-12 16 12v18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M18 38V28h12v10" stroke="currentColor" stroke-width="2.5"/>
+            <circle cx="24" cy="20" r="3" stroke="currentColor" stroke-width="2"/>
+            <path d="M2 20l22-16 22 16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+            <path d="M38 24l5-1M38 30l4 1M38 36l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="wt-badge wt-badge-green">Recurring Revenue</div>
+        <h3 class="wt-title">Sales & Channel Partners</h3>
+        <p class="wt-desc">You have the relationships and the Rolodex. Health systems trust you. But you're reselling commoditized products with shrinking margins. TETRA gives you a story nobody else can tell.</p>
+        <div class="wt-divider"></div>
+        <h4 class="wt-what">What TETRA Gives You</h4>
+        <ul class="wt-list">
+          <li><span class="wt-check">✓</span> Exclusive territory and account protection — your deals stay yours</li>
+          <li><span class="wt-check">✓</span> Revenue sharing on every transaction through accounts you bring</li>
+          <li><span class="wt-check">✓</span> Sales enablement: battle cards, demo environments, and pitch decks</li>
+          <li><span class="wt-check">✓</span> Pre-qualified federal pipeline — sell into DoD, VA, and CMS markets</li>
+          <li><span class="wt-check">✓</span> Multi-product catalog — bundle TETRA with complementary partner solutions</li>
+        </ul>
+        <div class="wt-ideal">
+          <strong>Ideal for:</strong> Healthcare VARs, medical device reps expanding into digital, group purchasing organizations, federal procurement specialists, regional sales agencies
+        </div>
+      </div>
+
+      <!-- INDIVIDUAL PHYSICIANS -->
+      <div class="wt-card wt-card-featured">
+        <div class="wt-icon-wrap">
+          <svg class="wt-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="14" r="7" stroke="currentColor" stroke-width="2.5"/>
+            <path d="M24 21v6M21 24h6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M14 42v-4a10 10 0 0120 0v4" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            <rect x="16" y="32" width="16" height="10" rx="2" stroke="currentColor" stroke-width="2" opacity="0.5"/>
+            <path d="M20 36h8M20 39h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+            <circle cx="38" cy="10" r="4" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+            <path d="M38 8v4M36 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.4"/>
+          </svg>
+        </div>
+        <div class="wt-badge wt-badge-gold">New</div>
+        <h3 class="wt-title">Individual Physicians</h3>
+        <p class="wt-desc">You went to medical school to practice medicine — not to fight with insurance companies, manage IT infrastructure, or drown in administrative overhead. What if you could open a virtual practice tomorrow with zero capital outlay?</p>
+        <div class="wt-divider"></div>
+        <h4 class="wt-what">Your Virtual Doctor's Office — Powered by TETRA</h4>
+        <ul class="wt-list">
+          <li><span class="wt-check">✓</span> Turnkey virtual practice — scheduling, charting, prescribing, and billing out of the box</li>
+          <li><span class="wt-check">✓</span> AI-powered patient prep — patients arrive informed, visits start productive</li>
+          <li><span class="wt-check">✓</span> Built-in credentialing and payer enrollment — we handle the paperwork</li>
+          <li><span class="wt-check">✓</span> HIPAA-compliant telehealth, secure messaging, and remote monitoring — all integrated</li>
+          <li><span class="wt-check">✓</span> $0 upfront — pay only when you see patients, through transparent revenue sharing</li>
+        </ul>
+        <div class="wt-ideal">
+          <strong>Ideal for:</strong> Physicians seeking independence, specialists adding virtual consults, retired military physicians, locum tenens looking for stability, concierge medicine practitioners
+        </div>
+        <div class="wt-cta-mini">
+          <a href="#apply" class="wt-cta-link">Apply for Early Access →</a>
+        </div>
+      </div>
+
+    </div><!-- /wt-grid -->
+  </div>
+</section>
+
 <!-- FOUNDING PARTNERS -->
 <section class="founding-partners" id="partners">
   <div class="section-inner">
@@ -935,21 +1274,21 @@ section { position: relative; z-index: 1; }
       </div>
 
       <!-- PLATINUM -->
-      <div class="tier-card">
+      <div class="tier-card highlighted">
         <div class="tier-icon platinum">⬡</div>
         <div class="tier-name">Platinum</div>
-        <div class="tier-price">$10,000+/month</div>
+        <div class="tier-price">Setup + Monthly + Rev Share</div>
         <ul class="tier-features">
           <li>Everything in Gold</li>
-          <li>White-label licensing</li>
-          <li>Dedicated engineering team</li>
-          <li>Joint ventures & co-dev</li>
-          <li>Up to 20% revenue share</li>
-          <li>Federal contract access</li>
-          <li>C-Suite executive sponsor</li>
+          <li>Your Own Virtual Practice</li>
+          <li>White-label EHR &amp; telehealth</li>
+          <li>Full TETRA interoperability</li>
+          <li>VBC/OBC contract access</li>
+          <li>Billing &amp; revenue cycle</li>
+          <li>Dedicated Partner Success Mgr</li>
           <li>Advisory Council seat</li>
         </ul>
-        <a href="#apply" class="tier-cta">Contact Us</a>
+        <a href="virtual-practice.html" class="tier-cta gold-cta">See Virtual Practice &rarr;</a>
       </div>
     </div>
   </div>
@@ -1093,11 +1432,11 @@ section { position: relative; z-index: 1; }
       Whether you're building a clinical AI tool, a consumer wellness app, or an enterprise integration — TETRA™ gives you the data fabric, compliance infrastructure, and marketplace to get to market faster. Founding Partner spots are limited.
     </p>
     <div style="display:flex; gap:20px; justify-content:center; flex-wrap:wrap;">
-      <a href="/cdn-cgi/l/email-protection#afdfcedddbc1cadddcc7c6dfdcefc6c1dfdadddcdac6dbc7cacec3dbc781ccc0c290dcdacdc5caccdb92e6ffe18a9d9fffcedddbc1cadd8a9d9feedfdfc3c6cccedbc6c0c1" class="btn-primary">Apply to Join</a>
+      <a href="mailto:info@InPursuitHealth.com?subject=IPN%20Partner%20Application" class="btn-primary">Apply to Join</a>
       <a href="#tiers" class="btn-secondary">Compare Tiers</a>
     </div>
     <p style="margin-top:24px; font-size:13px; color:var(--white-dim); opacity:0.5;">
-      <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="3747564543595245445f5e4744775e5947424544425e435f52565b435f1954585a">[email&#160;protected]</a> &nbsp;·&nbsp; Founding cohort limited to 10 companies
+      <a href="mailto:info@InPursuitHealth.com">info@InPursuitHealth.com</a> &nbsp;·&nbsp; Founding cohort limited to 10 companies
     </p>
   </div>
 </section>
@@ -1112,6 +1451,7 @@ section { position: relative; z-index: 1; }
     <a href="index.html">Home</a>
     <a href="for-you.html">For You</a>
     <a href="for-providers.html">For Providers</a>
+    <a href="virtual-practice.html">Virtual Practice</a>
     <a href="data-security-ai.html">Data Security &amp; AI</a>
     <a href="maha.html">MAHA</a>
     <a href="veterans-first.html">Veterans First</a>

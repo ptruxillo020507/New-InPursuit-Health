@@ -97,20 +97,21 @@
 </footer>
 
 <script>
-window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('preloader').classList.add('hidden'),600)});
-window.addEventListener('scroll',()=>{document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10)});
-document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topNav').classList.toggle('open')});
-const observer=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
-
-function handleContactSubmit(e){
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
+window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
+document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.getElementById('contactForm').addEventListener('submit', function(e) {
   e.preventDefault();
-  const f=new FormData(e.target);
-  const subject=encodeURIComponent('InPursuit Health Inquiry - '+f.get('interest'));
-  const body=encodeURIComponent('Name: '+f.get('name')+'\nEmail: '+f.get('email')+'\nOrganization: '+(f.get('organization')||'N/A')+'\nInterest: '+f.get('interest')+'\nMessage: '+(f.get('message')||'N/A'));
-  window.location.href='mailto:info@InPursuitHealth.com?subject='+subject+'&body='+body;
-  document.getElementById('contactFormCard').innerHTML='<div class="form-success"><div class="form-success-icon">&#10003;</div><h3>Message Prepared</h3><p>Your email client should open with the details pre-filled. If it didn\'t, send your inquiry directly to info@InPursuitHealth.com</p></div>';
-}
+  const f = new FormData(e.target);
+  const subject = encodeURIComponent('InPursuit Health Inquiry - ' + f.get('interest'));
+  const body = encodeURIComponent('Name: ' + f.get('name') + '\nEmail: ' + f.get('email') + '\nOrganization: ' + (f.get('organization') || 'N/A') + '\nInterest: ' + f.get('interest') + '\nMessage: ' + (f.get('message') || 'N/A'));
+  window.location.href = 'mailto:info@InPursuitHealth.com?subject=' + subject + '&body=' + body;
+  document.getElementById('contactFormCard').innerHTML = '<div style="text-align:center;padding:60px 20px;"><div style="font-family:var(--serif);font-size:28px;color:var(--gold);margin-bottom:12px;">Message Prepared</div><p style="color:var(--text-muted);">Your email client should open shortly. If not, email us directly at info@InPursuitHealth.com</p></div>';
+});
 </script>
 </body>
 </html>

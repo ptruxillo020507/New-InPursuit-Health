@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Own Virtual Practice — InPursuit Health Partner Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:ital,opsz,wght@0,9..40,300..700;1,9..40,300..700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-deep:#060E1A;--navy-mid:#112240;--gold:#C5A44E;--gold-light:#D4B96A;--gold-bright:#E8D48B;--white:#FFFFFF;--off-white:#F0EDE6;--cream:#FAF8F4;--text-dark:#1A1A2E;--text-muted:#6B7280;--success:#10B981;--serif:'Instrument Serif',serif;--sans:'Instrument Sans',sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--cream);color:var(--text-dark);overflow-x:hidden}
+
+/* NAV */
+.top-bar{background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.2);position:fixed;top:0;left:0;right:0;z-index:1000;transition:box-shadow .3s}
+.top-bar.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4)}
+.top-bar-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;height:64px}
+.top-bar-brand{display:flex;align-items:center;text-decoration:none}
+.top-bar-wordmark{font-family:var(--serif);font-size:22px;color:var(--gold);letter-spacing:1px}
+.top-bar-nav{display:flex;align-items:center}
+.nav-item{position:relative;padding:20px 14px;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .3s}
+.nav-item:hover,.nav-item.active{color:var(--gold)}
+.nav-item::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:width .3s}
+.nav-item:hover::after,.nav-item.active::after{width:60%}
+.nav-dropdown{position:relative}
+.nav-dropdown-menu{position:absolute;top:100%;left:50%;transform:translateX(-50%) translateY(8px);background:#112240;border:1px solid rgba(197,164,78,.15);border-radius:4px;padding:8px 0;min-width:260px;opacity:0;visibility:hidden;transition:all .3s;box-shadow:0 12px 40px rgba(0,0,0,.5);z-index:1001}
+.nav-dropdown:hover .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+.nav-dropdown-item{display:block;padding:12px 24px;font-size:12px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:all .2s}
+.nav-dropdown-item:hover{color:var(--gold);background:rgba(197,164,78,.05)}
+.nav-dropdown-item .sub-desc{display:block;font-size:10px;letter-spacing:.5px;text-transform:none;color:rgba(255,255,255,.3);margin-top:2px}
+.nav-toggle{display:none;background:none;border:none;width:32px;height:32px;cursor:pointer;position:relative}
+.nav-toggle span{display:block;width:22px;height:2px;background:var(--gold);position:absolute;left:5px;transition:all .3s}
+.nav-toggle span:nth-child(1){top:8px}.nav-toggle span:nth-child(2){top:15px}.nav-toggle span:nth-child(3){top:22px}
+
+/* BREADCRUMB */
+.breadcrumb{background:var(--navy-deep);padding:0 40px;padding-top:64px}
+.breadcrumb-inner{max-width:1200px;margin:0 auto;padding:16px 0;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3)}
+.breadcrumb-inner a{color:rgba(255,255,255,.4);text-decoration:none;transition:color .3s}
+.breadcrumb-inner a:hover{color:var(--gold)}
+.breadcrumb-inner .sep{margin:0 8px}
+.breadcrumb-inner .current{color:var(--gold);font-weight:600}
+
+/* HERO */
+.hero{position:relative;background:var(--navy-deep);overflow:hidden;padding:80px 40px 100px}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse at 70% 30%,rgba(17,34,64,.8),var(--navy-deep) 70%)}
+.hero-inner{position:relative;z-index:2;max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:64px;align-items:center}
+.partner-badge{display:inline-flex;align-items:center;gap:10px;margin-bottom:20px}
+.partner-badge-tier{background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:var(--navy-deep);font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:6px 14px;border-radius:4px}
+.partner-badge-label{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase}
+.hero h1{font-family:var(--serif);font-size:clamp(36px,4.2vw,54px);color:var(--white);line-height:1.1;margin-bottom:24px}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero-desc{font-size:17px;color:rgba(255,255,255,.55);line-height:1.7;margin-bottom:36px;max-width:540px}
+.hero-desc strong{color:rgba(255,255,255,.85);font-weight:600}
+.hero-cta-row{display:flex;gap:16px;flex-wrap:wrap}
+
+/* BUTTONS */
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--gold);color:var(--navy-deep);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:all .3s;border:none;cursor:pointer}
+.btn-gold:hover{background:var(--gold-bright);transform:translateY(-2px);box-shadow:0 8px 30px rgba(197,164,78,.3)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:transparent;color:var(--gold);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:4px;border:1.5px solid rgba(197,164,78,.4);transition:all .3s;cursor:pointer}
+.btn-outline:hover{border-color:var(--gold);background:rgba(197,164,78,.08);transform:translateY(-2px)}
+
+/* BLUEPRINT CARD */
+.blueprint-card{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.12);border-radius:12px;padding:40px;position:relative;overflow:hidden}
+.blueprint-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),rgba(197,164,78,.3))}
+.blueprint-label{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.blueprint-card h3{font-family:var(--serif);font-size:22px;color:var(--white);margin-bottom:16px;line-height:1.3}
+.blueprint-card p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:16px}
+.blueprint-card p strong{color:rgba(255,255,255,.85)}
+.blueprint-divider{height:1px;background:rgba(197,164,78,.1);margin:20px 0}
+.blueprint-row{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.03)}
+.blueprint-row-label{font-size:12px;color:rgba(255,255,255,.35);letter-spacing:.5px}
+.blueprint-row-val{font-size:14px;color:var(--gold);font-weight:600;text-align:right}
+
+/* SECTIONS */
+.section{padding:100px 40px}
+.section-inner{max-width:1200px;margin:0 auto}
+.section-eyebrow{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.section-title{font-family:var(--serif);font-size:clamp(28px,3.5vw,44px);line-height:1.2;margin-bottom:20px}
+.section-title em{font-style:italic;color:var(--gold)}
+.section-subtitle{font-size:16px;line-height:1.7;max-width:640px;margin-bottom:48px}
+
+/* CRISIS SECTION (dark) — physician independence stats */
+.crisis-section{background:var(--navy);position:relative;overflow:hidden}
+.crisis-section::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(197,164,78,.03) 0%,transparent 60%);pointer-events:none}
+.crisis-section .section-title{color:var(--white)}
+.crisis-section .section-subtitle{color:rgba(255,255,255,.5)}
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:48px}
+.stat-card{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.08);border-radius:12px;padding:32px 24px;text-align:center;transition:all .3s}
+.stat-card:hover{border-color:rgba(197,164,78,.2);transform:translateY(-4px)}
+.stat-num{font-family:var(--serif);font-size:clamp(32px,3vw,44px);color:var(--gold);line-height:1;margin-bottom:8px}
+.stat-label{font-size:12px;color:rgba(255,255,255,.4);line-height:1.4;letter-spacing:.5px}
+.stat-source{font-size:10px;color:rgba(255,255,255,.2);margin-top:8px}
+.crisis-narrative{max-width:800px;margin:0 auto;padding:40px;background:rgba(197,164,78,.03);border:1px solid rgba(197,164,78,.08);border-radius:12px}
+.crisis-narrative p{font-size:15px;color:rgba(255,255,255,.5);line-height:1.8;margin-bottom:16px}
+.crisis-narrative p:last-child{margin-bottom:0}
+.crisis-narrative strong{color:var(--white)}
+.crisis-narrative em{color:var(--gold);font-style:normal;font-weight:600}
+
+/* REVENUE MODEL (dark) */
+.revenue-section{background:var(--navy-deep);position:relative;overflow:hidden}
+.revenue-section::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(197,164,78,.03) 0%,transparent 60%);pointer-events:none}
+.revenue-section .section-title{color:var(--white)}
+.revenue-section .section-subtitle{color:rgba(255,255,255,.5)}
+.revenue-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.revenue-card{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.08);border-radius:12px;padding:40px 32px;text-align:center;position:relative;overflow:hidden;transition:all .3s}
+.revenue-card:hover{border-color:rgba(197,164,78,.2);transform:translateY(-4px)}
+.revenue-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.revenue-num{font-family:var(--serif);font-size:13px;color:var(--gold);opacity:.5;letter-spacing:2px;margin-bottom:20px}
+.revenue-card h3{font-family:var(--serif);font-size:22px;color:var(--white);margin-bottom:8px}
+.revenue-card .price{font-family:var(--serif);font-size:32px;color:var(--gold);margin-bottom:4px}
+.revenue-card .price-note{font-size:12px;color:rgba(255,255,255,.35);margin-bottom:16px}
+.revenue-card p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.65}
+.revenue-summary{margin-top:40px;padding:28px 32px;background:rgba(197,164,78,.04);border:1px solid rgba(197,164,78,.1);border-radius:10px;display:grid;grid-template-columns:1fr auto 1fr;gap:24px;align-items:center}
+.revenue-summary-text{font-size:14px;color:rgba(255,255,255,.5);line-height:1.6}
+.revenue-summary-text strong{color:var(--white)}
+.revenue-summary-divider{width:1px;height:60px;background:rgba(197,164,78,.15)}
+.revenue-summary-highlight{text-align:right}
+.revenue-summary-highlight .big{font-family:var(--serif);font-size:28px;color:var(--gold)}
+.revenue-summary-highlight .sub{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
+/* WHY CARDS (light) — text only, no icons */
+.why-section{background:var(--white)}
+.why-section .section-title{color:var(--text-dark)}
+.why-section .section-subtitle{color:var(--text-muted)}
+.why-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.why-card{border:1px solid rgba(0,0,0,.06);border-radius:12px;padding:36px 32px;background:var(--white);transition:all .3s;position:relative;overflow:hidden}
+.why-card:hover{border-color:rgba(197,164,78,.25);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.06)}
+.why-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);opacity:0;transition:opacity .3s}
+.why-card:hover::before{opacity:1}
+.why-card-num{font-family:var(--serif);font-size:36px;color:rgba(197,164,78,.15);line-height:1;margin-bottom:12px}
+.why-card h4{font-family:var(--serif);font-size:20px;color:var(--text-dark);margin-bottom:10px}
+.why-card p{font-size:14px;color:var(--text-muted);line-height:1.65}
+.why-card .highlight{color:var(--gold);font-weight:600}
+
+/* HOW IT WORKS (dark) */
+.how-section{background:var(--navy)}
+.how-section .section-title{color:var(--white)}
+.how-section .section-subtitle{color:rgba(255,255,255,.5)}
+.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.how-card{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.08);border-radius:12px;padding:40px 32px;transition:all .4s;overflow:hidden;position:relative}
+.how-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),rgba(197,164,78,.2));transform:scaleX(0);transition:transform .4s;transform-origin:left}
+.how-card:hover::before{transform:scaleX(1)}
+.how-card:hover{border-color:rgba(197,164,78,.2);transform:translateY(-4px)}
+.how-step{font-family:var(--serif);font-size:44px;color:rgba(197,164,78,.2);line-height:1;margin-bottom:20px}
+.how-card h4{font-family:var(--serif);font-size:22px;color:var(--white);margin-bottom:12px}
+.how-card p{font-size:14px;color:rgba(255,255,255,.45);line-height:1.7}
+
+/* SPLIT (We Handle / You Handle) */
+.split-section{background:var(--navy-deep);position:relative;overflow:hidden}
+.split-section::before{content:'';position:absolute;top:-200px;right:-200px;width:600px;height:600px;background:radial-gradient(circle,rgba(197,164,78,.03) 0%,transparent 60%);pointer-events:none}
+.split-section .section-title{color:var(--white)}
+.split-section .section-subtitle{color:rgba(255,255,255,.5)}
+.split-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.split-card{border-radius:12px;padding:40px 36px}
+.split-card.platform{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.12)}
+.split-card.physician{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08)}
+.split-label{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px}
+.split-card.platform .split-label{color:var(--gold)}
+.split-card.physician .split-label{color:var(--gold-light)}
+.split-card h3{font-family:var(--serif);font-size:24px;color:var(--white);margin-bottom:24px}
+.split-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.split-check{font-family:var(--serif);font-size:16px;color:var(--gold);margin-top:1px;min-width:16px}
+.split-card.physician .split-check{color:var(--success)}
+.split-item p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.5}
+.split-item strong{color:var(--white);font-weight:600}
+
+/* CTA */
+/* CALCULATOR */
+.calc-section{background:var(--navy);position:relative;overflow:hidden}
+.calc-section::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:800px;height:800px;background:radial-gradient(circle,rgba(197,164,78,.03) 0%,transparent 60%);pointer-events:none}
+.calc-section .section-title{color:var(--white)}
+.calc-section .section-subtitle{color:rgba(255,255,255,.5)}
+.calc-layout{display:grid;grid-template-columns:1fr 1fr;gap:32px}
+.calc-panel{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.08);border-radius:16px;padding:32px}
+.calc-group-label{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:24px}
+.calc-divider{height:1px;background:rgba(197,164,78,.1);margin:8px 0 24px}
+.slider-row{margin-bottom:26px}
+.slider-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.slider-label{font-family:var(--serif);font-size:16px;color:var(--white)}
+.slider-sublabel{font-size:12px;color:rgba(255,255,255,.3);margin-left:8px}
+.slider-value{font-family:var(--serif);font-size:22px;color:var(--gold);min-width:80px;text-align:right}
+.slider-input{width:100%;height:6px;-webkit-appearance:none;appearance:none;border-radius:3px;outline:none;cursor:pointer;background:rgba(255,255,255,.08)}
+.slider-input::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:20px;height:20px;border-radius:50%;background:var(--gold);cursor:pointer;border:3px solid var(--navy-deep);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.slider-input::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--gold);cursor:pointer;border:3px solid var(--navy-deep);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.slider-range{display:flex;justify-content:space-between;margin-top:4px;font-size:10px;color:rgba(255,255,255,.2)}
+.calc-tabs{display:flex;background:rgba(17,34,64,.6);border-radius:8px;overflow:hidden;border:1px solid rgba(197,164,78,.08);margin-bottom:24px}
+.calc-tab{flex:1;padding:14px 12px;background:transparent;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.4);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:all .2s;font-family:var(--sans)}
+.calc-tab.active{background:rgba(197,164,78,.08);border-bottom-color:var(--gold);color:var(--gold)}
+.result-card{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.08);border-radius:12px;padding:24px 20px;text-align:center;position:relative;overflow:hidden}
+.result-card.hl{background:rgba(197,164,78,.06);border-color:rgba(197,164,78,.2)}
+.result-card.hl::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold)}
+.result-card.lg{padding:32px 24px}
+.rc-label{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.rc-val{font-family:var(--serif);font-size:32px;color:var(--white);line-height:1.1}
+.result-card.lg .rc-val{font-size:44px}
+.result-card.hl .rc-val{color:var(--gold)}
+.rc-sub{font-size:12px;color:rgba(255,255,255,.3);margin-top:6px}
+.rg3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.rg2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px}
+.pnl-box{background:rgba(17,34,64,.6);border:1px solid rgba(197,164,78,.08);border-radius:12px;padding:24px;margin-top:16px}
+.pnl-title{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:16px}
+.pnl-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.02)}
+.pnl-row .l{font-size:13px;color:rgba(255,255,255,.6)}.pnl-row .l.d{color:rgba(255,255,255,.3)}.pnl-row .l.g{color:var(--gold)}
+.pnl-row .v{font-size:14px;font-family:var(--serif);color:var(--white)}.pnl-row .v.d{color:rgba(255,255,255,.3)}.pnl-row .v.g{color:var(--gold)}
+.pnl-div{height:1px;background:rgba(197,164,78,.1);margin:12px 0}
+.payback{margin-top:16px;padding:16px 20px;background:rgba(16,185,129,.06);border:1px solid rgba(16,185,129,.15);border-radius:8px;text-align:center;font-size:13px;color:#10B981}
+.cb-row{margin-bottom:20px}
+.cb-lbl{font-size:12px;color:rgba(255,255,255,.5);margin-bottom:8px}
+.cb-bar{display:flex;gap:8px;align-items:center;margin-top:4px}
+.cb-name{width:90px;font-size:11px;text-align:right}
+.cb-name.e{color:rgba(255,255,255,.3)}.cb-name.i{color:var(--gold);font-weight:600}
+.cb-track{flex:1;background:rgba(255,255,255,.04);border-radius:4px;height:24px;position:relative;overflow:hidden}
+.cb-fill{height:100%;border-radius:4px;transition:width .5s;min-width:2px}
+.cb-fill.e{background:rgba(255,255,255,.08)}.cb-fill.i{background:linear-gradient(90deg,var(--gold),var(--gold-light));opacity:.3}
+.cb-v{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:12px}
+.cb-v.e{color:rgba(255,255,255,.4)}.cb-v.i{color:var(--gold);font-weight:600}
+.diff-box{margin-top:16px;padding:24px;background:rgba(197,164,78,.04);border:1px solid rgba(197,164,78,.1);border-radius:12px;text-align:center}
+.calc-cta{margin-top:24px;text-align:center}
+.calc-disc{font-size:11px;color:rgba(255,255,255,.2);margin-top:12px}
+.tab-content{display:none}.tab-content.active{display:block}
+@media(max-width:1024px){.calc-layout{grid-template-columns:1fr}.rg3{grid-template-columns:1fr}}
+@media(max-width:768px){.calc-panel{padding:20px}.rg3{grid-template-columns:1fr}.rg2{grid-template-columns:1fr}}
+
+.cta-section{background:var(--navy-deep);text-align:center;padding:100px 40px;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(197,164,78,.04) 0%,transparent 50%)}
+.cta-content{position:relative;z-index:1;max-width:700px;margin:0 auto}
+.cta-content h2{font-family:var(--serif);font-size:clamp(28px,3.5vw,40px);color:var(--white);line-height:1.3;margin-bottom:20px}
+.cta-content p{font-size:16px;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:36px}
+
+/* FOOTER */
+.site-footer{background:var(--navy-deep);border-top:1px solid rgba(197,164,78,.1);padding:48px 40px 32px}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+.footer-brand{display:flex;align-items:center;gap:12px}
+.footer-wordmark{font-family:var(--serif);font-size:18px;color:var(--gold);letter-spacing:1px}
+.footer-legal{font-size:11px;color:rgba(255,255,255,.3);letter-spacing:.5px}
+.footer-nav{display:flex;gap:24px;margin-top:24px;width:100%;max-width:1200px;margin-left:auto;margin-right:auto;padding-top:24px;border-top:1px solid rgba(197,164,78,.08);flex-wrap:wrap}
+.footer-nav a{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s}
+.footer-nav a:hover{color:var(--gold)}
+.footer-disclaimer{max-width:1200px;margin:24px auto 0;font-size:10px;color:rgba(255,255,255,.15);line-height:1.6}
+.footer-tagline{text-align:center;margin-top:24px;font-family:var(--serif);font-size:13px;color:rgba(197,164,78,.3);letter-spacing:2px}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .revenue-grid,.why-grid,.how-grid,.split-grid{grid-template-columns:1fr}
+  .revenue-summary{grid-template-columns:1fr}
+  .revenue-summary-divider{width:100%;height:1px}
+  .revenue-summary-highlight{text-align:left}
+}
+@media(max-width:768px){
+  .top-bar-inner{padding:0 20px}
+  .top-bar-nav{display:none}
+  .nav-toggle{display:block}
+  .top-bar-nav.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.2);padding:16px 0}
+  .top-bar-nav.open .nav-item{padding:14px 24px}
+  .hero{padding:40px 20px 60px}
+  .section{padding:60px 20px}
+  .breadcrumb{padding:0 20px}
+  .stat-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="top-bar" id="topBar"><div class="top-bar-inner"><div style="display:flex;align-items:center;gap:8px"><a class="top-bar-brand" href="index.html"><div class="top-bar-wordmark">InPursuit Health</div></a><span style="color:rgba(255,255,255,.4);margin:0 4px">|</span><a href="maha.html" style="font-size:13px;color:var(--white);text-decoration:none;letter-spacing:.5px;transition:color .3s;white-space:nowrap;font-weight:500" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white)'">MAHA Policy Alignment</a></div><nav class="top-bar-nav" id="topNav"><a class="nav-item" href="for-you.html">For You</a><div class="nav-dropdown"><a class="nav-item active" href="for-providers.html">For Providers</a><div class="nav-dropdown-menu"><a class="nav-dropdown-item" href="for-providers.html">Overview<span class="sub-desc">Value-based care, simplified</span></a><a class="nav-dropdown-item" href="access.html">CMS ACCESS Model<span class="sub-desc">Apply by March 20, 2026</span></a><a class="nav-dropdown-item" href="virtual-practice.html" style="color:var(--gold)">Your Own Virtual Practice<span class="sub-desc">Platinum Partner &mdash; powered by TETRA</span></a></div></div><a class="nav-item" href="tetra.html">TETRA</a><a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a><a class="nav-item" href="veterans-first.html">Veterans First Initiative</a><a class="nav-item" href="partner-network.html" style="color:var(--gold)">Partner Network</a></nav><button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button></div></header>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb"><div class="breadcrumb-inner"><a href="index.html">Home</a><span class="sep">&rsaquo;</span><a href="for-providers.html">For Providers</a><span class="sep">&rsaquo;</span><a href="partner-network.html">Partner Network</a><span class="sep">&rsaquo;</span><span class="current">Your Own Virtual Practice</span></div></div>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="partner-badge reveal">
+        <span class="partner-badge-tier">Platinum Partner</span>
+        <span class="partner-badge-label">InPursuit Partner Network</span>
+      </div>
+      <h1 class="reveal">DoorDash Created<br>the Blueprint.<br>We Built It for <em>Medicine.</em></h1>
+      <p class="hero-desc reveal">DoorDash proved something powerful: <strong>give independent operators a technology platform, and they can compete with anyone.</strong> A single restaurant that could never build its own delivery fleet suddenly had the same reach as a national chain. We looked at that model and saw the future of medicine &mdash; independent physicians, powered by infrastructure they could never build alone, <strong>keeping their patients, their brand, and their revenue.</strong></p>
+      <div class="hero-cta-row reveal">
+        <a class="btn-gold" href="partner-network.html#apply">Apply to Partner Network &rarr;</a>
+        <a class="btn-outline" href="#model">See the Revenue Model</a>
+      </div>
+    </div>
+
+    <!-- Blueprint comparison -->
+    <div class="blueprint-card reveal">
+      <div class="blueprint-label">The Platform Blueprint</div>
+      <h3>DoorDash proved the model. We perfected the economics.</h3>
+      <p>DoorDash gave restaurants access to a delivery network, a technology platform, and a customer base they couldn&rsquo;t reach alone. <strong>We do the same for physicians</strong> &mdash; but in an industry where the economics work even better for the operator.</p>
+      <div class="blueprint-divider"></div>
+      <div class="blueprint-row">
+        <span class="blueprint-row-label">The Platform Provides</span>
+        <span class="blueprint-row-val">Technology &amp; Reach</span>
+      </div>
+      <div class="blueprint-row">
+        <span class="blueprint-row-label">The Operator Keeps</span>
+        <span class="blueprint-row-val">Their Brand &amp; Patients</span>
+      </div>
+      <div class="blueprint-row">
+        <span class="blueprint-row-label">Revenue Model</span>
+        <span class="blueprint-row-val">Shared Success</span>
+      </div>
+      <div class="blueprint-row">
+        <span class="blueprint-row-label">The Difference</span>
+        <span class="blueprint-row-val">Healthcare Margins Are Real</span>
+      </div>
+      <div class="blueprint-row" style="border-bottom:none">
+        <span class="blueprint-row-label">What We Add</span>
+        <span class="blueprint-row-val">VBC + OBC Revenue Streams</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== THE SHIFT — Physician Independence Crisis ===== -->
+<section class="section crisis-section" id="shift">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal" style="text-align:center">The Shift</p>
+    <h2 class="section-title reveal" style="text-align:center">Physicians Are Ready for <em>Something Different.</em></h2>
+    <p class="section-subtitle reveal" style="text-align:center;margin-left:auto;margin-right:auto">The data tells a clear story. Employed physicians are burned out, losing autonomy, and actively looking for alternatives. Independent practice is harder than ever to start &mdash; but the desire has never been stronger.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card reveal">
+        <div class="stat-num">77.6%</div>
+        <div class="stat-label">of physicians now employed by hospitals or corporate entities</div>
+        <div class="stat-source">Physician Advocacy Institute, 2024</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">54%</div>
+        <div class="stat-label">of physicians report frequent feelings of burnout</div>
+        <div class="stat-source">Physicians Foundation, 2025</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">25%</div>
+        <div class="stat-label">of employed physicians are contemplating a change in employers</div>
+        <div class="stat-source">Bain &amp; Company Survey</div>
+      </div>
+      <div class="stat-card reveal">
+        <div class="stat-num">37%</div>
+        <div class="stat-label">of those seeking change want physician-owned settings</div>
+        <div class="stat-source">Bain &amp; Company Survey</div>
+      </div>
+    </div>
+
+    <div class="crisis-narrative reveal">
+      <p>Between 2012 and 2024, the share of physicians in private practice fell from <em>60.1% to 42.2%</em> &mdash; an 18-percentage-point drop. Medicare physician payment, adjusted for inflation, has <strong>declined 33% since 2001</strong>. The AMA calls the situation a &ldquo;dire threat&rdquo; to independent practice.</p>
+      <p>But the pendulum is swinging. Corporate acquisitions of physician practices have <strong>slowed to a six-year low</strong>. More physicians are retaining ownership. And among those contemplating a change, the direction is clear: <em>toward independence, not away from it.</em></p>
+      <p>What they need isn&rsquo;t motivation. <strong>They need infrastructure.</strong> The same thing DoorDash gave restaurants &mdash; a platform that handles technology, logistics, and reach so operators can focus on what they do best. That&rsquo;s what we built.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WHY THIS MODEL WORKS ===== -->
+<section class="section why-section">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">Why This Works</p>
+    <h2 class="section-title reveal">The Platform Model,<br><em>Built for Healthcare Economics.</em></h2>
+    <p class="section-subtitle reveal">DoorDash proved that platforms create value by giving operators infrastructure they can&rsquo;t build alone. In healthcare, the economics are even better &mdash; and the platform unlocks revenue streams that don&rsquo;t exist without it.</p>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-card-num">01</div>
+        <h4>Healthcare Margins Support Shared Success</h4>
+        <p>A primary care visit generates <span class="highlight">$150&ndash;$300</span>. Chronic care management creates <span class="highlight">$60&ndash;$120 per patient per month in recurring revenue</span>. The economics of healthcare are fundamentally different &mdash; there&rsquo;s real margin for both the operator and the platform.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-num">02</div>
+        <h4>The Platform Creates Revenue That Didn&rsquo;t Exist</h4>
+        <p>TETRA connects your practice to <span class="highlight">Value-Based Care and Outcomes-Based Care contracts</span> that require interoperability infrastructure no independent physician can build alone. We don&rsquo;t just take a share of existing revenue &mdash; we create entirely new streams.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-num">03</div>
+        <h4>Your Patients. Your Brand. Your Equity.</h4>
+        <p>Your name on the door, your NPI on the claims, your brand on the portal. <span class="highlight">If you leave, your patients and your reputation go with you.</span> You&rsquo;re building a practice with real long-term value &mdash; not filling someone else&rsquo;s schedule.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-card-num">04</div>
+        <h4>Permanently Aligned Incentives</h4>
+        <p>We earn when you earn. Every feature we build, every integration we add, every patient we help you retain <span class="highlight">makes both of us money</span>. Our revenue share model means our success is permanently tied to yours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== REVENUE MODEL ===== -->
+<section class="section revenue-section" id="model">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal" style="text-align:center">The Revenue Model</p>
+    <h2 class="section-title reveal" style="text-align:center">Setup. Platform. <em>Revenue Share.</em></h2>
+    <p class="section-subtitle reveal" style="text-align:center;margin-left:auto;margin-right:auto">Three components, fully transparent. We invest in building your practice infrastructure &mdash; then we grow together.</p>
+
+    <div class="revenue-grid">
+      <div class="revenue-card reveal">
+        <div class="revenue-num">01</div>
+        <h3>Setup Fee</h3>
+        <div class="price">One-Time</div>
+        <div class="price-note">Customized to practice scope</div>
+        <p>White-label EHR configuration, TETRA interoperability integration, branded telehealth portal, e-prescribing and lab connections, credentialing support, and go-live onboarding. Your practice, built and launched.</p>
+      </div>
+      <div class="revenue-card reveal">
+        <div class="revenue-num">02</div>
+        <h3>Monthly Platform Fee</h3>
+        <div class="price">Flat Rate</div>
+        <div class="price-note">Covers ongoing infrastructure</div>
+        <p>Cloud hosting, HIPAA security, TETRA data exchange, billing engine, practice analytics, compliance monitoring, and a dedicated Partner Success Manager. The technology backbone that keeps your practice running.</p>
+      </div>
+      <div class="revenue-card reveal">
+        <div class="revenue-num">03</div>
+        <h3>Revenue Share</h3>
+        <div class="price">% of Revenue</div>
+        <div class="price-note">FFS + VBC + OBC</div>
+        <p>A percentage of all revenue flowing through the platform &mdash; fee-for-service, value-based contracts, and outcomes-based care models. We earn when you earn. Our incentives stay permanently aligned with yours.</p>
+      </div>
+    </div>
+
+    <div class="revenue-summary reveal">
+      <div class="revenue-summary-text">
+        <strong>The DoorDash insight applied to healthcare:</strong> A platform that handles logistics, technology, and reach so operators can focus on what they do best. The difference? Healthcare margins support shared success for both the physician and the platform &mdash; and <strong>VBC and OBC models create revenue that doesn&rsquo;t exist without the infrastructure.</strong>
+      </div>
+      <div class="revenue-summary-divider"></div>
+      <div class="revenue-summary-highlight">
+        <div class="big">Aligned</div>
+        <div class="sub">We grow only when you grow</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section how-section" id="how">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">How It Works</p>
+    <h2 class="section-title reveal">Open Your Doors in <em>Three Steps.</em></h2>
+    <p class="section-subtitle reveal">Apply through the Partner Network. Get approved. We build your practice infrastructure and you&rsquo;re live in 30 days.</p>
+    <div class="how-grid">
+      <div class="how-card reveal">
+        <div class="how-step">1</div>
+        <h4>Apply and Onboard</h4>
+        <p>Apply through the InPursuit Partner Network as a Platinum partner. We evaluate your credentials, licensure, and practice goals. Once approved, we configure your branded platform &mdash; practice name, logo, domain, specialties, scheduling, and pricing.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-step">2</div>
+        <h4>Connect the Infrastructure</h4>
+        <p>TETRA plugs your practice into national health data networks. Patient records, labs, pharmacies, e-prescribing, insurance billing &mdash; the plumbing that takes health systems years to build, delivered to you in days. VBC and OBC contract access activated.</p>
+      </div>
+      <div class="how-card reveal">
+        <div class="how-step">3</div>
+        <h4>See Patients. Grow Revenue.</h4>
+        <p>Start seeing patients via HD video, phone, or messaging. Bill insurance, run cash-pay, or participate in VBC/OBC models. Our billing engine and analytics dashboard handle the rest. Scale at your pace &mdash; from five patients a week to five thousand.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== WE HANDLE / YOU HANDLE ===== -->
+<section class="section split-section">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal">The Division of Labor</p>
+    <h2 class="section-title reveal">We Handle the Platform.<br><em>You Practice Medicine.</em></h2>
+    <p class="section-subtitle reveal">Everything that makes independent practice difficult &mdash; technology, compliance, interoperability, billing &mdash; is handled by the platform. You focus on patients.</p>
+    <div class="split-grid">
+      <div class="split-card platform reveal">
+        <div class="split-label">InPursuit Handles</div>
+        <h3>The Technology Backbone</h3>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>White-label EHR/EMR</strong> &mdash; cloud-based, AI-assisted documentation, branded to your practice</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>TETRA Interoperability</strong> &mdash; pull and push patient data across 140M+ CMS beneficiary lives</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>HD Telehealth Suite</strong> &mdash; HIPAA-compliant video, messaging, digital intake, virtual waiting room</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>E-Prescribing and Labs</strong> &mdash; Surescripts connected, Quest and LabCorp integrated</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Billing and Revenue Cycle</strong> &mdash; FFS claims, VBC contract management, eligibility checks</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>VBC/OBC Contract Access</strong> &mdash; value-based and outcomes-based models through the Partner Network</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Compliance and Security</strong> &mdash; HIPAA, SOC 2, encryption, BAAs, audit trails</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Practice Analytics</strong> &mdash; real-time dashboards for revenue, volume, payer mix, and outcomes</p></div>
+      </div>
+      <div class="split-card physician reveal">
+        <div class="split-label">You Handle</div>
+        <h3>What You Went to Med School For</h3>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your medical license</strong> &mdash; practice under your own credentials in your licensed states</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your NPI number</strong> &mdash; bill under your own identity, build your own reputation</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your clinical decisions</strong> &mdash; full autonomy, no corporate protocols dictating care</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your patient relationships</strong> &mdash; they are your patients, not ours</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your schedule</strong> &mdash; five hours a week or fifty, you decide</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your malpractice coverage</strong> &mdash; we partner with telehealth-specific carriers to make this easy</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your brand equity</strong> &mdash; everything you build is yours. Patients, reputation, practice value.</p></div>
+        <div class="split-item"><div class="split-check">&mdash;</div><p><strong>Your growth pace</strong> &mdash; side practice to full-time to group. We scale with you.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+
+<!-- ===== CALCULATOR ===== -->
+<section class="section calc-section" id="calculator" style="text-align:left">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal" style="text-align:center">Practice Revenue Calculator</p>
+    <h2 class="section-title reveal" style="text-align:center">See How Much You Could Earn.<br><em>While Getting Your Life Back.</em></h2>
+    <p class="section-subtitle reveal" style="text-align:center;margin-left:auto;margin-right:auto">Adjust the sliders to match your practice goals. The calculator projects your annual revenue, platform costs, and net earnings as an InPursuit Platinum Partner &mdash; compared to a typical employed physician position.</p>
+
+    <div class="calc-layout">
+      <!-- LEFT: INPUTS -->
+      <div class="calc-panel reveal">
+        <div class="calc-group-label">Your Practice</div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">Patients per Week</span></div><span class="slider-value" id="v-ppw">25</span></div>
+          <input type="range" class="slider-input" id="s-ppw" min="5" max="80" step="1" value="25" oninput="calc()">
+          <div class="slider-range"><span>5</span><span>80</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">Avg Reimbursement</span><span class="slider-sublabel">per visit</span></div><span class="slider-value" id="v-ar">$175</span></div>
+          <input type="range" class="slider-input" id="s-ar" min="75" max="400" step="5" value="175" oninput="calc()">
+          <div class="slider-range"><span>$75</span><span>$400</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">CCM Patients</span><span class="slider-sublabel">chronic care mgmt</span></div><span class="slider-value" id="v-ccm">15</span></div>
+          <input type="range" class="slider-input" id="s-ccm" min="0" max="100" step="1" value="15" oninput="calc()">
+          <div class="slider-range"><span>0</span><span>100</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">CCM Rate</span><span class="slider-sublabel">per patient/month</span></div><span class="slider-value" id="v-ccmr">$80</span></div>
+          <input type="range" class="slider-input" id="s-ccmr" min="40" max="150" step="5" value="80" oninput="calc()">
+          <div class="slider-range"><span>$40</span><span>$150</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">VBC/OBC Bonus</span><span class="slider-sublabel">% of FFS revenue</span></div><span class="slider-value" id="v-vbc">10%</span></div>
+          <input type="range" class="slider-input" id="s-vbc" min="0" max="30" step="1" value="10" oninput="calc()">
+          <div class="slider-range"><span>0%</span><span>30%</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">Hours per Week</span><span class="slider-sublabel">your schedule</span></div><span class="slider-value" id="v-hpw">25h</span></div>
+          <input type="range" class="slider-input" id="s-hpw" min="5" max="60" step="1" value="25" oninput="calc()">
+          <div class="slider-range"><span>5h</span><span>60h</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">Weeks per Year</span></div><span class="slider-value" id="v-wpy">48</span></div>
+          <input type="range" class="slider-input" id="s-wpy" min="36" max="52" step="1" value="48" oninput="calc()">
+          <div class="slider-range"><span>36</span><span>52</span></div>
+        </div>
+
+        <div class="calc-divider"></div>
+        <div class="calc-group-label">Platform Costs</div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">Revenue Share</span></div><span class="slider-value" id="v-rs">12%</span></div>
+          <input type="range" class="slider-input" id="s-rs" min="5" max="25" step="1" value="12" oninput="calc()">
+          <div class="slider-range"><span>5%</span><span>25%</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">Monthly Platform Fee</span></div><span class="slider-value" id="v-mf">$1,500</span></div>
+          <input type="range" class="slider-input" id="s-mf" min="500" max="5000" step="100" value="1500" oninput="calc()">
+          <div class="slider-range"><span>$500</span><span>$5,000</span></div>
+        </div>
+
+        <div class="slider-row">
+          <div class="slider-header"><div><span class="slider-label">One-Time Setup Fee</span></div><span class="slider-value" id="v-sf">$15,000</span></div>
+          <input type="range" class="slider-input" id="s-sf" min="5000" max="50000" step="1000" value="15000" oninput="calc()">
+          <div class="slider-range"><span>$5,000</span><span>$50,000</span></div>
+        </div>
+      </div>
+
+      <!-- RIGHT: RESULTS -->
+      <div>
+        <!-- Tabs -->
+        <div class="calc-tabs reveal">
+          <button class="calc-tab active" onclick="switchTab('revenue')">Revenue Breakdown</button>
+          <button class="calc-tab" onclick="switchTab('compare')">vs. Employed</button>
+          <button class="calc-tab" onclick="switchTab('lifestyle')">Your Life Back</button>
+        </div>
+
+        <!-- TAB: Revenue -->
+        <div class="tab-content active" id="tab-revenue">
+          <div class="result-card hl lg"><div class="rc-label">Net Annual Earnings</div><div class="rc-val" id="r-net">$0</div><div class="rc-sub">After all platform costs</div></div>
+          <div class="rg3">
+            <div class="result-card"><div class="rc-label">FFS Revenue</div><div class="rc-val" id="r-ffs">$0</div><div class="rc-sub" id="r-ffs-sub"></div></div>
+            <div class="result-card"><div class="rc-label">CCM Revenue</div><div class="rc-val" id="r-ccm">$0</div><div class="rc-sub" id="r-ccm-sub"></div></div>
+            <div class="result-card"><div class="rc-label">VBC/OBC Bonus</div><div class="rc-val" id="r-vbc">$0</div><div class="rc-sub" id="r-vbc-sub"></div></div>
+          </div>
+          <div class="pnl-box">
+            <div class="pnl-title">Annual P&L Summary</div>
+            <div id="pnl-rows"></div>
+          </div>
+          <div id="payback-wrap"></div>
+        </div>
+
+        <!-- TAB: Compare -->
+        <div class="tab-content" id="tab-compare">
+          <div class="rg2">
+            <div class="result-card"><div class="rc-label">Employed Physician</div><div class="rc-val">$260K</div><div class="rc-sub">Avg primary care salary</div></div>
+            <div class="result-card hl"><div class="rc-label">Your InPursuit Practice</div><div class="rc-val" id="r-net2">$0</div><div class="rc-sub">Net after platform costs</div></div>
+          </div>
+          <div class="pnl-box" id="compare-bars"></div>
+          <div class="diff-box">
+            <div style="font-size:11px;color:rgba(255,255,255,.3);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px">Earnings Difference</div>
+            <div id="r-diff" style="font-family:var(--serif);font-size:36px"></div>
+            <div id="r-diff-sub" style="font-size:12px;color:rgba(255,255,255,.35);margin-top:4px"></div>
+          </div>
+        </div>
+
+        <!-- TAB: Lifestyle -->
+        <div class="tab-content" id="tab-lifestyle">
+          <div class="result-card hl lg"><div class="rc-label">Hours You Get Back Per Year</div><div class="rc-val" id="r-hours">0</div><div class="rc-sub" id="r-hours-sub"></div></div>
+          <div class="rg2" style="margin-top:16px">
+            <div class="result-card"><div class="rc-label">Your Weekly Hours</div><div class="rc-val" id="r-yourhrs">25h</div><div class="rc-sub">You set the schedule</div></div>
+            <div class="result-card"><div class="rc-label">Employed Average</div><div class="rc-val">52h</div><div class="rc-sub">Plus pajama-time charting</div></div>
+          </div>
+          <div class="pnl-box">
+            <div class="pnl-title">What You Get Back</div>
+            <div id="life-rows"></div>
+          </div>
+          <div class="life-quote">
+            <p>&ldquo;I was up till 10 pm writing notes instead of spending time with my kids.&rdquo;</p>
+            <div class="attr">The #1 reason physicians leave employed positions isn&rsquo;t money. It&rsquo;s time.</div>
+          </div>
+        </div>
+
+        <div class="calc-cta">
+          <a class="btn-gold" href="partner-network.html#apply">Apply to Partner Network &rarr;</a>
+          <p class="calc-disc">Projections are estimates based on national averages. Actual results vary by specialty, payer mix, and market.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="cta-content reveal">
+    <p class="section-eyebrow">Platinum Partner &middot; InPursuit Partner Network</p>
+    <h2>DoorDash Gave Restaurants<br>a Delivery Network.<br>We&rsquo;re Giving Physicians an <em>Independence Platform.</em></h2>
+    <p>The blueprint has been proven. The infrastructure is built. The physicians are ready. Apply to the InPursuit Partner Network and open your virtual doors in 30 days, powered by the same interoperability engine trusted by the U.S. Department of Defense.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+      <a class="btn-gold" href="partner-network.html#apply">Apply to Partner Network &rarr;</a>
+      <a class="btn-outline" href="mailto:info@InPursuitHealth.com">Schedule a Consultation</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div><span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span></div><div class="footer-nav"><a href="index.html">Home</a><a href="tetra.html">TETRA</a><a href="for-you.html">For You</a><a href="for-providers.html">For Providers</a><a href="virtual-practice.html">Virtual Practice</a><a href="data-security-ai.html">AI &amp; Your Data</a><a href="maha.html">MAHA</a><a href="veterans-first.html">Veterans First</a><a href="partner-network.html">Partner Network</a></div><div class="footer-nav" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(197,164,78,.05)"><a href="about.html">About Us</a><a href="leadership.html">Leadership</a><a href="security-center.html">Security Center</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div><p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p><div class="footer-tagline">Harness the Power of Your Data&trade;</div></footer>
+
+<script>
+window.addEventListener('scroll',()=>{document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10)});
+document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topNav').classList.toggle('open')});
+const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// === CALCULATOR ===
+function fmt(n){if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';if(n>=1e3)return'$'+(n/1e3).toFixed(0)+'K';return'$'+n.toFixed(0)}
+function fmtN(n){return n.toLocaleString('en-US')}
+function gv(id){return Number(document.getElementById(id).value)}
+
+function switchTab(t){
+  document.querySelectorAll('.calc-tab').forEach(function(b,i){b.classList.toggle('active',['revenue','compare','lifestyle'][i]===t)});
+  document.querySelectorAll('.tab-content').forEach(function(el){el.classList.remove('active')});
+  document.getElementById('tab-'+t).classList.add('active');
+}
+
+function makeBar(label,empVal,indVal,isCur,isHr){
+  var mx=Math.max(empVal,indVal,1),eP=(empVal/mx)*100,iP=(indVal/mx)*100;
+  var f=function(v){return isCur?fmt(v):isHr?v+'h':fmtN(v)};
+  return '<div class="cb-row"><div class="cb-lbl">'+label+'</div>'+
+    '<div class="cb-bar"><div class="cb-name e">Employed</div><div class="cb-track"><div class="cb-fill e" style="width:'+eP+'%"></div><span class="cb-v e">'+f(empVal)+'</span></div></div>'+
+    '<div class="cb-bar" style="margin-top:4px"><div class="cb-name i">InPursuit</div><div class="cb-track"><div class="cb-fill i" style="width:'+iP+'%"></div><span class="cb-v i">'+f(indVal)+'</span></div></div></div>';
+}
+
+function calc(){
+  var ppw=gv('s-ppw'),ar=gv('s-ar'),ccm=gv('s-ccm'),ccmr=gv('s-ccmr'),vbc=gv('s-vbc'),hpw=gv('s-hpw'),wpy=gv('s-wpy');
+  var rs=gv('s-rs'),mf=gv('s-mf'),sf=gv('s-sf');
+  document.getElementById('v-ppw').textContent=ppw;
+  document.getElementById('v-ar').textContent='$'+ar;
+  document.getElementById('v-ccm').textContent=ccm;
+  document.getElementById('v-ccmr').textContent='$'+ccmr;
+  document.getElementById('v-vbc').textContent=vbc+'%';
+  document.getElementById('v-hpw').textContent=hpw+'h';
+  document.getElementById('v-wpy').textContent=wpy;
+  document.getElementById('v-rs').textContent=rs+'%';
+  document.getElementById('v-mf').textContent='$'+fmtN(mf);
+  document.getElementById('v-sf').textContent='$'+fmtN(sf);
+  document.querySelectorAll('.slider-input').forEach(function(s){
+    var pct=((s.value-s.min)/(s.max-s.min))*100;
+    s.style.background='linear-gradient(to right,#C5A44E 0%,#C5A44E '+pct+'%,rgba(255,255,255,0.08) '+pct+'%,rgba(255,255,255,0.08) 100%)';
+  });
+  var ffs=ppw*ar*wpy;
+  var ccmRev=ccm*ccmr*12;
+  var vbcRev=ffs*(vbc/100);
+  var gross=ffs+ccmRev+vbcRev;
+  var revShare=gross*(rs/100);
+  var annualFee=mf*12;
+  var totalCost=revShare+annualFee;
+  var net=gross-totalCost;
+  var yr1=net-sf;
+  var empSal=260000,empHrs=52,empAdmin=16;
+  var yourAdmin=Math.round(hpw*0.1);
+  var hrsSaved=(empHrs-hpw)*wpy;
+  var effRate=net/(hpw*wpy);
+  var empRate=empSal/(empHrs*48);
+  var payback=net>0?Math.ceil(sf/(net/12)):99;
+  document.getElementById('r-net').textContent=fmt(net);
+  document.getElementById('r-ffs').textContent=fmt(ffs);
+  document.getElementById('r-ffs-sub').textContent=ppw+' pts x $'+ar;
+  document.getElementById('r-ccm').textContent=fmt(ccmRev);
+  document.getElementById('r-ccm-sub').textContent=ccm+' pts x $'+ccmr+'/mo';
+  document.getElementById('r-vbc').textContent=fmt(vbcRev);
+  document.getElementById('r-vbc-sub').textContent=vbc+'% of FFS';
+  var pnl='';
+  pnl+='<div class="pnl-row"><span class="l" style="font-weight:600">Gross Revenue</span><span class="v" style="font-weight:600">'+fmt(gross)+'</span></div>';
+  pnl+='<div class="pnl-row"><span class="l d">Revenue Share ('+rs+'%)</span><span class="v d">- '+fmt(revShare)+'</span></div>';
+  pnl+='<div class="pnl-row"><span class="l d">Platform Fee ($'+fmtN(mf)+'/mo x 12)</span><span class="v d">- '+fmt(annualFee)+'</span></div>';
+  pnl+='<div class="pnl-div"></div>';
+  pnl+='<div class="pnl-row"><span class="l g" style="font-weight:600">Net Annual Earnings</span><span class="v g" style="font-weight:600">'+fmt(net)+'</span></div>';
+  pnl+='<div class="pnl-row"><span class="l d">Year 1 (incl. $'+fmtN(sf)+' setup)</span><span class="v d">'+fmt(yr1)+'</span></div>';
+  document.getElementById('pnl-rows').innerHTML=pnl;
+  document.getElementById('payback-wrap').innerHTML=payback<=12?'<div class="payback">Setup fee pays for itself in <strong>'+payback+' month'+(payback!==1?'s':'')+'</strong></div>':'';
+  document.getElementById('r-net2').textContent=fmt(net);
+  var bars='';
+  bars+=makeBar('Annual Earnings',empSal,net,true,false);
+  bars+=makeBar('Hours per Week',empHrs,hpw,false,true);
+  bars+=makeBar('Effective Hourly Rate',Math.round(empRate),Math.round(effRate),true,false);
+  bars+=makeBar('Weekly Admin Hours',empAdmin,yourAdmin,false,true);
+  bars+=makeBar('Weeks Off per Year',2,52-wpy,false,false);
+  document.getElementById('compare-bars').innerHTML=bars;
+  var diff=net-empSal;
+  var diffEl=document.getElementById('r-diff');
+  diffEl.textContent=(diff>0?'+':'')+fmt(diff);
+  diffEl.style.color=diff>0?'#10B981':'rgba(255,255,255,0.5)';
+  document.getElementById('r-diff-sub').textContent=diff>0?'more per year with your own practice':'Consider adjusting patient volume or VBC participation';
+  var hrsBack=hrsSaved>0?hrsSaved:0;
+  document.getElementById('r-hours').textContent=fmtN(hrsBack);
+  document.getElementById('r-hours-sub').textContent=hrsSaved>0?'That\u2019s '+(empHrs-hpw)+' extra hours every single week':'You\u2019re already working fewer hours';
+  document.getElementById('r-yourhrs').textContent=hpw+'h';
+  var life='';
+  life+='<div class="life-row"><span class="life-row-label">Extra weeks of vacation per year</span><span class="life-row-val">'+(52-wpy)+'</span></div>';
+  life+='<div class="life-row"><span class="life-row-label">No pajama-time charting</span><span class="life-row-val">AI-assisted</span></div>';
+  life+='<div class="life-row"><span class="life-row-label">No corporate protocols</span><span class="life-row-val">Full autonomy</span></div>';
+  life+='<div class="life-row"><span class="life-row-label">No RVU treadmill</span><span class="life-row-val">Your pace</span></div>';
+  life+='<div class="life-row"><span class="life-row-label">Your effective hourly rate</span><span class="life-row-val">$'+Math.round(effRate)+'</span></div>';
+  document.getElementById('life-rows').innerHTML=life;
+}
+calc();
+</script>
+</body>
+</html>

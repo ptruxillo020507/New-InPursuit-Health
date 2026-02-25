@@ -102,7 +102,7 @@
     </div>
     <h2>No open positions <em>right now.</em></h2>
     <p class="no-openings-text">We&rsquo;re not currently hiring, but that could change at any time. If you&rsquo;re passionate about healthcare technology and believe you&rsquo;d be a great fit for our mission, we&rsquo;d still love to hear from you. Send us your resume and tell us why InPursuit is where you belong.</p>
-    <a class="btn-outline" href="mailto:careers@InPursuitHealth.com?subject=Career%20Inquiry">Send Your Resume &rarr;</a>
+    <a class="btn-outline" href="mailto:info@InPursuitHealth.com?subject=Career%20Inquiry">Send Your Resume &rarr;</a>
   </div>
 </section>
 
@@ -130,11 +130,13 @@
   <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
 </footer>
 <script>
-window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('preloader').classList.add('hidden'),600)});
-window.addEventListener('scroll',()=>{document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10)});
-document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topNav').classList.toggle('open')});
-const observer=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
+window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
+document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>
 </html>

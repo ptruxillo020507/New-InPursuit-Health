@@ -363,7 +363,7 @@ body { font-family: 'Instrument Sans', sans-serif; background: var(--cream); col
   <div class="commitment-inner">
     <h2 class="commitment-headline reveal">Found a vulnerability?<br>We <em>want to know.</em></h2>
     <p class="commitment-text reveal">We maintain a responsible disclosure program and welcome security researchers to help us protect our patients. Report potential vulnerabilities to our security team.</p>
-    <a class="btn-gold reveal" href="mailto:security@InPursuitHealth.com?subject=Security%20Disclosure">Report a Vulnerability &rarr;</a>
+    <a class="btn-gold reveal" href="mailto:info@InPursuitHealth.com?subject=Security%20Disclosure">Report a Vulnerability &rarr;</a>
   </div>
 </section>
 
@@ -387,7 +387,9 @@ body { font-family: 'Instrument Sans', sans-serif; background: var(--cream); col
 window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
 window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
 document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
-const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 </body>

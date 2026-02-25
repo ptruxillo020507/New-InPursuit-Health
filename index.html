@@ -2369,7 +2369,15 @@ body {
     </div>
     <nav class="top-bar-nav" id="topNav">
       <a class="nav-item" href="for-you.html">For You</a>
-      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <div class="nav-dropdown">
+        <a class="nav-item" href="for-providers.html">For Providers</a>
+        <div class="nav-dropdown-menu">
+          <a class="nav-dropdown-item" href="for-providers.html">Overview<span class="sub-desc">Value-based care, simplified</span></a>
+          <a class="nav-dropdown-item" href="access.html">CMS ACCESS Model<span class="sub-desc">Apply by March 20, 2026</span></a>
+          <a class="nav-dropdown-item" href="virtual-practice.html">Your Own Virtual Practice<span class="sub-desc">Platinum Partner &mdash; powered by TETRA</span></a>
+        </div>
+      </div>
+      <a class="nav-item" href="tetra.html">TETRA</a>
       <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
       <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
       <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
@@ -2655,7 +2663,7 @@ body {
         <div class="countdown-breadcrumb">
           <a href="index.html">HOME</a> &gt; 
           <a href="for-providers.html">FOR PROVIDERS</a> &gt; 
-          <span class="current">ACCESS AGENT : APRIL 1, 2026</span>
+          <span class="current">ACCESS AGENT : MARCH 20, 2026</span>
         </div>
         
         <div class="countdown-badge">
@@ -2665,7 +2673,7 @@ body {
         <h1 class="countdown-title">
           The application deadline for the<br>
           most significant new Medicare program<br>
-          in a decade closes <span class="highlight">April 1, 2026.</span>
+          in a decade closes <span class="highlight">March 20, 2026.</span>
         </h1>
         
         <p class="countdown-description">
@@ -2845,7 +2853,7 @@ body {
 
     <!-- The Indictment -->
     <div class="cms-overline reveal">CMS Health Tech Ecosystem &middot; Approved Member</div>
-    <h2 class="cms-headline reveal">The 60 largest Health IT companies<br>didn&rsquo;t break healthcare by <em>accident.</em></h2>
+    <h2 class="cms-headline reveal">CMS didn&rsquo;t invite us because we&rsquo;re big.<br>They invited us because <em>we&rsquo;re ready.</em></h2>
     <div class="cms-subhead reveal">
       In July 2025, the White House and CMS launched the Health Tech Ecosystem &mdash; a call to modernize how 140+ million Americans access their health data. They invited the industry&rsquo;s biggest names. <strong>But relying on the same companies that created the silos, buried the data, and profited from the friction?</strong> That&rsquo;s not transformation. That&rsquo;s theater. InPursuit didn&rsquo;t get invited because we&rsquo;re big. We got invited because <strong>we already built what everyone else is just now pledging to try.</strong>
     </div>
@@ -3077,6 +3085,7 @@ body {
     <div class="cta-dialog-tagline">Results Matter<span class="cta-dialog-tm">&trade;</span></div>
     <div class="cta-dialog-desc">Value-based care, simplified. TETRA handles the data infrastructure so you can focus on what matters most — your patients.</div>
     <a class="cta-dialog-btn" href="for-providers.html">Explore For Providers &rarr;</a>
+    <a class="cta-dialog-btn" href="virtual-practice.html" style="margin-top: 8px; background: transparent; border: 1.5px solid rgba(197,164,78,0.4); color: var(--gold);">Your Own Virtual Practice &rarr;</a>
   </div>
 </div>
 
@@ -3091,6 +3100,7 @@ body {
     <a href="tetra.html">TETRA</a>
     <a href="for-you.html">For You</a>
     <a href="for-providers.html">For Providers</a>
+    <a href="virtual-practice.html">Virtual Practice</a>
     <a href="data-security-ai.html">AI &amp; Your Data</a>
     <a href="maha.html">MAHA</a>
     <a href="veterans-first.html">Veterans First</a>
@@ -3186,7 +3196,7 @@ pauseBtn.addEventListener('click', () => {
 
 // ===== COUNTDOWN TIMER =====
 function updateCountdown() {
-  const deadline = new Date('April 1, 2026 23:59:59').getTime();
+  const deadline = new Date('March 20, 2026 23:59:59').getTime();
   const now = new Date().getTime();
   const distance = deadline - now;
   

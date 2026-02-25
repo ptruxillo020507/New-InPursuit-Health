@@ -212,6 +212,146 @@ body { font-family: var(--sans); background: var(--cream); color: var(--text-dar
   gap: 24px; margin-top: 48px;
 }
 
+/* ===== LIVSOLO CONNECT ===== */
+.livsolo-section { background: var(--navy); position: relative; overflow: hidden; }
+.livsolo-section::before {
+  content: ''; position: absolute; top: -100px; right: -100px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(197,164,78,0.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+.livsolo-section .section-title { color: var(--white); }
+.livsolo-section .section-subtitle { color: rgba(255,255,255,0.5); }
+
+.livsolo-card {
+  background: rgba(17,34,64,0.5); border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 16px; padding: 48px 40px; position: relative;
+  overflow: hidden; transition: all 0.4s ease;
+}
+.livsolo-card:hover { border-color: rgba(197,164,78,0.25); }
+.livsolo-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--red), var(--blue-flag));
+}
+.livsolo-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+}
+.livsolo-quote {
+  font-family: var(--serif); font-size: 20px; font-style: italic;
+  color: rgba(255,255,255,0.7); line-height: 1.6; margin-bottom: 24px;
+  padding-left: 20px; border-left: 3px solid var(--gold);
+}
+.livsolo-attribution {
+  font-size: 13px; color: var(--gold); font-weight: 600;
+  letter-spacing: 1px; margin-bottom: 8px;
+}
+.livsolo-attribution-sub {
+  font-size: 12px; color: rgba(255,255,255,0.35);
+}
+.livsolo-flow {
+  display: flex; flex-direction: column; gap: 0; position: relative;
+}
+.livsolo-flow-step {
+  display: flex; align-items: center; gap: 16px; padding: 16px 0;
+  position: relative;
+}
+.livsolo-flow-step::before {
+  content: ''; position: absolute; left: 20px; top: 0; bottom: 0;
+  width: 2px; background: rgba(197,164,78,0.12);
+}
+.livsolo-flow-step:first-child::before { top: 50%; }
+.livsolo-flow-step:last-child::before { bottom: 50%; }
+.livsolo-flow-icon {
+  width: 40px; height: 40px; min-width: 40px; border-radius: 50%;
+  background: rgba(197,164,78,0.08); border: 1px solid rgba(197,164,78,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; position: relative; z-index: 1;
+}
+.livsolo-flow-text h4 {
+  font-family: var(--serif); font-size: 16px; color: var(--white); margin-bottom: 2px;
+}
+.livsolo-flow-text p {
+  font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5;
+}
+.livsolo-flow-arrow {
+  text-align: center; padding: 4px 0; color: rgba(197,164,78,0.3); font-size: 14px;
+  letter-spacing: 4px;
+}
+.livsolo-stats-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 40px;
+}
+.livsolo-stat {
+  text-align: center; padding: 24px 16px;
+  background: rgba(17,34,64,0.4); border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 10px;
+}
+.livsolo-stat-num {
+  font-family: var(--serif); font-size: 28px; color: var(--gold); margin-bottom: 4px;
+}
+.livsolo-stat-label {
+  font-size: 11px; color: rgba(255,255,255,0.35); letter-spacing: 1px; text-transform: uppercase;
+}
+
+/* Expandable story */
+.livsolo-expand-trigger {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 12px 28px; margin-top: 24px;
+  background: rgba(197,164,78,0.06); border: 1px solid rgba(197,164,78,0.2);
+  border-radius: 4px; color: var(--gold); font-size: 12px; font-weight: 600;
+  letter-spacing: 2px; text-transform: uppercase; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.livsolo-expand-trigger:hover {
+  background: rgba(197,164,78,0.12); border-color: var(--gold);
+}
+.livsolo-expand-trigger .arrow {
+  transition: transform 0.3s ease; display: inline-block;
+}
+.livsolo-expand-trigger.open .arrow { transform: rotate(180deg); }
+.livsolo-story {
+  max-height: 0; overflow: hidden; transition: max-height 0.6s ease;
+}
+.livsolo-story.open { max-height: 2000px; }
+.livsolo-story-inner {
+  padding-top: 40px;
+}
+.livsolo-story-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
+}
+.livsolo-story-block {
+  background: rgba(17,34,64,0.4); border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 10px; padding: 32px;
+}
+.livsolo-story-block h4 {
+  font-family: var(--serif); font-size: 20px; color: var(--white); margin-bottom: 12px;
+}
+.livsolo-story-block p {
+  font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.7;
+}
+.livsolo-story-block .highlight {
+  color: var(--gold); font-weight: 600;
+}
+.livsolo-data-points {
+  display: flex; flex-direction: column; gap: 12px; margin-top: 16px;
+}
+.livsolo-data-point {
+  display: flex; align-items: baseline; gap: 10px;
+  font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.5;
+}
+.livsolo-data-point strong {
+  font-family: var(--serif); font-size: 18px; color: var(--gold); min-width: 60px;
+}
+
+@media (max-width: 1024px) {
+  .livsolo-grid { grid-template-columns: 1fr; }
+  .livsolo-stats-row { grid-template-columns: 1fr; }
+  .livsolo-story-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .livsolo-card { padding: 32px 20px; }
+}
+
 /* ===== FLYWHEEL / BEFORE & AFTER ===== */
 .flywheel-section { background: var(--navy); position: relative; overflow: hidden; }
 .flywheel-section::before {
@@ -462,7 +602,7 @@ body { font-family: var(--sans); background: var(--cream); color: var(--text-dar
       <p class="hero-desc">The InPursuit app sits on top of both DoD and VA systems — bridging the gap so no veteran's records are lost in transition. AI-powered preparation before every visit. Intelligent engagement after. One app, seamless care, powered by TETRA&trade;.</p>
       <div class="hero-cta-row">
         <a class="btn-gold" href="#services">Explore Veterans First &darr;</a>
-        <a class="btn-outline" href="/cdn-cgi/l/email-protection#710714051403101f0231181f010403020418055f121e1c">Partner With Us</a>
+        <a class="btn-outline" href="mailto:info@InPursuitHealth.com">Partner With Us</a>
       </div>
     </div>
     <div class="hero-visual">
@@ -485,7 +625,7 @@ body { font-family: var(--sans); background: var(--cream); color: var(--text-dar
     <div class="stat-block reveal">
       <div class="stat-num">95%</div>
       <div class="stat-label">Record Continuity</div>
-      <div class="stat-sub">DoD → VA transition</div>
+      <div class="stat-sub">DoD &rarr; VA transition</div>
     </div>
     <div class="stat-block reveal">
       <div class="stat-num">2.7M</div>
@@ -572,6 +712,129 @@ body { font-family: var(--sans); background: var(--cream); color: var(--text-dar
 
   </div>
 </section>
+
+<!-- ===== LIVSOLO CONNECT ===== -->
+<section class="section livsolo-section" id="livsolo">
+  <div class="section-inner">
+    <p class="section-eyebrow reveal" style="text-align:center;">&#127482;&#127480; Independence Through Technology</p>
+    <h2 class="section-title reveal" style="text-align:center;">LivSolo Connect&trade;<br><em>When voice is all you have, it should connect to everything.</em></h2>
+    <p class="section-subtitle reveal" style="text-align:center; margin: 0 auto;">Born from necessity. Built by a quadriplegic Marine. Powered by TETRA. LivSolo Connect turns a voice assistant into a gateway to enterprise healthcare — not just the consumer internet.</p>
+
+    <div class="livsolo-card reveal" style="margin-top:56px;">
+      <div class="livsolo-grid">
+        <!-- Left: Charlie's story -->
+        <div>
+          <div class="livsolo-quote">
+            &ldquo;Since breaking my neck in 2014, one of the major disruptions of my daily life is making sure my refills for medications are current and ordered timely. Often, I forget &mdash; and that directly affects my ability to prevent acute issues because of my spinal cord injury.&rdquo;
+          </div>
+          <div class="livsolo-attribution">Charlie Merrit</div>
+          <div class="livsolo-attribution-sub">C3 Quadriplegic &nbsp;&middot;&nbsp; Former U.S. Marine &nbsp;&middot;&nbsp; LivSolo's Founding Patient</div>
+
+          <div class="livsolo-expand-trigger" id="livsoloTrigger" onclick="toggleLivsoloStory()">
+            Charlie's Full Story <span class="arrow">&darr;</span>
+          </div>
+        </div>
+
+        <!-- Right: How it works flow -->
+        <div>
+          <div style="font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:rgba(197,164,78,0.5); margin-bottom:20px;">How LivSolo Connect Works</div>
+          <div class="livsolo-flow">
+            <div class="livsolo-flow-step">
+              <div class="livsolo-flow-icon">&#127908;</div>
+              <div class="livsolo-flow-text">
+                <h4>Charlie Speaks</h4>
+                <p>Voice command to any Alexa-enabled device &mdash; Show, Dot, phone, or watch</p>
+              </div>
+            </div>
+            <div class="livsolo-flow-arrow">&darr;&darr;&darr;</div>
+            <div class="livsolo-flow-step">
+              <div class="livsolo-flow-icon" style="background:rgba(197,164,78,0.12); border-color:rgba(197,164,78,0.35);">&#9881;</div>
+              <div class="livsolo-flow-text">
+                <h4>LivSolo Connect Skill</h4>
+                <p>Single Alexa skill brokers all commands through the TETRA Alexa Bridge</p>
+              </div>
+            </div>
+            <div class="livsolo-flow-arrow">&darr;&darr;&darr;</div>
+            <div class="livsolo-flow-step">
+              <div class="livsolo-flow-icon" style="background:rgba(197,164,78,0.15); border-color:var(--gold);">&#9830;</div>
+              <div class="livsolo-flow-text">
+                <h4>TETRA Engine</h4>
+                <p>AI routes to enterprise data &mdash; VA VistA, prescriptions, scheduling, telehealth, local pharmacy</p>
+              </div>
+            </div>
+            <div class="livsolo-flow-arrow">&darr;&darr;&darr;</div>
+            <div class="livsolo-flow-step">
+              <div class="livsolo-flow-icon" style="background:rgba(16,185,129,0.1); border-color:rgba(16,185,129,0.3);">&#10003;</div>
+              <div class="livsolo-flow-text">
+                <h4>Action Completed</h4>
+                <p>Prescription refilled, appointment booked, provider contacted &mdash; all by voice</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expandable Story Section -->
+      <div class="livsolo-story" id="livsoloStory">
+        <div class="livsolo-story-inner">
+          <div class="livsolo-story-grid">
+            <div class="livsolo-story-block">
+              <h4>The Problem</h4>
+              <p>For a C3 quadriplegic, voice is the primary — often <span class="highlight">only</span> — interface to the world. Consumer smart home devices connect to the general internet: music, weather, shopping. But they don't connect to the systems that matter most — VA medical records, prescription management, provider scheduling, and emergency services.</p>
+              <p style="margin-top:12px;">Charlie couldn't refill his own medications. He couldn't check his VA appointment. He couldn't alert his care team without someone physically present to make the call.</p>
+            </div>
+            <div class="livsolo-story-block">
+              <h4>The Breakthrough</h4>
+              <p>Using TETRA's interoperability engine, we built <span class="highlight">LivSolo Connect</span> — a single Alexa skill that bridges consumer voice technology to enterprise healthcare systems. One wake word. Unlimited capabilities.</p>
+              <p style="margin-top:12px;">Charlie says <span class="highlight">"Alexa, open LivSolo"</span> — and TETRA connects him to VA VistA, pharmacy systems, telehealth scheduling, prescription tracking, package notifications, and even 911 emergency services with automatic caregiver alerts.</p>
+            </div>
+            <div class="livsolo-story-block">
+              <h4>Beyond Charlie</h4>
+              <div class="livsolo-data-points">
+                <div class="livsolo-data-point"><strong>5.4M</strong> Americans live with paralysis (CDC, 2013)</div>
+                <div class="livsolo-data-point"><strong>42K</strong> veterans live with spinal cord injuries, diseases, and disorders</div>
+                <div class="livsolo-data-point"><strong>17,730</strong> new spinal cord injuries occur each year</div>
+                <div class="livsolo-data-point"><strong>1.7%</strong> of the U.S. population lives with some form of paralysis</div>
+              </div>
+            </div>
+            <div class="livsolo-story-block">
+              <h4>What LivSolo Connect Does</h4>
+              <div class="livsolo-data-points">
+                <div class="livsolo-data-point" style="align-items:center;"><span style="color:var(--gold); min-width:24px;">&#8226;</span> Prescription refill alerts and pharmacy interface</div>
+                <div class="livsolo-data-point" style="align-items:center;"><span style="color:var(--gold); min-width:24px;">&#8226;</span> Schedule in-person or telehealth visits by voice</div>
+                <div class="livsolo-data-point" style="align-items:center;"><span style="color:var(--gold); min-width:24px;">&#8226;</span> 911 emergency with automatic caregiver notification</div>
+                <div class="livsolo-data-point" style="align-items:center;"><span style="color:var(--gold); min-width:24px;">&#8226;</span> Remote patient monitoring and vital data on-demand</div>
+                <div class="livsolo-data-point" style="align-items:center;"><span style="color:var(--gold); min-width:24px;">&#8226;</span> Full smart home environmental control</div>
+                <div class="livsolo-data-point" style="align-items:center;"><span style="color:var(--gold); min-width:24px;">&#8226;</span> Expandable to Google, Apple, Microsoft, and IoT devices</div>
+              </div>
+            </div>
+          </div>
+          <div style="text-align:center; margin-top:32px; padding:16px 24px; background:rgba(197,164,78,0.04); border:1px solid rgba(197,164,78,0.08); border-radius:8px; font-size:12px; color:rgba(255,255,255,0.4); letter-spacing:1px;">
+            Out-of-the-Box &nbsp;&middot;&nbsp; Voice-First &nbsp;&middot;&nbsp; Enterprise-Connected &nbsp;&middot;&nbsp; Under $20,000 per patient (FAR 18.2)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats row -->
+    <div class="livsolo-stats-row reveal">
+      <div class="livsolo-stat">
+        <div class="livsolo-stat-num">42K</div>
+        <div class="livsolo-stat-label">Veterans with SCI</div>
+      </div>
+      <div class="livsolo-stat">
+        <div class="livsolo-stat-num">5.4M</div>
+        <div class="livsolo-stat-label">Americans with Paralysis</div>
+      </div>
+      <div class="livsolo-stat">
+        <div class="livsolo-stat-num">1</div>
+        <div class="livsolo-stat-label">Voice Command Away</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <section class="section flywheel-section" id="flywheel">
   <div class="section-inner">
     <p class="section-eyebrow reveal" style="text-align:center;">Powered by TETRA&trade;</p>
@@ -792,7 +1055,7 @@ body { font-family: var(--sans); background: var(--cream); color: var(--text-dar
     <h2>Those who defended our nation<br>deserve seamless care.</h2>
     <p>100% U.S. Veteran-owned and operated, InPursuit Health delivers battle-tested healthcare technology trusted by 41,000+ DoD and VA servers nationwide. Let's build something worthy of their service.</p>
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-      <a class="btn-gold" href="/cdn-cgi/l/email-protection#5d2b3829382f3c332e1d34332d282f2e283429733e3230">Schedule a Veterans First Demo &rarr;</a>
+      <a class="btn-gold" href="mailto:info@InPursuitHealth.com">Schedule a Veterans First Demo &rarr;</a>
       <a class="btn-outline" href="partner-network.html">Explore Partner Network</a>
     </div>
   </div>
@@ -827,7 +1090,7 @@ body { font-family: var(--sans); background: var(--cream); color: var(--text-dar
   <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ===== NAV =====
 window.addEventListener('scroll', () => {
   document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10);
@@ -878,10 +1141,9 @@ document.getElementById('navToggle').addEventListener('click', () => {
   function spawnParticle() {
     const w = W(), h = H();
     const cx = w / 2, cy = h / 2;
-    // DoD is top-left, VA is bottom-right, TETRA is center
     const dodX = w * 0.15, dodY = h * 0.25;
     const vaX = w * 0.85, vaY = h * 0.75;
-    const path = Math.random(); // 0-0.5: DoD→TETRA, 0.5-1: TETRA→VA
+    const path = Math.random();
     return {
       progress: 0,
       speed: 0.003 + Math.random() * 0.004,
@@ -891,7 +1153,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
       endX: path < 0.5 ? cx : vaX,
       endY: path < 0.5 ? cy : vaY,
       size: 1.5 + Math.random() * 2,
-      // Gold for DoD→TETRA, lighter gold for TETRA→VA
       r: path < 0.5 ? 197 : 212,
       g: path < 0.5 ? 164 : 180,
       b: path < 0.5 ? 78 : 100,
@@ -904,7 +1165,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
     particles.push(p);
   }
 
-  // Ambient orbit dots
   const orbitDots = [];
   for (let i = 0; i < 20; i++) {
     orbitDots.push({
@@ -927,7 +1187,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
 
     ctx.clearRect(0, 0, w, h);
 
-    // Orbit rings around TETRA
     [70, 110, 150].forEach((r, i) => {
       ctx.beginPath();
       ctx.arc(cx, cy, r, 0, Math.PI * 2);
@@ -936,8 +1195,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
       ctx.stroke();
     });
 
-    // Connection lines (curved)
-    // DoD → TETRA
     ctx.beginPath();
     ctx.moveTo(dodX, dodY);
     ctx.quadraticCurveTo(cx * 0.6, cy * 0.4, cx, cy);
@@ -945,7 +1202,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // TETRA → VA
     ctx.beginPath();
     ctx.moveTo(cx, cy);
     ctx.quadraticCurveTo(cx * 1.4, cy * 1.6, vaX, vaY);
@@ -953,7 +1209,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.lineWidth = 2;
     ctx.stroke();
 
-    // Draw orbit dots
     orbitDots.forEach(d => {
       d.angle += d.speed;
       const dx = cx + Math.cos(d.angle) * d.radius;
@@ -964,7 +1219,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
       ctx.fill();
     });
 
-    // Draw particles
     particles.forEach((p, i) => {
       p.progress += p.speed;
       if (p.progress >= 1) {
@@ -972,7 +1226,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
         return;
       }
       const t = p.progress;
-      // Quadratic bezier interpolation
       let px, py;
       if (p.path < 0.5) {
         const cpx = cx * 0.6, cpy = cy * 0.4;
@@ -990,17 +1243,14 @@ document.getElementById('navToggle').addEventListener('click', () => {
       ctx.fill();
     });
 
-    // DoD Node
     const dodPulse = 1 + Math.sin(time * 2) * 0.05;
     ctx.save();
     ctx.translate(dodX, dodY);
     ctx.scale(dodPulse, dodPulse);
-    // Outer glow
     ctx.beginPath();
     ctx.arc(0, 0, 38, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(178,34,52,0.06)';
     ctx.fill();
-    // Circle
     ctx.beginPath();
     ctx.arc(0, 0, 30, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(10,22,40,0.9)';
@@ -1008,7 +1258,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.lineWidth = 1.5;
     ctx.fill();
     ctx.stroke();
-    // Text
     ctx.fillStyle = 'rgba(255,255,255,0.7)';
     ctx.font = '600 9px "Instrument Sans"';
     ctx.textAlign = 'center';
@@ -1020,7 +1269,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.fillText('MHS', 0, 9);
     ctx.restore();
 
-    // ===== VA NODE =====
     const vaPulse = 1 + Math.sin(time * 2 + 1) * 0.05;
     ctx.save();
     ctx.translate(vaX, vaY);
@@ -1046,13 +1294,11 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.fillText('CARE', 0, 9);
     ctx.restore();
 
-    // ===== PHONE MOCKUP (center) =====
     const tetraPulse = 1 + Math.sin(time * 1.5) * 0.015;
     ctx.save();
     ctx.translate(cx, cy);
     ctx.scale(tetraPulse, tetraPulse);
 
-    // Phone outer glow
     const phoneGlow = ctx.createRadialGradient(0, 0, 50, 0, 0, 100);
     phoneGlow.addColorStop(0, 'rgba(197,164,78,0.12)');
     phoneGlow.addColorStop(1, 'rgba(197,164,78,0)');
@@ -1061,9 +1307,8 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.fillStyle = phoneGlow;
     ctx.fill();
 
-    // Phone body
     const pw = 62, ph = 110;
-    const pr = 10; // border radius
+    const pr = 10;
     ctx.beginPath();
     ctx.roundRect(-pw/2, -ph/2, pw, ph, pr);
     ctx.fillStyle = 'rgba(6,14,26,0.97)';
@@ -1072,27 +1317,23 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.lineWidth = 1.5;
     ctx.stroke();
 
-    // Phone notch
     ctx.beginPath();
     ctx.roundRect(-12, -ph/2 + 3, 24, 5, 2.5);
     ctx.fillStyle = 'rgba(197,164,78,0.15)';
     ctx.fill();
 
-    // Screen area
-    const sm = 5; // screen margin
+    const sm = 5;
     ctx.beginPath();
     ctx.roundRect(-pw/2 + sm, -ph/2 + 12, pw - sm*2, ph - 24, 4);
     ctx.fillStyle = 'rgba(17,34,64,0.6)';
     ctx.fill();
 
-    // InPursuit branding on screen
     ctx.fillStyle = 'rgba(197,164,78,0.9)';
     ctx.font = '600 8px "Instrument Sans"';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText('InPursuit', 0, -32);
 
-    // Gold shield/logo hint
     ctx.beginPath();
     ctx.moveTo(0, -20);
     ctx.lineTo(-8, -14);
@@ -1107,7 +1348,6 @@ document.getElementById('navToggle').addEventListener('click', () => {
     ctx.lineWidth = 0.8;
     ctx.stroke();
 
-    // App UI lines (status items)
     const screenPulse = Math.sin(time * 3);
     [-2, 10, 22].forEach((yy, i) => {
       const lineW = 30 - i * 4;
@@ -1116,19 +1356,16 @@ document.getElementById('navToggle').addEventListener('click', () => {
       ctx.roundRect(-lineW/2, yy, lineW, 5, 2);
       ctx.fillStyle = `rgba(197,164,78,${alpha})`;
       ctx.fill();
-      // Small dot indicator
       ctx.beginPath();
       ctx.arc(-lineW/2 - 5, yy + 2.5, 1.5, 0, Math.PI * 2);
       ctx.fillStyle = i === 0 ? 'rgba(16,185,129,0.5)' : i === 1 ? 'rgba(197,164,78,0.3)' : 'rgba(178,34,52,0.4)';
       ctx.fill();
     });
 
-    // TETRA label below screen
     ctx.fillStyle = 'rgba(197,164,78,0.5)';
     ctx.font = '500 6px "Instrument Sans"';
     ctx.fillText('TETRA\u2122', 0, ph/2 - 7);
 
-    // Home button hint
     ctx.beginPath();
     ctx.arc(0, ph/2 - 7, 3, 0, Math.PI * 2);
     ctx.strokeStyle = 'rgba(197,164,78,0.15)';
@@ -1137,14 +1374,12 @@ document.getElementById('navToggle').addEventListener('click', () => {
 
     ctx.restore();
 
-    // Labels below nodes
     ctx.fillStyle = 'rgba(197,164,78,0.25)';
     ctx.font = '500 8px "Instrument Sans"';
     ctx.textAlign = 'center';
     ctx.fillText('Active Duty Records', dodX, dodY + 46);
     ctx.fillText('Veteran Healthcare', vaX, vaY + 46);
 
-    // Label below phone
     ctx.fillStyle = 'rgba(197,164,78,0.35)';
     ctx.font = '600 8px "Instrument Sans"';
     ctx.fillText('Powered by TETRA\u2122', cx, cy + 68);
@@ -1156,6 +1391,19 @@ document.getElementById('navToggle').addEventListener('click', () => {
   }
   draw();
 })();
+
+// ===== LIVSOLO STORY TOGGLE =====
+function toggleLivsoloStory() {
+  const story = document.getElementById('livsoloStory');
+  const trigger = document.getElementById('livsoloTrigger');
+  story.classList.toggle('open');
+  trigger.classList.toggle('open');
+  if (trigger.classList.contains('open')) {
+    trigger.innerHTML = 'Close Story <span class="arrow">&darr;</span>';
+  } else {
+    trigger.innerHTML = 'Charlie\'s Full Story <span class="arrow">&darr;</span>';
+  }
+}
 
 // ===== SCROLL REVEAL =====
 const observer = new IntersectionObserver((entries) => {
@@ -1169,4 +1417,12 @@ document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 document.addEventListener('mousemove', (e) => {
   const stars = document.querySelectorAll('.star');
   const x = (e.clientX / window.innerWidth - 0.5) * 15;
-  const y = (e.clientY / window.inne
+  const y = (e.clientY / window.innerHeight - 0.5) * 15;
+  stars.forEach((star, i) => {
+    const depth = (i + 1) * 0.5;
+    star.style.transform = 'translate(' + (x * depth) + 'px, ' + (y * depth) + 'px)';
+  });
+});
+</script>
+</body>
+</html>
