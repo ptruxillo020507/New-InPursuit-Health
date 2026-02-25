@@ -182,33 +182,7 @@ body {
 }
 .hero-bg {
   position: absolute; inset: 0;
-  /* Placeholder: Replace with actual cherry blossom image */
-  /* Download from: https://www.pexels.com/search/cherry%20blossom%20run/ */
-  /* Or: https://pixabay.com/images/search/marathon/ */
-  /* Save as 'hero-background.jpg' in same folder as this HTML file */
-  background-image: 
-    linear-gradient(135deg, 
-      rgba(255, 182, 193, 0.3) 0%,
-      rgba(255, 160, 180, 0.25) 25%,
-      rgba(173, 216, 230, 0.2) 50%,
-      rgba(135, 206, 235, 0.25) 75%,
-      rgba(176, 196, 222, 0.3) 100%
-    ),
-    url('hero-background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-.hero-bg::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    rgba(10, 22, 40, 0.75) 0%,
-    rgba(10, 22, 40, 0.85) 50%,
-    rgba(6, 14, 26, 0.92) 100%
-  );
+  background: radial-gradient(ellipse at 30% 50%, rgba(17,34,64,0.8), var(--navy-deep) 70%);
 }
 .hero-stars {
   position: absolute; inset: 0; z-index: 1; pointer-events: none;
@@ -282,183 +256,8 @@ body {
   border-color: var(--gold);
 }
 
-/* ===== COUNTDOWN SLIDE STYLES ===== */
-.slide-countdown {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
-}
-.countdown-breadcrumb {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 24px;
-}
-.countdown-breadcrumb a {
-  color: rgba(255,255,255,0.4);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-.countdown-breadcrumb a:hover {
-  color: var(--gold);
-}
-.countdown-breadcrumb .current {
-  color: var(--gold);
-}
-.countdown-badge {
-  display: inline-block;
-  padding: 8px 20px;
-  background: rgba(197,164,78,0.15);
-  border: 1px solid rgba(197,164,78,0.3);
-  border-radius: 24px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 32px;
-}
-.countdown-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(32px, 4.5vw, 52px);
-  font-weight: 400;
-  color: var(--white);
-  line-height: 1.25;
-  margin-bottom: 24px;
-}
-.countdown-title .highlight {
-  font-style: italic;
-  color: var(--gold);
-}
-.countdown-description {
-  font-size: 15px;
-  color: rgba(255,255,255,0.7);
-  line-height: 1.7;
-  max-width: 720px;
-  margin: 0 auto 48px;
-}
-.countdown-timer {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 48px;
-}
-.countdown-unit {
-  background: rgba(17,34,64,0.6);
-  border: 1px solid rgba(197,164,78,0.2);
-  border-radius: 8px;
-  padding: 24px 32px;
-  min-width: 140px;
-  transition: all 0.3s ease;
-}
-.countdown-unit:hover {
-  border-color: rgba(197,164,78,0.4);
-  background: rgba(17,34,64,0.8);
-}
-.countdown-number {
-  font-family: 'Instrument Serif', serif;
-  font-size: 56px;
-  font-weight: 400;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 8px;
-}
-.countdown-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-}
-.countdown-separator {
-  font-size: 36px;
-  color: rgba(197,164,78,0.3);
-  display: flex;
-  align-items: center;
-  padding-top: 12px;
-}
-.countdown-ctas {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-bottom: 32px;
-}
-.btn-countdown-primary {
-  background: var(--gold);
-  color: var(--navy-deep);
-  padding: 16px 32px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
-}
-.btn-countdown-primary:hover {
-  background: var(--gold-light);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(197,164,78,0.3);
-}
-.btn-countdown-secondary {
-  background: transparent;
-  color: var(--white);
-  padding: 16px 32px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(197,164,78,0.3);
-  cursor: pointer;
-}
-.btn-countdown-secondary:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-.countdown-back-link {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.5);
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-.countdown-back-link:hover {
-  color: var(--gold);
-}
-
-@media (max-width: 768px) {
-  .countdown-timer {
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-  .countdown-unit {
-    min-width: 110px;
-    padding: 16px 20px;
-  }
-  .countdown-number {
-    font-size: 40px;
-  }
-  .countdown-separator {
-    display: none;
-  }
-  .countdown-ctas {
-    flex-direction: column;
-  }
-}
-
 /* Magnetic constellation */
 .mag-constellation {
-
   position: relative;
   width: 100%; max-width: 620px;
   height: 500px; margin: 0 auto 24px;
@@ -591,437 +390,6 @@ body {
   z-index: 2; pointer-events: none;
 }
 
-/* ===== ORB POPUP — SCREEN EDGE PANEL ===== */
-.orb-popup {
-  position: fixed;
-  top: 50%;
-  width: 260px;
-  background: rgba(10,22,40,0.96);
-  border: 1px solid rgba(197,164,78,0.3);
-  border-radius: 12px;
-  padding: 28px 28px;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  pointer-events: none;
-  z-index: 100;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.5), 0 0 40px rgba(197,164,78,0.08);
-  backdrop-filter: blur(16px);
-  text-align: left;
-  /* Default: right side */
-  right: 24px;
-  left: auto;
-  transform: translateY(-50%) translateX(30px);
-}
-.orb-popup::after { display: none; }
-.orb-popup.show {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(-50%) translateX(0);
-}
-/* Left-side placement */
-.orb-popup.popup-left {
-  right: auto;
-  left: 24px;
-  transform: translateY(-50%) translateX(-30px);
-}
-.orb-popup.popup-left.show {
-  transform: translateY(-50%) translateX(0);
-}
-.orb-popup-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: 15px;
-  color: var(--gold);
-  margin-bottom: 6px;
-  line-height: 1.2;
-}
-.orb-popup-text {
-  font-size: 12px;
-  color: rgba(255,255,255,0.6);
-  line-height: 1.5;
-  letter-spacing: 0.2px;
-}
-.orb-popup-price {
-  margin-top: 8px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.orb-popup-price .price-old {
-  font-family: 'Instrument Serif', serif;
-  font-size: 22px;
-  color: rgba(178,34,52,0.7);
-  text-decoration: line-through;
-  text-decoration-thickness: 2px;
-}
-.orb-popup-price .price-new {
-  font-family: 'Instrument Serif', serif;
-  font-size: 28px;
-  color: var(--gold);
-  font-weight: 400;
-}
-.orb-popup-price .price-label {
-  font-size: 10px;
-  color: rgba(255,255,255,0.35);
-  letter-spacing: 0.5px;
-}
-/* Center orb clickable */
-.mag-center { cursor: pointer; }
-.mag-node { cursor: pointer; }
-/* Family orbit clickable */
-.family-node { cursor: pointer; position: relative; }
-
-/* ===== CONTACT MODAL ===== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(6,14,26,0.85);
-  backdrop-filter: blur(8px);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s ease;
-  padding: 20px;
-}
-.modal-overlay.show {
-  opacity: 1;
-  visibility: visible;
-}
-.modal-box {
-  background: var(--navy-mid);
-  border: 1px solid rgba(197,164,78,0.2);
-  border-radius: 16px;
-  padding: 48px 40px;
-  max-width: 500px;
-  width: 100%;
-  position: relative;
-  transform: translateY(20px) scale(0.97);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(197,164,78,0.06);
-}
-.modal-overlay.show .modal-box {
-  transform: translateY(0) scale(1);
-}
-.modal-close {
-  position: absolute;
-  top: 16px; right: 16px;
-  background: none; border: none;
-  color: rgba(255,255,255,0.3);
-  font-size: 24px;
-  cursor: pointer;
-  transition: color 0.3s;
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-}
-.modal-close:hover { color: var(--gold); background: rgba(197,164,78,0.1); }
-.modal-title {
-  font-family: 'Instrument Serif', serif;
-  font-size: 28px;
-  color: var(--white);
-  margin-bottom: 8px;
-}
-.modal-subtitle {
-  font-size: 14px;
-  color: rgba(255,255,255,0.4);
-  margin-bottom: 32px;
-}
-.modal-form { display: flex; flex-direction: column; gap: 16px; }
-.modal-input {
-  background: rgba(6,14,26,0.6);
-  border: 1px solid rgba(197,164,78,0.15);
-  border-radius: 8px;
-  padding: 14px 16px;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 14px;
-  color: var(--white);
-  transition: border-color 0.3s;
-  outline: none;
-}
-.modal-input::placeholder { color: rgba(255,255,255,0.25); }
-.modal-input:focus { border-color: rgba(197,164,78,0.4); }
-.modal-textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-.modal-submit {
-  background: var(--gold);
-  color: var(--navy-deep);
-  padding: 14px 32px;
-  border: none;
-  border-radius: 6px;
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-.modal-submit:hover {
-  background: var(--gold-bright);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(197,164,78,0.3);
-}
-.modal-submit:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-/* Human verification */
-.verify-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 14px 16px;
-  background: rgba(6,14,26,0.6);
-  border: 1px solid rgba(197,164,78,0.15);
-  border-radius: 8px;
-  cursor: pointer;
-  transition: border-color 0.3s;
-  user-select: none;
-}
-.verify-row:hover { border-color: rgba(197,164,78,0.3); }
-.verify-checkbox {
-  width: 22px; height: 22px;
-  border: 2px solid rgba(197,164,78,0.3);
-  border-radius: 4px;
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-.verify-checkbox.checked {
-  background: var(--gold);
-  border-color: var(--gold);
-}
-.verify-checkbox.checked::after {
-  content: '✓';
-  color: var(--navy-deep);
-  font-size: 14px;
-  font-weight: 700;
-}
-.verify-label {
-  font-size: 13px;
-  color: rgba(255,255,255,0.5);
-}
-.verify-badge {
-  margin-left: auto;
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(197,164,78,0.4);
-  white-space: nowrap;
-}
-.modal-success {
-  text-align: center;
-  padding: 20px 0;
-}
-.modal-success-icon {
-  font-size: 48px;
-  margin-bottom: 16px;
-}
-.modal-success h3 {
-  font-family: 'Instrument Serif', serif;
-  font-size: 24px;
-  color: var(--white);
-  margin-bottom: 8px;
-}
-.modal-success p {
-  font-size: 14px;
-  color: rgba(255,255,255,0.5);
-}
-
-/* ===== BOTTOM CTA DIALOG BOXES ===== */
-.cta-dialog-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(6,14,26,0.85);
-  backdrop-filter: blur(8px);
-  z-index: 9998;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.4s ease;
-  padding: 20px;
-}
-.cta-dialog-overlay.show {
-  opacity: 1;
-  visibility: visible;
-}
-.cta-dialog {
-  background: var(--navy-mid);
-  border: 1px solid rgba(197,164,78,0.2);
-  border-radius: 16px;
-  padding: 48px 40px;
-  max-width: 440px;
-  width: 100%;
-  text-align: center;
-  transform: translateY(20px) scale(0.97);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.5), 0 0 60px rgba(197,164,78,0.06);
-  position: relative;
-}
-.cta-dialog-overlay.show .cta-dialog {
-  transform: translateY(0) scale(1);
-}
-.cta-dialog-close {
-  position: absolute;
-  top: 16px; right: 16px;
-  background: none; border: none;
-  color: rgba(255,255,255,0.3);
-  font-size: 24px;
-  cursor: pointer;
-  transition: color 0.3s;
-  width: 36px; height: 36px;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 50%;
-}
-.cta-dialog-close:hover { color: var(--gold); background: rgba(197,164,78,0.1); }
-.cta-dialog-tagline {
-  font-family: 'Instrument Serif', serif;
-  font-size: 20px;
-  color: var(--gold);
-  margin-bottom: 8px;
-  font-style: italic;
-}
-.cta-dialog-tm {
-  font-style: normal;
-  font-size: 10px;
-  vertical-align: super;
-}
-.cta-dialog-desc {
-  font-size: 14px;
-  color: rgba(255,255,255,0.5);
-  line-height: 1.6;
-  margin-bottom: 28px;
-}
-.cta-dialog-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  background: var(--gold);
-  color: var(--navy-deep);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: all 0.3s ease;
-  margin-bottom: 24px;
-}
-.cta-dialog-btn:hover {
-  background: var(--gold-bright);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
-}
-/* App Store Badges */
-.app-store-badges {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 8px;
-}
-.app-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 18px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-.app-badge:hover {
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.2);
-  transform: translateY(-1px);
-}
-.app-badge-icon {
-  width: 20px; height: 20px;
-  fill: var(--white);
-  opacity: 0.8;
-}
-.app-badge-text {
-  display: flex;
-  flex-direction: column;
-  text-align: left;
-}
-.app-badge-small {
-  font-size: 8px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  color: rgba(255,255,255,0.5);
-  line-height: 1;
-}
-.app-badge-store {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--white);
-  line-height: 1.2;
-}
-.hero-app-badges {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
-}
-.hero-app-badges .app-badge {
-  padding: 8px 14px;
-  background: rgba(255,255,255,0.04);
-  border-color: rgba(197,164,78,0.15);
-}
-.hero-app-badges .app-badge:hover {
-  border-color: rgba(197,164,78,0.35);
-  background: rgba(197,164,78,0.06);
-}
-.hero-app-badges .app-badge-store { font-size: 12px; }
-
-@media (max-width: 768px) {
-  .orb-popup, .orb-popup.popup-left {
-    right: 12px;
-    left: 12px;
-    width: auto;
-    top: auto;
-    bottom: 70px;
-    transform: translateY(20px) translateX(0);
-    padding: 20px 22px;
-  }
-  .orb-popup.show, .orb-popup.popup-left.show {
-    transform: translateY(0) translateX(0);
-  }
-  .modal-box { padding: 32px 24px; }
-  .cta-dialog { padding: 36px 28px; }
-  .app-store-badges { flex-direction: column; align-items: center; }
-  .hero-app-badges { flex-direction: column; align-items: center; }
-}
-
-/* Wellness node: strongest gravitational pull — visually emphasized */
-#node-wellness .node-dot {
-  width: 72px; height: 72px;
-  border-color: rgba(197,164,78,0.45);
-  box-shadow: 0 0 40px rgba(197,164,78,0.15), 0 0 80px rgba(197,164,78,0.06);
-}
-#node-wellness .node-dot svg { width: 30px; height: 30px; opacity: 0.9; }
-#node-wellness .node-text { color: rgba(197,164,78,0.8); font-size: 10px; }
-
-/* Satellite nodes: slightly smaller, pulled toward wellness */
-.mag-satellite .node-dot {
-  width: 50px; height: 50px;
-  border-color: rgba(197,164,78,0.25);
-}
-.mag-satellite .node-dot svg { width: 22px; height: 22px; }
-.mag-satellite .node-text { font-size: 8px; color: rgba(197,164,78,0.5); }
-
 /* Magnetic drift animation base */
 .mag-drift {
   animation-timing-function: ease-in-out;
@@ -1064,152 +432,6 @@ body {
   border: 1px solid rgba(197,164,78,0.3); border-radius: 20px;
   font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
   text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
-}
-
-/* MAHA Centered Slide */
-.slide-maha-centered {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-.slide-maha-centered .hero-overline {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 20px;
-}
-.slide-maha-centered h2 {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(36px, 4.5vw, 58px);
-  font-weight: 400;
-  color: var(--white);
-  line-height: 1.2;
-  margin-bottom: 28px;
-}
-.slide-maha-centered h2 em {
-  font-style: italic;
-  color: var(--gold);
-}
-.slide-maha-centered .maha-description {
-  font-size: 17px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.7;
-  margin: 0 auto 40px;
-  max-width: 720px;
-}
-.slide-maha-centered .hero-cta-row {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.maha-tag {
-  display: inline-block;
-  padding: 6px 16px;
-  border: 1px solid rgba(197,164,78,0.3);
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gold);
-
-/* Veterans First Announcement Slide */
-.slide-veterans-announce {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-.veterans-announce-tag {
-  display: inline-block;
-  padding: 8px 20px;
-  border: 1px solid rgba(197,164,78,0.3);
-  border-radius: 24px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 1.8px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 20px;
-}
-.veterans-announce-overline {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: rgba(197,164,78,0.6);
-  margin-bottom: 24px;
-}
-.veterans-announce-headline {
-  font-family: 'Instrument Serif', serif;
-  font-size: clamp(32px, 4vw, 52px);
-  font-weight: 400;
-  color: var(--white);
-  line-height: 1.25;
-  margin-bottom: 28px;
-}
-.veterans-announce-headline em {
-  font-style: italic;
-  color: var(--gold);
-}
-.veterans-announce-description {
-  font-size: 16px;
-  color: rgba(255,255,255,0.65);
-  line-height: 1.7;
-  margin: 0 auto 48px;
-  max-width: 780px;
-}
-.veterans-impact-stats {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 32px;
-  margin: 0 auto 48px;
-  max-width: 800px;
-  padding: 40px 0;
-  border-top: 1px solid rgba(197,164,78,0.15);
-  border-bottom: 1px solid rgba(197,164,78,0.15);
-}
-.impact-stat {
-  text-align: center;
-}
-.impact-number {
-  font-family: 'Instrument Serif', serif;
-  font-size: 42px;
-  font-weight: 400;
-  color: var(--gold);
-  line-height: 1;
-  margin-bottom: 12px;
-}
-.impact-label {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  line-height: 1.4;
-  color: rgba(255,255,255,0.6);
-  text-transform: uppercase;
-}
-.veterans-cta {
-  display: flex;
-  gap: 16px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* Responsive for Veterans slide */
-@media (max-width: 768px) {
-  .veterans-impact-stats {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
-  }
-  .veterans-announce-headline {
-    font-size: 32px;
-  }
-}
-  margin-bottom: 20px;
 }
 
 /* Visual cards */
@@ -1265,6 +487,26 @@ body {
 }
 
 /* Veterans visual */
+/* ===== COUNTDOWN SLIDE ===== */
+.slide-countdown{text-align:center;max-width:900px;margin:0 auto;}
+.countdown-badge{display:inline-block;padding:8px 20px;background:rgba(197,164,78,.15);border:1px solid rgba(197,164,78,.3);border-radius:24px;font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:32px;}
+.countdown-title{font-family:'Instrument Serif',serif;font-size:clamp(28px,4vw,48px);font-weight:400;color:var(--white);line-height:1.25;margin-bottom:24px;}
+.countdown-title .highlight{font-style:italic;color:var(--gold);}
+.countdown-description{font-size:15px;color:rgba(255,255,255,.7);line-height:1.7;max-width:720px;margin:0 auto 40px;}
+.countdown-timer{display:flex;justify-content:center;gap:12px;margin-bottom:40px;align-items:flex-start;}
+.countdown-unit{background:rgba(17,34,64,.7);border:1px solid rgba(197,164,78,.2);border-radius:10px;padding:20px 24px;min-width:110px;text-align:center;}
+.countdown-number{font-family:'Instrument Serif',serif;font-size:52px;font-weight:400;color:var(--gold);line-height:1;margin-bottom:6px;display:block;}
+.countdown-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.countdown-separator{font-size:36px;color:rgba(197,164,78,.25);padding-top:16px;align-self:flex-start;}
+.countdown-ctas{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+.btn-countdown-primary{background:var(--gold);color:var(--navy-deep);padding:14px 32px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;border:none;cursor:pointer;font-family:inherit;}
+.btn-countdown-primary:hover{background:var(--gold-bright);transform:translateY(-2px);box-shadow:0 8px 24px rgba(197,164,78,.3);}
+.btn-countdown-secondary{background:transparent;color:var(--white);padding:14px 32px;border-radius:4px;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;transition:all .3s;border:1px solid rgba(197,164,78,.3);cursor:pointer;font-family:inherit;}
+.btn-countdown-secondary:hover{border-color:var(--gold);color:var(--gold);}
+.countdown-back-link{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.4);text-decoration:none;transition:color .3s;}
+.countdown-back-link:hover{color:var(--gold);}
+@media(max-width:768px){.countdown-timer{flex-wrap:wrap;gap:8px;}.countdown-unit{min-width:80px;padding:14px 16px;}.countdown-number{font-size:36px;}.countdown-separator{display:none;}}
+
 .vet-visual { width: 100%; max-width: 480px; }
 .vet-flag-bar {
   height: 4px;
@@ -1283,270 +525,6 @@ body {
 .vet-stat-card .vstat-label {
   font-size: 10px; letter-spacing: 1px;
   text-transform: uppercase; color: rgba(255,255,255,0.45); margin-top: 6px;
-}
-/* Alert stat cards - highlight the crisis */
-.vet-stat-alert {
-  border-color: rgba(178,34,52,0.3);
-  background: rgba(178,34,52,0.08);
-}
-.vet-stat-alert .vstat-num {
-  color: var(--red);
-}
-.vet-stat-alert .vstat-label {
-  color: rgba(178,34,52,0.6);
-}
-/* Promise bar below stats */
-.vet-promise {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 24px;
-}
-.vet-promise-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(197,164,78,0.2), transparent);
-}
-.vet-promise-text {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: rgba(197,164,78,0.5);
-  white-space: nowrap;
-}
-
-/* Security Visual Card */
-.security-visual-card {
-  position: relative;
-  max-width: 520px;
-  padding: 0;
-  background: transparent;
-}
-
-.security-headline {
-  font-family: 'Instrument Serif', serif;
-  font-size: 24px;
-  color: var(--white);
-  line-height: 1.3;
-  margin-bottom: 12px;
-  text-align: center;
-}
-
-.security-headline em {
-  font-style: italic;
-  color: var(--gold);
-}
-
-/* === Shield Radar Visual === */
-.shield-radar {
-  position: relative;
-  width: 380px;
-  height: 380px;
-  margin: 0 auto;
-}
-
-/* Concentric defense rings */
-.shield-ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(197,164,78,0.08);
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-}
-.shield-ring.r1 { width: 360px; height: 360px; border-color: rgba(197,164,78,0.06); }
-.shield-ring.r2 { width: 260px; height: 260px; border-color: rgba(197,164,78,0.10); }
-.shield-ring.r3 { width: 160px; height: 160px; border-color: rgba(197,164,78,0.15); }
-
-/* Rotating scan line */
-.shield-scan {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 180px; height: 2px;
-  transform-origin: 0 50%;
-  animation: radarSweep 6s linear infinite;
-  background: linear-gradient(90deg, rgba(197,164,78,0.3), transparent);
-  z-index: 2;
-}
-.shield-scan::after {
-  content: '';
-  position: absolute;
-  top: -40px; left: -2px;
-  width: 180px; height: 80px;
-  transform-origin: 0 50%;
-  background: conic-gradient(from 0deg, rgba(197,164,78,0.06), transparent 30%);
-  border-radius: 0 50% 50% 0;
-}
-
-@keyframes radarSweep {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* Center shield icon */
-.shield-core {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 80px; height: 80px;
-  z-index: 5;
-  display: flex; align-items: center; justify-content: center;
-  flex-direction: column;
-}
-.shield-core-icon {
-  width: 56px; height: 56px;
-  background: radial-gradient(circle, rgba(197,164,78,0.12), rgba(10,22,40,0.9));
-  border: 1.5px solid rgba(197,164,78,0.35);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 40px rgba(197,164,78,0.1), 0 0 80px rgba(197,164,78,0.04), inset 0 0 20px rgba(197,164,78,0.05);
-  animation: shieldPulse 3s ease-in-out infinite;
-}
-.shield-core-icon svg { width: 26px; height: 26px; fill: var(--gold); opacity: 0.8; }
-
-@keyframes shieldPulse {
-  0%, 100% { box-shadow: 0 0 40px rgba(197,164,78,0.1), 0 0 80px rgba(197,164,78,0.04); }
-  50% { box-shadow: 0 0 50px rgba(197,164,78,0.18), 0 0 100px rgba(197,164,78,0.08); }
-}
-
-/* Feature nodes positioned around the shield */
-.shield-feature {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  z-index: 4;
-  opacity: 0;
-  animation: featureReveal 0.6s ease forwards;
-}
-.shield-feature:nth-child(5) { animation-delay: 0.3s; }
-.shield-feature:nth-child(6) { animation-delay: 0.6s; }
-.shield-feature:nth-child(7) { animation-delay: 0.9s; }
-.shield-feature:nth-child(8) { animation-delay: 1.2s; }
-
-@keyframes featureReveal {
-  from { opacity: 0; transform: scale(0.9) translateY(6px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-/* Position each feature around the radar */
-.shield-feature.pos-tl { top: 18px; left: -10px; }
-.shield-feature.pos-tr { top: 18px; right: -10px; flex-direction: row-reverse; text-align: right; }
-.shield-feature.pos-bl { bottom: 18px; left: -10px; }
-.shield-feature.pos-br { bottom: 18px; right: -10px; flex-direction: row-reverse; text-align: right; }
-
-.shield-feature-dot {
-  width: 44px; height: 44px;
-  min-width: 44px;
-  border-radius: 50%;
-  background: rgba(10,22,40,0.85);
-  border: 1px solid rgba(197,164,78,0.25);
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 0 20px rgba(197,164,78,0.06);
-  transition: all 0.4s ease;
-}
-.shield-feature:hover .shield-feature-dot {
-  border-color: rgba(197,164,78,0.5);
-  box-shadow: 0 0 30px rgba(197,164,78,0.12);
-  transform: scale(1.08);
-}
-.shield-feature-dot svg { width: 20px; height: 20px; fill: var(--gold); opacity: 0.75; }
-
-.shield-feature-text {
-  display: flex; flex-direction: column; gap: 2px;
-}
-.shield-feature-title {
-  font-size: 12px; font-weight: 600;
-  color: rgba(255,255,255,0.85);
-  letter-spacing: 0.3px;
-  line-height: 1.2;
-}
-.shield-feature-sub {
-  font-size: 10px;
-  color: rgba(197,164,78,0.5);
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-
-/* Connection lines from features to rings */
-.shield-connector {
-  position: absolute;
-  z-index: 3;
-  opacity: 0.15;
-}
-.shield-connector line { stroke: var(--gold); stroke-width: 0.5; stroke-dasharray: 3 5; }
-
-/* Data stream particles */
-.shield-particle {
-  position: absolute;
-  width: 3px; height: 3px;
-  background: var(--gold);
-  border-radius: 50%;
-  opacity: 0;
-  z-index: 3;
-}
-.shield-particle.p1 {
-  animation: particleFloat1 4s ease-in-out infinite;
-  top: 30%; left: 20%;
-}
-.shield-particle.p2 {
-  animation: particleFloat2 5s ease-in-out infinite 1s;
-  top: 60%; right: 25%;
-}
-.shield-particle.p3 {
-  animation: particleFloat3 4.5s ease-in-out infinite 2s;
-  bottom: 30%; left: 35%;
-}
-.shield-particle.p4 {
-  animation: particleFloat1 5.5s ease-in-out infinite 0.5s;
-  top: 25%; right: 35%;
-}
-.shield-particle.p5 {
-  animation: particleFloat2 4s ease-in-out infinite 1.5s;
-  bottom: 35%; right: 20%;
-}
-
-@keyframes particleFloat1 {
-  0%, 100% { opacity: 0; transform: translate(0, 0) scale(0.5); }
-  20% { opacity: 0.5; }
-  50% { opacity: 0.3; transform: translate(-15px, -20px) scale(1); }
-  80% { opacity: 0.5; }
-}
-@keyframes particleFloat2 {
-  0%, 100% { opacity: 0; transform: translate(0, 0) scale(0.5); }
-  20% { opacity: 0.4; }
-  50% { opacity: 0.25; transform: translate(20px, -15px) scale(1.2); }
-  80% { opacity: 0.4; }
-}
-@keyframes particleFloat3 {
-  0%, 100% { opacity: 0; transform: translate(0, 0) scale(0.5); }
-  25% { opacity: 0.45; }
-  50% { opacity: 0.3; transform: translate(-10px, 25px) scale(0.8); }
-  75% { opacity: 0.45; }
-}
-
-/* Crosshair lines */
-.shield-crosshair {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 360px; height: 360px;
-  z-index: 1;
-}
-.shield-crosshair::before,
-.shield-crosshair::after {
-  content: '';
-  position: absolute;
-  background: rgba(197,164,78,0.04);
-}
-.shield-crosshair::before {
-  width: 100%; height: 1px;
-  top: 50%; left: 0;
-}
-.shield-crosshair::after {
-  width: 1px; height: 100%;
-  left: 50%; top: 0;
 }
 
 /* Carousel controls */
@@ -1597,188 +575,7 @@ body {
   transform: translateY(-2px);
 }
 
-/* ===== POWERED BY TETRA BAR — GOLD FIRE TEXT ===== */
-.tetra-bar {
-  background: var(--navy-deep);
-  border-top: 1px solid rgba(197,164,78,0.15);
-  border-bottom: 1px solid rgba(197,164,78,0.15);
-  padding: 22px 40px;
-  position: relative;
-  overflow: hidden;
-}
-/* Subtle radial glow behind text only */
-.tetra-bar::before {
-  content: '';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 500px; height: 80px;
-  background: radial-gradient(ellipse, rgba(197,164,78,0.06) 0%, transparent 70%);
-  pointer-events: none;
-  animation: textGlowBg 3s ease-in-out infinite;
-}
-@keyframes textGlowBg {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 1; }
-}
-/* Single shimmer sweep */
-.tetra-bar::after {
-  content: '';
-  position: absolute;
-  top: 0; left: -50%;
-  width: 50%; height: 100%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(232,212,139,0.04) 40%,
-    rgba(232,212,139,0.08) 50%,
-    rgba(232,212,139,0.04) 60%,
-    transparent 100%
-  );
-  animation: textShimmer 5s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes textShimmer {
-  0% { left: -50%; }
-  100% { left: 150%; }
-}
-/* Ember border lines */
-.tetra-bar-ember-top, .tetra-bar-ember-bottom {
-  position: absolute;
-  left: 10%; right: 10%;
-  height: 1px;
-  pointer-events: none;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(197,164,78,0.15) 20%,
-    rgba(232,212,139,0.4) 50%,
-    rgba(197,164,78,0.15) 80%,
-    transparent 100%
-  );
-}
-.tetra-bar-ember-top {
-  top: 0;
-  animation: emberLine 3s ease-in-out infinite;
-}
-.tetra-bar-ember-bottom {
-  bottom: 0;
-  animation: emberLine 3s ease-in-out infinite 1.5s;
-}
-@keyframes emberLine {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-.tetra-bar-shimmer2 { display: none; }
-.tetra-bar-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-  position: relative;
-  z-index: 2;
-}
-.tetra-bar-line {
-  width: 48px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(197,164,78,0.3), transparent);
-}
-.tetra-bar-pulse {
-  width: 5px; height: 5px;
-  border-radius: 50%;
-  background: var(--gold);
-  box-shadow: 0 0 8px rgba(197,164,78,0.6), 0 0 20px rgba(197,164,78,0.2);
-  animation: firePulse 2.5s ease-in-out infinite;
-}
-@keyframes firePulse {
-  0%, 100% { 
-    transform: scale(0.8);
-    box-shadow: 0 0 4px rgba(197,164,78,0.4), 0 0 10px rgba(197,164,78,0.15);
-  }
-  50% { 
-    transform: scale(1.3);
-    box-shadow: 0 0 8px rgba(232,212,139,0.8), 0 0 20px rgba(197,164,78,0.4);
-  }
-}
-.tetra-bar-link {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  padding: 4px 0;
-}
-.tetra-bar-link:hover .tetra-bar-label {
-  filter: drop-shadow(0 0 20px rgba(232,212,139,0.6)) drop-shadow(0 0 40px rgba(197,164,78,0.3));
-}
-.tetra-bar-link:hover .tetra-bar-desc { color: rgba(232,212,139,0.5); }
-.tetra-bar-link:hover .tetra-bar-arrow { opacity: 1; transform: translateX(3px); }
-.tetra-bar-powered {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: rgba(197,164,78,0.45);
-}
-.tetra-bar-label {
-  font-family: 'Instrument Serif', serif;
-  font-size: 22px;
-  letter-spacing: 3px;
-  transition: all 0.4s ease;
-  background: linear-gradient(180deg,
-    #F0E4A8 0%,
-    #E8D48B 20%,
-    #C5A44E 50%,
-    #E8D48B 80%,
-    #F0E4A8 100%
-  );
-  background-size: 100% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 10px rgba(197,164,78,0.35));
-  animation: goldFire 3s ease-in-out infinite;
-}
-@keyframes goldFire {
-  0%, 100% {
-    background-position: 0% 0%;
-    filter: drop-shadow(0 0 8px rgba(197,164,78,0.25));
-  }
-  50% {
-    background-position: 0% 100%;
-    filter: drop-shadow(0 0 16px rgba(232,212,139,0.5)) drop-shadow(0 0 32px rgba(197,164,78,0.15));
-  }
-}
-.tetra-bar-tm {
-  font-family: 'Instrument Sans', sans-serif;
-  font-size: 9px;
-  vertical-align: super;
-  -webkit-text-fill-color: rgba(232,212,139,0.5);
-}
-.tetra-bar-sep {
-  font-size: 12px;
-  color: rgba(197,164,78,0.25);
-}
-.tetra-bar-desc {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: rgba(197,164,78,0.3);
-  transition: color 0.3s ease;
-}
-.tetra-bar-arrow {
-  font-size: 14px;
-  color: rgba(197,164,78,0.35);
-  opacity: 0;
-  transition: all 0.3s ease;
-}
-
-@media (max-width: 768px) {
-  .tetra-bar { padding: 16px 20px; }
-  .tetra-bar-line { display: none; }
-  .tetra-bar-label { font-size: 17px; letter-spacing: 2px; }
-  .tetra-bar-desc { font-size: 8px; letter-spacing: 1.5px; }
-}
+/* ===== GOLD TICKER ===== */
 .gold-ticker {
   background: var(--gold); overflow: hidden;
   padding: 14px 0; position: relative; z-index: 2;
@@ -1846,361 +643,105 @@ body {
   font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 640px;
 }
 
-/* CMS Health Tech Ecosystem — Redesigned */
-.cms-ecosystem {
-  background: linear-gradient(180deg, var(--navy-deep) 0%, #060e1a 100%);
-  color: var(--white);
-  padding: 120px 40px;
-  position: relative;
-  overflow: hidden;
+/* At a Glance */
+.glance-section { background: var(--white); }
+.glance-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 32px; margin-top: 48px;
 }
-.cms-ecosystem::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(197,164,78,0.2), transparent);
+.glance-card {
+  padding: 32px 24px;
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  text-align: center; transition: all 0.3s ease;
 }
-.cms-inner {
-  max-width: 1000px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
+.glance-card:hover {
+  border-color: rgba(197,164,78,0.3);
+  box-shadow: 0 8px 32px rgba(197,164,78,0.08);
+  transform: translateY(-4px);
 }
-
-/* Overline */
-.cms-overline {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 20px;
-  opacity: 0.8;
-}
-
-/* Big statement */
-.cms-headline {
+.glance-num {
   font-family: 'Instrument Serif', serif;
-  font-size: 42px;
-  line-height: 1.2;
-  color: var(--white);
-  margin-bottom: 20px;
-  max-width: 800px;
+  font-size: 42px; color: var(--gold); line-height: 1; margin-bottom: 8px;
 }
-.cms-headline em { font-style: italic; color: var(--gold); }
+.glance-label {
+  font-size: 12px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--text-dark); margin-bottom: 8px;
+}
+.glance-desc { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
 
-/* Subhead — the indictment */
-.cms-subhead {
-  font-size: 18px;
-  color: rgba(255,255,255,0.45);
-  line-height: 1.7;
-  max-width: 720px;
-  margin-bottom: 64px;
+/* Three Pillars */
+.pillars-section { background: var(--cream); }
+.pillars-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 32px; margin-top: 48px;
 }
-.cms-subhead strong { color: rgba(255,255,255,0.75); font-weight: 600; }
-
-/* ===== ANIMATED CMS APPROVAL BADGE ===== */
-.cms-approval-visual {
-  position: relative;
-  margin: 0 auto 72px;
-  max-width: 900px;
+.pillar-card {
+  background: var(--white);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 8px;
+  padding: 48px 32px; transition: all 0.4s ease;
+  position: relative; overflow: hidden;
 }
-
-/* The glowing badge */
-.cms-stamp {
-  display: flex;
-  align-items: stretch;
-  gap: 0;
-  background: rgba(10,22,40,0.6);
-  border: 1px solid rgba(197,164,78,0.15);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 0 80px rgba(197,164,78,0.04), 0 20px 60px rgba(0,0,0,0.4);
+.pillar-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.4s ease;
 }
-.cms-stamp-badge {
-  flex: 0 0 200px;
-  background: linear-gradient(135deg, rgba(197,164,78,0.1), rgba(197,164,78,0.03));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 24px;
-  position: relative;
-  border-right: 1px solid rgba(197,164,78,0.1);
-}
-.cms-stamp-shield {
-  width: 72px; height: 72px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(197,164,78,0.15), transparent 70%);
-  border: 2px solid rgba(197,164,78,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 16px;
-  animation: approvalPulse 3s ease-in-out infinite;
-}
-.cms-stamp-shield svg { width: 32px; height: 32px; fill: var(--gold); }
-@keyframes approvalPulse {
-  0%, 100% { box-shadow: 0 0 30px rgba(197,164,78,0.1); }
-  50% { box-shadow: 0 0 50px rgba(197,164,78,0.2), 0 0 80px rgba(197,164,78,0.06); }
-}
-.cms-stamp-label {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  text-align: center;
-  line-height: 1.4;
-}
-.cms-stamp-status {
-  margin-top: 12px;
-  padding: 4px 14px;
-  border-radius: 100px;
-  background: rgba(197,164,78,0.12);
-  border: 1px solid rgba(197,164,78,0.25);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-  color: var(--gold);
-}
-
-.cms-stamp-content {
-  flex: 1;
-  padding: 40px 44px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Pledge categories inside the stamp — horizontal */
-.cms-pledge-cats {
-  display: flex;
-  gap: 24px;
+.pillar-card:hover::before { transform: scaleX(1); }
+.pillar-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(0,0,0,0.08); }
+.pillar-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: rgba(197,164,78,0.08);
+  display: flex; align-items: center; justify-content: center;
   margin-bottom: 24px;
 }
-.cms-pledge-cat {
-  flex: 1;
-  padding: 20px;
-  background: rgba(6,14,26,0.5);
-  border: 1px solid rgba(197,164,78,0.06);
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-.cms-pledge-cat:hover {
-  border-color: rgba(197,164,78,0.2);
-  background: rgba(6,14,26,0.7);
-}
-.cms-pledge-cat-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  background: rgba(197,164,78,0.08);
-  margin-bottom: 12px;
-}
-.cms-pledge-cat-icon svg { width: 16px; height: 16px; fill: var(--gold); opacity: 0.7; }
-.cms-pledge-cat-name {
+.pillar-icon svg { width: 28px; height: 28px; fill: var(--gold); }
+.pillar-card h3 {
   font-family: 'Instrument Serif', serif;
-  font-size: 16px;
-  color: var(--white);
-  margin-bottom: 4px;
+  font-size: 24px; color: var(--navy); margin-bottom: 12px;
 }
-.cms-pledge-cat-sub {
-  font-size: 11px;
-  color: rgba(255,255,255,0.35);
-  line-height: 1.5;
+.pillar-card p {
+  font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 20px;
 }
-.cms-stamp-source {
-  font-size: 11px;
-  color: rgba(255,255,255,0.2);
+.pillar-link {
+  font-size: 12px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gold); text-decoration: none;
+  transition: gap 0.3s ease;
+  display: inline-flex; align-items: center; gap: 8px;
 }
-.cms-stamp-source a {
-  color: rgba(197,164,78,0.4);
-  text-decoration: none;
-  transition: color 0.3s;
-}
-.cms-stamp-source a:hover { color: var(--gold); }
+.pillar-link:hover { gap: 12px; }
 
-/* ===== VISION PULLQUOTE ===== */
-.cms-vision {
-  position: relative;
-  padding: 48px 0 48px 40px;
-  margin-bottom: 64px;
-  border-left: 2px solid rgba(197,164,78,0.25);
+/* Why InPursuit */
+.why-section {
+  background: var(--navy-deep); color: var(--white);
+  position: relative; overflow: hidden;
 }
-.cms-vision::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -1px;
-  width: 2px; height: 100%;
-  background: linear-gradient(180deg, var(--gold), rgba(197,164,78,0.1));
+.why-section::before {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(197,164,78,0.04) 0%, transparent 70%);
+  pointer-events: none;
 }
-.cms-vision-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--gold);
-  opacity: 0.6;
-  margin-bottom: 16px;
+.why-section .section-headline { color: var(--white); }
+.why-section .section-desc { color: rgba(255,255,255,0.5); }
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; margin-top: 48px;
 }
-.cms-vision-text {
+.why-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 8px; padding: 36px 28px; transition: all 0.3s ease;
+}
+.why-card:hover { border-color: rgba(197,164,78,0.2); transform: translateY(-4px); }
+.why-card .why-num {
   font-family: 'Instrument Serif', serif;
-  font-size: 26px;
-  line-height: 1.45;
-  color: rgba(255,255,255,0.8);
-  font-style: italic;
+  font-size: 14px; color: var(--gold); letter-spacing: 2px; margin-bottom: 12px;
 }
-.cms-vision-text strong {
-  color: var(--gold);
-  font-weight: 400;
-  font-style: italic;
+.why-card h4 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--white); margin-bottom: 10px;
 }
-
-/* ===== ECOSYSTEM LOGO CLOUD ===== */
-.cms-cloud {
-  margin-bottom: 64px;
-  position: relative;
-}
-.cms-cloud-header {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 32px;
-}
-.cms-cloud-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, rgba(197,164,78,0.15), transparent);
-}
-.cms-cloud-label {
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 2.5px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,0.25);
-  white-space: nowrap;
-}
-
-/* The grid */
-.cms-cloud-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-/* Individual logo tiles */
-.cms-logo-tile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  background: rgba(10,22,40,0.5);
-  border: 1px solid rgba(255,255,255,0.04);
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.4);
-  letter-spacing: 0.2px;
-  transition: all 0.4s ease;
-  cursor: default;
-  white-space: nowrap;
-}
-.cms-logo-tile:hover {
-  border-color: rgba(255,255,255,0.08);
-  color: rgba(255,255,255,0.6);
-  background: rgba(10,22,40,0.7);
-  transform: translateY(-1px);
-}
-.cms-logo-tile .tile-icon {
-  width: 24px; height: 24px;
-  border-radius: 6px;
-  object-fit: contain;
-  opacity: 0.5;
-  transition: opacity 0.4s ease;
-}
-.cms-logo-tile:hover .tile-icon { opacity: 0.7; }
-
-/* InPursuit — THE highlighted one */
-.cms-logo-tile.ip-hero {
-  background: linear-gradient(135deg, rgba(197,164,78,0.1), rgba(197,164,78,0.03));
-  border: 1.5px solid rgba(197,164,78,0.3);
-  color: var(--gold);
-  font-weight: 700;
-  font-size: 14px;
-  padding: 14px 28px;
-  box-shadow: 0 0 40px rgba(197,164,78,0.06), 0 0 80px rgba(197,164,78,0.03);
-  animation: ipTileGlow 4s ease-in-out infinite;
-  position: relative;
-}
-.cms-logo-tile.ip-hero .tile-icon { opacity: 1; }
-.cms-logo-tile.ip-hero::after {
-  content: '✓ APPROVED';
-  position: absolute;
-  top: -8px; right: -4px;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  color: #0a1628;
-  background: var(--gold);
-  padding: 2px 8px;
-  border-radius: 100px;
-  line-height: 1.4;
-}
-@keyframes ipTileGlow {
-  0%, 100% { box-shadow: 0 0 30px rgba(197,164,78,0.06), 0 0 60px rgba(197,164,78,0.02); }
-  50% { box-shadow: 0 0 50px rgba(197,164,78,0.1), 0 0 100px rgba(197,164,78,0.04); }
-}
-
-/* "+more" chip */
-.cms-logo-tile.more-chip {
-  background: transparent;
-  border: 1px dashed rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.2);
-  font-style: italic;
-  font-size: 12px;
-}
-
-/* ===== CTA ===== */
-.cms-bottom-cta {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  flex-wrap: wrap;
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .cms-stamp { flex-direction: column; }
-  .cms-stamp-badge {
-    flex: none;
-    flex-direction: row;
-    gap: 16px;
-    padding: 24px;
-    border-right: none;
-    border-bottom: 1px solid rgba(197,164,78,0.1);
-  }
-  .cms-stamp-shield { margin-bottom: 0; width: 56px; height: 56px; }
-  .cms-stamp-content { padding: 28px 24px; }
-  .cms-pledge-cats { flex-direction: column; gap: 12px; }
-}
-@media (max-width: 768px) {
-  .cms-ecosystem { padding: 72px 20px; }
-  .cms-headline { font-size: 30px; }
-  .cms-vision-text { font-size: 20px; }
-  .cms-vision { padding-left: 24px; }
-  .cms-stamp-badge { flex-direction: column; text-align: center; }
-  .cms-stamp-shield { margin-bottom: 8px; }
-  .cms-cloud-grid { gap: 6px; }
-  .cms-logo-tile { font-size: 11px; padding: 8px 14px; }
-  .cms-logo-tile .tile-icon { width: 18px; height: 18px; }
-  .cms-logo-tile.ip-hero { font-size: 12px; padding: 10px 20px; }
-}
+.why-card p { font-size: 13px; color: rgba(255,255,255,0.45); line-height: 1.6; }
 
 /* CTA Section */
 .cta-section {
@@ -2220,35 +761,6 @@ body {
 .cta-content p {
   font-size: 16px; color: rgba(255,255,255,0.5);
   line-height: 1.7; margin-bottom: 36px;
-}
-/* Large CTA buttons with taglines */
-.btn-cta-large {
-  flex-direction: column;
-  padding: 20px 40px;
-  min-width: 240px;
-  text-align: center;
-  gap: 4px;
-}
-.btn-cta-label {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-.btn-cta-tagline {
-  font-family: 'Instrument Serif', serif;
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: 0.5px;
-  text-transform: none;
-  opacity: 0.7;
-  font-style: italic;
-}
-.btn-outline .btn-cta-tagline {
-  opacity: 0.5;
-}
-@media (max-width: 768px) {
-  .btn-cta-large { min-width: 200px; padding: 16px 28px; }
 }
 
 /* Footer */
@@ -2301,6 +813,9 @@ body {
 @media (max-width: 1024px) {
   .slide-content { grid-template-columns: 1fr; gap: 40px; }
   .slide-content .slide-visual { order: -1; }
+  .glance-grid { grid-template-columns: repeat(2, 1fr); }
+  .pillars-grid { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 768px) {
   .top-bar-inner { padding: 0 20px; }
@@ -2322,6 +837,7 @@ body {
   }
   .hero-slide { padding: 40px 20px; }
   .section { padding: 60px 20px; }
+  .glance-grid { grid-template-columns: 1fr; }
   .trust-logos { gap: 24px; }
   .hero-controls { bottom: 24px; }
   .mag-constellation { height: 340px; max-width: 400px; }
@@ -2330,23 +846,6 @@ body {
   .mag-node .node-text { font-size: 7px; }
   .family-orbit { width: 90px; height: 90px; margin-left: -45px; margin-top: -45px; }
   .hero-pause { bottom: 24px; right: 20px; }
-  .shield-radar { width: 300px; height: 300px; }
-  .shield-ring.r1 { width: 280px; height: 280px; }
-  .shield-ring.r2 { width: 200px; height: 200px; }
-  .shield-ring.r3 { width: 120px; height: 120px; }
-  .shield-crosshair { width: 280px; height: 280px; }
-  .shield-scan { width: 140px; }
-  .shield-feature { gap: 8px; }
-  .shield-feature-dot { width: 36px; height: 36px; min-width: 36px; }
-  .shield-feature-dot svg { width: 16px; height: 16px; }
-  .shield-feature-title { font-size: 10px; }
-  .shield-feature-sub { font-size: 8px; }
-  .shield-feature.pos-tl { top: 8px; left: -5px; }
-  .shield-feature.pos-tr { top: 8px; right: -5px; }
-  .shield-feature.pos-bl { bottom: 8px; left: -5px; }
-  .shield-feature.pos-br { bottom: 8px; right: -5px; }
-  .security-headline { font-size: 20px; }
-  #node-wellness .node-dot { width: 52px; height: 52px; }
 }
 </style>
 </head>
@@ -2360,19 +859,17 @@ body {
 <!-- Top Bar -->
 <header class="top-bar" id="topBar">
   <div class="top-bar-inner">
-    <div style="display: flex; align-items: center; gap: 8px;">
-      <a class="top-bar-brand" href="index.html">
-        <div class="top-bar-wordmark">InPursuit Health</div>
-      </a>
-      <span style="color: rgba(255,255,255,0.4); margin: 0 4px;">|</span>
-      <a href="maha.html" style="font-size: 13px; color: var(--white); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap; font-weight: 500;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white)'">MAHA Policy Alignment</a>
-    </div>
-    <nav class="top-bar-nav" id="topNav">
+    <a class="top-bar-brand" href="index.html" style="display: flex; align-items: center; gap: 2px;">
+      <div class="top-bar-wordmark">InPursuit Health</div>
+      <span style="color: rgba(255,255,255,0.4); margin: 0 2px;">|</span>
+      <a href="maha.html" style="font-size: 13px; color: rgba(255,255,255,0.7); text-decoration: none; letter-spacing: 0.5px; transition: color 0.3s ease; white-space: nowrap;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,0.7)'">MAHA Policy Alignment</a>
+    </a>
+    <nav class="top-bar-nav" id="mainNav">
       <a class="nav-item" href="for-you.html">For You</a>
       <a class="nav-item" href="for-providers.html">For Providers</a>
       <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
-      <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
-      <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First</a>
+      <a class="nav-item" href="partner-network.html">Partner Network</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -2394,241 +891,90 @@ body {
     <!-- SLIDE 1: Patient Constellation -->
     <div class="hero-slide active" data-slide="0">
       <div class="hero-slide-inner slide-constellation">
+        <p class="hero-overline">Harness the Power of Your Data&trade;</p>
         <div class="mag-constellation" id="magConstellation">
           <canvas class="mag-lines" id="magLines"></canvas>
           <div class="mag-orbit-ring r1"></div>
           <div class="mag-orbit-ring r2"></div>
 
           <!-- Center: YOU -->
-          <div class="mag-center" onclick="toggleOrbPopup(this, event)">
+          <div class="mag-center">
             <div class="mag-center-ring"></div>
             <span class="mag-center-label">YOU</span>
             <span class="mag-center-amp">&amp;</span>
             <span class="mag-center-sub">Your Data</span>
-            <div class="mag-center-shield"><svg viewBox="0 0 24 24" width="18" height="18"><path fill="rgba(197,164,78,0.7)" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Your Health. Your Rules.</div>
-              <div class="orb-popup-text">Every piece of your health data — owned by you, controlled by you, working for you. One app. Total transparency.</div>
-            </div>
+            <div class="mag-center-shield"><svg viewBox="0 0 24 24" width="12" height="12"><path fill="rgba(197,164,78,0.4)" d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
           </div>
 
           <!-- Family: Inner orbit -->
           <div class="family-orbit">
-            <div class="family-node" onclick="showFamilyPopup(event)">
+            <div class="family-node">
               <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
             </div>
           </div>
 
           <!-- Outer nodes: magnetically drifting -->
           <!-- Pharmacy: Top -->
-          <div class="mag-node" id="node-pharmacy" data-base-x="310" data-base-y="70" data-gravity="1.0" onclick="toggleOrbPopup(this, event)">
+          <div class="mag-node" id="node-pharmacy" data-base-x="310" data-base-y="70">
             <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M6 3v2h12V3H6zm0 18h12v-2H6v2zm8-14H10c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 8h-4v-2h4v2zm0-4h-4V9h4v2z"/></svg></div>
             <span class="node-text">Pharmacy</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Your Prescriptions, Finally Affordable</div>
-              <div class="orb-popup-price">
-                <span class="price-old">$340</span>
-                <span class="price-new">$47</span>
-              </div>
-              <div class="orb-popup-text" style="margin-top:6px;">Real-time comparison pricing across pharmacies. Same medication — the price you deserve.</div>
-            </div>
           </div>
           <!-- Providers: Far left -->
-          <div class="mag-node" id="node-providers" data-base-x="75" data-base-y="180" data-gravity="1.2" onclick="toggleOrbPopup(this, event)">
+          <div class="mag-node" id="node-providers" data-base-x="130" data-base-y="245">
             <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M18 14h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg></div>
             <span class="node-text">Providers</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">The Right Doctor. Data-Matched.</div>
-              <div class="orb-popup-text">Find providers matched by your conditions, history, and outcomes — not ads or proximity alone.</div>
-            </div>
           </div>
           <!-- Treatment: Upper right -->
-          <div class="mag-node" id="node-treatment" data-base-x="545" data-base-y="140" data-gravity="1.2" onclick="toggleOrbPopup(this, event)">
+          <div class="mag-node" id="node-treatment" data-base-x="490" data-base-y="170">
             <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></div>
             <span class="node-text">Treatment</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Proactive. Personal. Precise.</div>
-              <div class="orb-popup-text">Treatment plans built around your data — more engaged, more connected, better outcomes.</div>
-            </div>
           </div>
-          <!-- Wellness: Lower right — strongest pull -->
-          <div class="mag-node" id="node-wellness" data-base-x="440" data-base-y="280" data-gravity="3.5" onclick="toggleOrbPopup(this, event)">
+          <!-- Wellness: Lower right -->
+          <div class="mag-node" id="node-wellness" data-base-x="485" data-base-y="340">
             <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
             <span class="node-text">Wellness</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Daily Insights That Move the Needle</div>
-              <div class="orb-popup-text">AI-powered wellness scoring, nutrition tracking, and activity goals — all connected to your clinical data.</div>
-            </div>
           </div>
-          <!-- Insurance: Bottom left -->
-          <div class="mag-node" id="node-insurance" data-base-x="220" data-base-y="440" data-gravity="1.2" onclick="toggleOrbPopup(this, event)">
+          <!-- Payers: Bottom -->
+          <div class="mag-node" id="node-payers" data-base-x="310" data-base-y="430">
             <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
-            <span class="node-text">Insurance</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Every Benefit You're Owed</div>
-              <div class="orb-popup-text">One clear view of your coverage, deductibles, and out-of-pocket — no more surprise bills.</div>
-            </div>
-          </div>
-          <!-- Lab Results: Right -->
-          <div class="mag-node" id="node-labs" data-base-x="200" data-base-y="90" data-gravity="1.5" onclick="toggleOrbPopup(this, event)">
-            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M7 2v2h1v14c0 2.21 1.79 4 4 4s4-1.79 4-4V4h1V2H7zm8 16c0 1.1-.9 2-2 2s-2-.9-2-2V4h4v14z"/></svg></div>
-            <span class="node-text">Lab Results</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Results in Plain Language</div>
-              <div class="orb-popup-text">Your labs explained instantly — what's normal, what's changed, and what to do about it.</div>
-            </div>
-          </div>
-          <!-- Records: Left -->
-          <div class="mag-node" id="node-records" data-base-x="130" data-base-y="410" data-gravity="1.0" onclick="toggleOrbPopup(this, event)">
-            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 9h-2v2H9v-2H7V9h2V7h2v2h2v2zm2-4V3.5L18.5 7H15z"/></svg></div>
-            <span class="node-text">Records</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Your Complete History. Yours.</div>
-              <div class="orb-popup-text">Every visit, every scan, every note — portable, unified, and in your hands forever.</div>
-            </div>
-          </div>
-          <!-- Mental Health: Near Wellness, satellite -->
-          <div class="mag-node mag-satellite" id="node-mental" data-base-x="570" data-base-y="340" data-gravity="2.8" onclick="toggleOrbPopup(this, event)">
-            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
-            <span class="node-text">Mental Health</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Support When You Need It</div>
-              <div class="orb-popup-text">Not when you can schedule it. Connected, confidential mental health resources at your pace.</div>
-            </div>
-          </div>
-          <!-- Nutrition: Near Wellness, satellite -->
-          <div class="mag-node mag-satellite" id="node-nutrition" data-base-x="550" data-base-y="410" data-gravity="2.5" onclick="toggleOrbPopup(this, event)">
-            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M18.06 22.99h1.66c.84 0 1.53-.64 1.63-1.46L23 5.05h-5V1h-1.97v4.05h-4.97l.3 2.34c1.71.47 3.31 1.32 4.27 2.26 1.44 1.42 2.43 2.89 2.43 5.29v8.05zM1 21.99V21h15.03v.99c0 .55-.45 1-1.01 1H2.01c-.56 0-1.01-.45-1.01-1zm15.03-7c0-4.5-6.77-5-8.52-5C5.76 9.99 1 10.49 1 14.99V18h15.03v-3.01z"/></svg></div>
-            <span class="node-text">Nutrition</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Eat Smarter. Feel Better.</div>
-              <div class="orb-popup-text">Meal plans and nutrition insights driven by your lab results, conditions, and wellness goals.</div>
-            </div>
-          </div>
-          <!-- Fitness: Near Wellness, satellite -->
-          <div class="mag-node mag-satellite" id="node-fitness" data-base-x="580" data-base-y="250" data-gravity="2.5" onclick="toggleOrbPopup(this, event)">
-            <div class="node-dot"><svg viewBox="0 0 24 24"><path d="M13.49 5.48c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm-3.6 13.9l1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3c1.3 1.5 3.3 2.5 5.5 2.5v-2c-1.9 0-3.5-1-4.3-2.4l-1-1.6c-.4-.6-1-1-1.7-1-.3 0-.5.1-.8.1l-5.2 2.2v4.7h2v-3.4l1.8-.7-1.6 8.1-4.9-1-.4 2 7 1.4z"/></svg></div>
-            <span class="node-text">Fitness</span>
-            <div class="orb-popup">
-              <div class="orb-popup-title">Move More. Recover Smarter.</div>
-              <div class="orb-popup-text">Activity tracking synced to your health profile — workouts that respect your conditions and goals.</div>
-            </div>
+            <span class="node-text">Payers</span>
           </div>
         </div>
         <h1>Your Health. Your Data.<br>Your Feed. Your <em>Rewards.</em></h1>
-
-        <!-- Family popup (outside rotating orbit) -->
-        <div class="orb-popup popup-left" id="familyPopup">
-          <div class="orb-popup-title">Family Care Hub</div>
-          <div class="orb-popup-text">Manage everyone's care in one place. Less time on hold, fewer missed appointments, real savings.</div>
-        </div>
         <div class="hero-cta-row">
-          <a class="btn-gold" href="for-you.html">Harness the Power of Your Data&trade; &rarr;</a>
-        </div>
-        <div class="hero-app-badges">
-          <a class="app-badge" href="#" onclick="event.preventDefault()">
-            <svg class="app-badge-icon" viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-            <div class="app-badge-text">
-              <span class="app-badge-small">Download on the</span>
-              <span class="app-badge-store">App Store</span>
-            </div>
-          </a>
-          <a class="app-badge" href="#" onclick="event.preventDefault()">
-            <svg class="app-badge-icon" viewBox="0 0 24 24"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.07l2.312 1.338a1 1 0 010 1.732L17.7 16.045l-2.508-2.508 2.508-2.508v.608zM5.864 2.658L16.8 8.99l-2.302 2.302L5.864 2.658z"/></svg>
-            <div class="app-badge-text">
-              <span class="app-badge-small">Get it on</span>
-              <span class="app-badge-store">Google Play</span>
-            </div>
-          </a>
+          <a class="btn-gold" href="for-you.html">Experience a Day in the Life of InPursuit &rarr;</a>
         </div>
         <div style="height:60px;"></div>
       </div>
     </div>
 
     <!-- SLIDE 2: AI & Your Data / Security -->
-
-    <!-- SLIDE 2: Data Security -->
     <div class="hero-slide" data-slide="1">
       <div class="hero-slide-inner slide-content">
         <div class="slide-text">
-          <div class="hero-tag">Security & Trust</div>
-          <p class="hero-overline">Harness the Power of Your Data™</p>
-          <h2>Your Data Is Yours.<br>We Guard It Like It's <em>Ours.</em></h2>
-          <p>Every American trusting InPursuit with their health data deserves more than a privacy policy. They deserve infrastructure that was built for the most security-sensitive environments on earth — and an AI oversight system that ensures no algorithm ever makes a decision without a human safety net.</p>
-          <a class="btn-gold" href="data-security-ai.html">See How We Protect Your Healthcare &amp; Wellness Data &rarr;</a>
+          <div class="hero-tag">AI &amp; Your Data</div>
+          <p class="hero-overline">Privacy-First. Always.</p>
+          <h2>Your data is <em>yours.</em><br>Period.</h2>
+          <p>We don't look at your data. We don't sell your data. We don't even have access to read it. End-to-end encryption means only you &mdash; and those you choose &mdash; can see your health information. Like WhatsApp, but for your most sensitive data: your health.</p>
+          <a class="btn-gold" href="data-security-ai.html">See How We Protect You &rarr;</a>
         </div>
         <div class="slide-visual">
-          <div class="security-visual-card">
-            <div class="security-headline">
-              Protecting Americans <em>from</em> AI<br>Not Just Connecting Them <em>to</em> It
-            </div>
-            <div class="shield-radar">
-              <!-- Crosshair grid -->
-              <div class="shield-crosshair"></div>
-
-              <!-- Concentric defense rings -->
-              <div class="shield-ring r1"></div>
-              <div class="shield-ring r2"></div>
-              <div class="shield-ring r3"></div>
-
-              <!-- Rotating scan line -->
-              <div class="shield-scan"></div>
-
-              <!-- Center shield -->
-              <div class="shield-core">
-                <div class="shield-core-icon">
-                  <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
-                </div>
+          <div class="slide-visual-card">
+            <div class="visual-stat">🔒</div>
+            <div class="visual-label">End-to-End Encryption</div>
+            <div class="visual-row">
+              <div class="visual-mini-stat">
+                <div class="visual-mini-num">Zero</div>
+                <div class="visual-mini-label">Data Sold</div>
               </div>
-
-              <!-- Floating data particles -->
-              <div class="shield-particle p1"></div>
-              <div class="shield-particle p2"></div>
-              <div class="shield-particle p3"></div>
-              <div class="shield-particle p4"></div>
-              <div class="shield-particle p5"></div>
-
-              <!-- Feature nodes around the perimeter -->
-              <div class="shield-feature pos-tl">
-                <div class="shield-feature-dot">
-                  <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-                </div>
-                <div class="shield-feature-text">
-                  <span class="shield-feature-title">Battle-Tested</span>
-                  <span class="shield-feature-sub">DoD/VA Validated</span>
-                </div>
+              <div class="visual-mini-stat">
+                <div class="visual-mini-num">You</div>
+                <div class="visual-mini-label">Control Access</div>
               </div>
-
-              <div class="shield-feature pos-tr">
-                <div class="shield-feature-dot">
-                  <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
-                </div>
-                <div class="shield-feature-text">
-                  <span class="shield-feature-title">Patient-Owned</span>
-                  <span class="shield-feature-sub">Patient-Controlled</span>
-                </div>
+              <div class="visual-mini-stat">
+                <div class="visual-mini-num">HIPAA+</div>
+                <div class="visual-mini-label">Compliant</div>
               </div>
-
-              <div class="shield-feature pos-bl">
-                <div class="shield-feature-dot">
-                  <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 9h-2v2H9v-2H7V9h2V7h2v2h2v2zm2-4V3.5L18.5 7H15z"/></svg>
-                </div>
-                <div class="shield-feature-text">
-                  <span class="shield-feature-title">Complete Audit Trail</span>
-                  <span class="shield-feature-sub">1.8M+ Transactions/Hour</span>
-                </div>
-              </div>
-
-              <div class="shield-feature pos-br">
-                <div class="shield-feature-dot">
-                  <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-                </div>
-                <div class="shield-feature-text">
-                  <span class="shield-feature-title">HIPAA, FedRAMP</span>
-                  <span class="shield-feature-sub">FHIR/TEFCA Native</span>
-                </div>
-              </div>
-
             </div>
           </div>
         </div>
@@ -2637,83 +983,73 @@ body {
 
     <!-- SLIDE 3: MAHA Initiative -->
     <div class="hero-slide" data-slide="2">
-      <div class="hero-slide-inner slide-maha-centered">
-        <div class="hero-tag maha-tag">🇺🇸 MAHA Initiative</div>
-        <p class="hero-overline">Making America Healthy Again</p>
-        <h2>Patient-first healthcare.<br><em>Built on transparency.</em></h2>
-        <p class="maha-description">InPursuit proudly supports the MAHA Initiative — a movement to put patients back in control of their health. Through radical transparency, data ownership, and AI-enabled empowerment, we're building the healthcare system Americans deserve. Your health. Your data. Your future.</p>
-        <div class="hero-cta-row">
+      <div class="hero-slide-inner slide-content">
+        <div class="slide-text">
+          <div class="hero-tag">🇺🇸 MAHA Initiative</div>
+          <p class="hero-overline">Making America Healthy Again</p>
+          <h2>Patient-first healthcare.<br><em>Built on transparency.</em></h2>
+          <p>InPursuit proudly supports the MAHA Initiative &mdash; a movement to put patients back in control of their health. Through radical transparency, data ownership, and AI-enabled empowerment, we're building the healthcare system Americans deserve. Your health. Your data. Your future.</p>
           <a class="btn-gold" href="maha.html">Learn About MAHA &rarr;</a>
+        </div>
+        <div class="slide-visual">
+          <div class="press-card">
+            <div class="press-date">InPursuit Health &bull; 2026</div>
+            <h3>InPursuit Health Commits to MAHA: Patient Empowerment Through Technology</h3>
+            <p>Joining the movement to make America healthy again, InPursuit deploys technology that puts patients first &mdash; enabling price transparency, data ownership, and informed healthcare decisions for every American.</p>
+            <span class="press-badge">Patient-First Platform</span>
+          </div>
         </div>
       </div>
     </div>
-    <!-- SLIDE 4: InPursuit ACCESS Agent Launch -->
-    <!-- IMPORTANT: This slide links to your separate ACCESS page -->
-    <!-- Update the href values below to match your ACCESS page filename -->
+
+    <!-- SLIDE 4: ACCESS Countdown -->
     <div class="hero-slide" data-slide="3">
       <div class="hero-slide-inner slide-countdown">
-        <div class="countdown-breadcrumb">
-          <a href="index.html">HOME</a> &gt; 
-          <a href="for-providers.html">FOR PROVIDERS</a> &gt; 
-          <span class="current">ACCESS AGENT : APRIL 1, 2026</span>
-        </div>
-        
-        <div class="countdown-badge">
-          ● CMS ACCESS MODEL — COHORT 1 APPLICATION WINDOW
-        </div>
-        
+        <div class="countdown-badge">● CMS ACCESS MODEL — COHORT 1 APPLICATION WINDOW</div>
         <h1 class="countdown-title">
-          The application deadline for the<br>
-          most significant new Medicare program<br>
+          The most significant new Medicare program<br>
           in a decade closes <span class="highlight">April 1, 2026.</span>
         </h1>
-        
         <p class="countdown-description">
-          The CMS ACCESS Model pays primary care practices a monthly per-patient fee for every Medicare beneficiary with a chronic condition — for 10 years. InPursuit submits your application with you. There is no upfront cost. The only thing with a deadline is the window to apply.
+          The CMS ACCESS Model pays primary care practices a monthly per-patient fee for every Medicare beneficiary with a chronic condition — for 10 years. InPursuit submits your application with you. Zero upfront cost. The only thing with a deadline is the window to apply.
         </p>
-        
         <div class="countdown-timer" id="accessCountdown">
           <div class="countdown-unit">
-            <div class="countdown-number" id="days">37</div>
+            <span class="countdown-number" id="idxDays">--</span>
             <div class="countdown-label">Days</div>
           </div>
           <div class="countdown-separator">:</div>
           <div class="countdown-unit">
-            <div class="countdown-number" id="hours">13</div>
+            <span class="countdown-number" id="idxHours">--</span>
             <div class="countdown-label">Hours</div>
           </div>
           <div class="countdown-separator">:</div>
           <div class="countdown-unit">
-            <div class="countdown-number" id="minutes">59</div>
+            <span class="countdown-number" id="idxMins">--</span>
             <div class="countdown-label">Minutes</div>
           </div>
           <div class="countdown-separator">:</div>
           <div class="countdown-unit">
-            <div class="countdown-number" id="seconds">17</div>
+            <span class="countdown-number" id="idxSecs">--</span>
             <div class="countdown-label">Seconds</div>
           </div>
         </div>
-        
         <div class="countdown-ctas">
-          <!-- TODO: Update these links to your ACCESS page filename -->
-          <a href="access.html" class="btn-countdown-primary">APPLY WITH INPURSUIT →</a>
-          <a href="access.html#process" class="btn-countdown-secondary">SEE THE PROCESS</a>
+          <a href="access-apply.html" class="btn-countdown-primary">APPLY WITH INPURSUIT &rarr;</a>
+          <a href="for-providers.html" class="btn-countdown-secondary">PROVIDER OVERVIEW</a>
         </div>
-        
-        <a href="for-providers.html" class="countdown-back-link">← BACK TO PROVIDER OVERVIEW</a>
+        <a href="for-providers.html" class="countdown-back-link">&larr; Back to Provider Overview</a>
       </div>
     </div>
-
-
 
     <!-- SLIDE 5: Veterans First -->
     <div class="hero-slide" data-slide="4">
       <div class="hero-slide-inner slide-content">
         <div class="slide-text">
-          <div class="hero-tag">🇺🇸 Veterans First</div>
+          <div class="hero-tag">&#127482;&#127480; Veterans First</div>
           <p class="hero-overline">Veterans First Initiative</p>
           <h2>They served us.<br>Now we serve <em>them.</em></h2>
-          <p>Every day, veterans face fragmented care between DoD and VA systems. Records get lost. Appointments fall through the cracks. Mental health goes untreated. InPursuit was selected as the technology backbone for the Veterans First Initiative — ensuring no veteran is left behind in the transition from service to civilian healthcare.</p>
+          <p>Selected as the technology backbone of the Veterans First Initiative, InPursuit bridges the gap between DoD and VA healthcare systems &mdash; ensuring no veteran&rsquo;s medical records are lost in transition. Because those who defended our nation deserve seamless care.</p>
           <a class="btn-gold" href="veterans-first.html">Learn About Veterans First &rarr;</a>
         </div>
         <div class="slide-visual">
@@ -2721,33 +1057,24 @@ body {
             <div class="vet-flag-bar"></div>
             <div class="vet-stats">
               <div class="vet-stat-card"><div class="vstat-num">18M+</div><div class="vstat-label">U.S. Veterans</div></div>
-              <div class="vet-stat-card vet-stat-alert"><div class="vstat-num">6,000+</div><div class="vstat-label">Veteran Suicides / Year</div></div>
-              <div class="vet-stat-card vet-stat-alert"><div class="vstat-num">33%</div><div class="vstat-label">Wait 30+ Days for Care</div></div>
-              <div class="vet-stat-card"><div class="vstat-num">Zero</div><div class="vstat-label">Records Lost with TETRA</div></div>
-            </div>
-            <div class="vet-promise">
-              <span class="vet-promise-line"></span>
-              <span class="vet-promise-text">InPursuit bridges DoD &rarr; VA &mdash; seamless, complete, permanent</span>
-              <span class="vet-promise-line"></span>
+              <div class="vet-stat-card"><div class="vstat-num">95%</div><div class="vstat-label">Record Continuity</div></div>
+              <div class="vet-stat-card"><div class="vstat-num">DoD &rarr; VA</div><div class="vstat-label">Seamless Bridge</div></div>
+              <div class="vet-stat-card"><div class="vstat-num">Zero</div><div class="vstat-label">Records Lost</div></div>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-
-
-
-
-    <!-- SLIDE 6: InPursuit Partner Network -->
+    <!-- SLIDE 6: Partner Network -->
     <div class="hero-slide" data-slide="5">
-      <div class="hero-slide-inner slide-maha-centered">
-        <div class="hero-tag">InPursuit Partner Network &middot; Now Accepting Members</div>
-        <h2>Your Innovation.<br>Our <em>Infrastructure.</em><br>Limitless Reach.<br><em>Think Like TETRA&trade;</em></h2>
-        <p class="maha-description">Build on TETRA&trade; &mdash; the healthcare data fabric connecting providers, payers, consumers, and pharmacies. Access powerful APIs, AI toolkits, and a built-in marketplace of millions. You keep your IP. We help you grow.</p>
+      <div class="hero-slide-inner slide-constellation" style="text-align:center;max-width:800px;margin:0 auto;">
+        <div class="hero-overline" style="font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px;">InPursuit Partner Network &middot; Now Accepting Members</div>
+        <h1 style="font-family:'Instrument Serif',serif;font-size:clamp(32px,4.5vw,58px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:24px;">Your Innovation.<br>Our <em style="font-style:italic;color:var(--gold)">Platform.</em><br>Limitless Reach.</h1>
+        <p class="hero-sub" style="font-size:17px;color:rgba(255,255,255,.6);line-height:1.7;max-width:640px;margin:0 auto 40px;">Build on TETRA&trade; &mdash; the healthcare data fabric connecting providers, payers, consumers, and pharmacies. Access powerful APIs, AI toolkits, and a built-in marketplace. You keep your IP. We help you grow.</p>
         <div class="hero-cta-row">
-          <a class="btn-gold" href="partner-network.html">Join the Network</a>
-          <a class="btn-gold" href="partner-network.html#benefits">See What You Get</a>
+          <a class="btn-gold" href="partner-network.html">Join the Partner Network &rarr;</a>
+          <a class="btn-outline" href="partner-network.html#benefits">See What You Get</a>
         </div>
       </div>
     </div>
@@ -2764,26 +1091,6 @@ body {
   <button class="hero-pause" id="heroPause" title="Pause/Play">&#10074;&#10074;</button>
   <div class="hero-progress" id="heroProgress"></div>
 </section>
-
-<!-- Powered by TETRA Bar -->
-<div class="tetra-bar">
-  <div class="tetra-bar-ember-top"></div>
-  <div class="tetra-bar-ember-bottom"></div>
-  <div class="tetra-bar-shimmer2"></div>
-  <div class="tetra-bar-inner">
-    <div class="tetra-bar-line"></div>
-    <div class="tetra-bar-pulse"></div>
-    <a class="tetra-bar-link" href="tetra.html">
-      <span class="tetra-bar-powered">Powered by</span>
-      <span class="tetra-bar-label">TETRA<span class="tetra-bar-tm">&trade;</span></span>
-      <span class="tetra-bar-sep">&middot;</span>
-      <span class="tetra-bar-desc">Model-Agnostic AI Orchestration</span>
-      <span class="tetra-bar-arrow">&rarr;</span>
-    </a>
-    <div class="tetra-bar-pulse"></div>
-    <div class="tetra-bar-line"></div>
-  </div>
-</div>
 
 <!-- Gold Ticker -->
 <div class="gold-ticker">
@@ -2836,249 +1143,94 @@ body {
   </div>
 </div>
 
-
-
-
-<!-- CMS Health Tech Ecosystem -->
-<section class="cms-ecosystem" id="cms-ecosystem">
-  <div class="cms-inner">
-
-    <!-- The Indictment -->
-    <div class="cms-overline reveal">CMS Health Tech Ecosystem &middot; Approved Member</div>
-    <h2 class="cms-headline reveal">The 60 largest Health IT companies<br>didn&rsquo;t break healthcare by <em>accident.</em></h2>
-    <div class="cms-subhead reveal">
-      In July 2025, the White House and CMS launched the Health Tech Ecosystem &mdash; a call to modernize how 140+ million Americans access their health data. They invited the industry&rsquo;s biggest names. <strong>But relying on the same companies that created the silos, buried the data, and profited from the friction?</strong> That&rsquo;s not transformation. That&rsquo;s theater. InPursuit didn&rsquo;t get invited because we&rsquo;re big. We got invited because <strong>we already built what everyone else is just now pledging to try.</strong>
-    </div>
-
-    <!-- CMS Approval Stamp Visual -->
-    <div class="cms-approval-visual reveal">
-      <div class="cms-stamp">
-
-        <!-- Left: Official Badge -->
-        <div class="cms-stamp-badge">
-          <div class="cms-stamp-shield">
-            <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-          </div>
-          <div class="cms-stamp-label">CMS Health<br>Tech Ecosystem</div>
-          <div class="cms-stamp-status">&#10003; Approved</div>
-        </div>
-
-        <!-- Right: Pledge Categories -->
-        <div class="cms-stamp-content">
-          <div class="cms-pledge-cats">
-            <div class="cms-pledge-cat">
-              <div class="cms-pledge-cat-icon">
-                <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z"/></svg>
-              </div>
-              <div class="cms-pledge-cat-name">Conversational AI</div>
-              <div class="cms-pledge-cat-sub">AI-powered health navigation with patient consent, connected to CMS Aligned Networks</div>
-            </div>
-            <div class="cms-pledge-cat">
-              <div class="cms-pledge-cat-icon">
-                <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 9h-2v2H9v-2H7V9h2V7h2v2h2v2zm2-4V3.5L18.5 7H15z"/></svg>
-              </div>
-              <div class="cms-pledge-cat-name">Kill the Clipboard</div>
-              <div class="cms-pledge-cat-sub">Digital check-in via QR codes &amp; Smart Health Cards &mdash; no more paper forms</div>
-            </div>
-            <div class="cms-pledge-cat">
-              <div class="cms-pledge-cat-icon">
-                <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-              </div>
-              <div class="cms-pledge-cat-name">Chronic Care</div>
-              <div class="cms-pledge-cat-sub">Diabetes &amp; obesity management powered by real clinical data through TETRA&trade;</div>
-            </div>
-          </div>
-          <div class="cms-stamp-source">Source: <a href="https://www.cms.gov/priorities/health-technology-ecosystem/overview" target="_blank" rel="noopener">cms.gov/health-technology-ecosystem</a> &middot; White House &ldquo;Make Health Tech Great Again&rdquo; &middot; July 30, 2025</div>
-        </div>
-
+<!-- At A Glance -->
+<section class="section glance-section" id="glance">
+  <div class="section-inner">
+    <p class="section-overline reveal">At a Glance</p>
+    <h2 class="section-headline reveal">Built different. Proven at scale.</h2>
+    <div class="glance-grid reveal">
+      <div class="glance-card">
+        <div class="glance-num">95%</div>
+        <div class="glance-label">Interoperability Success</div>
+        <div class="glance-desc">Federally validated across DoD, VA, and CMS health systems.</div>
+      </div>
+      <div class="glance-card">
+        <div class="glance-num">1.8M+</div>
+        <div class="glance-label">Transactions / Hour</div>
+        <div class="glance-desc">Real-time data processing that outperformed IBM and SAP in federal testing.</div>
+      </div>
+      <div class="glance-card">
+        <div class="glance-num">140M+</div>
+        <div class="glance-label">Beneficiaries Accessible</div>
+        <div class="glance-desc">CMS Health Tech Ecosystem approval grants access to Medicare &amp; Medicaid populations.</div>
+      </div>
+      <div class="glance-card">
+        <div class="glance-num">20+</div>
+        <div class="glance-label">Years of Innovation</div>
+        <div class="glance-desc">Two decades of healthcare technology expertise, from federal to commercial markets.</div>
       </div>
     </div>
-
-    <!-- Vision Statement as Pullquote -->
-    <div class="cms-vision reveal">
-      <div class="cms-vision-label">Our Vision</div>
-      <div class="cms-vision-text">
-        We are <strong>InPursuit</strong> of the idea, promise, and opportunity that our health data will drive immediate and long-term personalized treatment and wellness options through a more engaged, connected, efficient, proactive, and <strong>Person-Centric Healthcare Ecosystem.</strong>
-      </div>
-    </div>
-
-    <!-- Ecosystem Logo Cloud -->
-    <div class="cms-cloud reveal">
-      <div class="cms-cloud-header">
-        <span class="cms-cloud-label">Recognized alongside 60+ pledged organizations</span>
-        <div class="cms-cloud-line"></div>
-      </div>
-      <div class="cms-cloud-grid">
-        <div class="cms-logo-tile ip-hero">
-          <img class="tile-icon" src="https://logo.clearbit.com/inpursuithealth.com" alt="" onerror="this.style.display='none'">
-          InPursuit Health
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/amazon.com" alt="" onerror="this.style.display='none'">
-          Amazon
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/apple.com" alt="" onerror="this.style.display='none'">
-          Apple
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/google.com" alt="" onerror="this.style.display='none'">
-          Google
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/openai.com" alt="" onerror="this.style.display='none'">
-          OpenAI
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/anthropic.com" alt="" onerror="this.style.display='none'">
-          Anthropic
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/oracle.com" alt="" onerror="this.style.display='none'">
-          Oracle Health
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/epic.com" alt="" onerror="this.style.display='none'">
-          Epic
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/microsoft.com" alt="" onerror="this.style.display='none'">
-          Microsoft AI
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/clevelandclinic.org" alt="" onerror="this.style.display='none'">
-          Cleveland Clinic
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/samsung.com" alt="" onerror="this.style.display='none'">
-          Samsung
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/cvshealth.com" alt="" onerror="this.style.display='none'">
-          CVS Health
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/humana.com" alt="" onerror="this.style.display='none'">
-          Humana
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/zocdoc.com" alt="" onerror="this.style.display='none'">
-          Zocdoc
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/noom.com" alt="" onerror="this.style.display='none'">
-          Noom
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/athenahealth.com" alt="" onerror="this.style.display='none'">
-          athenahealth
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/hippocraticai.com" alt="" onerror="this.style.display='none'">
-          Hippocratic AI
-        </div>
-        <div class="cms-logo-tile">
-          <img class="tile-icon" src="https://logo.clearbit.com/oura.com" alt="" onerror="this.style.display='none'">
-          Oura
-        </div>
-        <div class="cms-logo-tile more-chip">+ 40 more organizations</div>
-      </div>
-    </div>
-
-    <!-- Bottom CTA -->
-    <div class="cms-bottom-cta reveal">
-      <a class="btn-gold" href="#" onclick="event.preventDefault(); document.getElementById('contactModal').classList.add('show');">Experience What We&rsquo;ve Built &rarr;</a>
-    </div>
-
   </div>
 </section>
 
+<!-- Three Pillars -->
+<section class="section pillars-section" id="pillars">
+  <div class="section-inner">
+    <p class="section-overline reveal">The Three P&rsquo;s of Healthcare</p>
+    <h2 class="section-headline reveal">One platform. Every stakeholder.<br>Aligned around <em>you.</em></h2>
+    <p class="section-desc reveal">InPursuit connects the entire healthcare ecosystem &mdash; Patients, Providers, and Payers &mdash; through a single, federally validated data infrastructure.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card reveal">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+        <h3>The Patient</h3>
+        <p>Own your health data. Track your wellness. Connect with your providers. Earn rewards for healthy engagement. From prenatal care to chronic disease management &mdash; InPursuit walks beside you for life.</p>
+        <a class="pillar-link" href="for-you.html">For You &rarr;</a>
+      </div>
+      <div class="pillar-card reveal">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 0h-4V4h4v2z"/></svg></div>
+        <h3>The Provider</h3>
+        <p>Succeed in outcome-based payment models. ACCESS-as-an-Agent automates the data infrastructure you need &mdash; real-time patient insights, quality reporting, and seamless care coordination.</p>
+        <a class="pillar-link" href="for-providers.html">For Providers &rarr;</a>
+      </div>
+      <div class="pillar-card reveal">
+        <div class="pillar-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+        <h3>The Payer</h3>
+        <p>Drive value-based care at scale. InPursuit&rsquo;s interoperability platform gives payers the data transparency needed to align incentives, reduce waste, and improve population health outcomes.</p>
+        <a class="pillar-link" href="partner-network.html">Partner Network &rarr;</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Why InPursuit -->
+<section class="section why-section" id="why">
+  <div class="section-inner">
+    <p class="section-overline reveal">Why InPursuit</p>
+    <h2 class="section-headline reveal">Federally validated. Market ready.</h2>
+    <p class="section-desc reveal">We didn&rsquo;t start in a garage. We started in the Department of Defense &mdash; and proved it works at the highest stakes in healthcare.</p>
+    <div class="why-grid">
+      <div class="why-card reveal"><div class="why-num">01</div><h4>Federal Validation</h4><p>DoD and VA contracts with 95% interoperability &mdash; outperforming IBM, SAP, and legacy incumbents in government testing.</p></div>
+      <div class="why-card reveal"><div class="why-num">02</div><h4>CMS Approved</h4><p>Health Tech Ecosystem approval provides direct access to 140M+ Medicare and Medicaid beneficiaries.</p></div>
+      <div class="why-card reveal"><div class="why-num">03</div><h4>AI-Enabled Intelligence</h4><p>TETRA&rsquo;s AI layer transforms raw health data into proactive, personalized insights &mdash; for patients and providers alike.</p></div>
+      <div class="why-card reveal"><div class="why-num">04</div><h4>Former HHS CIO Leadership</h4><p>Jose Arietta, former HHS Chief Information Officer, on our leadership team providing unmatched federal healthcare insight.</p></div>
+      <div class="why-card reveal"><div class="why-num">05</div><h4>TEFCA &amp; FHIR Native</h4><p>Built from the ground up on modern interoperability standards &mdash; not retrofitted. Designed for where healthcare is going.</p></div>
+      <div class="why-card reveal"><div class="why-num">06</div><h4>Rapid Deployment</h4><p>Weeks versus competitors&rsquo; quarters. Speed-to-value that healthcare organizations demand and patients deserve.</p></div>
+    </div>
+  </div>
+</section>
 
 <!-- CTA -->
 <section class="cta-section" id="cta">
   <div class="cta-content reveal">
     <p class="section-overline">Get Started</p>
-    <h2>Your health data has been<br>locked away long enough.</h2>
-    <p>Whether you&rsquo;re a patient taking control of your wellness or a provider transitioning to value-based care &mdash; InPursuit is the platform that connects it all.</p>
+    <h2>Your health data has been locked away long enough.</h2>
+    <p>Whether you&rsquo;re a patient taking control of your wellness, a provider transitioning to value-based care, or a payer building a smarter network &mdash; InPursuit is the platform that connects it all.</p>
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
-      <a class="btn-gold btn-cta-large" href="#" onclick="event.preventDefault(); document.getElementById('forYouDialog').classList.add('show');">
-        <span class="btn-cta-label">For You</span>
-        <span class="btn-cta-tagline">Harness the Power of Your Data&trade;</span>
-      </a>
-      <a class="btn-gold btn-cta-large" href="#" onclick="event.preventDefault(); document.getElementById('forProvidersDialog').classList.add('show');">
-        <span class="btn-cta-label">For Providers</span>
-        <span class="btn-cta-tagline">Results Matter&trade;</span>
-      </a>
+      <a class="btn-gold" href="/cdn-cgi/l/email-protection#5f363139301f36312f2a2d2c2a362b373a3e332b37713c3032">Request a Demo &rarr;</a>
+      <a class="btn-outline" href="for-you.html">See It in Action</a>
     </div>
   </div>
 </section>
-
-<!-- Contact Modal -->
-<div class="modal-overlay" id="contactModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="this.closest('.modal-overlay').classList.remove('show')">&times;</button>
-    <div id="contactFormContent">
-      <div class="modal-title">Let&rsquo;s Connect</div>
-      <div class="modal-subtitle">Tell us about your interest and we&rsquo;ll be in touch within 24 hours.</div>
-      <form class="modal-form" id="contactForm" onsubmit="submitContactForm(event)">
-        <input class="modal-input" type="text" name="name" placeholder="Full Name" required>
-        <input class="modal-input" type="email" name="email" placeholder="Email Address" required>
-        <input class="modal-input" type="text" name="organization" placeholder="Organization (optional)">
-        <select class="modal-input" name="interest" required>
-          <option value="" disabled selected>I&rsquo;m interested in&hellip;</option>
-          <option value="patient">For Me / My Family</option>
-          <option value="provider">For My Practice</option>
-          <option value="partner">Partnership Opportunity</option>
-          <option value="investor">Investment Inquiry</option>
-          <option value="other">Other</option>
-        </select>
-        <textarea class="modal-input modal-textarea" name="message" placeholder="Tell us more (optional)"></textarea>
-        <div class="verify-row" id="verifyRow" onclick="toggleVerify()">
-          <div class="verify-checkbox" id="verifyCheck"></div>
-          <span class="verify-label">I confirm I am a real person</span>
-          <span class="verify-badge">Verification</span>
-        </div>
-        <button class="modal-submit" type="submit" id="contactSubmitBtn" disabled>Send Message &rarr;</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- For You Dialog -->
-<div class="cta-dialog-overlay" id="forYouDialog">
-  <div class="cta-dialog">
-    <button class="cta-dialog-close" onclick="this.closest('.cta-dialog-overlay').classList.remove('show')">&times;</button>
-    <div class="cta-dialog-tagline">Harness the Power of Your Data<span class="cta-dialog-tm">&trade;</span></div>
-    <div class="cta-dialog-desc">Your health. Your data. Your feed. Your rewards. Take control of your wellness journey with one unified app.</div>
-    <a class="cta-dialog-btn" href="for-you.html">Explore For You &rarr;</a>
-    <div class="app-store-badges">
-      <a class="app-badge" href="#" onclick="event.preventDefault()">
-        <svg class="app-badge-icon" viewBox="0 0 24 24"><path fill="white" d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-        <div class="app-badge-text">
-          <span class="app-badge-small">Download on the</span>
-          <span class="app-badge-store">App Store</span>
-        </div>
-      </a>
-      <a class="app-badge" href="#" onclick="event.preventDefault()">
-        <svg class="app-badge-icon" viewBox="0 0 24 24"><path fill="white" d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.07l2.312 1.338a1 1 0 010 1.732L17.7 16.045l-2.508-2.508 2.508-2.508v.608zM5.864 2.658L16.8 8.99l-2.302 2.302L5.864 2.658z"/></svg>
-        <div class="app-badge-text">
-          <span class="app-badge-small">Get it on</span>
-          <span class="app-badge-store">Google Play</span>
-        </div>
-      </a>
-    </div>
-  </div>
-</div>
-
-<!-- For Providers Dialog -->
-<div class="cta-dialog-overlay" id="forProvidersDialog">
-  <div class="cta-dialog">
-    <button class="cta-dialog-close" onclick="this.closest('.cta-dialog-overlay').classList.remove('show')">&times;</button>
-    <div class="cta-dialog-tagline">Results Matter<span class="cta-dialog-tm">&trade;</span></div>
-    <div class="cta-dialog-desc">Value-based care, simplified. TETRA handles the data infrastructure so you can focus on what matters most — your patients.</div>
-    <a class="cta-dialog-btn" href="for-providers.html">Explore For Providers &rarr;</a>
-  </div>
-</div>
 
 <!-- Footer -->
 <footer class="site-footer">
@@ -3091,6 +1243,7 @@ body {
     <a href="tetra.html">TETRA</a>
     <a href="for-you.html">For You</a>
     <a href="for-providers.html">For Providers</a>
+    <a href="access-apply.html">ACCESS Application</a>
     <a href="data-security-ai.html">AI &amp; Your Data</a>
     <a href="maha.html">MAHA</a>
     <a href="veterans-first.html">Veterans First</a>
@@ -3109,7 +1262,7 @@ body {
   <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 // Preloader
 window.addEventListener('load', () => {
   setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 800);
@@ -3122,7 +1275,7 @@ window.addEventListener('scroll', () => {
 
 // Mobile nav toggle
 document.getElementById('navToggle').addEventListener('click', () => {
-  document.getElementById('topNav').classList.toggle('open');
+  document.getElementById('mainNav').classList.toggle('open');
 });
 
 // ===== HERO CAROUSEL with Pause =====
@@ -3184,34 +1337,6 @@ pauseBtn.addEventListener('click', () => {
   }
 });
 
-// ===== COUNTDOWN TIMER =====
-function updateCountdown() {
-  const deadline = new Date('April 1, 2026 23:59:59').getTime();
-  const now = new Date().getTime();
-  const distance = deadline - now;
-  
-  if (distance < 0) {
-    document.getElementById('days').textContent = '00';
-    document.getElementById('hours').textContent = '00';
-    document.getElementById('minutes').textContent = '00';
-    document.getElementById('seconds').textContent = '00';
-    return;
-  }
-  
-  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-  
-  document.getElementById('days').textContent = days;
-  document.getElementById('hours').textContent = hours;
-  document.getElementById('minutes').textContent = minutes;
-  document.getElementById('seconds').textContent = seconds;
-}
-// Update countdown every second
-updateCountdown();
-setInterval(updateCountdown, 1000);
-
 // ===== MAGNETIC CONSTELLATION =====
 (function() {
   const container = document.getElementById('magConstellation');
@@ -3230,32 +1355,21 @@ setInterval(updateCountdown, 1000);
   window.addEventListener('resize', resize);
 
   // Node state
-  const satelliteIds = ['node-mental', 'node-nutrition', 'node-fitness'];
   const nodeStates = [];
   nodes.forEach(node => {
     const bx = parseFloat(node.dataset.baseX);
     const by = parseFloat(node.dataset.baseY);
-    const grav = parseFloat(node.dataset.gravity || '1.0');
     nodeStates.push({
       el: node,
-      id: node.id,
-      isSatellite: satelliteIds.includes(node.id),
       baseX: bx, baseY: by,
       x: bx, y: by,
       vx: (Math.random() - 0.5) * 0.3,
       vy: (Math.random() - 0.5) * 0.3,
       phase: Math.random() * Math.PI * 2,
       speed: 0.3 + Math.random() * 0.4,
-      amplitude: 12 + Math.random() * 18,
-      gravity: grav
+      amplitude: 12 + Math.random() * 18
     });
   });
-
-  // Find the wellness node for satellite anchoring
-  function getWellnessPos() {
-    const wn = nodeStates.find(ns => ns.id === 'node-wellness');
-    return wn ? { x: wn.x, y: wn.y } : { x: centerX, y: centerY };
-  }
 
   // Data pulse particles
   const pulses = [];
@@ -3284,12 +1398,11 @@ setInterval(updateCountdown, 1000);
       const driftX = Math.sin(time * ns.speed + ns.phase) * ns.amplitude;
       const driftY = Math.cos(time * ns.speed * 0.7 + ns.phase + 1) * ns.amplitude * 0.6;
 
-      // Gravitational pull — satellites pull toward Wellness, others toward center
-      const anchor = ns.isSatellite ? getWellnessPos() : { x: centerX, y: centerY };
-      const dx = anchor.x - (ns.baseX + driftX);
-      const dy = anchor.y - (ns.baseY + driftY);
+      // Slight gravitational pull toward center
+      const dx = centerX - (ns.baseX + driftX);
+      const dy = centerY - (ns.baseY + driftY);
       const dist = Math.sqrt(dx * dx + dy * dy);
-      const pull = Math.min(0.02 * ns.gravity, (3 * ns.gravity) / dist);
+      const pull = Math.min(0.02, 3 / dist);
 
       ns.x = ns.baseX + driftX + dx * pull;
       ns.y = ns.baseY + driftY + dy * pull;
@@ -3300,39 +1413,28 @@ setInterval(updateCountdown, 1000);
       ns.el.style.transform = 'translate(-50%, -50%)';
     });
 
-    // Draw connection lines — satellites connect to Wellness, others to center
+    // Draw connection lines from center
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const wellnessPos = getWellnessPos();
     nodeStates.forEach(ns => {
       const nx = ns.x * scaleX;
       const ny = ns.y * scaleY;
-      // Satellites connect to wellness, regular nodes to center
-      let anchorX, anchorY;
-      if (ns.isSatellite) {
-        anchorX = wellnessPos.x * scaleX;
-        anchorY = wellnessPos.y * scaleY;
-      } else {
-        anchorX = centerX * scaleX;
-        anchorY = centerY * scaleY;
-      }
-      const glowAlpha = 0.02 + 0.03 * ns.gravity;
-      const lineAlpha = 0.04 + 0.04 * ns.gravity;
-      const lineWidth = ns.gravity > 2 ? 6 : 4;
+      const cx = centerX * scaleX;
+      const cy = centerY * scaleY;
 
       // Glow line
       ctx.beginPath();
-      ctx.moveTo(anchorX, anchorY);
+      ctx.moveTo(cx, cy);
       ctx.lineTo(nx, ny);
-      ctx.strokeStyle = 'rgba(197,164,78,' + glowAlpha.toFixed(3) + ')';
-      ctx.lineWidth = lineWidth;
+      ctx.strokeStyle = 'rgba(197,164,78,0.04)';
+      ctx.lineWidth = 4;
       ctx.stroke();
 
       // Crisp line
       ctx.beginPath();
-      ctx.moveTo(anchorX, anchorY);
+      ctx.moveTo(cx, cy);
       ctx.lineTo(nx, ny);
-      ctx.strokeStyle = 'rgba(197,164,78,' + lineAlpha.toFixed(3) + ')';
-      ctx.lineWidth = ns.gravity > 2 ? 1 : 0.5;
+      ctx.strokeStyle = 'rgba(197,164,78,0.07)';
+      ctx.lineWidth = 0.5;
       ctx.stroke();
     });
 
@@ -3398,6 +1500,24 @@ document.addEventListener('mousemove', (e) => {
   });
 });
 
+// ===== INDEX COUNTDOWN =====
+function updateIndexCountdown() {
+  const deadline = new Date('2026-04-01T23:59:59').getTime();
+  const diff = deadline - Date.now();
+  if (diff <= 0) {
+    ['idxDays','idxHours','idxMins','idxSecs'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.textContent = '00';
+    }); return;
+  }
+  const d = Math.floor(diff/864e5), h = Math.floor((diff%864e5)/36e5),
+        m = Math.floor((diff%36e5)/6e4), s = Math.floor((diff%6e4)/1e3);
+  ['idxDays','idxHours','idxMins','idxSecs'].forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String([d,h,m,s][i]).padStart(2,'0');
+  });
+}
+updateIndexCountdown(); setInterval(updateIndexCountdown, 1000);
+
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', (e) => {
@@ -3408,120 +1528,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
       window.scrollTo({ top: top, behavior: 'smooth' });
     }
   });
-});
-
-// Active page indicator
-document.addEventListener('DOMContentLoaded', () => {
-  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-item').forEach(item => {
-    const href = item.getAttribute('href');
-    if (href === currentPage) {
-      item.classList.add('active');
-    }
-  });
-});
-
-// ===== ORB POPUP SYSTEM =====
-// Left-side orbs (6-12 o'clock): popup goes LEFT
-// Right-side orbs (12-6 o'clock): popup goes RIGHT
-const leftSideOrbs = ['node-providers', 'node-labs', 'node-records', 'node-insurance'];
-
-function closeAllPopups() {
-  document.querySelectorAll('.orb-popup.show').forEach(p => {
-    p.classList.remove('show');
-  });
-  const fp = document.getElementById('familyPopup');
-  if (fp) fp.classList.remove('show');
-}
-
-function toggleOrbPopup(el, event) {
-  event.stopPropagation();
-  const popup = el.querySelector('.orb-popup');
-  if (!popup) return;
-  const wasOpen = popup.classList.contains('show');
-  closeAllPopups();
-  if (!wasOpen) {
-    const orbId = el.id || '';
-    if (leftSideOrbs.includes(orbId)) {
-      popup.classList.add('popup-left');
-    } else {
-      popup.classList.remove('popup-left');
-    }
-    popup.classList.add('show');
-  }
-}
-
-function showFamilyPopup(event) {
-  event.stopPropagation();
-  const popup = document.getElementById('familyPopup');
-  if (!popup) return;
-  const wasOpen = popup.classList.contains('show');
-  closeAllPopups();
-  if (!wasOpen) popup.classList.add('show');
-}
-
-// Close popups on outside click
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('.mag-node') && !e.target.closest('.mag-center') && !e.target.closest('.family-node') && !e.target.closest('.orb-popup')) {
-    closeAllPopups();
-  }
-});
-
-// ===== CONTACT FORM =====
-function toggleVerify() {
-  const check = document.getElementById('verifyCheck');
-  const btn = document.getElementById('contactSubmitBtn');
-  check.classList.toggle('checked');
-  btn.disabled = !check.classList.contains('checked');
-}
-
-function submitContactForm(e) {
-  e.preventDefault();
-  const form = e.target;
-  const formData = new FormData(form);
-  const check = document.getElementById('verifyCheck');
-  if (!check.classList.contains('checked')) return;
-  
-  // Build mailto link as fallback (works without backend)
-  const name = formData.get('name');
-  const email = formData.get('email');
-  const org = formData.get('organization');
-  const interest = formData.get('interest');
-  const message = formData.get('message');
-  
-  const subject = encodeURIComponent('InPursuit Health Inquiry — ' + interest);
-  const body = encodeURIComponent(
-    'Name: ' + name + '\n' +
-    'Email: ' + email + '\n' +
-    'Organization: ' + (org || 'N/A') + '\n' +
-    'Interest: ' + interest + '\n' +
-    'Message: ' + (message || 'N/A')
-  );
-  
-  // Open mailto
-  window.location.href = 'mailto:info@InPursuitHealth.com?subject=' + subject + '&body=' + body;
-  
-  // Show success state
-  document.getElementById('contactFormContent').innerHTML = 
-    '<div class="modal-success">' +
-    '<div class="modal-success-icon">✓</div>' +
-    '<h3>Message Prepared</h3>' +
-    '<p>Your email client should open with the details pre-filled. If it didn\'t, send your inquiry directly to info@InPursuitHealth.com</p>' +
-    '</div>';
-}
-
-// Close modals on overlay click
-document.querySelectorAll('.modal-overlay, .cta-dialog-overlay').forEach(overlay => {
-  overlay.addEventListener('click', (e) => {
-    if (e.target === overlay) overlay.classList.remove('show');
-  });
-});
-
-// Close modals on Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') {
-    document.querySelectorAll('.modal-overlay.show, .cta-dialog-overlay.show').forEach(m => m.classList.remove('show'));
-  }
 });
 </script>
 
