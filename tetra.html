@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TETRA™ — Healthcare Data Infrastructure | InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-deep:#060E1A;--navy-mid:#112240;--gold:#C5A44E;--gold-light:#D4B96A;--white:#FFFFFF;--cream:#FAF8F4;--text-dark:#1A1A2E;--text-muted:#6B7280;--serif:'Instrument Serif',serif;--sans:'Instrument Sans',sans-serif;--purple:#6366F1;--green:#16A34A;--blue:#2563EB;--pink:#EC4899;--orange:#F97316;--cyan:#06B6D4}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:var(--sans);background:var(--navy-deep);color:var(--white);overflow-x:hidden}
+.top-bar{background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,0.2);position:fixed;top:0;left:0;right:0;z-index:1000;transition:box-shadow .3s}.top-bar.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4)}
+.top-bar-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;height:64px}
+.top-bar-brand{display:flex;align-items:center;text-decoration:none;cursor:pointer}.top-bar-wordmark{font-family:var(--serif);font-size:22px;color:var(--gold);letter-spacing:1px}
+.top-bar-nav{display:flex;align-items:center}.nav-item{position:relative;padding:20px 14px;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .3s}
+.nav-item:hover,.nav-item.active{color:var(--gold)}.nav-item::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:width .3s}.nav-item:hover::after{width:60%}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;width:32px;height:24px;position:relative}.nav-toggle span{position:absolute;left:0;width:100%;height:2px;background:var(--white);transition:all .3s}
+.nav-toggle span:nth-child(1){top:0}.nav-toggle span:nth-child(2){top:50%;transform:translateY(-50%)}.nav-toggle span:nth-child(3){bottom:0}
+.preloader{position:fixed;inset:0;background:var(--navy-deep);display:flex;align-items:center;justify-content:center;z-index:9999;transition:opacity .6s}.preloader.done{opacity:0;pointer-events:none}
+.preloader-wordmark{font-family:var(--serif);font-size:32px;color:var(--gold);animation:pp 1.5s ease-in-out infinite}@keyframes pp{0%,100%{opacity:.4}50%{opacity:1}}
+.page-hero{position:relative;padding:160px 40px 100px;text-align:center;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.hero-bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(197,164,78,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(197,164,78,.03) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black,transparent);-webkit-mask-image:radial-gradient(ellipse 70% 60% at 50% 50%,black,transparent)}
+.hero-glow{position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(197,164,78,.06) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation:hgp 6s ease-in-out infinite}
+@keyframes hgp{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
+.hero-label{display:inline-block;font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:28px;padding:8px 20px;border:1px solid rgba(197,164,78,.15);border-radius:24px;position:relative}
+.page-hero h1{font-family:var(--serif);font-size:clamp(40px,5.5vw,68px);font-weight:400;line-height:1.1;max-width:850px;margin-bottom:28px;position:relative}
+.page-hero h1 em{font-style:italic;color:var(--gold)}
+.hero-sub{font-size:clamp(15px,1.6vw,18px);color:rgba(255,255,255,.5);line-height:1.7;max-width:640px;margin-bottom:48px;position:relative}.hero-sub strong{color:rgba(255,255,255,.8);font-weight:600}
+.what-section{padding:0 40px 120px;position:relative;z-index:1}.what-inner{max-width:1000px;margin:0 auto}
+.what-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.what-card{padding:36px 28px;border-radius:12px;border:1px solid rgba(197,164,78,.08);background:rgba(17,34,64,.4);text-align:center;transition:all .3s}.what-card:hover{border-color:rgba(197,164,78,.2);transform:translateY(-3px)}
+.what-icon{width:48px;height:48px;margin:0 auto 16px;color:var(--gold);opacity:.5}.what-icon svg{width:100%;height:100%}
+.what-card h3{font-family:var(--serif);font-size:20px;font-weight:400;margin-bottom:10px}.what-card p{font-size:13px;color:rgba(255,255,255,.4);line-height:1.65}
+.s-overline{font-size:10px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}
+.s-headline{font-family:var(--serif);font-size:clamp(28px,3.5vw,48px);font-weight:400;line-height:1.2;margin-bottom:16px}.s-headline em{font-style:italic;color:var(--gold)}
+.s-desc{font-size:15px;color:var(--text-muted);line-height:1.7;max-width:620px;margin-bottom:56px}
+.arch-section{padding:120px 40px;background:var(--cream);color:var(--text-dark)}.arch-inner{max-width:1100px;margin:0 auto}
+.layer{display:flex;align-items:stretch;border:1px solid rgba(0,0,0,.06);border-radius:10px;overflow:hidden;transition:all .35s;margin-bottom:-1px;position:relative;z-index:1}
+.layer:hover{border-color:rgba(197,164,78,.3);box-shadow:0 4px 24px rgba(197,164,78,.08);z-index:2;transform:scale(1.01)}
+.layer-label{width:200px;min-width:200px;padding:24px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(0,0,0,.04)}
+.layer-label-name{font-family:var(--serif);font-size:17px;color:var(--text-dark);margin-bottom:2px}.layer-label-sub{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;opacity:.5}
+.layer-items{flex:1;display:flex;flex-wrap:wrap;padding:14px 20px;gap:8px;align-items:center}
+.layer-chip{padding:7px 14px;border-radius:20px;font-size:11.5px;font-weight:500;transition:all .2s}.layer-chip:hover{transform:translateY(-1px)}
+.layer-app{background:rgba(197,164,78,.04)}.layer-app .layer-label-sub{color:var(--gold)}.layer-app .layer-chip{background:rgba(197,164,78,.08);color:#8B7530;border:1px solid rgba(197,164,78,.15)}
+.layer-intel{background:rgba(99,102,241,.03)}.layer-intel .layer-label-sub{color:var(--purple)}.layer-intel .layer-chip{background:rgba(99,102,241,.06);color:var(--purple);border:1px solid rgba(99,102,241,.12)}
+.layer-data{background:rgba(34,197,94,.03)}.layer-data .layer-label-sub{color:var(--green)}.layer-data .layer-chip{background:rgba(34,197,94,.06);color:var(--green);border:1px solid rgba(34,197,94,.12)}
+.layer-comply{background:rgba(37,99,235,.03)}.layer-comply .layer-label-sub{color:var(--blue)}.layer-comply .layer-chip{background:rgba(37,99,235,.06);color:var(--blue);border:1px solid rgba(37,99,235,.1)}
+.arch-callout{margin-top:48px;padding:32px 40px;border-radius:10px;background:var(--navy-deep);color:var(--white);font-family:var(--serif);font-size:clamp(18px,2vw,24px);line-height:1.45;text-align:center}.arch-callout em{font-style:italic;color:var(--gold)}
+
+/* === FLOW VIS === */
+.flow-section{padding:120px 40px;background:var(--navy-deep);position:relative;overflow:hidden}
+.flow-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 50% at 50% 45%,rgba(197,164,78,.025) 0%,transparent 100%)}
+.flow-inner{max-width:1300px;margin:0 auto;position:relative;z-index:1}
+.flow-header{text-align:center;margin-bottom:60px}
+.flow-stage{position:relative;width:100%;height:840px}
+#flowCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+.flow-col{position:absolute;width:175px;display:flex;flex-direction:column;gap:10px;z-index:5}
+.flow-sources{left:0;top:150px}.flow-outputs{right:0;top:130px}
+.flow-zone-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(197,164,78,.25);margin-bottom:4px;text-align:center}
+.flow-node{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:10px;border:1px solid rgba(197,164,78,.06);background:rgba(17,34,64,.5);cursor:pointer;transition:all .4s}
+.flow-node:hover,.flow-node.fn-active{border-color:rgba(197,164,78,.3);background:rgba(17,34,64,.8);transform:scale(1.03)}
+.flow-node.fn-highlight{border-color:var(--gold);background:rgba(197,164,78,.06);box-shadow:0 0 20px rgba(197,164,78,.1)}
+.fn-dot{width:8px;height:8px;border-radius:50%;background:rgba(197,164,78,.15);border:1px solid rgba(197,164,78,.25);flex-shrink:0;transition:all .4s}
+.fn-highlight .fn-dot{background:var(--gold);border-color:var(--gold);box-shadow:0 0 8px rgba(197,164,78,.5)}
+.fn-text{display:flex;flex-direction:column;min-width:0}.fn-name{font-size:11px;font-weight:600;color:rgba(255,255,255,.6);letter-spacing:.3px;transition:color .4s;white-space:nowrap}
+.fn-highlight .fn-name{color:var(--gold)}.fn-sub{font-size:9px;color:rgba(255,255,255,.2);white-space:nowrap}
+.fn-output{flex-direction:row-reverse}.fn-output .fn-text{text-align:right}
+/* Engine */
+.flow-engine{position:absolute;top:48%;left:50%;transform:translate(-50%,-50%);width:260px;height:260px;z-index:10}
+.fe-core{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:12}
+.fe-label{font-family:var(--serif);font-size:22px;color:var(--gold);letter-spacing:3px}.fe-sublabel{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(197,164,78,.3);margin-top:3px}
+.fe-ring{position:absolute;border-radius:50%;border:1px solid rgba(197,164,78,.06)}.fe-ring-1{inset:0;border-color:rgba(197,164,78,.1);animation:fes 25s linear infinite}.fe-ring-2{inset:-20px;border-style:dashed;animation:fes 40s linear infinite reverse}.fe-ring-3{inset:-40px;border-color:rgba(197,164,78,.03);animation:fes 55s linear infinite}
+@keyframes fes{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.fe-layer{position:absolute;z-index:11}.fe-layer span{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 10px;border-radius:10px;white-space:nowrap}
+.fe-comply{bottom:-28px;left:50%;transform:translateX(-50%)}.fe-comply span{background:rgba(37,99,235,.08);color:var(--blue);border:1px solid rgba(37,99,235,.12)}
+.fe-data{top:-28px;left:50%;transform:translateX(-50%)}.fe-data span{background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.12)}
+.fe-intel{left:-48px;top:50%;transform:translateY(-50%) rotate(-90deg)}.fe-intel span{background:rgba(99,102,241,.08);color:var(--purple);border:1px solid rgba(99,102,241,.12)}
+.fe-app{right:-52px;top:50%;transform:translateY(-50%) rotate(90deg)}.fe-app span{background:rgba(197,164,78,.08);color:var(--gold);border:1px solid rgba(197,164,78,.12)}
+/* AI Models - bottom zone, tight to engine */
+.flow-ai-zone{position:absolute;bottom:0;left:50%;transform:translateX(-50%);display:flex;gap:12px;z-index:5}
+.ai-node{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 16px;border-radius:12px;border:1px solid rgba(99,102,241,.15);background:rgba(99,102,241,.04);cursor:pointer;transition:all .4s;text-align:center}
+.ai-node:hover,.ai-node.fn-highlight{border-color:rgba(99,102,241,.5);background:rgba(99,102,241,.1);transform:translateY(-2px);box-shadow:0 4px 16px rgba(99,102,241,.1)}
+.ai-node .ai-icon{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--white)}
+.ai-node .fn-name{font-size:11px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.3px}.ai-node .fn-sub{font-size:9px;color:rgba(255,255,255,.2)}
+.ai-node.fn-highlight .fn-name{color:var(--purple)}
+/* Consumer zone - top, people first */
+.flow-consumer-zone{position:absolute;top:70px;left:50%;transform:translateX(-50%);display:flex;gap:14px;z-index:5}
+.consumer-node{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 18px;border-radius:12px;border:1px solid rgba(6,182,212,.12);background:rgba(6,182,212,.04);cursor:pointer;transition:all .4s;text-align:center}
+.consumer-node:hover,.consumer-node.fn-highlight{border-color:rgba(6,182,212,.4);background:rgba(6,182,212,.08);transform:translateY(2px)}
+.consumer-node .fn-name{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.55);letter-spacing:.3px}.consumer-node .fn-sub{font-size:9px;color:rgba(255,255,255,.2)}
+.consumer-node.fn-highlight .fn-name{color:var(--cyan)}
+.flow-zone-label-h{font-size:10px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:8px;text-align:center}
+/* Live counter */
+.flow-live{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;max-width:700px;margin-left:auto;margin-right:auto}
+.flow-live-pulse{width:6px;height:6px;border-radius:50%;background:var(--green);animation:lp 1.5s ease-in-out infinite;flex-shrink:0}
+@keyframes lp{0%,100%{opacity:1;box-shadow:0 0 6px rgba(22,163,74,.4)}50%{opacity:.4;box-shadow:none}}
+.flow-live-text{font-size:11px;font-weight:600;letter-spacing:.5px;color:rgba(255,255,255,.25);line-height:1.4}.flow-live-text span{color:var(--gold);font-family:var(--serif);font-size:14px}
+
+/* PERF */
+.perf-section{padding:120px 40px;background:var(--navy)}.perf-inner{max-width:1000px;margin:0 auto}
+.perf-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
+.perf-card{padding:36px 20px;border-radius:12px;border:1px solid rgba(197,164,78,.06);background:rgba(17,34,64,.3);text-align:center;transition:all .3s}.perf-card:hover{border-color:rgba(197,164,78,.2);transform:translateY(-3px)}
+.perf-num{font-family:var(--serif);font-size:42px;color:var(--gold);line-height:1;margin-bottom:8px}.perf-label{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:10px}
+.perf-desc{font-size:12px;color:rgba(255,255,255,.3);line-height:1.5}
+/* VALUE */
+.value-section{padding:120px 40px;background:var(--cream);color:var(--text-dark)}.value-inner{max-width:1100px;margin:0 auto}
+.value-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
+.value-card{padding:32px 28px;border-radius:12px;border:1px solid rgba(0,0,0,.06);background:var(--white);transition:all .3s;position:relative;overflow:hidden}
+.value-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);opacity:0;transition:opacity .3s}.value-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.06);transform:translateY(-3px)}.value-card:hover::before{opacity:1}
+.value-card-icon{width:36px;height:36px;color:var(--gold);opacity:.6;margin-bottom:16px}.value-card-icon svg{width:100%;height:100%}
+.value-card h3{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--text-dark);margin-bottom:8px}.value-card p{font-size:13px;color:var(--text-muted);line-height:1.65}
+.value-card-metric{margin-top:16px;padding-top:14px;border-top:1px solid rgba(0,0,0,.04);display:flex;align-items:baseline;gap:8px}.vm-num{font-family:var(--serif);font-size:18px;color:var(--gold)}.vm-label{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px}
+/* WHY */
+.why-section{padding:120px 40px;background:var(--navy-deep)}.why-inner{max-width:900px;margin:0 auto}
+.why-item{display:flex;gap:24px;padding:32px 0;border-bottom:1px solid rgba(197,164,78,.06)}.why-item:last-child{border-bottom:none}
+.why-num{font-family:var(--serif);font-size:48px;color:rgba(197,164,78,.12);line-height:1;min-width:60px}
+.why-content h4{font-family:var(--serif);font-size:20px;font-weight:400;color:var(--white);margin-bottom:8px}.why-content p{font-size:14px;color:rgba(255,255,255,.4);line-height:1.7}
+/* CTA */
+.cta-section{padding:100px 40px;text-align:center;background:var(--navy)}.cta-inner{max-width:700px;margin:0 auto}
+.cta-inner h2{font-family:var(--serif);font-size:clamp(28px,3vw,42px);font-weight:400;line-height:1.25;margin-bottom:20px}.cta-inner h2 em{font-style:italic;color:var(--gold)}
+.cta-inner>p{font-size:16px;color:rgba(255,255,255,.4);line-height:1.7;margin-bottom:36px}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--gold);color:var(--navy-deep);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:6px;transition:all .3s}.btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 24px rgba(197,164,78,.25)}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:transparent;color:var(--white);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:6px;border:1px solid rgba(255,255,255,.15);transition:all .3s}.btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+/* FOOTER */
+.site-footer{background:var(--navy-deep);padding:60px 40px 40px;border-top:1px solid rgba(197,164,78,.08)}
+.footer-inner{max-width:1200px;margin:0 auto 24px;display:flex;justify-content:space-between;align-items:center}.footer-wordmark{font-family:var(--serif);font-size:20px;color:var(--gold)}.footer-legal{font-size:11px;color:rgba(255,255,255,.3)}
+.footer-nav{max-width:1200px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px 24px;padding:16px 0}.footer-nav a{font-size:12px;color:rgba(255,255,255,.3);text-decoration:none;transition:color .3s}.footer-nav a:hover{color:var(--gold)}
+.footer-disclaimer{max-width:1200px;margin:24px auto 12px;font-size:11px;color:rgba(255,255,255,.15);line-height:1.6}.footer-tagline{max-width:1200px;margin:0 auto;font-family:var(--serif);font-size:13px;color:rgba(197,164,78,.2);letter-spacing:1px}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:1024px){.layer-label{width:160px;min-width:160px}.perf-grid{grid-template-columns:repeat(3,1fr)}.flow-col{width:140px}.flow-engine{width:200px;height:200px}.fe-core{width:80px;height:80px}.fe-label{font-size:18px}.flow-ai-zone,.flow-consumer-zone{gap:8px}.ai-node,.consumer-node{padding:6px 10px}}
+@media(max-width:768px){.top-bar-inner{padding:0 20px}.top-bar-nav{display:none}.nav-toggle{display:block}
+.top-bar-nav.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.2);padding:16px 0}.top-bar-nav.open .nav-item{padding:14px 24px}
+.page-hero{padding:130px 20px 60px;min-height:auto}
+.what-section,.arch-section,.flow-section,.perf-section,.value-section,.why-section,.cta-section{padding:60px 20px}
+.what-grid{grid-template-columns:1fr}.layer{flex-direction:column}.layer-label{width:100%;min-width:100%;border-right:none;border-bottom:1px solid rgba(0,0,0,.04);padding:14px 20px}
+.perf-grid{grid-template-columns:1fr 1fr}.perf-num{font-size:36px}.value-grid{grid-template-columns:1fr}
+.flow-stage{height:auto;min-height:900px}.flow-col{position:relative;width:100%;flex-direction:row;flex-wrap:wrap;gap:8px;justify-content:center;left:auto!important;right:auto!important;top:auto!important}
+.flow-sources{order:2;padding-top:8px}.flow-outputs{order:4;padding-bottom:8px}.flow-ai-zone{position:relative;order:5;transform:none;left:auto;flex-wrap:wrap;justify-content:center}.flow-consumer-zone{position:relative;order:1;transform:none;left:auto;flex-wrap:wrap;justify-content:center}
+.flow-engine{position:relative;order:3;left:auto;top:auto;transform:none;margin:40px auto}
+.fn-name{font-size:10px}.fn-sub{display:none}#flowCanvas{display:none}
+.why-item{flex-direction:column;gap:8px}.why-num{font-size:32px}.site-footer{padding:40px 20px 30px}}
+</style>
+</head>
+<body>
+<div class="preloader" id="preloader"><div class="preloader-wordmark">InPursuit Health</div></div>
+<header class="top-bar" id="topBar"><div class="top-bar-inner">
+  <div style="display:flex;align-items:center;gap:8px"><a class="top-bar-brand" href="index.html"><div class="top-bar-wordmark">InPursuit Health</div></a><span style="color:rgba(255,255,255,.4);margin:0 4px">|</span><a href="maha.html" style="font-size:13px;color:var(--white);text-decoration:none;letter-spacing:.5px;font-weight:500;white-space:nowrap;transition:color .3s" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--white)'">MAHA Policy Alignment</a></div>
+  <nav class="top-bar-nav" id="topNav"><a class="nav-item" href="for-you.html">For You</a><a class="nav-item" href="for-providers.html">For Providers</a><a class="nav-item active" href="tetra.html">TETRA</a><a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a><a class="nav-item" href="veterans-first.html">Veterans First Initiative</a><a class="nav-item" href="partner-network.html" style="color:var(--gold)">Partner Network</a></nav>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+</div></header>
+
+<section class="page-hero"><div class="hero-bg-grid"></div><div class="hero-glow"></div>
+  <div class="hero-label reveal">Powered by TETRA&trade;</div>
+  <h1 class="reveal">The data infrastructure layer<br>that makes a <em>patient-centered<br>healthcare system</em> work.</h1>
+  <p class="hero-sub reveal">TETRA normalizes, routes, and governs health data across every system in the enterprise &mdash; <strong>EHRs, labs, pharmacies, payers, devices, AI models</strong> &mdash; through a single, real-time, model-agnostic fabric. Any AI. Any EHR. Any scale.</p>
+</section>
+
+<section class="what-section"><div class="what-inner"><div class="what-grid">
+  <div class="what-card reveal"><div class="what-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/></svg></div><h3>Connect</h3><p>Ingest and normalize data from any source &mdash; FHIR, HL7v2, X12, custom APIs, IoMT streams, flat files. One integration layer for the entire health data ecosystem.</p></div>
+  <div class="what-card reveal"><div class="what-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><h3>Orchestrate</h3><p>Route clinical context to the right AI model, the right workflow, the right human &mdash; in real-time. Model-agnostic. Vendor-neutral. Architecturally independent supervision.</p></div>
+  <div class="what-card reveal"><div class="what-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Govern</h3><p>Every transaction encrypted, logged, auditable. HIPAA-compliant by default. Consent management, role-based access, and full provenance tracking on every byte.</p></div>
+</div></div></section>
+
+<section class="arch-section"><div class="arch-inner">
+  <p class="s-overline reveal">Architecture</p><h2 class="s-headline reveal">Four layers. <em>One platform.</em></h2>
+  <p class="s-desc reveal">Every layer is modular. Every layer is independently scalable. Any component can be extended, replaced, or consumed via API without touching the rest of the stack.</p>
+  <div class="layer-stack">
+    <div class="layer layer-app reveal"><div class="layer-label"><div class="layer-label-name">Application</div><div class="layer-label-sub">Interfaces</div></div><div class="layer-items"><span class="layer-chip">Provider Quarterback View</span><span class="layer-chip">Patient Portal</span><span class="layer-chip">Leadership Scorecards</span><span class="layer-chip">Partner Apps &amp; Marketplace</span><span class="layer-chip">Telehealth</span><span class="layer-chip">Rewards Engine</span></div></div>
+    <div class="layer layer-intel reveal"><div class="layer-label"><div class="layer-label-name">Intelligence</div><div class="layer-label-sub">AI &amp; Analytics</div></div><div class="layer-items"><span class="layer-chip">Multi-Model Orchestration</span><span class="layer-chip">Context-Aware Routing</span><span class="layer-chip">Predictive Analytics</span><span class="layer-chip">HCC / RAF Coding</span><span class="layer-chip">Risk Stratification</span><span class="layer-chip">Population Health</span><span class="layer-chip">NLP / Conversational</span><span class="layer-chip">Safety Supervision</span></div></div>
+    <div class="layer layer-data reveal"><div class="layer-label"><div class="layer-label-name">Data Fabric</div><div class="layer-label-sub">Connectivity</div></div><div class="layer-items"><span class="layer-chip">FHIR R4</span><span class="layer-chip">HL7v2</span><span class="layer-chip">TEFCA / QHIN</span><span class="layer-chip">HIE Mesh</span><span class="layer-chip">EHR Adapters</span><span class="layer-chip">X12 / EDI</span><span class="layer-chip">IoMT / Wearables</span><span class="layer-chip">Pharmacy / NCPDP</span><span class="layer-chip">SDOH</span><span class="layer-chip">Event Streaming</span></div></div>
+    <div class="layer layer-comply reveal"><div class="layer-label"><div class="layer-label-name">Compliance</div><div class="layer-label-sub">Governance</div></div><div class="layer-items"><span class="layer-chip">HIPAA</span><span class="layer-chip">FedRAMP</span><span class="layer-chip">SOC 2</span><span class="layer-chip">FIPS 140-2</span><span class="layer-chip">AES-256</span><span class="layer-chip">TLS 1.3</span><span class="layer-chip">Zero-Trust</span><span class="layer-chip">RBAC / MFA</span><span class="layer-chip">Consent Engine</span><span class="layer-chip">Audit Trail</span></div></div>
+  </div>
+  <div class="arch-callout reveal">Any AI model plugs into the Intelligence layer. Any EHR plugs into the Data Fabric.<br>The Compliance layer <em>wraps everything automatically.</em></div>
+</div></section>
+
+<!-- ======== ECOSYSTEM VISUALIZATION ======== -->
+<section class="flow-section" id="flow"><div class="flow-inner">
+  <div class="flow-header reveal">
+    <p class="s-overline" style="color:var(--gold);text-align:center">Live Ecosystem</p>
+    <h2 class="s-headline" style="color:var(--white);text-align:center">People. Enterprise. <em>Intelligence.</em></h2>
+    <p style="font-size:15px;color:rgba(255,255,255,.4);line-height:1.7;max-width:650px;margin:16px auto 0;text-align:center">The people who matter most sit at the top. Enterprise data feeds in from the left. Clean intelligence flows out to providers and partners on the right. AI models orbit the engine, plugging in and out without touching the architecture.</p>
+  </div>
+  <div class="flow-stage reveal" id="flowStage">
+    <canvas id="flowCanvas"></canvas>
+
+    <!-- TRACE CTA - above people -->
+    <div style="position:absolute;top:0;left:0;right:0;z-index:6;display:flex;align-items:center;justify-content:center;padding:8px 0">
+      <div style="display:inline-flex;align-items:center;gap:10px;padding:10px 28px;border:1px solid rgba(197,164,78,.2);border-radius:8px;background:rgba(197,164,78,.04);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;cursor:default"><span style="width:6px;height:6px;border-radius:50%;background:var(--gold);animation:lp 1.5s ease-in-out infinite"></span>Click any node to trace its path through the platform</div>
+    </div>
+
+    <!-- PEOPLE & PATIENTS - top -->
+    <div class="flow-consumer-zone" id="flowConsumer">
+      <div class="flow-zone-label-h" style="color:rgba(6,182,212,.4);width:100%">People &amp; Patients</div>
+      <div class="consumer-node" data-fid="c-app"><div class="fn-text"><span class="fn-name">Health App</span><span class="fn-sub">Wellness &middot; Rewards</span></div></div>
+      <div class="consumer-node" data-fid="c-checkin"><div class="fn-text"><span class="fn-name">Symptom Check-In</span><span class="fn-sub">Self-Report &middot; Intake</span></div></div>
+      <div class="consumer-node" data-fid="c-coaching"><div class="fn-text"><span class="fn-name">AI Health Coach</span><span class="fn-sub">Chat &middot; Guidance</span></div></div>
+      <div class="consumer-node" data-fid="c-portal"><div class="fn-text"><span class="fn-name">Patient Portal</span><span class="fn-sub">Records &middot; Results</span></div></div>
+      <div class="consumer-node" data-fid="c-wearable"><div class="fn-text"><span class="fn-name">Wearable Data</span><span class="fn-sub">Vitals &middot; Activity</span></div></div>
+    </div>
+
+    <!-- ENTERPRISE SOURCES - left -->
+    <div class="flow-col flow-sources">
+      <div class="flow-zone-label">Enterprise Sources</div>
+      <div class="flow-node fn-source" data-fid="ehr"><div class="fn-dot"></div><div class="fn-text"><span class="fn-name">EHR Systems</span><span class="fn-sub">Epic &middot; Cerner &middot; athena</span></div></div>
+      <div class="flow-node fn-source" data-fid="lab"><div class="fn-dot"></div><div class="fn-text"><span class="fn-name">Lab Results</span><span class="fn-sub">Quest &middot; LabCorp</span></div></div>
+      <div class="flow-node fn-source" data-fid="rx"><div class="fn-dot"></div><div class="fn-text"><span class="fn-name">Pharmacy / Rx</span><span class="fn-sub">Surescripts &middot; NCPDP</span></div></div>
+      <div class="flow-node fn-source" data-fid="payer"><div class="fn-dot"></div><div class="fn-text"><span class="fn-name">Payer Claims</span><span class="fn-sub">X12 &middot; 837/835</span></div></div>
+      <div class="flow-node fn-source" data-fid="device"><div class="fn-dot"></div><div class="fn-text"><span class="fn-name">Wearables / IoMT</span><span class="fn-sub">RPM &middot; Vitals &middot; CGM</span></div></div>
+      <div class="flow-node fn-source" data-fid="hie"><div class="fn-dot"></div><div class="fn-text"><span class="fn-name">HIE / SDOH</span><span class="fn-sub">TEFCA &middot; QHIN &middot; ADT</span></div></div>
+    </div>
+
+    <!-- TETRA ENGINE - center -->
+    <div class="flow-engine" id="flowEngine">
+      <div class="fe-layer fe-data"><span>Data Fabric</span></div>
+      <div class="fe-layer fe-comply"><span>Compliance</span></div>
+      <div class="fe-core" id="feCore"><div class="fe-ring fe-ring-1"></div><div class="fe-ring fe-ring-2"></div><div class="fe-ring fe-ring-3"></div><div class="fe-label">TETRA</div><div class="fe-sublabel">Engine</div></div>
+      <div class="fe-layer fe-intel"><span>Intelligence</span></div>
+      <div class="fe-layer fe-app"><span>Application</span></div>
+    </div>
+
+    <!-- ENTERPRISE OUTPUTS - right -->
+    <div class="flow-col flow-outputs">
+      <div class="flow-zone-label">Enterprise Outputs</div>
+      <div class="flow-node fn-output" data-fid="qb"><div class="fn-text"><span class="fn-name">Provider QB View</span><span class="fn-sub">Embedded in EHR</span></div><div class="fn-dot"></div></div>
+      <div class="flow-node fn-output" data-fid="vp"><div class="fn-text"><span class="fn-name">Virtual Practice</span><span class="fn-sub">Powered by InPursuit</span></div><div class="fn-dot"></div></div>
+      <div class="flow-node fn-output" data-fid="telehealth"><div class="fn-text"><span class="fn-name">Telehealth</span><span class="fn-sub">Video &middot; Async &middot; RPM</span></div><div class="fn-dot"></div></div>
+      <div class="flow-node fn-output" data-fid="api"><div class="fn-text"><span class="fn-name">Partner APIs</span><span class="fn-sub">REST &middot; GraphQL &middot; FHIR</span></div><div class="fn-dot"></div></div>
+      <div class="flow-node fn-output" data-fid="analytics"><div class="fn-text"><span class="fn-name">Analytics</span><span class="fn-sub">Dashboards &middot; Scorecards</span></div><div class="fn-dot"></div></div>
+      <div class="flow-node fn-output" data-fid="pophealth"><div class="fn-text"><span class="fn-name">Population Health</span><span class="fn-sub">Stratification &middot; Gaps</span></div><div class="fn-dot"></div></div>
+      <div class="flow-node fn-output" data-fid="cms"><div class="fn-text"><span class="fn-name">CMS Reporting</span><span class="fn-sub">ACCESS &middot; MIPS &middot; VBC</span></div><div class="fn-dot"></div></div>
+    </div>
+
+    <!-- AI MODEL MESH - bottom, tight to engine -->
+    <div class="flow-ai-zone" id="flowAI">
+      <div class="flow-zone-label-h" style="color:rgba(99,102,241,.4);width:100%">AI Model Mesh &mdash; Pluggable &middot; Swappable &middot; Unlimited</div>
+      <div class="ai-node" data-fid="ai-clinical"><div class="ai-icon" style="background:rgba(99,102,241,.2)">Dx</div><div class="fn-text"><span class="fn-name">Clinical Reasoning</span><span class="fn-sub">Diagnostic AI</span></div></div>
+      <div class="ai-node" data-fid="ai-nlp"><div class="ai-icon" style="background:rgba(6,182,212,.2)">NL</div><div class="fn-text"><span class="fn-name">Patient NLP</span><span class="fn-sub">Conversational</span></div></div>
+      <div class="ai-node" data-fid="ai-coding"><div class="ai-icon" style="background:rgba(34,197,94,.2)">$</div><div class="fn-text"><span class="fn-name">HCC / Coding</span><span class="fn-sub">Revenue AI</span></div></div>
+      <div class="ai-node" data-fid="ai-predict"><div class="ai-icon" style="background:rgba(251,146,60,.2)">Px</div><div class="fn-text"><span class="fn-name">Predictive</span><span class="fn-sub">Risk Models</span></div></div>
+      <div class="ai-node" data-fid="ai-safety"><div class="ai-icon" style="background:rgba(239,68,68,.2)">!</div><div class="fn-text"><span class="fn-name">Safety Oversight</span><span class="fn-sub">Supervisory Agent</span></div></div>
+      <div class="ai-node" data-fid="ai-edge"><div class="ai-icon" style="background:rgba(236,72,153,.2)">E</div><div class="fn-text"><span class="fn-name">Edge / Device</span><span class="fn-sub">On-Wearable</span></div></div>
+    </div>
+  </div>
+  <div class="flow-live reveal"><div class="flow-live-pulse"></div><span class="flow-live-text">No governor. <span id="flowCounter">0</span> healthcare data transactions &mdash; 1.8M per hour in Defense Health Agency production.</span></div>
+</div></section>
+
+<section class="perf-section"><div class="perf-inner">
+  <p class="s-overline reveal" style="color:var(--gold);text-align:center">Performance</p>
+  <h2 class="s-headline reveal" style="color:var(--white);text-align:center;margin-bottom:48px">Production numbers. <em>Not benchmarks.</em></h2>
+  <div class="perf-grid">
+    <div class="perf-card reveal"><div class="perf-num">1.8M+</div><div class="perf-label">Transactions / Hour</div><div class="perf-desc">Real-time processing across federated health systems.</div></div>
+    <div class="perf-card reveal"><div class="perf-num">95%</div><div class="perf-label">Interoperability Rate</div><div class="perf-desc">Validated across heterogeneous EHR, payer, and federal systems.</div></div>
+    <div class="perf-card reveal"><div class="perf-num">&lt;200ms</div><div class="perf-label">Routing Latency</div><div class="perf-desc">Context eval, model selection, and delivery.</div></div>
+    <div class="perf-card reveal"><div class="perf-num">&infin;</div><div class="perf-label">AI Models Supported</div><div class="perf-desc">Any model, any vendor, any combination. No ceiling.</div></div>
+    <div class="perf-card reveal"><div class="perf-num">0</div><div class="perf-label">Vendor Lock-In</div><div class="perf-desc">Swap any component without rearchitecting.</div></div>
+  </div>
+</div></section>
+
+<section class="value-section"><div class="value-inner">
+  <p class="s-overline reveal">Value Streams</p><h2 class="s-headline reveal">What TETRA <em>produces.</em></h2>
+  <p class="s-desc reveal">The same data fabric powers every use case. Each stream compounds the value of the others.</p>
+  <div class="value-grid">
+    <div class="value-card reveal"><div class="value-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 010 7H6"/></svg></div><h3>Revenue Optimization</h3><p>CMS ACCESS Model compliance, VBC outcome tracking, HCC coding intelligence, RAF score capture. Turns clinical data into payments.</p><div class="value-card-metric"><span class="vm-num">$2.3M</span><span class="vm-label">Projected &mdash; First Partner</span></div></div>
+    <div class="value-card reveal"><div class="value-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3z"/></svg></div><h3>Care Coordination</h3><p>Chronic disease workflows, transitional care, RPM/CCM integration, care gap detection. 80% of outreach runs without human intervention.</p><div class="value-card-metric"><span class="vm-num">32%</span><span class="vm-label">Fewer Hospitalizations</span></div></div>
+    <div class="value-card reveal"><div class="value-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg></div><h3>Predictive Intelligence</h3><p>Readmission risk alerts 30-60 days before the event. Population health stratification. Provider scorecards.</p><div class="value-card-metric"><span class="vm-num">30-60</span><span class="vm-label">Days Early Warning</span></div></div>
+    <div class="value-card reveal"><div class="value-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><h3>Developer Platform</h3><p>APIs, SDKs, ML-ready data pipelines, HIPAA sandbox. Partners build on TETRA's fabric through the marketplace. They keep their IP.</p></div>
+    <div class="value-card reveal"><div class="value-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 00-16 0"/></svg></div><h3>Consumer Engagement</h3><p>Patient-facing health app with gamified wellness, rewards for healthy behaviors, lab-verified outcomes, and full clinical data access.</p><div class="value-card-metric"><span class="vm-num">$500+</span><span class="vm-label">Annual Patient Rewards</span></div></div>
+    <div class="value-card reveal"><div class="value-card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Compliance Automation</h3><p>CMS reporting, BAA management, consent tracking, audit logs, breach detection. Compliance as infrastructure, not overhead.</p><div class="value-card-metric"><span class="vm-num">100%</span><span class="vm-label">Automated Audit Trail</span></div></div>
+  </div>
+</div></section>
+
+<section class="why-section"><div class="why-inner">
+  <p class="s-overline reveal" style="color:var(--gold);text-align:center">Why AI Needs This</p>
+  <h2 class="s-headline reveal" style="color:var(--white);text-align:center;max-width:700px;margin:0 auto 48px">Every AI model is only as good as <em>the data it can reach.</em></h2>
+  <div class="why-list">
+    <div class="why-item reveal"><div class="why-num">01</div><div class="why-content"><h4>Clean, structured, real-time clinical data</h4><p>AI models need normalized FHIR resources, not PDF dumps from 2019. TETRA ingests from any source, normalizes to standard schemas, and delivers structured clinical context in real-time. The difference between a useful inference and a hallucination starts here.</p></div></div>
+    <div class="why-item reveal"><div class="why-num">02</div><div class="why-content"><h4>A compliance envelope that doesn't slow you down</h4><p>HIPAA, BAAs, consent management, audit trails, encryption at rest and in transit. Every AI company entering healthcare builds this from scratch &mdash; or doesn't, and gets sued. TETRA wraps it around every transaction automatically.</p></div></div>
+    <div class="why-item reveal"><div class="why-num">03</div><div class="why-content"><h4>The last mile into clinical workflows</h4><p>An AI recommendation that lives in a dashboard nobody opens is worthless. TETRA embeds outputs directly inside the EHR &mdash; the provider's Quarterback View surfaces the top 3 actions per patient at the moment of care.</p></div></div>
+    <div class="why-item reveal"><div class="why-num">04</div><div class="why-content"><h4>Independent safety supervision</h4><p>A supervisory agent built on the same model it monitors shares the same blind spots. TETRA's oversight layer is architecturally independent &mdash; different model, different vendor, different failure modes. The only architecture that makes clinical AI safe at scale.</p></div></div>
+    <div class="why-item reveal"><div class="why-num">05</div><div class="why-content"><h4>Scale without rearchitecting</h4><p>One practice or a thousand. One AI model or a hundred running concurrently. One state or fifty. TETRA's modular fabric scales horizontally without touching the application layer. New models integrate in weeks, not quarters.</p></div></div>
+  </div>
+</div></section>
+
+<section class="cta-section"><div class="cta-inner reveal">
+  <p class="s-overline" style="color:var(--gold);text-align:center">Get Started</p>
+  <h2>The platform beneath the AI<br>matters more than <em>the AI itself.</em></h2>
+  <p>Explore TETRA as infrastructure for your AI products, as a data fabric for your health system, or as the foundation for your next healthcare application.</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap"><a class="btn-gold" href="contact.html">Request Architecture Brief &rarr;</a><a class="btn-outline" href="partner-network.html">Explore the Ecosystem</a></div>
+</div></section>
+
+<footer class="site-footer">
+  <div class="footer-inner"><div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div><span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span></div>
+  <div class="footer-nav"><a href="index.html">Home</a><a href="tetra.html">TETRA</a><a href="for-you.html">For You</a><a href="for-providers.html">For Providers</a><a href="data-security-ai.html">AI &amp; Your Data</a><a href="maha.html">MAHA</a><a href="veterans-first.html">Veterans First</a><a href="partner-network.html">Partner Network</a></div>
+  <div class="footer-nav" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(197,164,78,.05)"><a href="about.html">About Us</a><a href="leadership.html">Leadership</a><a href="security-center.html">Security Center</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+window.addEventListener('load',function(){setTimeout(function(){document.getElementById('preloader').classList.add('done')},600)});
+window.addEventListener('scroll',function(){document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10)});
+document.getElementById('navToggle').addEventListener('click',function(){document.getElementById('topNav').classList.toggle('open')});
+var obs=new IntersectionObserver(function(e){e.forEach(function(en){if(en.isIntersecting)en.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+
+/* ==============================================
+   ECOSYSTEM FLOW ENGINE
+   4 zones: Sources(L) → TETRA → Outputs(R)
+            AI Models(top) ↕ TETRA
+            People(bottom) ↕ TETRA
+   ============================================== */
+(function(){
+  var canvas=document.getElementById('flowCanvas');if(!canvas)return;
+  var ctx=canvas.getContext('2d'),stage=document.getElementById('flowStage');
+  var P=[],time=0,MAX=700,counter=0,cEl=document.getElementById('flowCounter'),sel=null;
+
+  // Routing: source→output, ai↔engine, consumer↔engine
+  var sRoutes={ehr:['qb','vp','telehealth','analytics','cms'],lab:['qb','analytics','pophealth'],rx:['qb','vp','cms'],payer:['analytics','cms','api','pophealth'],device:['qb','vp','telehealth','analytics'],hie:['qb','analytics','cms','api','pophealth']};
+  var aiModels=['ai-clinical','ai-nlp','ai-coding','ai-predict','ai-safety','ai-edge'];
+  var consumers=['c-app','c-checkin','c-coaching','c-portal','c-wearable'];
+  // Which AI models are involved with which sources
+  var aiRoutes={'ai-clinical':['ehr','lab','hie'],'ai-nlp':['ehr','device'],'ai-coding':['ehr','payer','rx'],'ai-predict':['ehr','lab','device','hie'],'ai-safety':['ehr','lab','rx','payer','device','hie'],'ai-edge':['device']};
+  // Which consumers connect to which outputs + bidirectional
+  var cRoutes={'c-app':['qb','analytics','telehealth'],'c-checkin':['qb','vp'],'c-coaching':['qb','api','telehealth'],'c-portal':['qb','analytics'],'c-wearable':['qb','analytics','telehealth']};
+
+  var rev={};Object.keys(sRoutes).forEach(function(s){sRoutes[s].forEach(function(o){if(!rev[o])rev[o]=[];if(rev[o].indexOf(s)===-1)rev[o].push(s)})});
+
+  var colors={ehr:{r:99,g:102,b:241},lab:{r:34,g:197,b:94},rx:{r:251,g:146,b:60},payer:{r:37,g:99,b:235},device:{r:236,g:72,b:153},hie:{r:197,g:164,b:78},
+    'ai-clinical':{r:99,g:102,b:241},'ai-nlp':{r:6,g:182,b:212},'ai-coding':{r:34,g:197,b:94},'ai-predict':{r:251,g:146,b:60},'ai-safety':{r:239,g:68,b:68},'ai-edge':{r:236,g:72,b:153},
+    'c-app':{r:6,g:182,b:212},'c-checkin':{r:6,g:182,b:212},'c-coaching':{r:6,g:182,b:212},'c-portal':{r:6,g:182,b:212},'c-wearable':{r:6,g:182,b:212}};
+
+  function resize(){var r=stage.getBoundingClientRect();canvas.width=r.width;canvas.height=r.height}
+  resize();window.addEventListener('resize',resize);
+
+  function nc(sel){var n=document.querySelector('[data-fid="'+sel+'"]');if(!n)return null;var dot=n.querySelector('.fn-dot')||n.querySelector('.ai-icon')||n;var sr=stage.getBoundingClientRect(),dr=dot.getBoundingClientRect();return{x:dr.left+dr.width/2-sr.left,y:dr.top+dr.height/2-sr.top}}
+  function hub(){var e=document.getElementById('feCore'),sr=stage.getBoundingClientRect(),er=e.getBoundingClientRect();return{x:er.left+er.width/2-sr.left,y:er.top+er.height/2-sr.top}}
+
+  function spawn(fromId,toId,dim){
+    if(P.length>=MAX)return;
+    var f=nc(fromId),t=nc(toId);if(!f||!t)return;
+    var h=hub(),c=colors[fromId]||{r:197,g:164,b:78};
+    var spread=(Math.random()-.5)*20,wA=6+Math.random()*12,wF=1.5+Math.random()*2,wO=Math.random()*Math.PI*2;
+    P.push({phase:0,progress:0,speed:.003+Math.random()*.003,fx:f.x,fy:f.y+spread,hx:h.x+(Math.random()-.5)*28,hy:h.y+(Math.random()-.5)*28,tx:t.x,ty:t.y+spread*.5,r:c.r,g:c.g,b:c.b,or:c.r,og:c.g,ob:c.b,size:.5+Math.random()*1.2,dim:!!dim,wA:wA,wF:wF,wO:wO,trail:[]});
+  }
+
+  function spawnWave(){
+    var srcs=Object.keys(sRoutes),cnt=2+Math.floor(Math.random()*4);
+    // Enterprise flows
+    for(var i=0;i<cnt;i++){
+      var s=srcs[Math.floor(Math.random()*srcs.length)],outs=sRoutes[s],o=outs[Math.floor(Math.random()*outs.length)];
+      var dim=sel?!isRelevant(s,o):false;
+      if(dim&&Math.random()>.2)continue;
+      spawn(s,o,dim);
+    }
+    // AI model flows (to/from engine represented as hub)
+    if(Math.random()<.4){
+      var ai=aiModels[Math.floor(Math.random()*aiModels.length)];
+      var outbound=Math.random()>.5;
+      // AI→hub or hub→AI
+      var f=nc(ai),h=hub();if(f&&h){
+        var c=colors[ai]||{r:99,g:102,b:241};
+        if(P.length<MAX)P.push({phase:outbound?0:1,progress:0,speed:.004+Math.random()*.003,fx:outbound?f.x:h.x,fy:outbound?f.y:h.y,hx:h.x+(Math.random()-.5)*20,hy:h.y+(Math.random()-.5)*20,tx:outbound?h.x:f.x,ty:outbound?h.y:f.y,r:c.r,g:c.g,b:c.b,or:c.r,og:c.g,ob:c.b,size:.6+Math.random(),dim:sel?!isAIRelevant(ai):false,wA:4+Math.random()*8,wF:2+Math.random()*2,wO:Math.random()*Math.PI*2,trail:[],isAI:true,noPhaseSwitch:true});
+      }
+    }
+    // Consumer flows (bidirectional)
+    if(Math.random()<.35){
+      var cn=consumers[Math.floor(Math.random()*consumers.length)];
+      var up=Math.random()>.4; // data up more often
+      var f2=nc(cn),h2=hub();if(f2&&h2){
+        var cc={r:6,g:182,b:212};
+        if(P.length<MAX)P.push({phase:up?0:1,progress:0,speed:.003+Math.random()*.003,fx:up?f2.x:h2.x,fy:up?f2.y:h2.y,hx:h2.x+(Math.random()-.5)*20,hy:h2.y+(Math.random()-.5)*20,tx:up?h2.x:f2.x,ty:up?h2.y:f2.y,r:cc.r,g:cc.g,b:cc.b,or:cc.r,og:cc.g,ob:cc.b,size:.5+Math.random()*.8,dim:sel?!isConsumerRelevant(cn):false,wA:5+Math.random()*10,wF:1.5+Math.random()*2,wO:Math.random()*Math.PI*2,trail:[],isConsumer:true,noPhaseSwitch:true});
+      }
+    }
+  }
+
+  function isRelevant(s,o){if(!sel)return true;if(sel.type==='source')return sel.id===s;if(sel.type==='output')return sRoutes[s]&&sRoutes[s].indexOf(sel.id)!==-1;return false}
+  function isAIRelevant(ai){if(!sel)return true;if(sel.id===ai)return true;if(sel.type==='source'&&aiRoutes[ai]&&aiRoutes[ai].indexOf(sel.id)!==-1)return true;return false}
+  function isConsumerRelevant(cn){if(!sel)return true;if(sel.id===cn)return true;return false}
+
+  var cAccum=0;
+  function tick(){cAccum+=8.33;var a=Math.floor(cAccum);if(a>0){counter+=a;cAccum-=a;if(cEl)cEl.textContent=counter.toLocaleString()}}
+
+  function drawLine(ax,ay,bx,by,col,a,w){
+    ctx.beginPath();ctx.moveTo(ax,ay);var mx=(ax+bx)/2;ctx.quadraticCurveTo(mx,(ay+by)/2,bx,by);ctx.strokeStyle='rgba('+col.r+','+col.g+','+col.b+','+a+')';ctx.lineWidth=w;ctx.stroke();
+  }
+
+  function animate(){
+    time+=.016;resize();
+    ctx.fillStyle='rgba(6,14,26,0.25)';ctx.fillRect(0,0,canvas.width,canvas.height);
+    var h=hub();
+
+    // Draw channel lines: sources→hub
+    document.querySelectorAll('.fn-source').forEach(function(sn){
+      var sid=sn.dataset.fid,sc=nc(sid);if(!sc)return;var col=colors[sid]||{r:197,g:164,b:78};
+      var a=(!sel||sel.id===sid||sel.type==='output')?0.04:0.01;
+      for(var l=-1;l<=1;l++){drawLine(sc.x,sc.y+l*8,h.x,h.y+l*3,col,a+Math.abs(l)*.003,a>0.02?.6:.3)}
+    });
+    // hub→outputs
+    document.querySelectorAll('.fn-output').forEach(function(on){
+      var oid=on.dataset.fid,oc=nc(oid);if(!oc)return;
+      var a=(!sel||sel.id===oid||sel.type==='source')?0.035:0.008;
+      for(var l=-1;l<=1;l++){drawLine(h.x,h.y+l*3,oc.x,oc.y+l*8,{r:197,g:164,b:78},a+Math.abs(l)*.003,a>0.02?.6:.3)}
+    });
+    // AI model lines
+    aiModels.forEach(function(ai){
+      var ac=nc(ai);if(!ac)return;var col=colors[ai]||{r:99,g:102,b:241};
+      var a=(!sel||sel.id===ai)?0.04:0.008;
+      drawLine(ac.x,ac.y,h.x,h.y,col,a,.6);
+    });
+    // Consumer lines
+    consumers.forEach(function(cn){
+      var cc=nc(cn);if(!cc)return;
+      var a=(!sel||sel.id===cn)?0.035:0.008;
+      drawLine(cc.x,cc.y,h.x,h.y,{r:6,g:182,b:212},a,.6);
+    });
+
+    spawnWave();tick();
+
+    // Particles
+    for(var i=P.length-1;i>=0;i--){
+      var p=P[i];p.progress+=p.speed;
+      if(p.progress>=1){
+        if(p.noPhaseSwitch||p.phase===1){P.splice(i,1);continue}
+        p.phase=1;p.progress=0;p.speed=.0025+Math.random()*.003;continue;
+      }
+      var t=p.progress,px,py;
+      if(p.phase===0){var mx=(p.fx+p.hx)/2;px=(1-t)*(1-t)*p.fx+2*(1-t)*t*mx+t*t*p.hx;py=(1-t)*(1-t)*p.fy+2*(1-t)*t*((p.fy+p.hy)/2)+t*t*p.hy}
+      else{var mx2=(p.hx+p.tx)/2;px=(1-t)*(1-t)*p.hx+2*(1-t)*t*mx2+t*t*p.tx;py=(1-t)*(1-t)*p.hy+2*(1-t)*t*((p.hy+p.ty)/2)+t*t*p.ty}
+      // sine wave
+      var wv=Math.sin(t*Math.PI*p.wF+p.wO+time*.8)*p.wA*Math.sin(t*Math.PI);
+      var dx=p.phase===0?(p.hx-p.fx):(p.tx-p.hx),dy=p.phase===0?(p.hy-p.fy):(p.ty-p.hy);
+      var len=Math.sqrt(dx*dx+dy*dy)||1;px+=(-dy/len)*wv;py+=(dx/len)*wv;
+      var al=t<.08?t*10:t>.88?(1-t)*7:.55;if(p.dim)al*=.1;
+      // Blend to gold for enterprise, stay colored for AI/consumer
+      if(p.phase===1&&!p.isAI&&!p.isConsumer){var bl=t*.75;p.r=Math.round(p.or+(197-p.or)*bl);p.g=Math.round(p.og+(164-p.og)*bl);p.b=Math.round(p.ob+(78-p.ob)*bl)}
+      p.trail.push({x:px,y:py});if(p.trail.length>5)p.trail.shift();
+      if(p.trail.length>2){ctx.beginPath();ctx.moveTo(p.trail[0].x,p.trail[0].y);for(var ti=1;ti<p.trail.length;ti++)ctx.lineTo(p.trail[ti].x,p.trail[ti].y);ctx.strokeStyle='rgba('+p.r+','+p.g+','+p.b+','+(al*.25)+')';ctx.lineWidth=p.size*1.5;ctx.stroke()}
+      ctx.beginPath();ctx.arc(px,py,p.size*3,0,Math.PI*2);ctx.fillStyle='rgba('+p.r+','+p.g+','+p.b+','+(al*.06)+')';ctx.fill();
+      ctx.beginPath();ctx.arc(px,py,p.size,0,Math.PI*2);ctx.fillStyle='rgba('+p.r+','+p.g+','+p.b+','+al+')';ctx.fill();
+    }
+    requestAnimationFrame(animate);
+  }
+
+  // Click: highlight connected paths
+  document.querySelectorAll('.flow-node,.ai-node,.consumer-node').forEach(function(node){
+    node.addEventListener('click',function(){
+      var fid=node.dataset.fid;
+      var type=node.classList.contains('fn-source')?'source':node.classList.contains('fn-output')?'output':node.classList.contains('ai-node')?'ai':'consumer';
+      var was=sel&&sel.id===fid;
+      document.querySelectorAll('.flow-node,.ai-node,.consumer-node').forEach(function(n){n.classList.remove('fn-highlight')});
+      sel=null;
+      if(!was){
+        sel={id:fid,type:type};node.classList.add('fn-highlight');
+        if(type==='source'){
+          (sRoutes[fid]||[]).forEach(function(o){var n=document.querySelector('[data-fid="'+o+'"]');if(n)n.classList.add('fn-highlight')});
+          aiModels.forEach(function(ai){if(aiRoutes[ai]&&aiRoutes[ai].indexOf(fid)!==-1){var n=document.querySelector('[data-fid="'+ai+'"]');if(n)n.classList.add('fn-highlight')}});
+        } else if(type==='output'){
+          (rev[fid]||[]).forEach(function(s){var n=document.querySelector('[data-fid="'+s+'"]');if(n)n.classList.add('fn-highlight')});
+        } else if(type==='ai'){
+          (aiRoutes[fid]||[]).forEach(function(s){var n=document.querySelector('[data-fid="'+s+'"]');if(n)n.classList.add('fn-highlight')});
+        } else if(type==='consumer'){
+          // Consumers connect bidirectionally to engine
+          node.classList.add('fn-highlight');
+        }
+      }
+    });
+  });
+  animate();
+})();
+</script>
+</body>
+</html>
