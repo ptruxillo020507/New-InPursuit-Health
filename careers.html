@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Careers — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-deep:#060E1A;--navy-mid:#112240;--gold:#C5A44E;--gold-light:#D4B96A;--gold-bright:#E8D48B;--white:#FFFFFF;--cream:#FAF8F4;--text-dark:#1A1A2E;--text-muted:#6B7280}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Instrument Sans',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}.preloader{position:fixed;inset:0;background:var(--navy-deep);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease}.preloader.hidden{opacity:0;visibility:hidden;pointer-events:none}.preloader-wordmark{font-family:'Instrument Serif',serif;font-size:28px;color:var(--gold);letter-spacing:2px;animation:pulseFade 1.2s ease-in-out infinite}@keyframes pulseFade{0%,100%{opacity:.3}50%{opacity:1}}.top-bar{background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.2);position:fixed;top:0;left:0;right:0;z-index:1000;transition:box-shadow .3s ease}.top-bar.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4)}.top-bar-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;height:64px}.top-bar-brand{display:flex;align-items:center;text-decoration:none}.top-bar-wordmark{font-family:'Instrument Serif',serif;font-size:22px;color:var(--gold);letter-spacing:1px}.top-bar-nav{display:flex;align-items:center}.nav-item{position:relative;padding:20px 14px;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .3s ease}.nav-item:hover,.nav-item.active{color:var(--gold)}.nav-item::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:width .3s ease}.nav-item:hover::after,.nav-item.active::after{width:60%}.nav-toggle{display:none;background:none;border:none;width:32px;height:32px;cursor:pointer;position:relative}.nav-toggle span{display:block;width:22px;height:2px;background:var(--gold);position:absolute;left:5px;transition:all .3s ease}.nav-toggle span:nth-child(1){top:8px}.nav-toggle span:nth-child(2){top:15px}.nav-toggle span:nth-child(3){top:22px}
+
+.page-hero{background:var(--navy-deep);padding:160px 40px 100px;position:relative;overflow:hidden}.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 40% 50%,rgba(197,164,78,.06) 0%,transparent 60%)}.page-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:2;text-align:center}.page-hero-overline{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}.page-hero h1{font-family:'Instrument Serif',serif;font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:24px}.page-hero h1 em{font-style:italic;color:var(--gold)}.page-hero-desc{font-size:17px;color:rgba(255,255,255,.6);line-height:1.7;max-width:640px;margin:0 auto}
+
+/* Values */
+.section{padding:100px 40px}.section-inner{max-width:1000px;margin:0 auto}.section-overline{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}.section-headline{font-family:'Instrument Serif',serif;font-size:clamp(28px,3.5vw,44px);font-weight:400;color:var(--navy);line-height:1.2;margin-bottom:20px}.section-headline em{font-style:italic;color:var(--gold)}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
+.value-card{padding:36px 28px;background:var(--white);border:1px solid rgba(10,22,40,.06);border-radius:8px;transition:all .4s ease}.value-card:hover{box-shadow:0 12px 36px rgba(10,22,40,.06);transform:translateY(-3px)}
+.value-icon{width:48px;height:48px;border-radius:50%;background:var(--navy-deep);display:flex;align-items:center;justify-content:center;margin-bottom:20px}.value-icon svg{width:22px;height:22px;fill:var(--gold)}
+.value-title{font-family:'Instrument Serif',serif;font-size:20px;color:var(--navy);margin-bottom:10px}.value-text{font-size:14px;color:var(--text-muted);line-height:1.7}
+
+/* No Openings Placeholder */
+.no-openings{background:var(--navy-deep);color:var(--white);padding:100px 40px;text-align:center}
+.no-openings-inner{max-width:600px;margin:0 auto}
+.no-openings-icon{width:80px;height:80px;border-radius:50%;background:rgba(197,164,78,.1);border:2px solid rgba(197,164,78,.2);display:flex;align-items:center;justify-content:center;margin:0 auto 28px}
+.no-openings-icon svg{width:36px;height:36px;fill:var(--gold)}
+.no-openings h2{font-family:'Instrument Serif',serif;font-size:32px;font-weight:400;color:var(--white);margin-bottom:16px}.no-openings h2 em{font-style:italic;color:var(--gold)}
+.no-openings-text{font-size:16px;color:rgba(255,255,255,.6);line-height:1.7;margin-bottom:32px}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:transparent;color:var(--gold);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:4px;border:1.5px solid rgba(197,164,78,.4);transition:all .3s ease;cursor:pointer}.btn-outline:hover{border-color:var(--gold);background:rgba(197,164,78,.08);transform:translateY(-2px)}
+
+/* Benefits */
+.benefits-section{padding:100px 40px}
+.benefits-inner{max-width:800px;margin:0 auto;text-align:center}
+.benefits-overline{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}
+.benefits-headline{font-family:'Instrument Serif',serif;font-size:clamp(28px,3.5vw,40px);font-weight:400;color:var(--navy);line-height:1.3;margin-bottom:40px}.benefits-headline em{font-style:italic;color:var(--gold)}
+.benefits-list{display:grid;grid-template-columns:1fr 1fr;gap:20px;text-align:left}
+.benefit-item{display:flex;align-items:flex-start;gap:12px;padding:16px;background:var(--white);border:1px solid rgba(10,22,40,.04);border-radius:6px}
+.benefit-check{width:24px;height:24px;min-width:24px;border-radius:50%;background:rgba(197,164,78,.1);display:flex;align-items:center;justify-content:center;margin-top:2px}
+.benefit-check svg{width:14px;height:14px;fill:var(--gold)}
+.benefit-text{font-size:14px;color:var(--text-dark);line-height:1.5}
+
+.site-footer{background:var(--navy-deep);border-top:1px solid rgba(197,164,78,.1);padding:60px 40px 40px;text-align:center}.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}.footer-wordmark{font-family:'Instrument Serif',serif;font-size:20px;color:var(--gold);letter-spacing:1px}.footer-legal{font-size:11px;color:rgba(255,255,255,.3)}.footer-nav{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}.footer-nav a{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s ease}.footer-nav a:hover{color:var(--gold)}.footer-disclaimer{font-size:11px;color:rgba(255,255,255,.2);max-width:800px;margin:20px auto 16px;line-height:1.6}.footer-tagline{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(197,164,78,.3)}
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){.top-bar-nav{display:none}.top-bar-nav.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.1);padding:8px 0}.top-bar-nav.open .nav-item{padding:14px 24px}.nav-toggle{display:block}.page-hero{padding:120px 24px 60px}.section,.benefits-section{padding:60px 24px}.values-grid{grid-template-columns:1fr}.benefits-list{grid-template-columns:1fr}.no-openings{padding:60px 24px}.footer-inner{flex-direction:column;gap:12px}}
+</style>
+</head>
+<body>
+<div class="preloader" id="preloader"><div class="preloader-wordmark">INPURSUIT HEALTH</div></div>
+<header class="top-bar" id="topBar"><div class="top-bar-inner"><a class="top-bar-brand" href="index.html"><span class="top-bar-wordmark">InPursuit Health</span></a><button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button><nav class="top-bar-nav" id="topNav"><a class="nav-item" href="for-you.html">For You</a><a class="nav-item" href="for-providers.html">For Providers</a><a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a><a class="nav-item" href="veterans-first.html">Veterans First Initiative</a><a class="nav-item" href="partner-network.html" style="color:var(--gold);">Partner Network</a></nav></div></header>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-overline">Careers</p>
+    <h1>Build What&rsquo;s Next<br>in <em>Healthcare.</em></h1>
+    <p class="page-hero-desc">InPursuit Health is a veteran-owned company on a mission to transform how Americans interact with their health data. We&rsquo;re building something that matters &mdash; and we want people who care about the mission as much as the craft.</p>
+  </div>
+</section>
+
+<!-- Our Values -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-overline reveal">Our Values</p>
+    <h2 class="section-headline reveal">What it means to be<br><em>InPursuit.</em></h2>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+        <div class="value-title">Mission Over Ego</div>
+        <div class="value-text">We&rsquo;re building healthcare infrastructure that affects real lives. Every decision starts with the patient, not the press release.</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+        <div class="value-title">Veteran-Grade Discipline</div>
+        <div class="value-text">Our founders served in the USMC. That culture of accountability, integrity, and relentless execution is in our DNA.</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+        <div class="value-title">Build to Last</div>
+        <div class="value-text">We don&rsquo;t cut corners. Our platform is federally validated for a reason &mdash; we build things right, the first time.</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+        <div class="value-title">People First</div>
+        <div class="value-text">Healthcare is personal. We treat patients, partners, and each other with the same respect and care we&rsquo;d want for our own families.</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+        <div class="value-title">Radical Transparency</div>
+        <div class="value-text">No hidden fees, no buried data, no corporate doublespeak. We say what we mean and mean what we say.</div>
+      </div>
+      <div class="value-card reveal">
+        <div class="value-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/></svg></div>
+        <div class="value-title">Think Bigger</div>
+        <div class="value-text">We&rsquo;re not here to build another app. We&rsquo;re building the infrastructure layer for the future of American healthcare.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- No Current Openings -->
+<section class="no-openings">
+  <div class="no-openings-inner reveal">
+    <div class="no-openings-icon">
+      <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-2 .89-2 2v11c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+    </div>
+    <h2>No open positions <em>right now.</em></h2>
+    <p class="no-openings-text">We&rsquo;re not currently hiring, but that could change at any time. If you&rsquo;re passionate about healthcare technology and believe you&rsquo;d be a great fit for our mission, we&rsquo;d still love to hear from you. Send us your resume and tell us why InPursuit is where you belong.</p>
+    <a class="btn-outline" href="mailto:careers@InPursuitHealth.com?subject=Career%20Inquiry">Send Your Resume &rarr;</a>
+  </div>
+</section>
+
+<!-- What We Offer -->
+<section class="benefits-section">
+  <div class="benefits-inner">
+    <p class="benefits-overline reveal">When We Do Hire</p>
+    <h2 class="benefits-headline reveal">What you can expect from<br>a career <em>InPursuit.</em></h2>
+    <div class="benefits-list reveal">
+      <div class="benefit-item"><div class="benefit-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="benefit-text">Mission-driven work that impacts millions of Americans</div></div>
+      <div class="benefit-item"><div class="benefit-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="benefit-text">Remote-first culture with flexible scheduling</div></div>
+      <div class="benefit-item"><div class="benefit-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="benefit-text">Competitive equity packages for early team members</div></div>
+      <div class="benefit-item"><div class="benefit-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="benefit-text">Comprehensive healthcare benefits (of course)</div></div>
+      <div class="benefit-item"><div class="benefit-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="benefit-text">Work alongside DoD/VA/CMS veterans and experts</div></div>
+      <div class="benefit-item"><div class="benefit-check"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div><div class="benefit-text">Be part of a CMS Health Tech Ecosystem company</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner"><div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div><span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span></div>
+  <div class="footer-nav"><a href="index.html">Home</a><a href="tetra.html">TETRA</a><a href="for-you.html">For You</a><a href="for-providers.html">For Providers</a><a href="data-security-ai.html">AI &amp; Your Data</a><a href="maha.html">MAHA</a><a href="veterans-first.html">Veterans First</a><a href="partner-network.html">Partner Network</a></div>
+  <div class="footer-nav" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(197,164,78,.05);"><a href="about.html">About Us</a><a href="leadership.html">Leadership</a><a href="security-center.html">Security Center</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+<script>
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('preloader').classList.add('hidden'),600)});
+window.addEventListener('scroll',()=>{document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10)});
+document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topNav').classList.toggle('open')});
+const observer=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

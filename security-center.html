@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Center — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628; --navy-deep: #060E1A; --navy-mid: #112240;
+  --gold: #C5A44E; --gold-light: #D4B96A; --gold-bright: #E8D48B;
+  --white: #FFFFFF; --cream: #FAF8F4;
+  --green: #10B981; --green-dim: rgba(16,185,129,0.15);
+  --text-dark: #1A1A2E; --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Instrument Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+.preloader { position: fixed; inset: 0; background: var(--navy-deep); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wordmark { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--gold); letter-spacing: 2px; animation: pulseFade 1.2s ease-in-out infinite; }
+@keyframes pulseFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+.top-bar { background: var(--navy-deep); border-bottom: 1px solid rgba(197,164,78,0.2); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: box-shadow 0.3s ease; }
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+.top-bar-brand { display: flex; align-items: center; text-decoration: none; }
+.top-bar-wordmark { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--gold); letter-spacing: 1px; }
+.top-bar-nav { display: flex; align-items: center; }
+.nav-item { position: relative; padding: 20px 14px; font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.3s ease; }
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: var(--gold); transition: width 0.3s ease; }
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-toggle { display: none; background: none; border: none; width: 32px; height: 32px; cursor: pointer; position: relative; }
+.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--gold); position: absolute; left: 5px; transition: all 0.3s ease; }
+.nav-toggle span:nth-child(1) { top: 8px; } .nav-toggle span:nth-child(2) { top: 15px; } .nav-toggle span:nth-child(3) { top: 22px; }
+
+/* Security Hero - Dark & Locked Down */
+.security-hero {
+  background: var(--navy-deep); padding: 160px 40px 80px;
+  position: relative; overflow: hidden;
+}
+.security-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: 
+    radial-gradient(ellipse at 50% 30%, rgba(16,185,129,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 20% 80%, rgba(197,164,78,0.03) 0%, transparent 40%);
+}
+/* Animated grid background */
+.security-hero::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(197,164,78,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(197,164,78,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  animation: gridDrift 20s linear infinite;
+}
+@keyframes gridDrift { 0% { transform: translate(0,0); } 100% { transform: translate(60px,60px); } }
+.security-hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+
+/* Live status badge */
+.security-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 20px; background: var(--green-dim);
+  border: 1px solid rgba(16,185,129,0.3);
+  border-radius: 24px; margin-bottom: 28px;
+}
+.status-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--green);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+@keyframes statusPulse { 0%, 100% { opacity: 1; box-shadow: 0 0 4px rgba(16,185,129,0.4); } 50% { opacity: 0.5; box-shadow: 0 0 12px rgba(16,185,129,0.6); } }
+.status-text { font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green); }
+
+.security-hero h1 {
+  font-family: 'Instrument Serif', serif; font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 24px;
+}
+.security-hero h1 em { font-style: italic; color: var(--gold); }
+.security-hero-desc { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 680px; margin: 0 auto; }
+
+/* Compliance Badges */
+.badges-section { background: var(--white); padding: 80px 40px; border-bottom: 1px solid rgba(0,0,0,0.06); }
+.badges-inner { max-width: 1100px; margin: 0 auto; text-align: center; }
+.badges-label { font-size: 10px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 40px; }
+.badges-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 40px; }
+.badge-card {
+  padding: 32px 20px; border: 1px solid rgba(10,22,40,0.08);
+  border-radius: 8px; text-align: center; transition: all 0.3s ease;
+  background: var(--cream);
+}
+.badge-card:hover { box-shadow: 0 8px 24px rgba(10,22,40,0.06); transform: translateY(-2px); border-color: rgba(197,164,78,0.2); }
+.badge-icon {
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--navy-deep); margin: 0 auto 16px;
+  display: flex; align-items: center; justify-content: center;
+}
+.badge-icon svg { width: 26px; height: 26px; fill: var(--gold); }
+.badge-name { font-family: 'Instrument Serif', serif; font-size: 16px; color: var(--navy); margin-bottom: 4px; }
+.badge-status { font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--green); }
+.badge-desc { font-size: 12px; color: var(--text-muted); margin-top: 8px; line-height: 1.5; }
+
+/* Badges second row with CARIN & DIME */
+.badges-grid-2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+
+/* Security Architecture Section */
+.section { padding: 100px 40px; }
+.section-dark { background: var(--navy-deep); color: var(--white); }
+.section-inner { max-width: 1000px; margin: 0 auto; }
+.section-overline { font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.section-headline { font-family: 'Instrument Serif', serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 400; line-height: 1.2; margin-bottom: 20px; }
+.section-dark .section-headline { color: var(--white); }
+.section-headline em { font-style: italic; color: var(--gold); }
+
+/* Defense Layers */
+.defense-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; }
+.defense-card {
+  background: rgba(17,34,64,0.4); border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 8px; padding: 36px 32px; transition: all 0.3s ease;
+}
+.defense-card:hover { border-color: rgba(197,164,78,0.3); background: rgba(17,34,64,0.6); }
+.defense-num { font-family: 'Instrument Serif', serif; font-size: 32px; color: var(--gold); margin-bottom: 8px; }
+.defense-title { font-size: 16px; font-weight: 600; color: var(--white); margin-bottom: 12px; }
+.defense-text { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+/* Zero Trust Principles */
+.principles-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 48px; }
+.principle-card {
+  padding: 36px 28px; background: var(--white);
+  border: 1px solid rgba(10,22,40,0.06); border-radius: 8px;
+  transition: all 0.4s ease; position: relative;
+}
+.principle-card:hover { box-shadow: 0 12px 36px rgba(10,22,40,0.06); transform: translateY(-3px); }
+.principle-icon {
+  width: 44px; height: 44px; border-radius: 50%; background: var(--navy-deep);
+  display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
+}
+.principle-icon svg { width: 20px; height: 20px; fill: var(--gold); }
+.principle-title { font-family: 'Instrument Serif', serif; font-size: 18px; color: var(--navy); margin-bottom: 10px; }
+.principle-text { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+/* Commitment Banner */
+.commitment {
+  background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+  padding: 80px 40px; text-align: center; position: relative; overflow: hidden;
+}
+.commitment::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, rgba(197,164,78,0.06) 0%, transparent 60%); }
+.commitment-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 2; }
+.commitment-headline {
+  font-family: 'Instrument Serif', serif; font-size: clamp(24px, 3vw, 36px);
+  color: var(--white); margin-bottom: 16px; line-height: 1.3;
+}
+.commitment-headline em { font-style: italic; color: var(--gold); }
+.commitment-text { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 32px; }
+.btn-gold { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: var(--gold); color: var(--navy-deep); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; border-radius: 4px; transition: all 0.3s ease; border: none; cursor: pointer; }
+.btn-gold:hover { background: var(--gold-bright); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(197,164,78,0.3); }
+
+/* Footer */
+.site-footer { background: var(--navy-deep); border-top: 1px solid rgba(197,164,78,0.1); padding: 60px 40px 40px; text-align: center; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+.footer-wordmark { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--gold); letter-spacing: 1px; }
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); }
+.footer-nav { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
+.footer-nav a { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.3s ease; }
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer { font-size: 11px; color: rgba(255,255,255,0.2); max-width: 800px; margin: 20px auto 16px; line-height: 1.6; }
+.footer-tagline { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(197,164,78,0.3); }
+
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 1024px) { .badges-grid { grid-template-columns: repeat(2, 1fr); } .defense-grid { grid-template-columns: 1fr; } .principles-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 768px) {
+  .top-bar-nav { display: none; }
+  .top-bar-nav.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--navy-deep); border-bottom: 1px solid rgba(197,164,78,0.1); padding: 8px 0; }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .nav-toggle { display: block; }
+  .security-hero { padding: 120px 24px 60px; }
+  .section { padding: 60px 24px; }
+  .badges-section { padding: 48px 24px; }
+  .badges-grid, .badges-grid-2 { grid-template-columns: 1fr 1fr; }
+  .principles-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="preloader" id="preloader"><div class="preloader-wordmark">INPURSUIT HEALTH</div></div>
+
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <a class="top-bar-brand" href="index.html"><span class="top-bar-wordmark">InPursuit Health</span></a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <nav class="top-bar-nav" id="topNav">
+      <a class="nav-item" href="for-you.html">For You</a>
+      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
+      <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Security Hero -->
+<section class="security-hero">
+  <div class="security-hero-inner">
+    <div class="security-status">
+      <div class="status-dot"></div>
+      <span class="status-text">All Systems Operational</span>
+    </div>
+    <h1>Security Is Not a Feature.<br>It&rsquo;s Our <em>Foundation.</em></h1>
+    <p class="security-hero-desc">InPursuit Health was built for the most security-sensitive environments on earth. Every byte of your health data is protected by the same defense-grade infrastructure trusted by the Department of Defense and Veterans Affairs.</p>
+  </div>
+</section>
+
+<!-- Compliance & Certification Badges -->
+<section class="badges-section">
+  <div class="badges-inner">
+    <div class="badges-label reveal">Compliance &amp; Certifications</div>
+
+    <div class="badges-grid reveal">
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg></div>
+        <div class="badge-name">HIPAA</div>
+        <div class="badge-status">&#10003; Compliant</div>
+        <div class="badge-desc">Full administrative, physical, and technical safeguards for Protected Health Information (PHI).</div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+        <div class="badge-name">FedRAMP</div>
+        <div class="badge-status">&#10003; Aligned</div>
+        <div class="badge-desc">Federal Risk and Authorization Management Program cloud security standards.</div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/></svg></div>
+        <div class="badge-name">TEFCA</div>
+        <div class="badge-status">&#10003; Compliant</div>
+        <div class="badge-desc">Trusted Exchange Framework and Common Agreement for nationwide health data exchange.</div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 9h-2v2H9v-2H7V9h2V7h2v2h2v2zm2-4V3.5L18.5 7H15z"/></svg></div>
+        <div class="badge-name">FHIR R4</div>
+        <div class="badge-status">&#10003; Native</div>
+        <div class="badge-desc">HL7 Fast Healthcare Interoperability Resources for standardized health data exchange.</div>
+      </div>
+    </div>
+
+    <div class="badges-grid reveal">
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+        <div class="badge-name">SOC 2 Type II</div>
+        <div class="badge-status">&#10003; Framework</div>
+        <div class="badge-desc">Service Organization Control standards for security, availability, processing integrity, and confidentiality.</div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></div>
+        <div class="badge-name">HITRUST CSF</div>
+        <div class="badge-status">&#10003; Framework</div>
+        <div class="badge-desc">Health Information Trust Alliance Common Security Framework for healthcare risk management.</div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+        <div class="badge-name">CARIN Alliance</div>
+        <div class="badge-status">&#10003; Member</div>
+        <div class="badge-desc">Creating Access to Real-time Information Now &mdash; advancing consumer-directed exchange for health data.</div>
+      </div>
+      <div class="badge-card">
+        <div class="badge-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <div class="badge-name">DIMEhealth</div>
+        <div class="badge-status">&#10003; Aligned</div>
+        <div class="badge-desc">Digital Medicine Society standards for digital health technology evidence generation and evaluation.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Defense Architecture -->
+<section class="section section-dark">
+  <div class="section-inner">
+    <p class="section-overline reveal">Defense Architecture</p>
+    <h2 class="section-headline reveal">Six layers of defense between<br>your data and <em>everything else.</em></h2>
+
+    <div class="defense-grid">
+      <div class="defense-card reveal">
+        <div class="defense-num">01</div>
+        <div class="defense-title">Perimeter Security</div>
+        <div class="defense-text">Web application firewall, DDoS protection, and real-time threat intelligence. Every external request is authenticated and inspected before it touches our network.</div>
+      </div>
+      <div class="defense-card reveal">
+        <div class="defense-num">02</div>
+        <div class="defense-title">Zero Trust Network</div>
+        <div class="defense-text">No implicit trust. Every user, device, and service must verify identity on every request. Microsegmentation isolates workloads and prevents lateral movement.</div>
+      </div>
+      <div class="defense-card reveal">
+        <div class="defense-num">03</div>
+        <div class="defense-title">End-to-End Encryption</div>
+        <div class="defense-text">AES-256 encryption at rest, TLS 1.3 in transit. Patient data is encrypted from the moment it enters our system until the moment you access it. We cannot read it.</div>
+      </div>
+      <div class="defense-card reveal">
+        <div class="defense-num">04</div>
+        <div class="defense-title">AI Oversight Layer</div>
+        <div class="defense-text">Model-agnostic AI orchestration ensures no algorithm makes a decision without a human safety net. Every AI recommendation is auditable, explainable, and reversible.</div>
+      </div>
+      <div class="defense-card reveal">
+        <div class="defense-num">05</div>
+        <div class="defense-title">Immutable Audit Trail</div>
+        <div class="defense-text">1.8M+ transactions per hour, each cryptographically logged. Every access to your data &mdash; who, what, when, where &mdash; is permanently recorded and tamper-proof.</div>
+      </div>
+      <div class="defense-card reveal">
+        <div class="defense-num">06</div>
+        <div class="defense-title">Patient-Controlled Access</div>
+        <div class="defense-text">Granular consent management gives you complete control. You decide who sees your data, for how long, and can revoke access instantly with a single tap.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Zero Trust Principles -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-overline reveal">Our Security Principles</p>
+    <h2 class="section-headline reveal">Built on zero trust.<br>Verified at <em>every layer.</em></h2>
+
+    <div class="principles-grid">
+      <div class="principle-card reveal">
+        <div class="principle-icon"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg></div>
+        <div class="principle-title">Never Trust, Always Verify</div>
+        <div class="principle-text">Every request is authenticated regardless of origin. Internal and external traffic are treated with equal scrutiny.</div>
+      </div>
+      <div class="principle-card reveal">
+        <div class="principle-icon"><svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+        <div class="principle-title">Least Privilege Access</div>
+        <div class="principle-text">Every user and service has the minimum access necessary. Permissions are granted per-session, not permanent.</div>
+      </div>
+      <div class="principle-card reveal">
+        <div class="principle-icon"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg></div>
+        <div class="principle-title">Continuous Monitoring</div>
+        <div class="principle-text">24/7/365 automated threat detection with machine learning anomaly detection. We find threats before they find you.</div>
+      </div>
+      <div class="principle-card reveal">
+        <div class="principle-icon"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <div class="principle-title">Data Sovereignty</div>
+        <div class="principle-text">Your data stays in the United States on FISMA-certified infrastructure. We never offshore your health information.</div>
+      </div>
+      <div class="principle-card reveal">
+        <div class="principle-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 9h-2v2H9v-2H7V9h2V7h2v2h2v2zm2-4V3.5L18.5 7H15z"/></svg></div>
+        <div class="principle-title">Transparent Reporting</div>
+        <div class="principle-text">Regular security reports, incident disclosures, and penetration test summaries available to all stakeholders.</div>
+      </div>
+      <div class="principle-card reveal">
+        <div class="principle-icon"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+        <div class="principle-title">Patient Rights First</div>
+        <div class="principle-text">We will never sell, share, or monetize your health data. Period. Your data is yours &mdash; we are custodians, not owners.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Report Vulnerability -->
+<section class="commitment">
+  <div class="commitment-inner">
+    <h2 class="commitment-headline reveal">Found a vulnerability?<br>We <em>want to know.</em></h2>
+    <p class="commitment-text reveal">We maintain a responsible disclosure program and welcome security researchers to help us protect our patients. Report potential vulnerabilities to our security team.</p>
+    <a class="btn-gold reveal" href="mailto:security@InPursuitHealth.com?subject=Security%20Disclosure">Report a Vulnerability &rarr;</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a><a href="tetra.html">TETRA</a><a href="for-you.html">For You</a><a href="for-providers.html">For Providers</a><a href="data-security-ai.html">AI &amp; Your Data</a><a href="maha.html">MAHA</a><a href="veterans-first.html">Veterans First</a><a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a><a href="leadership.html">Leadership</a><a href="security-center.html">Security Center</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
+window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
+document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

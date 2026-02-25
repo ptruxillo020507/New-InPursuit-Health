@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-deep:#060E1A;--navy-mid:#112240;--gold:#C5A44E;--gold-light:#D4B96A;--gold-bright:#E8D48B;--white:#FFFFFF;--cream:#FAF8F4;--text-dark:#1A1A2E;--text-muted:#6B7280}*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}body{font-family:'Instrument Sans',sans-serif;background:var(--cream);color:var(--text-dark);overflow-x:hidden}.preloader{position:fixed;inset:0;background:var(--navy-deep);z-index:10000;display:flex;align-items:center;justify-content:center;transition:opacity .8s ease,visibility .8s ease}.preloader.hidden{opacity:0;visibility:hidden;pointer-events:none}.preloader-wordmark{font-family:'Instrument Serif',serif;font-size:28px;color:var(--gold);letter-spacing:2px;animation:pulseFade 1.2s ease-in-out infinite}@keyframes pulseFade{0%,100%{opacity:.3}50%{opacity:1}}.top-bar{background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.2);position:fixed;top:0;left:0;right:0;z-index:1000;transition:box-shadow .3s ease}.top-bar.scrolled{box-shadow:0 4px 30px rgba(0,0,0,.4)}.top-bar-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;height:64px}.top-bar-brand{display:flex;align-items:center;text-decoration:none}.top-bar-wordmark{font-family:'Instrument Serif',serif;font-size:22px;color:var(--gold);letter-spacing:1px}.top-bar-nav{display:flex;align-items:center}.nav-item{position:relative;padding:20px 14px;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.6);text-decoration:none;transition:color .3s ease}.nav-item:hover,.nav-item.active{color:var(--gold)}.nav-item::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--gold);transition:width .3s ease}.nav-item:hover::after,.nav-item.active::after{width:60%}.nav-toggle{display:none;background:none;border:none;width:32px;height:32px;cursor:pointer;position:relative}.nav-toggle span{display:block;width:22px;height:2px;background:var(--gold);position:absolute;left:5px;transition:all .3s ease}.nav-toggle span:nth-child(1){top:8px}.nav-toggle span:nth-child(2){top:15px}.nav-toggle span:nth-child(3){top:22px}
+.page-hero{background:var(--navy-deep);padding:160px 40px 100px;position:relative;overflow:hidden}.page-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%,rgba(197,164,78,.06) 0%,transparent 60%)}.page-hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:2;text-align:center}.page-hero-overline{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}.page-hero h1{font-family:'Instrument Serif',serif;font-size:clamp(36px,5vw,56px);font-weight:400;color:var(--white);line-height:1.2;margin-bottom:24px}.page-hero h1 em{font-style:italic;color:var(--gold)}.page-hero-desc{font-size:17px;color:rgba(255,255,255,.6);line-height:1.7;max-width:640px;margin:0 auto}
+.contact-section{padding:100px 40px}.contact-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start}.contact-overline{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:16px}.contact-headline{font-family:'Instrument Serif',serif;font-size:36px;font-weight:400;color:var(--navy);line-height:1.3;margin-bottom:24px}.contact-headline em{font-style:italic;color:var(--gold)}.contact-text{font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:40px}
+.contact-detail{display:flex;align-items:center;gap:16px;padding:20px 0;border-top:1px solid rgba(10,22,40,.06)}.contact-detail:last-of-type{border-bottom:1px solid rgba(10,22,40,.06)}.contact-detail-icon{width:44px;height:44px;min-width:44px;border-radius:50%;background:var(--navy-deep);display:flex;align-items:center;justify-content:center}.contact-detail-icon svg{width:20px;height:20px;fill:var(--gold)}.contact-detail-label{font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px}.contact-detail-value{font-size:15px;color:var(--navy);font-weight:500}.contact-detail-value a{color:var(--gold);text-decoration:none;transition:color .3s ease}.contact-detail-value a:hover{color:var(--gold-light)}
+.contact-form-card{background:var(--white);border:1px solid rgba(10,22,40,.06);border-radius:8px;padding:48px 40px;box-shadow:0 8px 24px rgba(10,22,40,.04)}.form-title{font-family:'Instrument Serif',serif;font-size:24px;color:var(--navy);margin-bottom:24px}.form-input{width:100%;padding:14px 16px;border:1px solid rgba(10,22,40,.1);border-radius:4px;font-family:inherit;font-size:14px;color:var(--text-dark);transition:border-color .3s ease;margin-bottom:16px;background:var(--cream)}.form-input:focus{outline:none;border-color:var(--gold)}.form-textarea{min-height:120px;resize:vertical}.form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%236B7280'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 12px center;background-size:20px}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--gold);color:var(--navy-deep);font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;text-decoration:none;border-radius:4px;transition:all .3s ease;border:none;cursor:pointer;width:100%;justify-content:center}.btn-gold:hover{background:var(--gold-bright);transform:translateY(-2px);box-shadow:0 8px 30px rgba(197,164,78,.3)}
+.form-success{text-align:center;padding:40px 20px}.form-success-icon{font-size:48px;color:var(--gold);margin-bottom:16px}.form-success h3{font-family:'Instrument Serif',serif;font-size:24px;color:var(--navy);margin-bottom:12px}.form-success p{font-size:14px;color:var(--text-muted);line-height:1.6}
+.charlotte-section{background:var(--navy-deep);color:var(--white);padding:100px 40px}.charlotte-inner{max-width:900px;margin:0 auto;text-align:center}.charlotte-overline{font-size:11px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--gold);margin-bottom:20px}.charlotte-headline{font-family:'Instrument Serif',serif;font-size:clamp(28px,3.5vw,40px);font-weight:400;color:var(--white);line-height:1.3;margin-bottom:24px}.charlotte-headline em{font-style:italic;color:var(--gold)}.charlotte-text{font-size:16px;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:24px;max-width:700px;margin-left:auto;margin-right:auto}.charlotte-text strong{color:var(--gold);font-weight:600}
+.charlotte-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:48px}.clt-stat{padding:28px 20px;background:rgba(17,34,64,.4);border:1px solid rgba(197,164,78,.12);border-radius:8px;transition:all .3s ease}.clt-stat:hover{border-color:rgba(197,164,78,.3)}.clt-stat-num{font-family:'Instrument Serif',serif;font-size:32px;color:var(--gold);margin-bottom:6px}.clt-stat-label{font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,.5)}
+.site-footer{background:var(--navy-deep);border-top:1px solid rgba(197,164,78,.1);padding:60px 40px 40px;text-align:center}.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}.footer-wordmark{font-family:'Instrument Serif',serif;font-size:20px;color:var(--gold);letter-spacing:1px}.footer-legal{font-size:11px;color:rgba(255,255,255,.3)}.footer-nav{display:flex;justify-content:center;gap:24px;flex-wrap:wrap;margin-bottom:20px}.footer-nav a{font-size:11px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s ease}.footer-nav a:hover{color:var(--gold)}.footer-disclaimer{font-size:11px;color:rgba(255,255,255,.2);max-width:800px;margin:20px auto 16px;line-height:1.6}.footer-tagline{font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(197,164,78,.3)}
+.reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+@media(max-width:768px){.top-bar-nav{display:none}.top-bar-nav.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,.1);padding:8px 0}.top-bar-nav.open .nav-item{padding:14px 24px}.nav-toggle{display:block}.page-hero{padding:120px 24px 60px}.contact-section{padding:60px 24px}.contact-inner{grid-template-columns:1fr;gap:40px}.charlotte-section{padding:60px 24px}.charlotte-stats{grid-template-columns:1fr}.footer-inner{flex-direction:column;gap:12px}}
+</style>
+</head>
+<body>
+<div class="preloader" id="preloader"><div class="preloader-wordmark">INPURSUIT HEALTH</div></div>
+<header class="top-bar" id="topBar"><div class="top-bar-inner"><a class="top-bar-brand" href="index.html"><span class="top-bar-wordmark">InPursuit Health</span></a><button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button><nav class="top-bar-nav" id="topNav"><a class="nav-item" href="for-you.html">For You</a><a class="nav-item" href="for-providers.html">For Providers</a><a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a><a class="nav-item" href="veterans-first.html">Veterans First Initiative</a><a class="nav-item" href="partner-network.html" style="color:var(--gold);">Partner Network</a></nav></div></header>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-overline">Contact Us</p>
+    <h1>Let&rsquo;s Build the Future<br>of Healthcare <em>Together.</em></h1>
+    <p class="page-hero-desc">Whether you&rsquo;re a provider, partner, investor, or patient &mdash; we&rsquo;d love to hear from you. Headquartered in Charlotte, NC, at the heart of America&rsquo;s fastest-growing health technology corridor.</p>
+  </div>
+</section>
+
+<section class="contact-section">
+  <div class="contact-inner">
+    <div class="contact-info reveal">
+      <p class="contact-overline">Get In Touch</p>
+      <h2 class="contact-headline">One email. One team.<br><em>Real answers.</em></h2>
+      <p class="contact-text">InPursuit Health operates with a focused team that reads every inquiry personally. Whether you&rsquo;re exploring a partnership, evaluating our platform, or interested in investing &mdash; you&rsquo;ll hear back from a real person.</p>
+      <div class="contact-detail">
+        <div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
+        <div><div class="contact-detail-label">Email</div><div class="contact-detail-value"><a href="mailto:info@InPursuitHealth.com">info@InPursuitHealth.com</a></div></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+        <div><div class="contact-detail-label">Headquarters</div><div class="contact-detail-value">Charlotte, North Carolina</div></div>
+      </div>
+      <div class="contact-detail">
+        <div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>
+        <div><div class="contact-detail-label">Response Time</div><div class="contact-detail-value">Within 24 Business Hours</div></div>
+      </div>
+    </div>
+    <div class="contact-form-card reveal" id="contactFormCard">
+      <div class="form-title">Send Us a Message</div>
+      <form id="contactForm" onsubmit="handleContactSubmit(event)">
+        <input class="form-input" type="text" name="name" placeholder="Full Name" required>
+        <input class="form-input" type="email" name="email" placeholder="Email Address" required>
+        <input class="form-input" type="text" name="organization" placeholder="Organization (optional)">
+        <select class="form-input form-select" name="interest" required>
+          <option value="" disabled selected>I&rsquo;m interested in&hellip;</option>
+          <option value="patient">For Me / My Family</option>
+          <option value="provider">For My Practice</option>
+          <option value="partner">Partnership Opportunity</option>
+          <option value="investor">Investment Inquiry</option>
+          <option value="media">Media / Press</option>
+          <option value="other">Other</option>
+        </select>
+        <textarea class="form-input form-textarea" name="message" placeholder="Tell us more (optional)"></textarea>
+        <button class="btn-gold" type="submit">Send Message &rarr;</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="charlotte-section">
+  <div class="charlotte-inner">
+    <p class="charlotte-overline reveal">Our Home</p>
+    <h2 class="charlotte-headline reveal">Charlotte, NC &mdash; the emerging<br>capital of Health IT <em>innovation.</em></h2>
+    <p class="charlotte-text reveal">Charlotte isn&rsquo;t just a banking powerhouse anymore. The city has emerged as one of America&rsquo;s fastest-growing health technology hubs, anchored by the <strong>Pearl District</strong> &mdash; a purpose-built innovation campus designed to incubate the next generation of healthcare companies.</p>
+    <p class="charlotte-text reveal">With world-class health systems like <strong>Atrium Health</strong> and <strong>Novant Health</strong> headquartered here, a growing ecosystem of healthtech startups, and proximity to the Research Triangle, Charlotte offers the perfect intersection of healthcare expertise, financial infrastructure, and entrepreneurial energy.</p>
+    <p class="charlotte-text reveal">InPursuit Health chose Charlotte not just because of where the city is today &mdash; but because of where it&rsquo;s going. The same ambition that drives our platform drives our community.</p>
+    <div class="charlotte-stats reveal">
+      <div class="clt-stat"><div class="clt-stat-num">#1</div><div class="clt-stat-label">Fastest Growing Metro (U.S.)</div></div>
+      <div class="clt-stat"><div class="clt-stat-num">2</div><div class="clt-stat-label">Major Health Systems HQ&rsquo;d Here</div></div>
+      <div class="clt-stat"><div class="clt-stat-num">Pearl</div><div class="clt-stat-label">Innovation District &amp; HealthTech Hub</div></div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="footer-inner"><div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div><span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span></div>
+  <div class="footer-nav"><a href="index.html">Home</a><a href="tetra.html">TETRA</a><a href="for-you.html">For You</a><a href="for-providers.html">For Providers</a><a href="data-security-ai.html">AI &amp; Your Data</a><a href="maha.html">MAHA</a><a href="veterans-first.html">Veterans First</a><a href="partner-network.html">Partner Network</a></div>
+  <div class="footer-nav" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(197,164,78,.05);"><a href="about.html">About Us</a><a href="leadership.html">Leadership</a><a href="security-center.html">Security Center</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+window.addEventListener('load',()=>{setTimeout(()=>document.getElementById('preloader').classList.add('hidden'),600)});
+window.addEventListener('scroll',()=>{document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10)});
+document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topNav').classList.toggle('open')});
+const observer=new IntersectionObserver(e=>{e.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+function handleContactSubmit(e){
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const subject=encodeURIComponent('InPursuit Health Inquiry - '+f.get('interest'));
+  const body=encodeURIComponent('Name: '+f.get('name')+'\nEmail: '+f.get('email')+'\nOrganization: '+(f.get('organization')||'N/A')+'\nInterest: '+f.get('interest')+'\nMessage: '+(f.get('message')||'N/A'));
+  window.location.href='mailto:info@InPursuitHealth.com?subject='+subject+'&body='+body;
+  document.getElementById('contactFormCard').innerHTML='<div class="form-success"><div class="form-success-icon">&#10003;</div><h3>Message Prepared</h3><p>Your email client should open with the details pre-filled. If it didn\'t, send your inquiry directly to info@InPursuitHealth.com</p></div>';
+}
+</script>
+</body>
+</html>

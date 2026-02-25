@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy-deep: #060E1A;
+  --navy-mid: #112240;
+  --gold: #C5A44E;
+  --gold-light: #D4B96A;
+  --gold-bright: #E8D48B;
+  --white: #FFFFFF;
+  --off-white: #F0EDE6;
+  --cream: #FAF8F4;
+  --red: #B22234;
+  --red-deep: #8B1A29;
+  --silver: #C0C0C0;
+  --text-dark: #1A1A2E;
+  --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Instrument Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text-dark);
+  overflow-x: hidden;
+}
+
+/* ===== PRELOADER ===== */
+.preloader {
+  position: fixed; inset: 0;
+  background: var(--navy-deep);
+  z-index: 10000;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 28px;
+  color: var(--gold);
+  letter-spacing: 2px;
+  animation: pulseFade 1.2s ease-in-out infinite;
+}
+@keyframes pulseFade {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ===== TOP BAR / NAV ===== */
+.top-bar {
+  background: var(--navy-deep);
+  border-bottom: 1px solid rgba(197,164,78,0.2);
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner {
+  max-width: 1400px; margin: 0 auto; padding: 0 40px;
+  display: flex; justify-content: space-between; align-items: center; height: 64px;
+}
+.top-bar-brand { display: flex; align-items: center; text-decoration: none; cursor: pointer; }
+.top-bar-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--gold); letter-spacing: 1px; line-height: 1;
+}
+.top-bar-nav { display: flex; align-items: center; gap: 0; }
+.nav-item {
+  position: relative; padding: 20px 14px;
+  font-size: 11px; font-weight: 500; letter-spacing: 1.5px;
+  text-transform: uppercase; color: rgba(255,255,255,0.6);
+  text-decoration: none; transition: color 0.3s ease;
+  cursor: pointer; background: none; border: none; font-family: inherit;
+}
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 0; height: 2px; background: var(--gold); transition: width 0.3s ease;
+}
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+
+.nav-dropdown { position: relative; }
+.nav-dropdown-menu {
+  position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  background: var(--navy-mid);
+  border: 1px solid rgba(197,164,78,0.15);
+  border-radius: 4px; padding: 8px 0; min-width: 240px;
+  opacity: 0; visibility: hidden; transition: all 0.3s ease;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+}
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-item {
+  display: block; padding: 12px 24px;
+  font-size: 12px; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.6);
+  text-decoration: none; transition: all 0.2s ease;
+}
+.nav-dropdown-item:hover {
+  color: var(--gold); background: rgba(197,164,78,0.05);
+}
+.nav-dropdown-item .sub-desc {
+  display: block; font-size: 10px; letter-spacing: 0.5px;
+  text-transform: none; color: rgba(255,255,255,0.3); margin-top: 2px;
+}
+
+.nav-toggle {
+  display: none; background: none; border: none;
+  width: 32px; height: 32px; cursor: pointer; position: relative;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 2px;
+  background: var(--gold); position: absolute; left: 5px; transition: all 0.3s ease;
+}
+.nav-toggle span:nth-child(1) { top: 8px; }
+.nav-toggle span:nth-child(2) { top: 15px; }
+.nav-toggle span:nth-child(3) { top: 22px; }
+
+/* ===== PAGE HERO ===== */
+.page-hero {
+  background: var(--navy-deep);
+  padding: 160px 40px 100px;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(197,164,78,0.06) 0%, transparent 60%);
+}
+.page-hero-inner {
+  max-width: 900px; margin: 0 auto; position: relative; z-index: 2; text-align: center;
+}
+.page-hero-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.page-hero h1 {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 24px;
+}
+.page-hero h1 em { font-style: italic; color: var(--gold); }
+.page-hero-desc {
+  font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 640px; margin: 0 auto;
+}
+
+/* ===== CONTENT SECTIONS ===== */
+.section { padding: 100px 40px; }
+.section-inner { max-width: 1000px; margin: 0 auto; }
+.section-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.section-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 44px);
+  font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px;
+}
+.section-headline em { font-style: italic; color: var(--gold); }
+
+/* Vision / Mission Cards */
+.vm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 60px; }
+.vm-card {
+  background: var(--white);
+  border: 1px solid rgba(10,22,40,0.08);
+  border-radius: 8px;
+  padding: 48px 40px;
+  position: relative;
+  transition: all 0.4s ease;
+}
+.vm-card:hover {
+  box-shadow: 0 16px 48px rgba(10,22,40,0.08);
+  transform: translateY(-4px);
+}
+.vm-card::before {
+  content: '';
+  position: absolute; top: 0; left: 40px; right: 40px;
+  height: 3px; background: var(--gold); border-radius: 0 0 3px 3px;
+}
+.vm-card-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+}
+.vm-card-text {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; font-weight: 400; color: var(--navy);
+  line-height: 1.6;
+}
+.vm-card-text strong { color: var(--gold); font-weight: 400; }
+
+/* Story Section */
+.story-section {
+  background: var(--navy-deep);
+  color: var(--white);
+  padding: 100px 40px;
+}
+.story-inner { max-width: 800px; margin: 0 auto; }
+.story-overline {
+  font-size: 11px; font-weight: 600; letter-spacing: 4px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 20px;
+  text-align: center;
+}
+.story-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  font-weight: 400; color: var(--white); line-height: 1.3;
+  margin-bottom: 32px; text-align: center;
+}
+.story-headline em { font-style: italic; color: var(--gold); }
+.story-text {
+  font-size: 16px; color: rgba(255,255,255,0.65); line-height: 1.8;
+  margin-bottom: 24px;
+}
+.story-text strong { color: var(--gold); font-weight: 600; }
+
+
+/* Differentiators */
+.diff-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+.diff-card {
+  padding: 40px 32px;
+  background: var(--white);
+  border: 1px solid rgba(10,22,40,0.06);
+  border-radius: 8px;
+  transition: all 0.4s ease;
+}
+.diff-card:hover {
+  box-shadow: 0 12px 36px rgba(10,22,40,0.06);
+  transform: translateY(-3px);
+}
+.diff-icon {
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--navy-deep);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+}
+.diff-icon svg { width: 22px; height: 22px; fill: var(--gold); }
+.diff-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--navy); margin-bottom: 12px;
+}
+.diff-text { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+/* Invest CTA */
+.invest-banner {
+  background: linear-gradient(135deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+  padding: 80px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.invest-banner::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, rgba(197,164,78,0.08) 0%, transparent 60%);
+}
+.invest-inner { max-width: 700px; margin: 0 auto; position: relative; z-index: 2; }
+.invest-overline {
+  font-size: 10px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.invest-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 40px);
+  color: var(--white); margin-bottom: 16px; line-height: 1.3;
+}
+.invest-headline em { font-style: italic; color: var(--gold); }
+.invest-desc {
+  font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 32px;
+}
+.btn-gold {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: var(--gold);
+  color: var(--navy-deep); font-size: 12px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase;
+  text-decoration: none; border-radius: 4px;
+  transition: all 0.3s ease; border: none; cursor: pointer;
+}
+.btn-gold:hover {
+  background: var(--gold-bright); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(197,164,78,0.3);
+}
+.btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 14px 32px; background: transparent; color: var(--gold);
+  font-size: 12px; font-weight: 700; letter-spacing: 2px;
+  text-transform: uppercase; text-decoration: none;
+  border-radius: 4px; border: 1.5px solid rgba(197,164,78,0.4);
+  transition: all 0.3s ease; cursor: pointer;
+}
+.btn-outline:hover {
+  border-color: var(--gold); background: rgba(197,164,78,0.08); transform: translateY(-2px);
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  background: var(--navy-deep);
+  border-top: 1px solid rgba(197,164,78,0.1);
+  padding: 60px 40px 40px;
+  text-align: center;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 32px;
+}
+.footer-wordmark {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--gold); letter-spacing: 1px;
+}
+.footer-legal {
+  font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 0.5px;
+}
+.footer-nav {
+  display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.footer-nav a {
+  font-size: 11px; font-weight: 500; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.35);
+  text-decoration: none; transition: color 0.3s ease;
+}
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer {
+  font-size: 11px; color: rgba(255,255,255,0.2);
+  max-width: 800px; margin: 20px auto 16px; line-height: 1.6;
+}
+.footer-tagline {
+  font-size: 11px; font-weight: 600; letter-spacing: 3px;
+  text-transform: uppercase; color: rgba(197,164,78,0.3);
+}
+
+/* ===== REVEAL ANIMATION ===== */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .vm-grid { grid-template-columns: 1fr; }
+  .diff-grid { grid-template-columns: 1fr 1fr; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .top-bar-nav { display: none; }
+  .top-bar-nav.open {
+    display: flex; flex-direction: column;
+    position: absolute; top: 64px; left: 0; right: 0;
+    background: var(--navy-deep); border-bottom: 1px solid rgba(197,164,78,0.1);
+    padding: 8px 0;
+  }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .top-bar-nav.open .nav-dropdown-menu {
+    position: static; transform: none; opacity: 1; visibility: visible;
+    box-shadow: none; border: none; background: rgba(17,34,64,0.3);
+  }
+  .nav-toggle { display: block; }
+  .page-hero { padding: 120px 24px 60px; }
+  .section { padding: 60px 24px; }
+  .diff-grid { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: 1fr 1fr; }
+  .footer-inner { flex-direction: column; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-wordmark">INPURSUIT HEALTH</div>
+</div>
+
+<!-- Top Bar -->
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <a class="top-bar-brand" href="index.html">
+      <span class="top-bar-wordmark">InPursuit Health</span>
+    </a>
+    <button class="nav-toggle" id="navToggle">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="top-bar-nav" id="topNav">
+      <a class="nav-item" href="for-you.html">For You</a>
+      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
+      <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
+    </nav>
+  </div>
+</header>
+
+<!-- Page Hero -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-overline">About InPursuit Health</p>
+    <h1>We Are <em>InPursuit</em><br>of Better Healthcare</h1>
+    <p class="page-hero-desc">A veteran-owned healthcare technology company building the infrastructure that puts patients back in control of their health data — and their future.</p>
+  </div>
+</section>
+
+<!-- Vision & Mission -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-overline reveal">Our Purpose</p>
+    <h2 class="section-headline reveal">Built by people who believe<br>healthcare can be <em>better.</em></h2>
+
+    <div class="vm-grid">
+      <div class="vm-card reveal">
+        <div class="vm-card-label">Vision Statement</div>
+        <div class="vm-card-text">
+          We are <strong>InPursuit</strong> of the idea, promise, and opportunity that our health data will drive immediate and long-term personalized treatment and wellness options through a more engaged, connected, efficient, proactive, and <strong>Person-Centric Healthcare Ecosystem.</strong>
+        </div>
+      </div>
+      <div class="vm-card reveal">
+        <div class="vm-card-label">Mission Statement</div>
+        <div class="vm-card-text">
+          InPursuit Health, LLC is committed to revolutionizing healthcare by harnessing the TETRA&trade; Healthcare Platform to integrate diverse health data, delivering AI-powered insights and innovative solutions that empower individuals, providers, payers, employers, and pharmacies. Through a parallel approach, we&rsquo;ve built a collaborative, interoperable ecosystem that drives efficiency, reduces costs, and fosters a proactive, <strong>person-centric approach to wellness.</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Our Story -->
+<section class="story-section">
+  <div class="story-inner">
+    <p class="story-overline reveal">Our Story</p>
+    <h2 class="story-headline reveal">From the battlefield<br>to the <em>healthcare frontier.</em></h2>
+
+    <p class="story-text reveal">InPursuit Health was founded by veterans and data industry pioneers who have operated in the most demanding, security-sensitive environments on earth &mdash; including the U.S. Department of Defense, the Department of Veterans Affairs, and over 400 law enforcement agencies.</p>
+
+    <p class="story-text reveal">Our leadership team has been building enterprise data architecture since the 1990s, working across <strong>30+ national governments</strong> and the world&rsquo;s largest data providers. When we looked at American healthcare, we saw the same broken silos, buried data, and friction that we&rsquo;d spent careers solving in defense and intelligence.</p>
+
+    <p class="story-text reveal">So we built <strong>TETRA&trade;</strong> &mdash; the healthcare data fabric that connects providers, payers, consumers, and pharmacies into one interoperable ecosystem. Not another layer on top of broken systems, but a new foundation underneath them.</p>
+
+    <p class="story-text reveal">Today, InPursuit Health is a recognized member of the <strong>CMS Health Tech Ecosystem</strong>, selected alongside companies like Apple, Google, Amazon, and Oracle. But unlike those companies, we didn&rsquo;t build the silos. We built the bridge.</p>
+
+
+  </div>
+</section>
+
+<!-- What Makes Us Different -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-overline reveal">Why InPursuit</p>
+    <h2 class="section-headline reveal">What sets us apart from<br>every other health IT <em>company.</em></h2>
+
+    <div class="diff-grid">
+      <div class="diff-card reveal">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+        </div>
+        <div class="diff-title">Veteran-Owned &amp; Operated</div>
+        <div class="diff-text">Founded by USMC veterans who understand duty, service, and the meaning of "no one left behind." That ethos drives everything we build.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg>
+        </div>
+        <div class="diff-title">Patient-Owned Data</div>
+        <div class="diff-text">Your health data belongs to you &mdash; period. We don&rsquo;t sell it, share it, or monetize it. You control who sees it and when.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
+        </div>
+        <div class="diff-title">Federally Validated</div>
+        <div class="diff-text">Not self-certified. Validated across DoD, VA, and CMS &mdash; the most rigorous standards in American healthcare technology.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+        </div>
+        <div class="diff-title">Zero Upfront Costs</div>
+        <div class="diff-text">Partners keep their IP and pay nothing upfront. Our revenue-sharing model means we only succeed when you do.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <div class="diff-title">CMS Health Tech Ecosystem</div>
+        <div class="diff-text">Selected by CMS alongside Apple, Google, and Amazon &mdash; not because we&rsquo;re big, but because we already built what everyone else is pledging to try.</div>
+      </div>
+      <div class="diff-card reveal">
+        <div class="diff-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </div>
+        <div class="diff-title">Veterans First</div>
+        <div class="diff-text">Selected as the technology backbone for the Veterans First Initiative, bridging DoD and VA systems for seamless veteran care.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Invest Banner -->
+<section class="invest-banner">
+  <div class="invest-inner">
+    <p class="invest-overline reveal">Investor Relations</p>
+    <h2 class="invest-headline reveal">Be Part of the<br>Healthcare <em>Revolution.</em></h2>
+    <p class="invest-desc reveal">InPursuit Health is building the infrastructure layer for the next era of American healthcare. If you&rsquo;re an accredited investor interested in the future of health technology, we&rsquo;d love to start a conversation.</p>
+    <a class="btn-gold reveal" href="mailto:invest@InPursuitHealth.com?subject=Investment%20Inquiry">Inquire About Investing &rarr;</a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a>
+    <a href="tetra.html">TETRA</a>
+    <a href="for-you.html">For You</a>
+    <a href="for-providers.html">For Providers</a>
+    <a href="data-security-ai.html">AI &amp; Your Data</a>
+    <a href="maha.html">MAHA</a>
+    <a href="veterans-first.html">Veterans First</a>
+    <a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a>
+    <a href="leadership.html">Leadership</a>
+    <a href="security-center.html">Security Center</a>
+    <a href="contact.html">Contact</a>
+    <a href="careers.html">Careers</a>
+    <a href="privacy.html">Privacy Policy</a>
+    <a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
+window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
+document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

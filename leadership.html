@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leadership — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628; --navy-deep: #060E1A; --navy-mid: #112240;
+  --gold: #C5A44E; --gold-light: #D4B96A; --gold-bright: #E8D48B;
+  --white: #FFFFFF; --off-white: #F0EDE6; --cream: #FAF8F4;
+  --red: #B22234; --text-dark: #1A1A2E; --text-muted: #6B7280;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Instrument Sans', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; }
+
+.preloader { position: fixed; inset: 0; background: var(--navy-deep); z-index: 10000; display: flex; align-items: center; justify-content: center; transition: opacity 0.8s ease, visibility 0.8s ease; }
+.preloader.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.preloader-wordmark { font-family: 'Instrument Serif', serif; font-size: 28px; color: var(--gold); letter-spacing: 2px; animation: pulseFade 1.2s ease-in-out infinite; }
+@keyframes pulseFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+.top-bar { background: var(--navy-deep); border-bottom: 1px solid rgba(197,164,78,0.2); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; transition: box-shadow 0.3s ease; }
+.top-bar.scrolled { box-shadow: 0 4px 30px rgba(0,0,0,0.4); }
+.top-bar-inner { max-width: 1400px; margin: 0 auto; padding: 0 40px; display: flex; justify-content: space-between; align-items: center; height: 64px; }
+.top-bar-brand { display: flex; align-items: center; text-decoration: none; }
+.top-bar-wordmark { font-family: 'Instrument Serif', serif; font-size: 22px; color: var(--gold); letter-spacing: 1px; }
+.top-bar-nav { display: flex; align-items: center; }
+.nav-item { position: relative; padding: 20px 14px; font-size: 11px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.3s ease; }
+.nav-item:hover, .nav-item.active { color: var(--gold); }
+.nav-item::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 0; height: 2px; background: var(--gold); transition: width 0.3s ease; }
+.nav-item:hover::after, .nav-item.active::after { width: 60%; }
+.nav-toggle { display: none; background: none; border: none; width: 32px; height: 32px; cursor: pointer; position: relative; }
+.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--gold); position: absolute; left: 5px; transition: all 0.3s ease; }
+.nav-toggle span:nth-child(1) { top: 8px; } .nav-toggle span:nth-child(2) { top: 15px; } .nav-toggle span:nth-child(3) { top: 22px; }
+
+/* Page Hero */
+.page-hero { background: var(--navy-deep); padding: 160px 40px 100px; position: relative; overflow: hidden; }
+.page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 60% 50%, rgba(197,164,78,0.06) 0%, transparent 60%); }
+.page-hero-inner { max-width: 900px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+.page-hero-overline { font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+.page-hero h1 { font-family: 'Instrument Serif', serif; font-size: clamp(36px, 5vw, 56px); font-weight: 400; color: var(--white); line-height: 1.2; margin-bottom: 24px; }
+.page-hero h1 em { font-style: italic; color: var(--gold); }
+.page-hero-desc { font-size: 17px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 680px; margin: 0 auto; }
+
+/* Team Section */
+.section { padding: 100px 40px; }
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-overline { font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+.section-headline { font-family: 'Instrument Serif', serif; font-size: clamp(28px, 3.5vw, 44px); font-weight: 400; color: var(--navy); line-height: 1.2; margin-bottom: 20px; }
+.section-headline em { font-style: italic; color: var(--gold); }
+.section-desc { font-size: 16px; color: var(--text-muted); line-height: 1.7; max-width: 700px; margin-bottom: 48px; }
+
+/* Leadership Grid */
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-top: 48px; }
+.team-card {
+  background: var(--white); border: 1px solid rgba(10,22,40,0.06);
+  border-radius: 8px; padding: 40px 32px; text-align: center;
+  transition: all 0.4s ease; position: relative; overflow: hidden;
+}
+.team-card:hover { box-shadow: 0 16px 48px rgba(10,22,40,0.08); transform: translateY(-4px); }
+.team-card::before { content: ''; position: absolute; top: 0; left: 32px; right: 32px; height: 3px; background: var(--gold); border-radius: 0 0 3px 3px; }
+.team-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--navy-deep); margin: 0 auto 20px;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid rgba(197,164,78,0.3);
+}
+.team-avatar-initials {
+  font-family: 'Instrument Serif', serif;
+  font-size: 24px; color: var(--gold); font-weight: 400;
+}
+.team-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px; color: var(--navy); margin-bottom: 6px;
+}
+.team-title {
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.team-badge {
+  display: inline-block; padding: 4px 12px;
+  background: rgba(178,34,52,0.08); border: 1px solid rgba(178,34,52,0.15);
+  border-radius: 20px; font-size: 10px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--red); margin-bottom: 16px;
+}
+.team-bio {
+  font-size: 14px; color: var(--text-muted); line-height: 1.7;
+}
+
+/* Advisory Section */
+.advisory-section {
+  background: var(--navy-deep); color: var(--white); padding: 100px 40px;
+}
+.advisory-inner { max-width: 1100px; margin: 0 auto; }
+.advisory-overline { font-size: 11px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; text-align: center; }
+.advisory-headline {
+  font-family: 'Instrument Serif', serif;
+  font-size: clamp(28px, 3.5vw, 40px); font-weight: 400; color: var(--white);
+  line-height: 1.3; margin-bottom: 48px; text-align: center;
+}
+.advisory-headline em { font-style: italic; color: var(--gold); }
+
+.advisory-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+.advisory-card {
+  background: rgba(17,34,64,0.4); border: 1px solid rgba(197,164,78,0.12);
+  border-radius: 8px; padding: 36px 32px;
+  transition: all 0.3s ease;
+}
+.advisory-card:hover { border-color: rgba(197,164,78,0.3); background: rgba(17,34,64,0.6); }
+.advisory-name {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--white); margin-bottom: 6px;
+}
+.advisory-title {
+  font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+}
+.advisory-bio { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+/* Footer */
+.site-footer { background: var(--navy-deep); border-top: 1px solid rgba(197,164,78,0.1); padding: 60px 40px 40px; text-align: center; }
+.footer-inner { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+.footer-wordmark { font-family: 'Instrument Serif', serif; font-size: 20px; color: var(--gold); letter-spacing: 1px; }
+.footer-legal { font-size: 11px; color: rgba(255,255,255,0.3); }
+.footer-nav { display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 20px; }
+.footer-nav a { font-size: 11px; font-weight: 500; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.3s ease; }
+.footer-nav a:hover { color: var(--gold); }
+.footer-disclaimer { font-size: 11px; color: rgba(255,255,255,0.2); max-width: 800px; margin: 20px auto 16px; line-height: 1.6; }
+.footer-tagline { font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: rgba(197,164,78,0.3); }
+
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 1024px) { .team-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 768px) {
+  .top-bar-nav { display: none; }
+  .top-bar-nav.open { display: flex; flex-direction: column; position: absolute; top: 64px; left: 0; right: 0; background: var(--navy-deep); border-bottom: 1px solid rgba(197,164,78,0.1); padding: 8px 0; }
+  .top-bar-nav.open .nav-item { padding: 14px 24px; }
+  .nav-toggle { display: block; }
+  .page-hero { padding: 120px 24px 60px; }
+  .section, .advisory-section { padding: 60px 24px; }
+  .team-grid, .advisory-grid { grid-template-columns: 1fr; }
+  .footer-inner { flex-direction: column; gap: 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="preloader" id="preloader"><div class="preloader-wordmark">INPURSUIT HEALTH</div></div>
+
+<header class="top-bar" id="topBar">
+  <div class="top-bar-inner">
+    <a class="top-bar-brand" href="index.html"><span class="top-bar-wordmark">InPursuit Health</span></a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <nav class="top-bar-nav" id="topNav">
+      <a class="nav-item" href="for-you.html">For You</a>
+      <a class="nav-item" href="for-providers.html">For Providers</a>
+      <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
+      <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
+      <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
+    </nav>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-overline">Leadership</p>
+    <h1>The Team Building the<br>Future of <em>Healthcare.</em></h1>
+    <p class="page-hero-desc">Our leadership team has been building enterprise data architecture since the 1990s — across defense, intelligence, law enforcement, and 30+ national governments. Now, we&rsquo;re applying that expertise to healthcare.</p>
+  </div>
+</section>
+
+<!-- Executive Team -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-overline reveal">Executive Team</p>
+    <h2 class="section-headline reveal">Builders. Veterans. <em>Innovators.</em></h2>
+    <p class="section-desc reveal">Many of our founders have worked in some of the largest and most complex data environments in the world &mdash; including top U.S. Federal agencies, over 400 law enforcement agencies, and the largest data provider in the world.</p>
+
+    <div class="team-grid">
+
+      <div class="team-card reveal">
+        <div class="team-avatar"><span class="team-avatar-initials">BM</span></div>
+        <div class="team-name">Bennett McPhatter</div>
+        <div class="team-title">CEO &amp; Founder</div>
+        <div class="team-badge">USMC Veteran</div>
+        <p class="team-bio">Technology Entrepreneur and expert in Enterprise Data Architecture and AI. Brings decades of experience building data solutions for the most demanding environments in government and defense.</p>
+      </div>
+
+      <div class="team-card reveal">
+        <div class="team-avatar"><span class="team-avatar-initials">JA</span></div>
+        <div class="team-name">Jose Arietta</div>
+        <div class="team-title">Chief Innovation Officer</div>
+        <p class="team-bio">Former CIO/CDO for HHS. Expert in scalable cloud architecture and AI-driven platforms for healthcare. Brings unmatched federal healthcare technology experience to InPursuit.</p>
+      </div>
+
+      <div class="team-card reveal">
+        <div class="team-avatar"><span class="team-avatar-initials">HL</span></div>
+        <div class="team-name">Hongda Lin</div>
+        <div class="team-title">Chief Technology Officer &amp; Founder</div>
+        <p class="team-bio">Expert in Systems Architecture, Backend Data Integration, and AI. Architects the core TETRA&trade; platform infrastructure that powers InPursuit&rsquo;s healthcare ecosystem.</p>
+      </div>
+
+      <div class="team-card reveal">
+        <div class="team-avatar"><span class="team-avatar-initials">CI</span></div>
+        <div class="team-name">Chris Ingram</div>
+        <div class="team-title">Chief Product Officer &amp; Founder</div>
+        <p class="team-bio">Head of product strategy, focusing on user-centric design and market-leading features. Software Engineer with MBA, translating complex healthcare needs into intuitive solutions.</p>
+      </div>
+
+
+        <div class="team-avatar"><span class="team-avatar-initials">PT</span></div>
+        <div class="team-name">Patrick Truxillo</div>
+        <div class="team-title">Chief Strategy Officer &amp; Founder</div>
+        <p class="team-bio">Healthcare Executive leading strategic market penetration and driving revenue growth through innovative solutions. Guides InPursuit&rsquo;s go-to-market strategy and partner ecosystem.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Advisory Board -->
+<section class="advisory-section">
+  <div class="advisory-inner">
+    <p class="advisory-overline reveal">Advisory Board</p>
+    <h2 class="advisory-headline reveal">Guided by leaders across<br>healthcare and <em>technology.</em></h2>
+
+    <div class="advisory-grid">
+      <div class="advisory-card reveal">
+        <div class="advisory-name">Alexis Johnson</div>
+        <div class="advisory-title">MSN Health Leadership &amp; Management</div>
+        <p class="advisory-bio">ER Nurse, Professor, Regional Director of Operations for a significant Health System. Currently serving as National Director of Integrations at US Health Partners. Brings frontline clinical perspective to InPursuit&rsquo;s advisory team.</p>
+      </div>
+
+      <div class="advisory-card reveal">
+        <div class="advisory-name">Michael Mark</div>
+        <div class="advisory-title">Chief Revenue Officer &amp; Advisor</div>
+        <p class="advisory-bio">Former CEO of Physician Hospital Organization and CEO of Managed Healthcare Companies. Brings deep operational expertise in healthcare delivery, revenue models, and managed care strategy.</p>
+      </div>
+
+      <div class="advisory-card reveal">
+        <div class="advisory-name">WellLink&trade;</div>
+        <div class="advisory-title">via CEO Brian Lane</div>
+        <p class="advisory-bio">WellLink&trade; is a pioneering convener linking individuals, organizations, and communities to advance holistic health and wellness solutions nationwide. A strategic partner in expanding InPursuit&rsquo;s community health reach.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div>
+    <span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span>
+  </div>
+  <div class="footer-nav">
+    <a href="index.html">Home</a><a href="tetra.html">TETRA</a><a href="for-you.html">For You</a><a href="for-providers.html">For Providers</a><a href="data-security-ai.html">AI &amp; Your Data</a><a href="maha.html">MAHA</a><a href="veterans-first.html">Veterans First</a><a href="partner-network.html">Partner Network</a>
+  </div>
+  <div class="footer-nav" style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(197,164,78,0.05);">
+    <a href="about.html">About Us</a><a href="leadership.html">Leadership</a><a href="security-center.html">Security Center</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a>
+  </div>
+  <p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p>
+  <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
+</footer>
+
+<script>
+window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
+window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
+document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
+const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); }); }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
