@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>A Day in the Life — A Patient | InPursuit Health</title>
+<title>For You — Harness the Power of Your Data | InPursuit Health</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -1250,6 +1250,286 @@ body {
   font-size: 13px; color: rgba(197,164,78,0.3); letter-spacing: 2px;
 }
 
+/* ===== ESTIMATOR CTA ===== */
+.est-cta-row {
+  display: flex; gap: 16px; justify-content: center;
+  flex-wrap: wrap; margin-top: 40px;
+}
+
+/* ===== JOURNEY PROGRESSION ===== */
+.journey-section { background: var(--navy); overflow: hidden; position: relative; }
+.journey-section::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 600px 400px at 20% 30%, rgba(197,164,78,0.04) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 500px at 80% 80%, rgba(69,123,157,0.03) 0%, transparent 70%);
+  pointer-events: none;
+}
+.journey-inner { position: relative; z-index: 1; }
+
+/* Persona tabs for journey */
+.journey-persona-tabs {
+  display: flex; justify-content: center; gap: 8px;
+  margin-top: 40px; flex-wrap: wrap;
+}
+.journey-persona-tab {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 18px; border-radius: 28px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.4); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.3s ease;
+  font-family: 'Instrument Sans', sans-serif;
+}
+.journey-persona-tab img {
+  width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
+  border: 1.5px solid rgba(197,164,78,0.2);
+  transition: border-color 0.3s ease;
+}
+.journey-persona-tab:hover { border-color: rgba(197,164,78,0.3); color: rgba(255,255,255,0.7); }
+.journey-persona-tab.active {
+  background: rgba(197,164,78,0.1); border-color: var(--gold);
+  color: var(--gold);
+}
+.journey-persona-tab.active img { border-color: var(--gold); }
+
+/* Time step row */
+.journey-time-row {
+  display: flex; justify-content: center; align-items: flex-start;
+  gap: 0; margin: 32px auto 0; position: relative;
+  max-width: 700px;
+}
+.journey-time-line {
+  position: absolute; top: 20px; left: 40px; right: 40px;
+  height: 2px; background: rgba(197,164,78,0.1);
+  z-index: 0;
+}
+.journey-time-fill {
+  height: 100%; width: 0%;
+  background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+  transition: width 0.6s ease; border-radius: 2px;
+}
+.journey-time-btn {
+  position: relative; z-index: 2; flex: 1;
+  display: flex; flex-direction: column; align-items: center;
+  cursor: pointer; padding: 8px 4px;
+  transition: all 0.3s ease;
+}
+.journey-time-dot {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--navy-deep);
+  border: 2px solid rgba(197,164,78,0.2);
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.3s ease; margin-bottom: 8px;
+}
+.journey-time-dot span {
+  font-family: 'Instrument Serif', serif;
+  font-size: 11px; color: rgba(197,164,78,0.4);
+  transition: color 0.3s ease;
+}
+.journey-time-btn:hover .journey-time-dot { border-color: rgba(197,164,78,0.5); }
+.journey-time-btn.active .journey-time-dot {
+  border-color: var(--gold); background: rgba(197,164,78,0.15);
+  box-shadow: 0 0 20px rgba(197,164,78,0.2);
+  transform: scale(1.15);
+}
+.journey-time-btn.active .journey-time-dot span { color: var(--gold); }
+.journey-time-btn.passed .journey-time-dot {
+  border-color: var(--gold); background: rgba(197,164,78,0.1);
+}
+.journey-time-btn.passed .journey-time-dot span { color: var(--gold); }
+.journey-time-label {
+  font-size: 10px; font-weight: 600; letter-spacing: 1px;
+  text-transform: uppercase; color: rgba(255,255,255,0.2);
+  transition: color 0.3s ease;
+}
+.journey-time-btn.active .journey-time-label,
+.journey-time-btn.passed .journey-time-label { color: rgba(197,164,78,0.6); }
+
+/* Journey content cards */
+.journey-content { margin-top: 36px; }
+.journey-panel { display: none; animation: fadeUp 0.4s ease; }
+.journey-panel.active { display: block; }
+.journey-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+}
+.journey-card {
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 8px; padding: 28px;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease; position: relative; overflow: hidden;
+}
+.journey-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 3px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.4s ease;
+}
+.journey-card:hover::before { transform: scaleX(1); }
+.journey-card:hover { border-color: rgba(197,164,78,0.2); transform: translateY(-4px); box-shadow: 0 16px 48px rgba(0,0,0,0.3); }
+.journey-card h4 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 20px; color: var(--white); margin-bottom: 14px; line-height: 1.3;
+}
+.journey-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 10px; font-size: 13px;
+  color: rgba(255,255,255,0.55); line-height: 1.5;
+}
+.journey-item strong { color: rgba(255,255,255,0.85); }
+.ji { width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; margin-top: 2px; }
+.ji-save { background: rgba(74,222,128,0.12); color: #4ADE80; }
+.ji-time { background: rgba(125,211,252,0.12); color: #7DD3FC; }
+.ji-outcome { background: rgba(197,164,78,0.12); color: var(--gold); }
+.ji-reward { background: rgba(232,212,139,0.12); color: var(--gold-bright); }
+.journey-stats-bar {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+  margin-top: 36px;
+}
+.journey-stat-card {
+  text-align: center; padding: 20px 12px;
+  background: rgba(17,34,64,0.6);
+  border: 1px solid rgba(197,164,78,0.08);
+  border-radius: 8px;
+}
+.journey-stat-num {
+  font-family: 'Instrument Serif', serif;
+  font-size: 32px; line-height: 1;
+}
+.journey-stat-num.green { color: #4ADE80; }
+.journey-stat-num.blue { color: #7DD3FC; }
+.journey-stat-num.gold { color: var(--gold); }
+.journey-stat-label {
+  font-size: 10px; letter-spacing: 1px; text-transform: uppercase;
+  color: rgba(255,255,255,0.25); margin-top: 6px;
+}
+/* Retention bar */
+.journey-retention {
+  margin-top: 48px; text-align: center; padding: 32px;
+  background: rgba(197,164,78,0.04);
+  border: 1px solid rgba(197,164,78,0.1); border-radius: 8px;
+}
+.retention-bar {
+  display: flex; align-items: center; justify-content: center;
+  gap: 24px; margin-top: 20px; flex-wrap: wrap;
+}
+.retention-item {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 16px 28px; border-radius: 8px;
+}
+.retention-item.bad { background: rgba(178,34,52,0.08); border: 1px solid rgba(178,34,52,0.15); }
+.retention-item.good { background: rgba(74,222,128,0.06); border: 1px solid rgba(74,222,128,0.15); }
+.retention-pct { font-family: 'Instrument Serif', serif; font-size: 42px; line-height: 1; }
+.retention-item.bad .retention-pct { color: var(--red); }
+.retention-item.good .retention-pct { color: #4ADE80; }
+.retention-lbl { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; margin-top: 6px; }
+.retention-item.bad .retention-lbl { color: rgba(178,34,52,0.6); }
+.retention-item.good .retention-lbl { color: rgba(74,222,128,0.5); }
+.retention-vs { font-family: 'Instrument Serif', serif; font-size: 20px; color: rgba(255,255,255,0.15); }
+
+/* ===== SEND TO INPURSUIT ===== */
+.curate-section { background: var(--cream); position: relative; }
+.curate-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 60px; margin-top: 48px; align-items: start;
+}
+.curate-demo {
+  background: var(--navy-deep); border-radius: 16px;
+  padding: 28px; position: relative; overflow: hidden;
+  border: 1px solid rgba(197,164,78,0.1);
+  box-shadow: 0 24px 80px rgba(10,22,40,0.3);
+}
+.curate-demo::before {
+  content: ''; position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(197,164,78,0.05), transparent 60%);
+  pointer-events: none;
+}
+.curate-demo-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; position: relative; z-index: 1;
+}
+.curate-demo-icon {
+  width: 32px; height: 32px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; flex-shrink: 0;
+}
+.curate-demo-icon img { width: 100%; height: 100%; object-fit: cover; }
+.curate-demo-source { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.6); }
+.curate-demo-sub { font-size: 10px; color: rgba(255,255,255,0.25); }
+.curate-embed-wrap {
+  position: relative; z-index: 1;
+  border-radius: 10px; overflow: hidden;
+  margin-bottom: 16px;
+  background: rgba(40,44,52,0.6);
+  border: 0.5px solid rgba(255,255,255,0.06);
+}
+.curate-embed-wrap iframe {
+  width: 100%; min-height: 420px; border: none; display: block;
+}
+.curate-send-btn {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  padding: 14px 28px; border-radius: 12px;
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy-deep); font-size: 14px; font-weight: 700;
+  letter-spacing: 0.5px; cursor: pointer;
+  position: relative; z-index: 1;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(197,164,78,0.2);
+  border: none; width: 100%; font-family: 'Instrument Sans', sans-serif;
+}
+.curate-send-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(197,164,78,0.35);
+}
+.curate-confirm {
+  position: relative; z-index: 1; text-align: center;
+  margin-top: 10px; padding: 10px;
+  border-radius: 8px;
+  background: rgba(74,222,128,0.08);
+  border: 1px solid rgba(74,222,128,0.15);
+  font-size: 12px; color: #4ADE80; font-weight: 600;
+  opacity: 0; transition: opacity 0.5s ease;
+}
+.curate-confirm.show { opacity: 1; }
+.curate-sources-list { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.curate-source-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px; border-radius: 8px;
+  background: var(--white); border: 1px solid rgba(0,0,0,0.06);
+  transition: all 0.3s ease;
+}
+.curate-source-row:hover { border-color: rgba(197,164,78,0.2); box-shadow: 0 8px 24px rgba(0,0,0,0.06); transform: translateY(-2px); }
+.curate-source-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden;
+}
+.curate-source-icon img { width: 100%; height: 100%; object-fit: cover; }
+.curate-source-info h4 { font-family: 'Instrument Serif', serif; font-size: 15px; color: var(--navy); margin-bottom: 2px; }
+.curate-source-info p { font-size: 11px; color: var(--text-muted); }
+.curate-tag {
+  margin-left: auto; font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
+  padding: 5px 10px; border-radius: 4px;
+  background: rgba(197,164,78,0.08); color: var(--gold);
+  border: 1px solid rgba(197,164,78,0.12); white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .curate-grid { grid-template-columns: 1fr; gap: 40px; }
+  .journey-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .journey-persona-tabs { gap: 6px; }
+  .journey-persona-tab { padding: 8px 12px; font-size: 12px; }
+  .journey-persona-tab img { width: 24px; height: 24px; }
+  .journey-time-dot { width: 32px; height: 32px; }
+  .journey-time-dot span { font-size: 9px; }
+  .journey-stats-bar { grid-template-columns: 1fr; }
+  .retention-item { padding: 12px 20px; }
+  .retention-pct { font-size: 32px; }
+}
+
 /* ===== SCROLL REVEAL ===== */
 .reveal {
   opacity: 0; transform: translateY(30px);
@@ -1326,6 +1606,7 @@ body {
       <a class="nav-item" href="for-providers.html">For Providers</a>
       <a class="nav-item" href="data-security-ai.html">Data Security &amp; AI</a>
       <a class="nav-item" href="veterans-first.html">Veterans First Initiative</a>
+      <a class="nav-item" href="partner-network.html" style="color: var(--gold);">Partner Network</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1516,6 +1797,10 @@ body {
         </div>
         <div class="results-sources"><p><strong>How we calculated this:</strong> Your <span id="resInsurance">employer plan</span> combined with <span id="resDevices">3 connected devices</span> and <span id="resRx">your prescriptions</span> creates a data profile that enables Rx price optimization ($500&ndash;2,000 alone), procedure cost comparison (avg. $1,200 saved per event), and insurance benefit maximization &mdash; all powered by InPursuit Health. Rewards include points from healthy actions (screenings, streaks, goals) <strong>plus personalized offers from partner brands</strong> &mdash; supplement companies, fitness brands, meal delivery, wearables, and wellness products &mdash; who pay premium to reach engaged, health-conscious consumers like you. Your engagement signals are worth far more than a social media like.</p></div>
         <button class="est-restart" onclick="restartEst()">Start over</button>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:32px;">
+          <a class="btn-gold" href="contact.html">Start Your Personalized Feed &rarr;</a>
+          <a class="btn-outline" href="#personas" style="color:var(--gold);border-color:rgba(197,164,78,0.4);">See the Stories Below</a>
+        </div>
       </div>
     </div>
 
@@ -1689,7 +1974,7 @@ body {
   <div class="section-inner">
     <p class="section-overline reveal" style="text-align:center;">Real People, Real Value</p>
     <h2 class="section-headline reveal" style="text-align:center;">See how InPursuit works in the <em>moments that matter.</em></h2>
-    <p class="section-desc reveal" style="text-align:center;max-width:640px;margin:0 auto;">Five Americans. One ordinary day. Dozens of moments where InPursuit saves them money, saves them time, and helps them make better decisions.</p>
+    <p class="section-desc reveal" style="text-align:center;max-width:640px;margin:0 auto;">Five Americans. One ordinary day. Dozens of moments where InPursuit saves them money, saves them time, and helps them make better decisions &mdash; <strong>and this is just Day 1.</strong></p>
 
     <div class="persona-selector reveal">
       <div class="persona-btn active" onclick="selectPersona(0)"><img src="https://images.unsplash.com/photo-1566616213894-2d4e1baee5d8?w=200&h=200&fit=crop&crop=face" alt="Robert, 58" class="persona-avatar"><div class="persona-btn-name">Robert, 58</div><div class="persona-btn-desc">Type 2 Diabetes &middot; Medicare</div></div>
@@ -1804,6 +2089,136 @@ body {
         <div class="moment"><div class="moment-dot"></div><div class="moment-time time">2:00 PM &middot; Save Time</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Emergency medical summary &mdash; translated, shareable, complete.</div><div class="moment-tag tag-time">Clinical + Language</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">Full EHR</span><span class="src-badge"><img src="https://logo.clearbit.com/withings.com" alt="">BP Trends</span></div><div class="moment-body">When David arrived at St. Luke&rsquo;s, he tapped &ldquo;Share with Provider&rdquo; and the doctor received his <strong>full medical history, current medications, allergies, and 90-day BP trend &mdash; in Japanese</strong>. No forms. No faxes. No phone calls to his PCP back home.</div><div class="moment-value value-time">Saved 45+ minutes of intake paperwork abroad</div></div></div>
         <div class="moment"><div class="moment-dot"></div><div class="moment-time save">5:00 PM &middot; Save Money</div><div class="moment-card"><div class="moment-header"><div class="moment-title">Aetna claim pre-filed. Reimbursement processing. No paperwork needed.</div><div class="moment-tag tag-save">Insurance Automation</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/aetna.com" alt="">Aetna Intl</span></div><div class="moment-body">InPursuit auto-generated the international claim with diagnosis codes, provider details, and visit documentation. <strong>David didn&rsquo;t fill out a single form</strong> &mdash; the claim was submitted before he left the clinic.</div><div class="moment-value value-save">$0 out-of-pocket surprise bills</div></div></div>
         <div class="moment"><div class="moment-dot"></div><div class="moment-time outcome">9:00 PM &middot; Better Outcomes</div><div class="moment-card"><div class="moment-header"><div class="moment-title">BP stabilizing: 132/85. Medication adjustment confirmed with your PCP.</div><div class="moment-tag tag-outcome">Continuity of Care</div></div><div class="moment-sources"><span class="src-badge"><img src="https://logo.clearbit.com/withings.com" alt="">Withings BP</span><span class="src-badge"><img src="https://logo.clearbit.com/epic.com" alt="">PCP Record</span></div><div class="moment-body">The Tokyo doctor adjusted David&rsquo;s lisinopril dose. InPursuit <strong>synced the change to his PCP&rsquo;s records back in Charlotte</strong> in real time. When he gets home, his doctor already knows what happened &mdash; no lost-in-translation gaps.</div><div class="moment-value value-outcome">Zero continuity gaps between countries</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEYOND DAY 1: JOURNEY PROGRESSION -->
+<section class="section journey-section" id="journey">
+  <div class="section-inner journey-inner">
+    <p class="section-overline reveal" style="text-align:center; color: var(--gold);">Beyond Day 1</p>
+    <h2 class="section-headline reveal" style="text-align:center; color: var(--white);">Most health apps lose you in <em>two weeks.</em><br>InPursuit gets smarter <em>every month.</em></h2>
+    <p class="section-desc reveal" style="text-align:center;max-width:640px;margin:0 auto;color:rgba(255,255,255,0.45);">The average health app retains only 4% of users after 90 days. InPursuit doesn&rsquo;t rely on willpower &mdash; it works in the background, quietly connecting your data, saving you money, and surfacing value you never asked for.</p>
+
+    <!-- Persona Tabs -->
+    <div class="journey-persona-tabs reveal">
+      <div class="journey-persona-tab active" onclick="selectJourneyPersona(0)"><img src="https://images.unsplash.com/photo-1566616213894-2d4e1baee5d8?w=80&h=80&fit=crop&crop=face" alt="">Robert</div>
+      <div class="journey-persona-tab" onclick="selectJourneyPersona(1)"><img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="">Sarah</div>
+      <div class="journey-persona-tab" onclick="selectJourneyPersona(2)"><img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="">Patrick</div>
+      <div class="journey-persona-tab" onclick="selectJourneyPersona(3)"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80&h=80&fit=crop&crop=face" alt="">Maya</div>
+      <div class="journey-persona-tab" onclick="selectJourneyPersona(4)"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="">David</div>
+    </div>
+
+    <!-- Time Stepper -->
+    <div class="journey-time-row reveal">
+      <div class="journey-time-line"><div class="journey-time-fill" id="jtFill"></div></div>
+      <div class="journey-time-btn active" onclick="selectJourneyTime(0)"><div class="journey-time-dot"><span>D1</span></div><div class="journey-time-label">Day 1</div></div>
+      <div class="journey-time-btn" onclick="selectJourneyTime(1)"><div class="journey-time-dot"><span>W1</span></div><div class="journey-time-label">Week 1</div></div>
+      <div class="journey-time-btn" onclick="selectJourneyTime(2)"><div class="journey-time-dot"><span>M1</span></div><div class="journey-time-label">Month 1</div></div>
+      <div class="journey-time-btn" onclick="selectJourneyTime(3)"><div class="journey-time-dot"><span>M6</span></div><div class="journey-time-label">6 Months</div></div>
+      <div class="journey-time-btn" onclick="selectJourneyTime(4)"><div class="journey-time-dot"><span>Y1</span></div><div class="journey-time-label">Year 1</div></div>
+    </div>
+
+    <!-- Journey Content (dynamically populated by JS) -->
+    <div class="journey-content reveal" id="journeyContent"></div>
+
+    <!-- Stats Bar -->
+    <div class="journey-stats-bar reveal" id="journeyStats"></div>
+
+    <!-- Retention -->
+    <div class="journey-retention reveal">
+      <p style="font-size:11px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;">90-Day Retention</p>
+      <p style="font-family:'Instrument Serif',serif;font-size:24px;color:var(--white);line-height:1.3;">Most health apps disappear after the novelty wears off.<br>InPursuit <em style="color:var(--gold);">never stops delivering value.</em></p>
+      <div class="retention-bar">
+        <div class="retention-item bad"><div class="retention-pct">4%</div><div class="retention-lbl">Industry Avg</div></div>
+        <div class="retention-vs">vs</div>
+        <div class="retention-item good"><div class="retention-pct">88%</div><div class="retention-lbl">InPursuit Target</div></div>
+      </div>
+      <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:16px;max-width:500px;margin-left:auto;margin-right:auto;">Because InPursuit works passively &mdash; monitoring, saving, and connecting &mdash; even when you&rsquo;re not looking at it. The value compounds whether you open the app or not.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEND TO INPURSUIT -->
+<section class="section curate-section" id="curate">
+  <div class="section-inner">
+    <p class="section-overline reveal" style="text-align:center;">Your Feed, Your Way</p>
+    <h2 class="section-headline reveal" style="text-align:center;">Found something useful? <em>Send it to InPursuit.</em></h2>
+    <p class="section-desc reveal" style="text-align:center;max-width:640px;margin:0 auto;">Your health journey doesn&rsquo;t live in one app. You find a longevity video on Reddit. A meal prep guide on YouTube. A research study your friend texted you. InPursuit becomes your personal health library &mdash; everything that matters, in one place, connected to your actual data.</p>
+
+    <div class="curate-grid reveal">
+      <!-- Demo: Reddit Post Card -->
+      <div class="curate-demo" id="curateDemo">
+        <div class="curate-demo-header">
+          <div class="curate-demo-icon"><img src="https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png" alt="Reddit"></div>
+          <div><div class="curate-demo-source">r/immortalists</div><div class="curate-demo-sub">Reddit &middot; Video Post</div></div>
+        </div>
+        <a href="https://www.reddit.com/r/immortalists/s/i5d3GqNm78" target="_blank" rel="noopener" style="text-decoration:none;display:block;">
+          <div style="position:relative;z-index:1;border-radius:10px;overflow:hidden;margin-bottom:16px;background:rgba(40,44,52,0.6);border:0.5px solid rgba(255,255,255,0.06);padding:20px;transition:all 0.3s ease;" onmouseover="this.style.borderColor='rgba(197,164,78,0.3)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)'">
+            <div style="width:100%;height:180px;border-radius:8px;background:linear-gradient(135deg,#1a1a2e 0%,#0f2027 50%,#203a43 100%);display:flex;align-items:center;justify-content:center;margin-bottom:14px;position:relative;overflow:hidden;">
+              <div style="position:absolute;inset:0;background:radial-gradient(circle at center,rgba(255,255,255,0.03) 0%,transparent 70%);"></div>
+              <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.1);cursor:pointer;transition:all 0.3s ease;" onmouseover="this.style.background='rgba(197,164,78,0.2)';this.style.borderColor='rgba(197,164,78,0.4)'" onmouseout="this.style.background='rgba(255,255,255,0.1)';this.style.borderColor='rgba(255,255,255,0.1)'">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="rgba(255,255,255,0.8)"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <div style="position:absolute;bottom:10px;right:12px;display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:12px;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);">
+                <img src="https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png" alt="" style="width:14px;height:14px;border-radius:50%;">
+                <span style="font-size:10px;color:rgba(255,255,255,0.6);font-weight:600;">Watch on Reddit</span>
+              </div>
+            </div>
+            <div style="font-size:15px;font-weight:700;color:#fff;line-height:1.4;margin-bottom:8px;font-family:-apple-system,'SF Pro Display','Helvetica Neue',sans-serif;">New research on NAD+ supplementation and cellular aging reversal &mdash; 12-month clinical results</div>
+            <div style="font-size:13px;color:rgba(255,255,255,0.4);line-height:1.5;">A comprehensive breakdown of the latest longevity research showing measurable biological age reduction through targeted supplementation protocols...</div>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);">
+              <span style="font-size:11px;color:rgba(255,255,255,0.3);">&#9650; 847</span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.3);">&#128172; 124 comments</span>
+              <span style="font-size:11px;color:rgba(255,255,255,0.3);margin-left:auto;">&#127891; Research</span>
+            </div>
+          </div>
+        </a>
+        <button class="curate-send-btn" onclick="sendToInPursuit()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+          Send to InPursuit
+        </button>
+        <div class="curate-confirm" id="curateConfirm">
+          &#10003; Added to your Health Feed &mdash; InPursuit will connect this to your supplement data &amp; lab results
+        </div>
+      </div>
+
+      <!-- How it works -->
+      <div>
+        <h3 style="font-family:'Instrument Serif',serif;font-size:28px;color:var(--navy);margin-bottom:8px;line-height:1.3;">Build your personal<br>health intelligence library.</h3>
+        <p style="font-size:15px;color:var(--text-muted);line-height:1.7;margin-bottom:28px;">Share any health content to InPursuit using your phone&rsquo;s native share sheet, a browser extension, or a simple &ldquo;Send to InPursuit&rdquo; link. InPursuit doesn&rsquo;t just save it &mdash; it <strong style="color:var(--text-dark);">connects it to your actual health data</strong>.</p>
+
+        <div class="curate-sources-list">
+          <div class="curate-source-row">
+            <div class="curate-source-icon"><img src="https://www.redditstatic.com/desktop2x/img/favicon/android-icon-192x192.png" alt="Reddit"></div>
+            <div class="curate-source-info"><h4>Reddit</h4><p>r/longevity, r/biohackers, r/keto, r/supplements</p></div>
+            <div class="curate-tag">Share &rarr; InPursuit</div>
+          </div>
+          <div class="curate-source-row">
+            <div class="curate-source-icon" style="background:#FF0000;border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M21.8 8.001s-.2-1.41-.8-2.03c-.77-.81-1.63-.81-2.02-.86C16.16 4.86 12 4.86 12 4.86s-4.16 0-6.98.25c-.39.05-1.25.05-2.02.86-.6.62-.8 2.03-.8 2.03S2 9.62 2 11.24v1.52c0 1.62.2 3.24.2 3.24s.2 1.41.8 2.03c.77.81 1.63.81 2.04.9 1.48.14 6.96.18 6.96.18s4.16-.01 6.98-.26c.39-.05 1.25-.05 2.02-.86.6-.62.8-2.03.8-2.03S22 14.38 22 12.76v-1.52c0-1.62-.2-3.24-.2-3.24zM9.99 15.01V8.99l5.37 3.01-5.37 3.01z"/></svg></div>
+            <div class="curate-source-info"><h4>YouTube</h4><p>Huberman Lab, Peter Attia, FoundMyFitness</p></div>
+            <div class="curate-tag">Share &rarr; InPursuit</div>
+          </div>
+          <div class="curate-source-row">
+            <div class="curate-source-icon" style="background:#0A66C2;border-radius:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg></div>
+            <div class="curate-source-info"><h4>Articles &amp; Research</h4><p>PubMed, NEJM, health blogs, news</p></div>
+            <div class="curate-tag">Share &rarr; InPursuit</div>
+          </div>
+          <div class="curate-source-row">
+            <div class="curate-source-icon" style="background:#8B5CF6;border-radius:10px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M12 1c-4.97 0-9 4.03-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7c0-4.97-4.03-9-9-9z"/></svg></div>
+            <div class="curate-source-info"><h4>Podcasts &amp; Texts</h4><p>Friends&rsquo; recommendations, podcast clips, text links</p></div>
+            <div class="curate-tag">Share &rarr; InPursuit</div>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;padding:20px;background:rgba(197,164,78,0.04);border:1px solid rgba(197,164,78,0.1);border-radius:8px;">
+          <p style="font-size:13px;color:var(--text-muted);line-height:1.6;"><strong style="color:var(--navy);">The magic:</strong> When you send a longevity video about NAD+ supplements to InPursuit, it doesn&rsquo;t just bookmark it. It cross-references the content with <strong style="color:var(--navy);">your lab results, your current supplements, your device data, and your insurance formulary</strong> &mdash; then tells you whether this is relevant to <em>your</em> health, not just anyone&rsquo;s.</p>
+        </div>
+
+        <div style="margin-top:24px;display:flex;gap:16px;flex-wrap:wrap;">
+          <a class="btn-gold" href="contact.html">Start Your Personalized Feed &rarr;</a>
+        </div>
       </div>
     </div>
   </div>
@@ -2071,6 +2486,238 @@ observeMoments();
 document.querySelectorAll('img').forEach(img => {
   img.onerror = function() { this.style.display = 'none'; };
 });
+
+// ===== JOURNEY PERSONA DATA =====
+const journeyData = {
+  // Robert, 58 - Type 2 Diabetes / Medicare
+  0: {
+    name: 'Robert',
+    times: [
+      { title: 'Connect & Discover', items: [
+        {t:'save', text:'Links Humana Medicare Advantage + Dexcom G7 + MyFitnessPal in 3 minutes'},
+        {t:'save', text:'First Rx alert: <strong>Metformin is $43 cheaper</strong> at Costco on his plan'},
+        {t:'outcome', text:'Glucose pattern tracking begins &mdash; correlating meals with Dexcom spikes'}
+      ], stats: [{v:'$0',l:'Cost',c:'green'},{v:'3 min',l:'Setup',c:'blue'},{v:'1st',l:'Alert',c:'gold'}] },
+      { title: 'First Savings Hit', items: [
+        {t:'save', text:'Switched pharmacy &mdash; <strong>saving $516/year on metformin alone</strong>'},
+        {t:'outcome', text:'Post-meal walk nudges timed to his actual spike window reduce glucose 18%'},
+        {t:'reward', text:'Earned 340 wellness points for A1C lab completion and walking streaks'}
+      ], stats: [{v:'$180',l:'Saved',c:'green'},{v:'2.1 hrs',l:'Saved',c:'blue'},{v:'340',l:'Points',c:'gold'}] },
+      { title: 'Patterns Emerge', items: [
+        {t:'outcome', text:'InPursuit detects his worst spikes happen Tues/Thurs after pasta dinners'},
+        {t:'save', text:'Overdue diabetic eye exam surfaced &mdash; <strong>$20 screening prevents $15K treatment</strong>'},
+        {t:'reward', text:'AG1 and Thorne offers unlocked based on his T2D management profile'}
+      ], stats: [{v:'$620',l:'Saved',c:'green'},{v:'6 hrs',l:'Saved',c:'blue'},{v:'1,240',l:'Points',c:'gold'}] },
+      { title: 'Running in the Background', items: [
+        {t:'save', text:'Humana formulary changed &mdash; InPursuit <strong>auto-found a $0 generic alternative</strong>'},
+        {t:'outcome', text:'A1C down 1.2 points. His endocrinologist reduced medication dosage'},
+        {t:'reward', text:'Redeemed $280 in partner rewards &mdash; CGM supplies, supplement discounts'}
+      ], stats: [{v:'$3,800',l:'Saved',c:'green'},{v:'18 hrs',l:'Saved',c:'blue'},{v:'$280',l:'Redeemed',c:'gold'}] },
+      { title: 'Health Compound Interest', items: [
+        {t:'save', text:'Open enrollment: InPursuit recommended a plan <strong>saving $1,400/yr</strong> with better Rx coverage'},
+        {t:'outcome', text:'All screenings current. A1C from 8.1 to 6.4. Off one medication entirely'},
+        {t:'reward', text:'Earned Platinum tier &mdash; his health data profile unlocks premium brand offers worth $1,200+/yr'}
+      ], stats: [{v:'$8,200+',l:'Saved',c:'green'},{v:'36+ hrs',l:'Saved',c:'blue'},{v:'$1,200+',l:'Rewards',c:'gold'}] }
+    ]
+  },
+  // Sarah, 32 - Expecting Mom / Cigna PPO (28 weeks pregnant at Day 1)
+  1: {
+    name: 'Sarah',
+    times: [
+      // Day 1: 28 weeks pregnant
+      { title: 'Connect & Discover', items: [
+        {t:'save', text:'Links Cigna PPO + Apple Watch + Ovia Pregnancy + Headspace in 3 minutes'},
+        {t:'save', text:'First alert: <strong>Prenatal vitamins $31 cheaper</strong> as Rx on her Cigna formulary'},
+        {t:'outcome', text:'Prenatal care timeline auto-generated from OB records &mdash; every remaining screening scheduled'}
+      ], stats: [{v:'$0',l:'Cost',c:'green'},{v:'3 min',l:'Setup',c:'blue'},{v:'1st',l:'Alert',c:'gold'}] },
+      // Week 1: 29 weeks pregnant
+      { title: 'First Savings Hit', items: [
+        {t:'save', text:'Delivery cost comparison: <strong>$4,700 difference</strong> between two in-network hospitals'},
+        {t:'outcome', text:'Sleep disruption at 29 weeks flagged as normal &mdash; anxiety spiral prevented'},
+        {t:'time', text:'Glucose screening reminder with $0 coverage confirmation + nearest lab with shortest wait'}
+      ], stats: [{v:'$4,700',l:'Potential Savings',c:'green'},{v:'3.5 hrs',l:'Saved',c:'blue'},{v:'480',l:'Points',c:'gold'}] },
+      // Month 1: 32 weeks pregnant — deep into third trimester
+      { title: 'Third Trimester Intelligence', items: [
+        {t:'outcome', text:'BP trending 128/82 &mdash; InPursuit creates a <strong>7-day tracking card</strong> for her OB visit'},
+        {t:'time', text:'Cigna covers 20 therapy sessions/yr &mdash; 3 prenatal anxiety specialists surfaced with telehealth'},
+        {t:'reward', text:'Nursery &amp; baby prep offers from partners: Hatch, Babylist &mdash; $180 in exclusive discounts'}
+      ], stats: [{v:'$5,200',l:'Saved',c:'green'},{v:'8 hrs',l:'Saved',c:'blue'},{v:'$180',l:'Offers',c:'gold'}] },
+      // Month 6: Baby is ~3 months old — deep in postpartum
+      { title: 'New Mom, New Rhythms', items: [
+        {t:'outcome', text:'Baby born healthy at 39 weeks. InPursuit <strong>auto-transitioned to postpartum + pediatric timelines</strong>'},
+        {t:'save', text:'Lactation consultant covered at $0 under preventive. Postpartum visit + mental health screening scheduled'},
+        {t:'reward', text:'New parent brand offers: formula samples, developmental toys, meal delivery for new moms &mdash; $320 redeemed'}
+      ], stats: [{v:'$7,400',l:'Saved',c:'green'},{v:'22 hrs',l:'Saved',c:'blue'},{v:'$420',l:'Redeemed',c:'gold'}] },
+      // Year 1: Baby is ~9 months old — established family health
+      { title: 'Family Health Hub', items: [
+        {t:'save', text:'Baby added to Cigna at birth. InPursuit <strong>auto-built pediatric screening + immunization tracker</strong> &mdash; all on schedule'},
+        {t:'outcome', text:'Postpartum depression caught early via HRV + Headspace patterns &mdash; therapy started within 48 hrs of flag'},
+        {t:'reward', text:'Family tier unlocked &mdash; $1,400+/yr in rewards across mom + 9-month-old&rsquo;s health profiles'}
+      ], stats: [{v:'$12,000+',l:'Saved',c:'green'},{v:'40+ hrs',l:'Saved',c:'blue'},{v:'$1,400+',l:'Rewards',c:'gold'}] }
+    ]
+  },
+  // Patrick, 41 - Executive / Anthem BCBS
+  2: {
+    name: 'Patrick',
+    times: [
+      { title: 'Connect & Discover', items: [
+        {t:'time', text:'Links WHOOP + Oura + Levels CGM + Strava + Peloton + Anthem BCBS in 3 minutes'},
+        {t:'outcome', text:'Five devices generating data &mdash; for the first time, <strong>all connected to his insurance benefits</strong>'},
+        {t:'save', text:'First alert: Executive physical covered at $0 under preventive &mdash; he was paying $2,400 cash'}
+      ], stats: [{v:'$0',l:'Cost',c:'green'},{v:'3 min',l:'Setup',c:'blue'},{v:'1st',l:'Alert',c:'gold'}] },
+      { title: 'First Savings Hit', items: [
+        {t:'save', text:'<strong>$2,400 saved</strong> by routing executive physical through Anthem preventive benefit'},
+        {t:'outcome', text:'WHOOP recovery + Oura sleep + Levels glucose correlated for the first time'},
+        {t:'reward', text:'Performance supplement offers: Momentous, AG1, Thorne &mdash; curated to his biometrics'}
+      ], stats: [{v:'$2,400',l:'Saved',c:'green'},{v:'4 hrs',l:'Saved',c:'blue'},{v:'520',l:'Points',c:'gold'}] },
+      { title: 'Optimization Mode', items: [
+        {t:'outcome', text:'InPursuit finds his HRV drops 22% on meeting-heavy days &mdash; <strong>auto-suggests recovery protocols</strong>'},
+        {t:'save', text:'Testosterone panel covered under Anthem at $30 &mdash; he was paying $380 at a longevity clinic'},
+        {t:'reward', text:'His longevity Reddit saves cross-referenced with his actual lab results &mdash; personalized relevance scores'}
+      ], stats: [{v:'$3,200',l:'Saved',c:'green'},{v:'10 hrs',l:'Saved',c:'blue'},{v:'$340',l:'Offers',c:'gold'}] },
+      { title: 'The Longevity Dashboard', items: [
+        {t:'outcome', text:'6-month trend: <strong>resting HR down 8 bpm, HRV up 14ms, glucose variability down 30%</strong>'},
+        {t:'save', text:'DEXA scan + coronary calcium score found in-network at $180 total vs. $1,200 cash'},
+        {t:'reward', text:'Curated health feed is a longevity library &mdash; 47 saved articles connected to his biomarkers'}
+      ], stats: [{v:'$6,800',l:'Saved',c:'green'},{v:'24 hrs',l:'Saved',c:'blue'},{v:'$680',l:'Redeemed',c:'gold'}] },
+      { title: 'Peak Performance', items: [
+        {t:'save', text:'Open enrollment: InPursuit identified an HSA-eligible plan <strong>saving $3,200/yr</strong> with better labs coverage'},
+        {t:'outcome', text:'Biological age testing: down 4.2 years. Every metric trending right, all connected in one place'},
+        {t:'reward', text:'Executive tier &mdash; $2,400+/yr in performance brand offers + priority access to clinical trials'}
+      ], stats: [{v:'$14,000+',l:'Saved',c:'green'},{v:'48+ hrs',l:'Saved',c:'blue'},{v:'$2,400+',l:'Rewards',c:'gold'}] }
+    ]
+  },
+  // Maya, 20 - D1 Athlete / Parent's UHC
+  3: {
+    name: 'Maya',
+    times: [
+      { title: 'Connect & Discover', items: [
+        {t:'time', text:'Links Garmin + Cronometer + parent&rsquo;s UHC PPO in 2 minutes from her phone'},
+        {t:'outcome', text:'Pre-game fueling alerts start based on <strong>her actual Garmin training load data</strong>'},
+        {t:'save', text:'Sports medicine visit: $40 copay on parent&rsquo;s plan &mdash; she didn&rsquo;t know she was covered'}
+      ], stats: [{v:'$0',l:'Cost',c:'green'},{v:'2 min',l:'Setup',c:'blue'},{v:'1st',l:'Alert',c:'gold'}] },
+      { title: 'Game Day Edge', items: [
+        {t:'outcome', text:'Personalized pre-game nutrition plan: <strong>600+ cal 3 hours before</strong> based on her deficit patterns'},
+        {t:'save', text:'3 in-network sports medicine docs near campus surfaced with real copay amounts'},
+        {t:'reward', text:'Earned 280 points for consistent hydration tracking + recovery streaks'}
+      ], stats: [{v:'$120',l:'Saved',c:'green'},{v:'1.5 hrs',l:'Saved',c:'blue'},{v:'280',l:'Points',c:'gold'}] },
+      { title: 'Performance Patterns', items: [
+        {t:'outcome', text:'Garmin shows overtraining signal &mdash; InPursuit correlates with <strong>iron levels from last lab</strong>'},
+        {t:'time', text:'Iron panel covered at $0 under preventive &mdash; low ferritin confirmed, supplement protocol started'},
+        {t:'reward', text:'Offers unlocked: Momentous, LMNT electrolytes, recovery tools &mdash; athlete-specific brands'}
+      ], stats: [{v:'$480',l:'Saved',c:'green'},{v:'4 hrs',l:'Saved',c:'blue'},{v:'$160',l:'Offers',c:'gold'}] },
+      { title: 'In-Season Autopilot', items: [
+        {t:'outcome', text:'Sleep + recovery + nutrition auto-tracked. <strong>Season performance: +12% sprint speed, -40% injury risk</strong>'},
+        {t:'save', text:'PT visits covered at $30 each &mdash; 8 sessions used in-network she would have skipped'},
+        {t:'reward', text:'Athlete profile attracts premium brand interest &mdash; Garmin, Hyperice, Therabody offers'}
+      ], stats: [{v:'$1,400',l:'Saved',c:'green'},{v:'12 hrs',l:'Saved',c:'blue'},{v:'$320',l:'Redeemed',c:'gold'}] },
+      { title: 'Year-Round Athlete', items: [
+        {t:'save', text:'Pre-season physical + all clearances <strong>routed through parent&rsquo;s plan at $0</strong> &mdash; was paying cash'},
+        {t:'outcome', text:'Full athletic year tracked: sleep, nutrition, recovery, labs. D1 recruiting profile strengthened'},
+        {t:'reward', text:'$800+/yr in athlete brand offers + supplement partnerships + recovery tool discounts'}
+      ], stats: [{v:'$3,200+',l:'Saved',c:'green'},{v:'24+ hrs',l:'Saved',c:'blue'},{v:'$800+',l:'Rewards',c:'gold'}] }
+    ]
+  },
+  // David, 45 - International Traveler / Aetna PPO
+  4: {
+    name: 'David',
+    times: [
+      { title: 'Connect & Discover', items: [
+        {t:'time', text:'Links Aetna Intl PPO + Apple Watch + Withings BP + Headspace in 3 minutes'},
+        {t:'outcome', text:'Medication card auto-generated: <strong>Lisinopril, Amlodipine, Atorvastatin</strong> &mdash; translated to 6 languages'},
+        {t:'save', text:'First alert: international urgent care covered at $22 copay &mdash; not the $2,000+ he expected'}
+      ], stats: [{v:'$0',l:'Cost',c:'green'},{v:'3 min',l:'Setup',c:'blue'},{v:'1st',l:'Alert',c:'gold'}] },
+      { title: 'First Trip Protected', items: [
+        {t:'save', text:'Tokyo urgent care: <strong>$22 copay vs. $2,000+ out-of-network ER</strong> &mdash; English-speaking doctor found'},
+        {t:'time', text:'Emergency medical summary shared with Japanese doctor in 30 seconds &mdash; no paperwork'},
+        {t:'outcome', text:'BP spike caught 3 days before it became dangerous &mdash; medication adjusted in real-time'}
+      ], stats: [{v:'$1,800',l:'Saved',c:'green'},{v:'3 hrs',l:'Saved',c:'blue'},{v:'420',l:'Points',c:'gold'}] },
+      { title: 'Global Health Profile', items: [
+        {t:'outcome', text:'BP trends from 3 time zones analyzed &mdash; <strong>jet lag + sodium identified as triggers</strong>'},
+        {t:'save', text:'International claims auto-filed across 2 countries &mdash; $0 surprise bills'},
+        {t:'reward', text:'Travel health offers: medication delivery, travel insurance upgrades, international pharmacy access'}
+      ], stats: [{v:'$3,600',l:'Saved',c:'green'},{v:'8 hrs',l:'Saved',c:'blue'},{v:'$240',l:'Offers',c:'gold'}] },
+      { title: 'Continuity Everywhere', items: [
+        {t:'save', text:'4 international trips. <strong>Zero billing surprises. Zero continuity gaps</strong> between providers'},
+        {t:'outcome', text:'PCP has real-time view of every international visit, med change, and vital trend'},
+        {t:'reward', text:'Global health profile attracts premium travel health and pharma brand partnerships'}
+      ], stats: [{v:'$7,200',l:'Saved',c:'green'},{v:'20 hrs',l:'Saved',c:'blue'},{v:'$480',l:'Redeemed',c:'gold'}] },
+      { title: 'World-Class Care Anywhere', items: [
+        {t:'save', text:'Aetna plan optimized at open enrollment &mdash; <strong>$2,100 saved</strong> with better international coverage'},
+        {t:'outcome', text:'BP controlled globally. Medication synced across 3 countries. Zero gaps in 12 months'},
+        {t:'reward', text:'$1,600+/yr in travel health rewards + global pharmacy network + executive medical concierge offers'}
+      ], stats: [{v:'$11,000+',l:'Saved',c:'green'},{v:'40+ hrs',l:'Saved',c:'blue'},{v:'$1,600+',l:'Rewards',c:'gold'}] }
+    ]
+  }
+};
+
+let currentJPersona = 0, currentJTime = 0;
+
+function selectJourneyPersona(idx) {
+  currentJPersona = idx;
+  document.querySelectorAll('.journey-persona-tab').forEach((t, i) => t.classList.toggle('active', i === idx));
+  renderJourney();
+}
+
+function selectJourneyTime(idx) {
+  currentJTime = idx;
+  document.querySelectorAll('.journey-time-btn').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+    t.classList.toggle('passed', i < idx);
+  });
+  document.getElementById('jtFill').style.width = (idx / 4 * 100) + '%';
+  renderJourney();
+}
+
+function renderJourney() {
+  const d = journeyData[currentJPersona].times[currentJTime];
+  const container = document.getElementById('journeyContent');
+  const statsBar = document.getElementById('journeyStats');
+  let html = '<div class="journey-grid">';
+  html += '<div class="journey-card"><h4>' + d.title + '</h4>';
+  d.items.forEach(item => {
+    html += '<div class="journey-item"><div class="ji ji-' + item.t + '"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></div><div>' + item.text + '</div></div>';
+  });
+  html += '</div>';
+  // Context card
+  const names = ['Robert','Sarah','Patrick','Maya','David'];
+  const timeLabels = ['Day 1','Week 1','Month 1','6 Months','Year 1'];
+  const contexts = {
+    0: ['Recently diagnosed T2D. Overpaying for Rx. Missing free screenings.','Pharmacy switched. Glucose tracking active. First streaks started.','Patterns emerging. Overdue screenings surfaced. Brand offers unlocking.','A1C improving. Medication reduced. Rewards compounding silently.','All metrics trending right. Plan optimized. Health compounding.'],
+    1: ['28 weeks pregnant. Overwhelmed. Every symptom triggers a Google spiral.','29 weeks. Delivery costs compared. Sleep anxiety addressed. Screenings on track.','32 weeks. Third trimester deep. BP monitoring. Therapy coverage surfaced.','Baby is 3 months old. Postpartum care active. Pediatric milestones tracking.','Baby is 9 months old. Family health profiles connected. Mom thriving.'],
+    2: ['Five devices, zero insurance connection. Paying cash for covered services.','Executive physical routed through insurance. $2,400 saved day one.','HRV + sleep + glucose correlated. Longevity labs covered in-network.','6-month biomarker trends all improving. Curated health feed growing.','Biological age down. Every metric connected. Peak performance mode.'],
+    3: ['D1 forward on parent&rsquo;s plan. Doesn&rsquo;t know what&rsquo;s covered. Under-fueling.','Pre-game nutrition dialed in. Sports medicine coverage discovered.','Iron deficiency caught via device + lab correlation. Protocol started.','Full season tracked. Sprint speed up 12%. Injury risk down 40%.','Year-round athlete profile. Recruiting data strengthened. Fully optimized.'],
+    4: ['3 meds, 6 countries/yr, zero continuity. ER visits = $2,000+ surprises.','First international urgent care at $22. Medical summary shared in 30 seconds.','BP triggers mapped across time zones. International claims auto-filed.','4 trips, zero billing surprises. PCP sees every visit in real-time.','Global health profile optimized. Medication synced across 3 countries.']
+  };
+  html += '<div class="journey-card" style="display:flex;flex-direction:column;justify-content:center;">';
+  html += '<div style="font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;">' + names[currentJPersona] + ' &middot; ' + timeLabels[currentJTime] + '</div>';
+  html += '<p style="font-size:15px;color:rgba(255,255,255,0.6);line-height:1.6;font-family:Instrument Serif,serif;">' + contexts[currentJPersona][currentJTime] + '</p>';
+  html += '<p style="font-size:13px;color:rgba(255,255,255,0.3);margin-top:16px;line-height:1.6;">InPursuit works <strong style="color:rgba(255,255,255,0.6);">passively in the background</strong> &mdash; saving money, surfacing insights, and earning rewards even when ' + names[currentJPersona] + ' isn&rsquo;t actively using the app.</p>';
+  html += '</div></div>';
+  container.innerHTML = html;
+
+  let statsHtml = '';
+  d.stats.forEach(s => {
+    statsHtml += '<div class="journey-stat-card"><div class="journey-stat-num ' + s.c + '">' + s.v + '</div><div class="journey-stat-label">' + s.l + '</div></div>';
+  });
+  statsBar.innerHTML = statsHtml;
+}
+// Initialize journey
+renderJourney();
+
+// ===== SEND TO INPURSUIT =====
+function sendToInPursuit() {
+  const btn = document.querySelector('.curate-send-btn');
+  const confirm = document.getElementById('curateConfirm');
+  btn.style.background = 'linear-gradient(135deg, #4ADE80, #22C55E)';
+  btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> Sent!';
+  confirm.classList.add('show');
+  setTimeout(function() {
+    btn.style.background = 'linear-gradient(135deg, var(--gold), var(--gold-light))';
+    btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg> Send to InPursuit';
+    confirm.classList.remove('show');
+  }, 3000);
+}
 
 </script>
 </body>
