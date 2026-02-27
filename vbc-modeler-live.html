@@ -335,24 +335,15 @@ function fK(n){return n>=1e6?'$'+(n/1e6).toFixed(1)+'M':n>=1e3?'$'+Math.round(n/
 function setT(t){tier=t;for(var i=1;i<=3;i++)document.getElementById('tB'+i).classList.toggle('on',i===t);calc();}
 function tp(id){P[id].on=P[id].on?0:1;calc();}
 
-/* NPI LOOKUP — uses direct NPPES API + Netlify serverless CMS proxy (no corsproxy.io) */
+/* NPI LOOKUP — uses Netlify serverless proxies for both NPPES + CMS (no corsproxy.io) */
 function npiGo(){
   var n=document.getElementById('npiIn').value.replace(/\D/g,''),s=document.getElementById('npiSt'),r=document.getElementById('npiRes'),b=document.getElementById('npiBtn');
   if(n.length!==10){s.textContent='Enter a valid 10-digit NPI.';s.className='npi-st err';return;}
   b.disabled=1;s.textContent='Looking up NPI...';s.className='npi-st load';r.className='npi-res';
   document.getElementById('act1Content').innerHTML='<div style="color:rgba(197,164,78,0.5);font-size:12px;">Pulling CMS data for NPI '+n+'...</div>';
 
-  // NPPES Registry — direct fetch (NPPES API allows cross-origin requests)
-  fetch('https://npiregistry.cms.hhs.gov/api/?version=2.1&number='+n).then(function(x){return x.json();}).then(function(d){
-    b.disabled=0;
-    if(!d.results||!d.results.length){s.textContent='No provider found.';s.className='npi-st err';return;}
-    var p=d.results[0],bb=p.basic||{},org=p.enumeration_type==='NPI-2';
-    var nm=org?(bb.organization_name||'Organization'):((bb.first_name||'')+' '+(bb.last_name||'')).trim();
-    var ad=(p.addresses&&p.addresses[0])||{},loc=(ad.city||'')+(ad.state?', '+ad.state:'');
-    var tx=(p.taxonomies&&p.taxonomies[0])||{},sp=tx.desc||'General';
-
-    var cred=bb.credential||'';
-    var enumDate=bb.enumeration_date||'';
+  // Helper: display provider info and kick off CMS billing lookup
+  function showProvider(nm,sp,loc,org,cred,enumDate){
     r.innerHTML='<strong style="font-size:16px;color:rgba(255,255,255,0.9);">'+nm+'</strong>'
       +(cred?' <span style="font-size:11px;color:rgba(197,164,78,0.5);">'+cred+'</span>':'')
       +'<br><span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;">'+sp+'</span>'
@@ -361,8 +352,6 @@ function npiGo(){
       +'<br><span style="font-size:9px;color:rgba(255,255,255,0.12);">NPI: '+n+(enumDate?' · Enumerated: '+enumDate:'')+'</span>';
     r.className='npi-res show';
     s.textContent='';s.className='npi-st';
-
-    // Auto-fill sliders from specialty defaults
     var df=gS(sp),mul=org?2.5:1;
     document.getElementById('sTot').value=Math.min(Math.round(df.p*mul),50000);
     document.getElementById('sMed').value=df.m;
@@ -370,10 +359,44 @@ function npiGo(){
     document.getElementById('sChr').value=df.c;
     document.getElementById('sPB').value=Math.round(df.b*(org?2:1));
     calc();
-
-    // CMS Billing Data — cascading: embedded → static JSON → Netlify function → fallback
     fetchCMSData(n, sp);
-  }).catch(function(){b.disabled=0;s.textContent='Unable to reach NPPES registry. Please try again.';s.className='npi-st err';});
+  }
+
+  // Strategy 1: Netlify NPPES proxy (avoids CORS)
+  fetch('/.netlify/functions/nppes-lookup?npi='+n).then(function(x){
+    if(!x.ok) throw 'proxy error';
+    return x.json();
+  }).then(function(d){
+    b.disabled=0;
+    if(!d.results||!d.results.length){s.textContent='No provider found.';s.className='npi-st err';return;}
+    var p=d.results[0],bb=p.basic||{},org=p.enumeration_type==='NPI-2';
+    var nm=org?(bb.organization_name||'Organization'):((bb.first_name||'')+' '+(bb.last_name||'')).trim();
+    var ad=(p.addresses&&p.addresses[0])||{},loc=(ad.city||'')+(ad.state?', '+ad.state:'');
+    var tx=(p.taxonomies&&p.taxonomies[0])||{},sp=tx.desc||'General';
+    showProvider(nm,sp,loc,org,bb.credential||'',bb.enumeration_date||'');
+  }).catch(function(){
+    // Strategy 2: Fall back to embedded/static CMS data for provider info
+    b.disabled=0;
+    var staticD=CMS_DB[n];
+    if(staticD){
+      showProvider(staticD.name||'Provider',staticD.specialty||'General',staticD.location||'',staticD.is_org||false,'','');
+      return;
+    }
+    // Strategy 2b: Try external static JSON
+    fetch('cms-npi-data.json').then(function(resp){
+      if(!resp.ok) throw 'no file';
+      return resp.json();
+    }).then(function(db){
+      if(db[n]){
+        showProvider(db[n].name||'Provider',db[n].specialty||'General',db[n].location||'',db[n].is_org||false,'','');
+      } else { throw 'not found'; }
+    }).catch(function(){
+      s.textContent='Unable to look up provider details. Enter any NPI to see projections.';s.className='npi-st err';
+      // Still run CMS billing lookup — the Netlify function may have data
+      fetchCMSData(n, 'General');
+      calc();
+    });
+  });
 }
 
 /* EMBEDDED CMS DATA */
