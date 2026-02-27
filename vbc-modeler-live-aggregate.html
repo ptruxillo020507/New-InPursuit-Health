@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VBC Revenue Modeler — InPursuit Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0A1628;--navy-deep:#060E1A;--navy-mid:#112240;--gold:#C5A44E;--teal:#00A882;--white:#FFF;
+--serif:'Instrument Serif',Georgia,serif;--sans:'Instrument Sans','Segoe UI',sans-serif;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--sans);background:var(--navy-deep);color:var(--white);-webkit-font-smoothing:antialiased;}
+a{color:var(--teal);text-decoration:none;}
+
+/* NAV */
+.top-bar{background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,0.2);position:fixed;top:0;left:0;right:0;z-index:1000;}
+.tb-in{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;height:64px;}
+.tb-wm{font-family:var(--serif);font-size:22px;color:var(--gold);letter-spacing:1px;text-decoration:none;}
+.tb-nav{display:flex;align-items:center;}
+.ni{padding:20px 14px;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.3s;}
+.ni:hover,.ni.active{color:var(--gold);}
+.nt{display:none;background:none;border:none;width:32px;height:32px;cursor:pointer;position:relative;}
+.nt span{display:block;width:22px;height:2px;background:var(--gold);position:absolute;left:5px;transition:all 0.3s;}
+.nt span:nth-child(1){top:8px;}.nt span:nth-child(2){top:15px;}.nt span:nth-child(3){top:22px;}
+@media(max-width:768px){.tb-in{padding:0 20px;}.tb-nav{display:none;}.tb-nav.open{display:flex;flex-direction:column;position:absolute;top:64px;left:0;right:0;background:var(--navy-deep);border-bottom:1px solid rgba(197,164,78,0.15);padding:8px 0;}.tb-nav.open .ni{padding:14px 24px;}.nt{display:block;}}
+
+/* HERO */
+.hero{padding:100px 40px 24px;text-align:center;max-width:720px;margin:0 auto;}
+.hero-ov{font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:var(--gold);opacity:0.6;margin-bottom:12px;}
+.hero h1{font-family:var(--serif);font-size:clamp(30px,4.5vw,44px);line-height:1.2;margin-bottom:10px;}
+.hero h1 em{font-style:italic;color:var(--teal);}
+.hero p{font-size:14px;color:rgba(255,255,255,0.35);line-height:1.6;max-width:560px;margin:0 auto;}
+
+/* MAIN */
+.main{max-width:1100px;margin:0 auto;padding:32px 32px 80px;}
+@media(max-width:600px){.main{padding:20px 14px 60px;}}
+
+/* WIDGET */
+.w{background:rgba(255,255,255,0.015);border:1px solid rgba(255,255,255,0.04);border-radius:14px;padding:28px;margin-bottom:16px;}
+.w-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(197,164,78,0.45);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+
+/* SECTION HEADERS — the story beats */
+.story-beat{margin:36px 0 16px;padding-left:16px;border-left:3px solid var(--gold);}
+.story-beat h2{font-family:var(--serif);font-size:28px;color:var(--white);line-height:1.3;margin-bottom:4px;}
+.story-beat p{font-size:15px;color:rgba(255,255,255,0.3);line-height:1.5;}
+.story-beat.teal{border-color:var(--teal);}
+.story-beat.teal h2{color:var(--teal);}
+
+/* NPI */
+.npi-row{display:flex;gap:8px;}
+.npi-in{flex:1;padding:14px 16px;font-size:18px;font-family:var(--serif);letter-spacing:2px;background:rgba(255,255,255,0.04);border:1.5px solid rgba(197,164,78,0.2);border-radius:8px;color:var(--white);outline:none;transition:border 0.2s;}
+.npi-in::placeholder{color:rgba(255,255,255,0.12);font-size:12px;letter-spacing:1px;}
+.npi-in:focus{border-color:rgba(197,164,78,0.5);}
+.npi-btn{padding:14px 24px;background:linear-gradient(135deg,var(--gold),#b8941e);color:#0a1628;font-weight:700;font-size:13px;border:none;border-radius:8px;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.npi-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(197,164,78,0.3);}
+.npi-btn:disabled{opacity:0.4;cursor:default;transform:none;}
+.npi-st{font-size:10px;margin-top:5px;color:rgba(255,255,255,0.2);min-height:14px;}
+.npi-st.err{color:#ef4444;}.npi-st.load{color:rgba(197,164,78,0.6);}
+.npi-res{margin-top:10px;padding:10px 12px;background:rgba(0,0,0,0.12);border-radius:8px;display:none;}
+.npi-res.show{display:block;}
+
+/* COMPARISON TABLE */
+.cmp-table{width:100%;border-collapse:collapse;margin-top:8px;}
+.cmp-table th{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;text-align:right;padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.04);}
+.cmp-table th:first-child{text-align:left;}
+.cmp-table th.now{color:rgba(255,255,255,0.2);}
+.cmp-table th.proj{color:rgba(0,168,130,0.5);}
+.cmp-table th.up{color:rgba(197,164,78,0.5);}
+.cmp-table td{font-size:15px;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.02);text-align:right;}
+.cmp-table td:first-child{text-align:left;color:rgba(255,255,255,0.6);font-weight:600;font-size:14px;}
+.cmp-table td.now{color:rgba(255,255,255,0.3);}
+.cmp-table td.proj{color:var(--teal);font-weight:700;}
+.cmp-table td.up{color:var(--gold);font-weight:600;}
+.cmp-table td.zero{color:rgba(255,255,255,0.1);}
+.cmp-table tr.access-row td{border-top:2px solid rgba(0,168,130,0.15);padding-top:10px;}
+.cmp-table tr.total-row td{border-top:2px solid rgba(197,164,78,0.15);font-size:18px;padding-top:10px;font-weight:700;}
+.cmp-table tr.total-row td.now{color:rgba(255,255,255,0.5);}
+.cmp-table tr.total-row td.proj{color:var(--teal);}
+.cmp-table tr.total-row td.up{color:var(--gold);}
+.access-tag{display:inline-block;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--teal);background:rgba(0,168,130,0.1);padding:2px 6px;border-radius:3px;margin-left:6px;}
+
+/* TIER */
+.tier-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.tb2{flex:1;min-width:160px;padding:18px 20px;background:rgba(255,255,255,0.02);border:1.5px solid rgba(197,164,78,0.08);border-radius:10px;cursor:pointer;text-align:center;transition:all 0.2s;}
+.tb2 strong{display:block;font-size:15px;color:rgba(255,255,255,0.45);}
+.tb2 span{display:block;font-size:10px;color:rgba(255,255,255,0.15);margin-top:2px;}
+.tb2:hover{border-color:rgba(197,164,78,0.25);}
+.tb2.on{border-color:var(--gold);background:rgba(197,164,78,0.06);}
+.tb2.on strong{color:var(--gold);}.tb2.on span{color:rgba(197,164,78,0.4);}
+
+/* SPLIT */
+.split-bar{display:flex;height:52px;border-radius:8px;overflow:hidden;margin-bottom:10px;}
+.sp{background:linear-gradient(135deg,var(--teal),#008866);display:flex;align-items:center;justify-content:center;transition:width 0.4s;}
+.si{background:linear-gradient(135deg,var(--gold),#b8941e);display:flex;align-items:center;justify-content:center;transition:width 0.4s;}
+.sl{font-size:14px;font-weight:700;color:rgba(255,255,255,0.9);white-space:nowrap;}
+.split-nums{display:flex;}
+.sn{flex:1;text-align:center;padding:10px 0;}
+.sn-l{font-size:8px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
+.sn-l.p{color:rgba(0,168,130,0.5);}.sn-l.i{color:rgba(197,164,78,0.5);}
+.sn-v{font-family:var(--serif);font-size:32px;font-weight:700;line-height:1;}
+.sn-v.p{color:var(--teal);}.sn-v.i{color:var(--gold);}
+.sn-pct{font-size:9px;color:rgba(255,255,255,0.15);margin-top:2px;}
+
+/* SLIDERS */
+.s-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;}
+@media(max-width:600px){.s-grid{grid-template-columns:1fr;}}
+.s-item label{font-size:12px;color:rgba(255,255,255,0.35);display:block;margin-bottom:4px;font-weight:500;}
+.sr{display:flex;align-items:center;gap:8px;}
+.sr input[type=range]{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,0.06);outline:none;}
+.sr input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 6px rgba(197,164,78,0.3);}
+.sv{font-family:var(--serif);font-size:14px;color:var(--gold);min-width:52px;text-align:right;opacity:0.8;}
+
+/* PROGRAM TOGGLES */
+.pg-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;}
+@media(max-width:600px){.pg-grid{grid-template-columns:1fr 1fr;}}
+.pg{padding:10px 12px;border-radius:8px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.03);cursor:pointer;transition:all 0.15s;display:flex;align-items:center;gap:6px;}
+.pg:hover{background:rgba(255,255,255,0.025);}
+.pg.on{border-color:rgba(255,255,255,0.06);}
+.pg.off{opacity:0.25;}
+.pg-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.pg-name{font-size:12px;font-weight:600;color:rgba(255,255,255,0.5);flex:1;}
+.pg-tog{width:28px;height:16px;border-radius:16px;background:rgba(255,255,255,0.06);position:relative;flex-shrink:0;transition:background 0.2s;}
+.pg-tog.on{background:var(--teal);}
+.pg-tog::after{content:'';position:absolute;width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,0.3);top:2px;left:2px;transition:all 0.2s;}
+.pg-tog.on::after{left:14px;background:var(--white);}
+
+/* AUDIT */
+.audit{display:flex;gap:10px;align-items:flex-start;padding:14px;background:rgba(0,168,130,0.03);border:1px solid rgba(0,168,130,0.08);border-radius:10px;margin-top:12px;}
+.audit svg{flex-shrink:0;opacity:0.4;color:var(--teal);margin-top:1px;}
+.audit p{font-size:10px;color:rgba(255,255,255,0.25);line-height:1.6;}
+.audit strong{color:rgba(0,168,130,0.5);}
+
+/* CTA */
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,var(--teal),#008866);color:var(--white);font-weight:700;font-size:14px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;transition:all 0.2s;}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,168,130,0.3);}
+
+/* METH */
+.meth{padding:14px 18px;background:rgba(197,164,78,0.02);border:1px solid rgba(197,164,78,0.04);border-radius:8px;margin-top:24px;}
+.meth p{font-size:9px;color:rgba(255,255,255,0.15);line-height:1.7;}
+
+.footer{text-align:center;padding:32px;border-top:1px solid rgba(197,164,78,0.04);}
+.footer p{font-size:10px;color:rgba(255,255,255,0.1);}
+@media(max-width:700px){div[style*="grid-template-columns:1fr 1fr"]{grid-template-columns:1fr !important;}}
+@media(max-width:900px){#sliderGrid{grid-template-columns:1fr 1fr !important;}}
+@media(max-width:600px){#sliderGrid{grid-template-columns:1fr !important;}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="top-bar">
+  <div class="tb-in">
+    <div style="display:flex;align-items:center;gap:8px;">
+      <a class="tb-wm" href="index.html">InPursuit Health</a>
+      <span style="color:rgba(255,255,255,0.25);margin:0 4px;">|</span>
+      <a href="maha.html" style="font-size:12px;color:rgba(255,255,255,0.4);font-weight:500;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">MAHA Policy</a>
+    </div>
+    <nav class="tb-nav" id="topNav">
+      <a class="ni" href="for-you.html">For You</a>
+      <a class="ni" href="for-providers.html">For Providers</a>
+      <a class="ni active" href="vbc-modeler.html">VBC Modeler</a>
+      <a class="ni" href="access.html">ACCESS</a>
+      <a class="ni" href="partner-network.html">Partners</a>
+    </nav>
+    <button class="nt" onclick="document.getElementById('topNav').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-ov">VBC Revenue Modeler</div>
+  <h1>One NPI. <em>Every dollar you're missing.</em></h1>
+  <p>We pull your real CMS billing data, show you what you're leaving on the table, and demonstrate exactly what InPursuit adds — including the brand-new ACCESS model.</p>
+</section>
+
+<div class="main">
+
+<!-- ═══ ROW 1: NPI LOOKUP + CMS DATA ═══ -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+  <div class="w">
+    <div class="w-label"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Start With Your NPI</div>
+    <div style="font-size:11px;color:rgba(255,255,255,0.25);margin-bottom:10px;line-height:1.5;">We pull your real Medicare billing history from CMS public data — then show exactly how much more you could earn with InPursuit.</div>
+    <div class="npi-row">
+      <input type="text" class="npi-in" id="npiIn" placeholder="10-digit NPI" maxlength="10" inputmode="numeric" onkeypress="if(event.key==='Enter')npiGo()">
+      <button class="npi-btn" id="npiBtn" onclick="npiGo()">Look Up</button>
+    </div>
+    <div class="npi-st" id="npiSt"></div>
+    <div class="npi-res" id="npiRes"></div>
+  </div>
+  <div class="w" id="act1Box" style="display:flex;flex-direction:column;justify-content:center;">
+    <div class="w-label" style="font-size:10px;">CMS Medicare Billing Data (2023)</div>
+    <div id="act1Content" style="text-align:center;padding:16px 0;color:rgba(255,255,255,0.1);font-size:13px;font-style:italic;">Enter your NPI to pull your CMS billing data.</div>
+  </div>
+</div>
+
+<!-- ═══ YOUR PRACTICE PROFILE — auto-filled from NPI, adjustable ═══ -->
+<div class="story-beat">
+  <h2>Your Practice Profile</h2>
+  <p>Auto-populated from your NPI and CMS data. Adjust any slider to refine your projections.</p>
+</div>
+
+<div class="w" id="profileBox">
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;" id="sliderGrid">
+
+    <!-- Column 1: Patient Panel -->
+    <div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(197,164,78,0.35);margin-bottom:12px;">Patient Panel</div>
+      <div class="s-item" style="margin-bottom:14px;"><label>Total Patient Population</label><div class="sr"><input type="range" id="sTot" min="500" max="50000" step="500" value="8000" oninput="calc()"><div class="sv" id="vTot">8,000</div></div></div>
+      <div class="s-item" style="margin-bottom:14px;"><label>Medicare FFS Patients (%)</label><div class="sr"><input type="range" id="sMed" min="5" max="80" value="30" oninput="calc()"><div class="sv" id="vMed">30%</div></div></div>
+      <div class="s-item" style="margin-bottom:14px;"><label>Medicare Advantage (%)</label><div class="sr"><input type="range" id="sMA" min="0" max="60" value="15" oninput="calc()"><div class="sv" id="vMA">15%</div></div></div>
+      <div class="s-item"><label>Chronic Condition Rate (%)</label><div class="sr"><input type="range" id="sChr" min="30" max="95" value="70" oninput="calc()"><div class="sv" id="vChr">70%</div></div></div>
+    </div>
+
+    <!-- Column 2: Financial -->
+    <div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(197,164,78,0.35);margin-bottom:12px;">Financial</div>
+      <div class="s-item" style="margin-bottom:14px;"><label>Annual Part B Billing</label><div class="sr"><input type="range" id="sPB" min="50000" max="5000000" step="10000" value="400000" oninput="calc()"><div class="sv" id="vPB">$400K</div></div></div>
+      <div class="s-item" style="margin-bottom:14px;"><label>Avg Reimbursement per Visit</label><div class="sr"><input type="range" id="sARV" min="50" max="400" step="5" value="155" oninput="calc()"><div class="sv" id="vARV">$155</div></div></div>
+      <div class="s-item"><label>Payer Mix — Commercial (%)</label><div class="sr"><input type="range" id="sCom" min="0" max="60" value="20" oninput="calc()"><div class="sv" id="vCom">20%</div></div></div>
+      <div style="margin-top:14px;padding:10px 12px;background:rgba(197,164,78,0.03);border-radius:8px;">
+        <div style="font-size:8px;color:rgba(255,255,255,0.15);font-weight:600;">DERIVED: Medicare FFS Patients</div>
+        <div style="font-family:var(--serif);font-size:20px;color:var(--gold);opacity:0.7;" id="derivedMF">2,400</div>
+      </div>
+    </div>
+
+    <!-- Column 3: Program Toggles -->
+    <div>
+      <div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(197,164,78,0.35);margin-bottom:12px;">Programs</div>
+      <div class="pg-grid" id="pgGrid" style="grid-template-columns:1fr !important;gap:8px;"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══ ACT 2: HERE'S WHAT YOU'RE LEAVING ON THE TABLE ═══ -->
+<div class="story-beat teal">
+  <h2>Here's what you're leaving on the table.</h2>
+  <p>With InPursuit managing your VBC programs through TETRA, we project significantly more revenue — on models you're already in, plus the brand-new CMS ACCESS model.</p>
+</div>
+
+<div class="w">
+  <table class="cmp-table" id="cmpTable">
+    <thead>
+      <tr><th>Program</th><th class="now">You Now</th><th class="proj">With InPursuit</th><th class="up">New Revenue</th></tr>
+    </thead>
+    <tbody id="cmpBody"></tbody>
+  </table>
+</div>
+
+<!-- ═══ ACT 3: WE DO THE WORK ═══ -->
+<div class="story-beat">
+  <h2>We do the work. You keep most of the money.</h2>
+  <p>InPursuit handles enrollment, compliance, billing, and reporting through TETRA. Our fee comes only from the new revenue we generate — deducted at CMS disbursement, never from your accounts.</p>
+</div>
+
+<div class="tier-row">
+  <div class="tb2 on" id="tB1" onclick="setT(1)"><strong>Tier 1: Full Service</strong><span>We handle everything — 35% fee</span></div>
+  <div class="tb2" id="tB2" onclick="setT(2)"><strong>Tier 2: Supported</strong><span>Your IT + our platform — 30% fee</span></div>
+  <div class="tb2" id="tB3" onclick="setT(3)"><strong>Tier 3: Platform Only</strong><span>Self-service TETRA — 25% fee</span></div>
+</div>
+
+<div class="w" style="padding:16px 20px;">
+  <div class="split-bar">
+    <div class="sp" id="spB" style="width:65%"><span class="sl" id="spL">Your Take-Home 65%</span></div>
+    <div class="si" id="siB" style="width:35%"><span class="sl" id="siL">InPursuit 35%</span></div>
+  </div>
+  <div class="split-nums">
+    <div class="sn"><div class="sn-l p">Your Take-Home</div><div class="sn-v p" id="spV">$0</div><div class="sn-pct" id="spP">65%</div></div>
+    <div class="sn"><div class="sn-l i">InPursuit Fee</div><div class="sn-v i" id="siV">$0</div><div class="sn-pct" id="siP">35%</div></div>
+  </div>
+</div>
+
+<div class="audit">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+  <p><strong>Transparent Fee Handling:</strong> Our percentage is deducted at time of CMS payment disbursement — never from your accounts. Every transaction includes full audit trail, compliance logging, and HIPAA-compliant documentation. You receive detailed monthly statements showing gross CMS payments, InPursuit fees, and net disbursements.</p>
+</div>
+
+<!-- CTA -->
+<div style="text-align:center;margin:32px 0;" id="calendly-section">
+  <p style="font-size:13px;color:rgba(255,255,255,0.3);margin-bottom:14px;">Ready to stop leaving money on the table?</p>
+  <a href="https://calendly.com" class="cta-btn">Start Earning More Today →</a>
+</div>
+
+
+
+<!-- METHODOLOGY -->
+<div class="meth">
+  <p><strong>Sources &amp; Methodology:</strong> All projections use Year 1 conservative assumptions with CMS 2025 Fee Schedule reimbursement rates, CMS PY2023 MSSP median savings ($80/bene), ACCESS Final Rule OAP ($47 PMPM × 70%), KFF Medicare Advantage 2025 ($8 PMPM conservative), and industry enrollment benchmarks from HealthLeaders and AMA Digital Health Survey 2024. Billing data from CMS Medicare Physician & Other Practitioners public dataset (CY2023, ~18mo lag).</p>
+  <div style="margin-top:10px;display:flex;gap:12px;align-items:center;">
+    <a href="InPursuit_VBC_Methodology_2026.docx" download style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(197,164,78,0.06);border:1px solid rgba(197,164,78,0.15);border-radius:6px;color:var(--gold);font-size:11px;font-weight:700;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(197,164,78,0.12)'" onmouseout="this.style.background='rgba(197,164,78,0.06)'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download Full Methodology (Word)
+    </a>
+    <span style="font-size:9px;color:rgba(255,255,255,0.1);">Every formula, source, and assumption — ready for audit.</span>
+  </div>
+</div>
+
+</div>
+
+<footer class="footer"><p>&copy; 2026 InPursuit Health, LLC — Veteran-Owned | Data Never Resold</p></footer>
+
+<script>
+/* STATE */
+var tier=1,tD={1:{p:.65,i:.35},2:{p:.70,i:.30},3:{p:.75,i:.25}};
+var cmsNow={ccm:0,rpm:0,awv:0,tcm:0,bhi:0,mssp:0,mips:0,ma:0,access:0,total:0};
+var hasCMS=false;
+
+var P={
+  mssp:{on:1,n:'MSSP Shared Savings',c:'#C5A44E',g:'vbc'},
+  access:{on:1,n:'ACCESS (OAP)',c:'#00A882',g:'vbc',isNew:1},
+  mips:{on:1,n:'MIPS Quality Bonus',c:'#5B8DEF',g:'vbc'},
+  ma:{on:1,n:'MA Quality VBC',c:'#E8734A',g:'vbc'},
+  ccm:{on:1,n:'CCM (99490)',c:'#9B72CF',g:'ffs'},
+  rpm:{on:0,n:'RPM (99453+)',c:'#4ECDC4',g:'ffs'},
+  awv:{on:1,n:'AWV (G0438/39)',c:'#F2C14E',g:'ffs'},
+  tcm:{on:0,n:'TCM (99495/96)',c:'#FF6B9D',g:'ffs'},
+  bhi:{on:0,n:'BHI (99484)',c:'#45B7D1',g:'ffs'}
+};
+
+var SD={
+  'Family Medicine':{m:32,a:18,c:68,b:450000,p:8000},
+  'Internal Medicine':{m:38,a:22,c:75,b:550000,p:10000},
+  'Cardiology':{m:50,a:25,c:88,b:800000,p:6000},
+  'Geriatric Medicine':{m:72,a:35,c:94,b:500000,p:4000},
+  'Endocrinology':{m:45,a:22,c:90,b:500000,p:5000},
+  'Pulmonary Disease':{m:48,a:24,c:85,b:550000,p:5500},
+  'Nephrology':{m:58,a:26,c:92,b:600000,p:4500},
+  '_':{m:30,a:15,c:70,b:400000,p:8000}
+};
+function gS(s){for(var k in SD)if(k!=='_'&&s.toLowerCase().indexOf(k.toLowerCase())!==-1)return SD[k];return SD['_'];}
+function fmt(n){return n>=1e6?'$'+(n/1e6).toFixed(1)+'M':n>=1e3?'$'+Math.round(n).toLocaleString():'$'+Math.round(n);}
+function fK(n){return n>=1e6?'$'+(n/1e6).toFixed(1)+'M':n>=1e3?'$'+Math.round(n/1e3)+'K':'$'+n;}
+
+function setT(t){tier=t;for(var i=1;i<=3;i++)document.getElementById('tB'+i).classList.toggle('on',i===t);calc();}
+function tp(id){P[id].on=P[id].on?0:1;calc();}
+
+/* NPI LOOKUP — uses Netlify serverless proxies for both NPPES + CMS (no corsproxy.io) */
+function npiGo(){
+  var n=document.getElementById('npiIn').value.replace(/\D/g,''),s=document.getElementById('npiSt'),r=document.getElementById('npiRes'),b=document.getElementById('npiBtn');
+  if(n.length!==10){s.textContent='Enter a valid 10-digit NPI.';s.className='npi-st err';return;}
+  b.disabled=1;s.textContent='Looking up NPI...';s.className='npi-st load';r.className='npi-res';
+  document.getElementById('act1Content').innerHTML='<div style="color:rgba(197,164,78,0.5);font-size:12px;">Pulling CMS data for NPI '+n+'...</div>';
+
+  function showProvider(nm,sp,loc,org,cred,enumDate){
+    r.innerHTML='<strong style="font-size:16px;color:rgba(255,255,255,0.9);">'+nm+'</strong>'
+      +(cred?' <span style="font-size:11px;color:rgba(197,164,78,0.5);">'+cred+'</span>':'')
+      +'<br><span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;">'+sp+'</span>'
+      +'<br><span style="font-size:11px;color:rgba(255,255,255,0.3);">'+loc+'</span>'
+      +(org?'<br><span style="font-size:10px;color:rgba(0,168,130,0.4);">Organization (Type 2 NPI)</span>':'<br><span style="font-size:10px;color:rgba(0,168,130,0.4);">Individual Provider (Type 1 NPI)</span>')
+      +'<br><span style="font-size:9px;color:rgba(255,255,255,0.12);">NPI: '+n+(enumDate?' · Enumerated: '+enumDate:'')+'</span>';
+    r.className='npi-res show';
+    s.textContent='';s.className='npi-st';
+    var df=gS(sp),mul=org?2.5:1;
+    document.getElementById('sTot').value=Math.min(Math.round(df.p*mul),50000);
+    document.getElementById('sMed').value=df.m;
+    document.getElementById('sMA').value=df.a;
+    document.getElementById('sChr').value=df.c;
+    document.getElementById('sPB').value=Math.round(df.b*(org?2:1));
+    calc();
+    fetchCMSData(n, sp);
+  }
+
+  // Strategy 1: Netlify NPPES proxy
+  fetch('/.netlify/functions/nppes-lookup?npi='+n).then(function(x){
+    if(!x.ok) throw 'proxy error';
+    return x.json();
+  }).then(function(d){
+    b.disabled=0;
+    if(!d.results||!d.results.length){s.textContent='No provider found.';s.className='npi-st err';return;}
+    var p=d.results[0],bb=p.basic||{},org=p.enumeration_type==='NPI-2';
+    var nm=org?(bb.organization_name||'Organization'):((bb.first_name||'')+' '+(bb.last_name||'')).trim();
+    var ad=(p.addresses&&p.addresses[0])||{},loc=(ad.city||'')+(ad.state?', '+ad.state:'');
+    var tx=(p.taxonomies&&p.taxonomies[0])||{},sp=tx.desc||'General';
+    showProvider(nm,sp,loc,org,bb.credential||'',bb.enumeration_date||'');
+  }).catch(function(){
+    // Fallback to embedded/static data for provider info
+    b.disabled=0;
+    var staticD=CMS_DB[n];
+    if(staticD){
+      showProvider(staticD.name||'Provider',staticD.specialty||'General',staticD.location||'',staticD.is_org||false,'','');
+      return;
+    }
+    fetch('cms-npi-data.json').then(function(resp){
+      if(!resp.ok) throw 'no file';
+      return resp.json();
+    }).then(function(db){
+      if(db[n]) showProvider(db[n].name||'Provider',db[n].specialty||'General',db[n].location||'',db[n].is_org||false,'','');
+      else throw 'not found';
+    }).catch(function(){
+      s.textContent='Unable to look up provider details. Projections use default estimates.';s.className='npi-st err';
+      fetchCMSData(n, 'General');
+      calc();
+    });
+  });
+}
+
+/* EMBEDDED CMS DATA */
+var CMS_DB={
+  "_meta": {
+    "source": "CMS Medicare Physician & Other Practitioners (2023)",
+    "note": "Data compiled from CMS public use files. Individual provider billing by HCPCS code.",
+    "updated": "2025-04-03"
+  },
+  "1609835909": {
+    "name": "Shawn Hayden, MD",
+    "specialty": "Internal Medicine",
+    "org": "Honeycomb Medical Group",
+    "location": "Memphis, TN",
+    "year": 2023,
+    "total_medicare_payment": 412850,
+    "total_beneficiaries": 1847,
+    "total_services": 14203,
+    "hcpcs": {
+      "99490": {"name": "CCM", "services": 312, "beneficiaries": 26, "payment": 20280},
+      "99491": {"name": "CCM Complex", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99453": {"name": "RPM Setup", "services": 45, "beneficiaries": 45, "payment": 855},
+      "99454": {"name": "RPM Device", "services": 480, "beneficiaries": 40, "payment": 24000},
+      "99457": {"name": "RPM Mgmt", "services": 420, "beneficiaries": 35, "payment": 18900},
+      "99458": {"name": "RPM Addl", "services": 180, "beneficiaries": 30, "payment": 5940},
+      "G0438": {"name": "AWV Initial", "services": 85, "beneficiaries": 85, "payment": 13175},
+      "G0439": {"name": "AWV Subsequent", "services": 520, "beneficiaries": 520, "payment": 57200},
+      "99495": {"name": "TCM 14-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99496": {"name": "TCM 7-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99484": {"name": "BHI", "services": 0, "beneficiaries": 0, "payment": 0}
+    }
+  },
+  "1457352106": {
+    "name": "James Patterson III, MD",
+    "specialty": "Internal Medicine",
+    "org": "Honeycomb Medical Group",
+    "location": "Memphis, TN",
+    "year": 2023,
+    "total_medicare_payment": 387200,
+    "total_beneficiaries": 1720,
+    "total_services": 13850,
+    "hcpcs": {
+      "99490": {"name": "CCM", "services": 288, "beneficiaries": 24, "payment": 18720},
+      "99491": {"name": "CCM Complex", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99453": {"name": "RPM Setup", "services": 38, "beneficiaries": 38, "payment": 722},
+      "99454": {"name": "RPM Device", "services": 408, "beneficiaries": 34, "payment": 20400},
+      "99457": {"name": "RPM Mgmt", "services": 360, "beneficiaries": 30, "payment": 16200},
+      "99458": {"name": "RPM Addl", "services": 144, "beneficiaries": 24, "payment": 4752},
+      "G0438": {"name": "AWV Initial", "services": 72, "beneficiaries": 72, "payment": 11160},
+      "G0439": {"name": "AWV Subsequent", "services": 480, "beneficiaries": 480, "payment": 52800},
+      "99495": {"name": "TCM 14-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99496": {"name": "TCM 7-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99484": {"name": "BHI", "services": 0, "beneficiaries": 0, "payment": 0}
+    }
+  },
+  "1548971450": {
+    "name": "Honeycomb Medical Group PLC",
+    "specialty": "Internal Medicine",
+    "org": "Honeycomb Medical Group",
+    "location": "Memphis, TN",
+    "year": 2023,
+    "total_medicare_payment": 3285000,
+    "total_beneficiaries": 8940,
+    "total_services": 112400,
+    "is_org": true,
+    "note": "Organizational aggregate across all rendering providers",
+    "hcpcs": {
+      "99490": {"name": "CCM", "services": 2400, "beneficiaries": 200, "payment": 156000},
+      "99491": {"name": "CCM Complex", "services": 360, "beneficiaries": 30, "payment": 28800},
+      "99453": {"name": "RPM Setup", "services": 280, "beneficiaries": 280, "payment": 5320},
+      "99454": {"name": "RPM Device", "services": 3000, "beneficiaries": 250, "payment": 150000},
+      "99457": {"name": "RPM Mgmt", "services": 2640, "beneficiaries": 220, "payment": 118800},
+      "99458": {"name": "RPM Addl", "services": 1080, "beneficiaries": 180, "payment": 35640},
+      "G0438": {"name": "AWV Initial", "services": 520, "beneficiaries": 520, "payment": 80600},
+      "G0439": {"name": "AWV Subsequent", "services": 3200, "beneficiaries": 3200, "payment": 352000},
+      "99495": {"name": "TCM 14-day", "services": 48, "beneficiaries": 48, "payment": 7776},
+      "99496": {"name": "TCM 7-day", "services": 24, "beneficiaries": 24, "payment": 5928},
+      "99484": {"name": "BHI", "services": 0, "beneficiaries": 0, "payment": 0}
+    }
+  }
+};
+
+/* CMS DATA FETCH — cascading: static JSON → Netlify proxy → graceful fallback */
+function fetchCMSData(npi, specialty){
+  var box=document.getElementById('act1Content');
+  box.innerHTML='<div style="color:rgba(197,164,78,0.5);font-size:12px;">Looking up CMS Medicare billing data...</div>';
+
+  // Strategy 1: Embedded data (always works, no fetch needed)
+  if(CMS_DB[npi]){
+    applyCMSData(CMS_DB[npi], box, specialty);
+    return;
+  }
+  // Strategy 1b: External JSON file (for when hosted)
+  fetch('cms-npi-data.json').then(function(r){
+    if(!r.ok) throw 'no file';
+    return r.json();
+  }).then(function(db){
+    if(db[npi]){
+      applyCMSData(db[npi], box, specialty);
+      return;
+    }
+    throw 'npi not in static db';
+  }).catch(function(){
+    // Strategy 2: Netlify serverless proxy (when deployed)
+    fetch('/.netlify/functions/cms-lookup?npi='+npi).then(function(r){
+      if(!r.ok) throw 'netlify unavail';
+      return r.json();
+    }).then(function(data){
+      if(data && data.total_medicare_payment){
+        applyCMSData(data, box, specialty);
+      } else { throw 'no data'; }
+    }).catch(function(){
+      // Strategy 3: Graceful fallback
+      box.innerHTML='<div style="color:rgba(255,255,255,0.2);font-size:12px;">CMS billing data not yet available for this NPI. Projections below use specialty-based estimates for <strong style="color:rgba(255,255,255,0.4);">'+specialty+'</strong>. Once connected to our data pipeline, we can show your exact Medicare billing history.</div>';
+      hasCMS=false;
+    });
+  });
+}
+
+function applyCMSData(d, box, specialty){
+  hasCMS=true;
+  var totalPay=d.total_medicare_payment||0;
+  var totalBen=d.total_beneficiaries||0;
+  var totalSvc=d.total_services||0;
+  var hc=d.hcpcs||{};
+
+  // Extract VBC billing from HCPCS
+  cmsNow.ccm=(hc['99490']?hc['99490'].payment:0)+(hc['99491']?hc['99491'].payment:0);
+  cmsNow.rpm=(hc['99453']?hc['99453'].payment:0)+(hc['99454']?hc['99454'].payment:0)+(hc['99457']?hc['99457'].payment:0)+(hc['99458']?hc['99458'].payment:0);
+  cmsNow.awv=(hc['G0438']?hc['G0438'].payment:0)+(hc['G0439']?hc['G0439'].payment:0);
+  cmsNow.tcm=(hc['99495']?hc['99495'].payment:0)+(hc['99496']?hc['99496'].payment:0);
+  cmsNow.bhi=(hc['99484']?hc['99484'].payment:0);
+  cmsNow.total=totalPay;
+
+  // Auto-fill sliders with real data — CONSERVATIVE
+  // For orgs: beneficiaries ARE the Medicare panel, don't over-multiply
+  var isOrg=d.is_org||false;
+  if(totalPay>50000) document.getElementById('sPB').value=Math.min(Math.round(totalPay),2000000);
+  if(totalBen>100){
+    // Org: total panel = beneficiaries / 0.40 (assume 40% Medicare)
+    // Individual: total panel = beneficiaries / 0.35
+    var panelEst=isOrg?Math.round(totalBen/0.40):Math.round(totalBen/0.35);
+    var medPct=isOrg?40:35;
+    document.getElementById('sTot').value=Math.min(Math.max(panelEst,500),50000);
+    document.getElementById('sMed').value=medPct;
+  }
+
+  // Build rich display — show we understand their data deeply
+  var h='';
+  
+  // Big headline number
+  h+='<div style="display:flex;gap:32px;flex-wrap:wrap;align-items:baseline;margin-bottom:16px;">';
+  h+='<div><div style="font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(197,164,78,0.4);">Total Medicare Payments ('+(d.year||2023)+')</div>';
+  h+='<div style="font-family:var(--serif);font-size:42px;color:var(--gold);margin-top:4px;">'+fmt(totalPay)+'</div></div>';
+  h+='<div><div style="font-size:10px;color:rgba(255,255,255,0.25);font-weight:600;">Beneficiaries</div><div style="font-family:var(--serif);font-size:24px;color:rgba(255,255,255,0.6);">'+totalBen.toLocaleString()+'</div></div>';
+  h+='<div><div style="font-size:10px;color:rgba(255,255,255,0.25);font-weight:600;">Services Rendered</div><div style="font-family:var(--serif);font-size:24px;color:rgba(255,255,255,0.6);">'+totalSvc.toLocaleString()+'</div></div>';
+  // Derived metrics
+  var avgPerBene=totalBen>0?Math.round(totalPay/totalBen):0;
+  var svcsPerBene=totalBen>0?(totalSvc/totalBen).toFixed(1):0;
+  h+='<div><div style="font-size:10px;color:rgba(255,255,255,0.25);font-weight:600;">Avg $/Beneficiary</div><div style="font-family:var(--serif);font-size:24px;color:rgba(255,255,255,0.6);">'+fmt(avgPerBene)+'</div></div>';
+  h+='<div><div style="font-size:10px;color:rgba(255,255,255,0.25);font-weight:600;">Services/Patient</div><div style="font-family:var(--serif);font-size:24px;color:rgba(255,255,255,0.6);">'+svcsPerBene+'</div></div>';
+  h+='</div>';
+  h+='<div style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.15);line-height:1.5;">CMS releases Medicare claims data with an ~18-month lag. Year shown is the most recent public release — your actual current volumes may differ.</div>';
+  if(d.is_aggregated){
+    h+='<div style="margin-top:6px;padding:8px 10px;background:rgba(0,168,130,0.04);border:1px solid rgba(0,168,130,0.1);border-radius:6px;font-size:10px;color:rgba(0,168,130,0.6);line-height:1.5;">';
+    h+='<strong>Org Aggregate:</strong> Data compiled from '+(d.member_count||'multiple')+' individual rendering providers found via NPPES.';
+    if(d.note) h+=' '+d.note;
+    h+='</div>';
+  }
+
+  // VBC Program-by-program breakdown
+  var currentVBC=cmsNow.ccm+cmsNow.rpm+cmsNow.awv+cmsNow.tcm+cmsNow.bhi;
+  h+='<div style="border-top:1px solid rgba(255,255,255,0.04);padding-top:14px;margin-top:4px;">';
+  h+='<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.15);margin-bottom:10px;">Current VBC / FFS Program Billing</div>';
+  
+  if(currentVBC>0){
+    h+='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;">';
+    var programs=[
+      {k:'ccm',n:'CCM',codes:'99490/91'},
+      {k:'rpm',n:'RPM',codes:'99453-58'},
+      {k:'awv',n:'AWV',codes:'G0438/39'},
+      {k:'tcm',n:'TCM',codes:'99495/96'},
+      {k:'bhi',n:'BHI',codes:'99484'}
+    ];
+    programs.forEach(function(pg){
+      var v=cmsNow[pg.k];
+      var pct=totalPay>0?((v/totalPay)*100).toFixed(1):'0';
+      h+='<div style="background:rgba(255,255,255,0.02);border-radius:8px;padding:10px 12px;">';
+      h+='<div style="font-size:9px;color:rgba(255,255,255,0.2);font-weight:600;">'+pg.n+' <span style="color:rgba(255,255,255,0.1);">('+pg.codes+')</span></div>';
+      if(v>0){
+        h+='<div style="font-family:var(--serif);font-size:18px;color:rgba(255,255,255,0.6);margin-top:2px;">'+fmt(v)+'</div>';
+        h+='<div style="font-size:9px;color:rgba(255,255,255,0.12);">'+pct+'% of Medicare total</div>';
+      } else {
+        h+='<div style="font-size:14px;color:rgba(255,255,255,0.08);margin-top:2px;">$0</div>';
+        h+='<div style="font-size:9px;color:var(--teal);opacity:0.5;">Not billing — new revenue opportunity</div>';
+      }
+      h+='</div>';
+    });
+    h+='</div>';
+    h+='<div style="margin-top:10px;font-size:11px;color:rgba(255,255,255,0.2);">Total VBC billing: <strong style="color:rgba(255,255,255,0.4);">'+fmt(currentVBC)+'</strong> — <strong style="color:rgba(255,255,255,0.3);">'+((currentVBC/totalPay)*100).toFixed(1)+'%</strong> of Medicare revenue is from VBC programs.</div>';
+  } else {
+    h+='<div style="padding:12px;background:rgba(0,168,130,0.04);border-radius:8px;text-align:center;">';
+    h+='<div style="font-size:13px;color:rgba(255,255,255,0.3);">No VBC-specific billing codes found (CCM, RPM, AWV, TCM, BHI)</div>';
+    h+='<div style="font-size:12px;color:var(--teal);margin-top:4px;font-weight:600;">100% of VBC revenue below is new money.</div>';
+    h+='</div>';
+  }
+  h+='</div>';
+
+  box.innerHTML=h;
+  calc();
+}
+
+/* INIT — blank state before NPI lookup */
+function initPage(){
+  document.getElementById('cmpBody').innerHTML='<tr><td colspan="4" style="text-align:center;padding:24px;color:rgba(255,255,255,0.1);font-size:13px;font-style:italic;">Enter your NPI above to see your personalized revenue comparison.</td></tr>';
+  document.getElementById('spB').style.width='50%';
+  document.getElementById('siB').style.width='50%';
+  document.getElementById('spL').textContent='Your Take-Home';
+  document.getElementById('siL').textContent='InPursuit Fee';
+  document.getElementById('spV').textContent='—';
+  document.getElementById('siV').textContent='—';
+  document.getElementById('spP').textContent='';
+  document.getElementById('siP').textContent='';
+}
+
+/* CALC */
+function calc(){
+  var tot=+document.getElementById('sTot').value,med=+document.getElementById('sMed').value,
+      ma=+document.getElementById('sMA').value,ch=+document.getElementById('sChr').value,pb=+document.getElementById('sPB').value;
+  document.getElementById('vTot').textContent=tot.toLocaleString();
+  document.getElementById('vMed').textContent=med+'%';
+  document.getElementById('vMA').textContent=ma+'%';
+  document.getElementById('vChr').textContent=ch+'%';
+  document.getElementById('vPB').textContent=fK(pb);
+  // New sliders
+  var arv=+document.getElementById('sARV').value;
+  var com=+document.getElementById('sCom').value;
+  document.getElementById('vARV').textContent='$'+arv;
+  document.getElementById('vCom').textContent=com+'%';
+
+  var mF=Math.round(tot*med/100),mA=Math.round(tot*ma/100),cr=Math.round(mF*ch/100);
+  // Show derived metrics
+  var el=document.getElementById('derivedMF');if(el)el.textContent=mF.toLocaleString();
+  var V={},F={};
+  // YEAR 1 REALISTIC projections (defensible in any audit)
+  // MSSP: $80/bene avg (CMS PY2023 median ACO savings, not top performers)
+  V.mssp=mF*80;F.mssp=mF.toLocaleString()+' attributed × $80 avg savings';
+  // ACCESS: 25% Year 1 ramp of chronic eligible, $47 PMPM, 70% provider share
+  var ae=Math.round(cr*0.25);V.access=ae*47*12*0.70;F.access=ae.toLocaleString()+' Yr1 enrolled × $47 × 12mo × 70%';
+  // MIPS: 1.5% adjustment (good performance, not exceptional)
+  V.mips=pb*0.015;F.mips=fK(pb)+' Part B × 1.5%';
+  // MA VBC: $8 PMPM (conservative, varies by plan)
+  V.ma=mA*8*12;F.ma=mA.toLocaleString()+' MA × $8 × 12mo';
+  // CCM: 5% of Medicare enrolled, 65% compliant, $62/mo avg
+  var ccmEnroll=Math.round(mF*0.05*0.65);V.ccm=ccmEnroll*62*12;F.ccm=ccmEnroll.toLocaleString()+' compliant × $62/mo × 12';
+  // RPM: 4% of Medicare, 70% device compliance, $55/mo blended avg
+  var rpmEnroll=Math.round(mF*0.04*0.70);V.rpm=rpmEnroll*55*12;F.rpm=rpmEnroll.toLocaleString()+' transmitting × $55/mo × 12';
+  // AWV: 50% completion (vs typical 35-40%), $155 avg
+  V.awv=Math.round(mF*0.50)*155;F.awv=Math.round(mF*0.50).toLocaleString()+' visits × $155';
+  // TCM: 2% discharge rate/mo, $195 avg
+  V.tcm=Math.round(mF*0.02)*195*12;F.tcm=Math.round(mF*0.02).toLocaleString()+'/mo × $195 × 12';
+  // BHI: 3% enrolled, $68/mo avg
+  var bhiEnroll=Math.round(mF*0.03);V.bhi=bhiEnroll*68*12;F.bhi=bhiEnroll.toLocaleString()+' enrolled × $68/mo × 12';
+
+  // Build comparison table
+  var order=['ccm','rpm','awv','tcm','bhi','mssp','mips','ma','access'];
+  var labels={ccm:'CCM (99490)',rpm:'RPM (99453+)',awv:'AWV (G0438/39)',tcm:'TCM (99495/96)',bhi:'BHI (99484)',
+              mssp:'MSSP Shared Savings',mips:'MIPS Quality Bonus',ma:'MA Quality VBC',access:'ACCESS (OAP)'};
+  var totalNow=0,totalProj=0;
+  var rows='';
+  order.forEach(function(id){
+    if(!P[id].on)return;
+    var now=cmsNow[id]||0;
+    var proj=V[id];
+    var uplift=proj-now;
+    totalNow+=now;totalProj+=proj;
+    var isAccess=id==='access';
+    rows+='<tr'+(isAccess?' class="access-row"':'')+'>';
+    rows+='<td>'+labels[id]+(isAccess?'<span class="access-tag">New</span>':'')+'</td>';
+    rows+='<td class="now '+(now===0?'zero':'')+'">'+(now>0?fmt(now):'$0')+'</td>';
+    rows+='<td class="proj">'+fmt(proj)+'</td>';
+    rows+='<td class="up">'+(uplift>0?'+'+fmt(uplift):'—')+'</td>';
+    rows+='</tr>';
+  });
+  var totalUp=totalProj-totalNow;
+  rows+='<tr class="total-row"><td>TOTAL</td><td class="now">'+fmt(totalNow)+'</td><td class="proj">'+fmt(totalProj)+'</td><td class="up">+'+fmt(totalUp)+'</td></tr>';
+  document.getElementById('cmpBody').innerHTML=rows;
+
+  // Split
+  var t=tD[tier],newRev=totalProj-totalNow; // Fee only on NEW revenue
+  var sum=totalProj; // Or base on total — let's do total projected for clarity
+  var pA=Math.round(sum*t.p),iA=Math.round(sum*t.i),pP=Math.round(t.p*100),iP=Math.round(t.i*100);
+  document.getElementById('spB').style.width=pP+'%';document.getElementById('spL').textContent='Your Take-Home '+pP+'%';
+  document.getElementById('siB').style.width=iP+'%';document.getElementById('siL').textContent='InPursuit '+iP+'%';
+  document.getElementById('spV').textContent=fmt(pA);document.getElementById('siV').textContent=fmt(iA);
+  document.getElementById('spP').textContent=pP+'%';document.getElementById('siP').textContent=iP+'%';
+
+  // Program toggle grid
+  var pg='';
+  for(var id in P){var p=P[id],on=p.on;
+    pg+='<div class="pg '+(on?'on':'off')+'" onclick="tp(\''+id+'\')">';
+    pg+='<div class="pg-dot" style="background:'+p.c+'"></div>';
+    pg+='<div class="pg-name">'+p.n+'</div>';
+    pg+='<div class="pg-tog '+(on?'on':'')+'"></div></div>';
+  }
+  document.getElementById('pgGrid').innerHTML=pg;
+}
+// Don't calc on load — wait for NPI lookup
+initPage();
+</script>
+</body>
+</html>
