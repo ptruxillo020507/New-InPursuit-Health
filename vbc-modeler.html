@@ -335,39 +335,32 @@ function fK(n){return n>=1e6?'$'+(n/1e6).toFixed(1)+'M':n>=1e3?'$'+Math.round(n/
 function setT(t){tier=t;for(var i=1;i<=3;i++)document.getElementById('tB'+i).classList.toggle('on',i===t);calc();}
 function tp(id){P[id].on=P[id].on?0:1;calc();}
 
-/* NPI LOOKUP */
+/* NPI LOOKUP — Static/offline mode: uses embedded CMS_DB + cms-npi-data.json only (no corsproxy.io) */
 function npiGo(){
   var n=document.getElementById('npiIn').value.replace(/\D/g,''),s=document.getElementById('npiSt'),r=document.getElementById('npiRes'),b=document.getElementById('npiBtn');
   if(n.length!==10){s.textContent='Enter a valid 10-digit NPI.';s.className='npi-st err';return;}
   b.disabled=1;s.textContent='Looking up NPI...';s.className='npi-st load';r.className='npi-res';
   document.getElementById('act1Content').innerHTML='<div style="color:rgba(197,164,78,0.5);font-size:12px;">Pulling CMS data for NPI '+n+'...</div>';
 
-  var proxy=function(u){return fetch('https://corsproxy.io/?'+encodeURIComponent(u)).catch(function(){return fetch(u);});};
-
-  // NPPES Registry
-  proxy('https://npiregistry.cms.hhs.gov/api/?version=2.1&number='+n).then(function(x){return x.json();}).then(function(d){
+  // Helper: once we have CMS data, display provider info and populate sliders
+  function applyFromStatic(d){
     b.disabled=0;
-    if(!d.results||!d.results.length){s.textContent='No provider found.';s.className='npi-st err';return;}
-    var p=d.results[0],bb=p.basic||{},org=p.enumeration_type==='NPI-2';
-    var nm=org?(bb.organization_name||'Organization'):((bb.first_name||'')+' '+(bb.last_name||'')).trim();
-    var ad=(p.addresses&&p.addresses[0])||{},loc=(ad.city||'')+(ad.state?', '+ad.state:'');
-    var tx=(p.taxonomies&&p.taxonomies[0])||{},sp=tx.desc||'General';
+    var nm=d.name||'Provider';
+    var sp=d.specialty||'General';
+    var loc=d.location||'';
+    var org=d.is_org||false;
+    var orgName=d.org||'';
 
-    var cred=bb.credential||'';
-    var gender=bb.gender||'';
-    var genderTxt=gender==='M'?'Male':gender==='F'?'Female':'';
-    var enumDate=bb.enumeration_date||'';
-    var lastUp=bb.last_updated||'';
     r.innerHTML='<strong style="font-size:16px;color:rgba(255,255,255,0.9);">'+nm+'</strong>'
-      +(cred?' <span style="font-size:11px;color:rgba(197,164,78,0.5);">'+cred+'</span>':'')
       +'<br><span style="font-size:12px;color:rgba(255,255,255,0.5);font-weight:500;">'+sp+'</span>'
+      +(orgName?'<br><span style="font-size:11px;color:rgba(255,255,255,0.3);">'+orgName+'</span>':'')
       +'<br><span style="font-size:11px;color:rgba(255,255,255,0.3);">'+loc+'</span>'
       +(org?'<br><span style="font-size:10px;color:rgba(0,168,130,0.4);">Organization (Type 2 NPI)</span>':'<br><span style="font-size:10px;color:rgba(0,168,130,0.4);">Individual Provider (Type 1 NPI)</span>')
-      +'<br><span style="font-size:9px;color:rgba(255,255,255,0.12);">NPI: '+n+(enumDate?' · Enumerated: '+enumDate:'')+'</span>';
+      +'<br><span style="font-size:9px;color:rgba(255,255,255,0.12);">NPI: '+n+' · Source: CMS static data</span>';
     r.className='npi-res show';
     s.textContent='';s.className='npi-st';
 
-    // Auto-fill sliders
+    // Auto-fill sliders from specialty defaults
     var df=gS(sp),mul=org?2.5:1;
     document.getElementById('sTot').value=Math.min(Math.round(df.p*mul),50000);
     document.getElementById('sMed').value=df.m;
@@ -376,9 +369,35 @@ function npiGo(){
     document.getElementById('sPB').value=Math.round(df.b*(org?2:1));
     calc();
 
-    // CMS Billing Data — try static JSON first, then Netlify proxy, then direct
+    // Apply CMS billing data
     fetchCMSData(n, sp);
-  }).catch(function(){b.disabled=0;s.textContent='Unable to reach CMS registry.';s.className='npi-st err';});
+  }
+
+  // Strategy 1: Check embedded CMS_DB
+  if(CMS_DB[n]){
+    applyFromStatic(CMS_DB[n]);
+    return;
+  }
+
+  // Strategy 2: Check external cms-npi-data.json file
+  fetch('cms-npi-data.json').then(function(resp){
+    if(!resp.ok) throw 'no file';
+    return resp.json();
+  }).then(function(db){
+    if(db[n]){
+      applyFromStatic(db[n]);
+    } else {
+      throw 'npi not in static db';
+    }
+  }).catch(function(){
+    // Strategy 3: NPI not found in any static source
+    b.disabled=0;
+    s.textContent='NPI not found in static CMS data. Live lookup is currently disabled.';
+    s.className='npi-st err';
+    document.getElementById('act1Content').innerHTML='<div style="color:rgba(255,255,255,0.2);font-size:12px;">NPI <strong style="color:rgba(255,255,255,0.4);">'+n+'</strong> was not found in the embedded or static CMS dataset. Projections below use default estimates. Contact us to add your practice data.</div>';
+    hasCMS=false;
+    calc();
+  });
 }
 
 /* EMBEDDED CMS DATA */
