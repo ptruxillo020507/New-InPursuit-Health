@@ -40,7 +40,7 @@
       <p class="contact-text">InPursuit Health operates with a focused team that reads every inquiry personally. Whether you&rsquo;re exploring a partnership, evaluating our platform, or interested in investing &mdash; you&rsquo;ll hear back from a real person.</p>
       <div class="contact-detail">
         <div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg></div>
-        <div><div class="contact-detail-label">Email</div><div class="contact-detail-value"><a href="mailto:info@InPursuitHealth.com">info@InPursuitHealth.com</a></div></div>
+        <div><div class="contact-detail-label">Email</div><div class="contact-detail-value"><a href="/cdn-cgi/l/email-protection#c5acaba3aa858cab95b0b7b6b0acb18da0a4a9b1adeba6aaa8"><span class="__cf_email__" data-cfemail="2d44434b426d64437d585f5e58445965484c415945034e4240">[email&#160;protected]</span></a></div></div>
       </div>
       <div class="contact-detail">
         <div class="contact-detail-icon"><svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
@@ -96,7 +96,7 @@
   <div class="footer-tagline">Harness the Power of Your Data&trade;</div>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 window.addEventListener('load', () => { setTimeout(() => document.getElementById('preloader').classList.add('hidden'), 600); });
 window.addEventListener('scroll', () => { document.getElementById('topBar').classList.toggle('scrolled', window.scrollY > 10); });
 document.getElementById('navToggle').addEventListener('click', () => { document.getElementById('topNav').classList.toggle('open'); });
@@ -110,8 +110,4 @@ document.getElementById('contactForm').addEventListener('submit', function(e) {
   const subject = encodeURIComponent('InPursuit Health Inquiry - ' + f.get('interest'));
   const body = encodeURIComponent('Name: ' + f.get('name') + '\nEmail: ' + f.get('email') + '\nOrganization: ' + (f.get('organization') || 'N/A') + '\nInterest: ' + f.get('interest') + '\nMessage: ' + (f.get('message') || 'N/A'));
   window.location.href = 'mailto:info@InPursuitHealth.com?subject=' + subject + '&body=' + body;
-  document.getElementById('contactFormCard').innerHTML = '<div style="text-align:center;padding:60px 20px;"><div style="font-family:var(--serif);font-size:28px;color:var(--gold);margin-bottom:12px;">Message Prepared</div><p style="color:var(--text-muted);">Your email client should open shortly. If not, email us directly at info@InPursuitHealth.com</p></div>';
-});
-</script>
-</body>
-</html>
+  document.getElementById('contactFormCard').innerHTML = '<div style="text-align:center;padding:60px 20px;"><div style="font-family:var(--

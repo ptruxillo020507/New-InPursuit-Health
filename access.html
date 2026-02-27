@@ -235,7 +235,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--cream);color:var(
 .field-input.prefilled{background:rgba(197,164,78,.04);border-color:rgba(197,164,78,.25);}
 .field-input.teal-focus:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,168,130,.1);}
 .field-input::placeholder{color:#adb5bd;}
-select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='https://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236B7280' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:20px;appearance:none;}
+select.field-input{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%236B7280' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:20px;appearance:none;}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
 
@@ -675,6 +675,32 @@ input[type=range].teal-range::-webkit-slider-thumb{background:var(--teal);box-sh
   .tier-showcase{padding:24px 16px;}
   .hc-stats-grid{grid-template-columns:1fr 1fr;}
 }
+
+
+/* NPI LOOKUP */
+.npi-lookup{max-width:700px;margin:0 auto 36px;padding:24px 28px;background:linear-gradient(135deg,rgba(197,164,78,0.06),rgba(17,34,64,0.04));border:1px solid rgba(197,164,78,0.2);border-radius:12px;position:relative;}
+.npi-lookup-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(197,164,78,0.7);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.npi-lookup-label svg{opacity:0.6;}
+.npi-input-row{display:flex;gap:10px;align-items:stretch;}
+.npi-input{flex:1;padding:12px 16px;font-size:16px;font-family:var(--serif,Georgia,serif);letter-spacing:2px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(197,164,78,0.25);border-radius:8px;color:var(--white,#fff);outline:none;transition:border-color 0.2s;}
+.npi-input::placeholder{color:rgba(255,255,255,0.2);letter-spacing:1px;font-size:14px;}
+.npi-input:focus{border-color:rgba(197,164,78,0.6);box-shadow:0 0 0 3px rgba(197,164,78,0.1);}
+.npi-btn{padding:12px 24px;background:linear-gradient(135deg,var(--gold,#C5A44E),#b8941e);color:#0a1628;font-weight:700;font-size:13px;letter-spacing:0.5px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all 0.2s;}
+.npi-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(197,164,78,0.3);}
+.npi-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.npi-result{margin-top:16px;display:none;}
+.npi-result.show{display:block;}
+.npi-result-card{background:rgba(0,0,0,0.15);border:1px solid rgba(197,164,78,0.15);border-radius:8px;padding:16px 20px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.npi-result-item{flex:1;min-width:140px;}
+.npi-result-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(197,164,78,0.5);margin-bottom:4px;}
+.npi-result-value{font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);}
+.npi-result-cta{margin-top:14px;padding-top:14px;border-top:1px solid rgba(197,164,78,0.1);display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.npi-result-cta p{font-size:12px;color:rgba(255,255,255,0.4);margin:0;flex:1;min-width:200px;}
+.npi-result-cta p strong{color:rgba(197,164,78,0.7);}
+.npi-status{font-size:12px;margin-top:8px;color:rgba(255,255,255,0.3);}
+.npi-status.error{color:#ef4444;}
+.npi-status.loading{color:rgba(197,164,78,0.6);}
+@media(max-width:600px){.npi-input-row{flex-direction:column;}.npi-result-card{flex-direction:column;gap:12px;}}
 
 </style>
 </head>
@@ -1148,6 +1174,32 @@ input[type=range].teal-range::-webkit-slider-thumb{background:var(--teal);box-sh
 
       <!-- Revenue Calculator -->
       <div style="background:var(--white);border:1px solid var(--border);border-radius:14px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,.05);">
+        <div class="npi-lookup reveal">
+      <div class="npi-lookup-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Personalize Your Projection
+      </div>
+      <div class="npi-input-row">
+        <input type="text" class="npi-input" id="npiInput" placeholder="Enter your 10-digit NPI number" maxlength="10" inputmode="numeric" pattern="[0-9]*" onkeypress="if(event.key==='Enter')npiLookup()">
+        <button class="npi-btn" id="npiBtn" onclick="npiLookup()">Look Up</button>
+      </div>
+      <div class="npi-status" id="npiStatus"></div>
+      <div class="npi-result" id="npiResult">
+        <div class="npi-result-card">
+          <div class="npi-result-item"><div class="npi-result-label">Provider</div><div class="npi-result-value" id="npiName">—</div></div>
+          <div class="npi-result-item"><div class="npi-result-label">Specialty</div><div class="npi-result-value" id="npiSpecialty">—</div></div>
+          <div class="npi-result-item"><div class="npi-result-label">Location</div><div class="npi-result-value" id="npiLocation">—</div></div>
+          <div class="npi-result-item"><div class="npi-result-label">Type</div><div class="npi-result-value" id="npiType">—</div></div>
+        </div>
+        <div class="npi-result-cta">
+          <p>We found you in the CMS registry. The numbers above are based on national specialty averages — <strong>your actual Medicare billing data tells a much bigger story.</strong></p>
+          <a href="#calendly-section" class="npi-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;" onclick="if(document.getElementById('calendly-section')){document.getElementById('calendly-section').scrollIntoView({behavior:'smooth'});return false;}">
+            Start Earning More Today
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
         <h4 style="font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:20px;">Estimate Your Revenue</h4>
 
         <div style="margin-bottom:18px;">
@@ -1176,6 +1228,7 @@ input[type=range].teal-range::-webkit-slider-thumb{background:var(--teal);box-sh
             <label class="prog-item checked" data-prog="awv" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" checked style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Annual Wellness Visits</div></div></label>
             <label class="prog-item" data-prog="tcm" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Transitional Care Management</div></div></label>
             <label class="prog-item" data-prog="bhi" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">Behavioral Health Integration</div></div></label>
+            <label class="prog-item" data-prog="mssp" style="padding:8px 12px;border-radius:6px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;"><input type="checkbox" style="display:none;"><div class="prog-cb" style="width:16px;height:16px;border-radius:3px;border:2px solid rgba(0,0,0,.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;"><span class="prog-cb-icon" style="opacity:0;transition:opacity .15s;font-size:10px;">✓</span></div><div><div style="font-size:12px;font-weight:600;color:var(--text-dark);">MSSP Shared Savings</div></div></label>
           </div>
         </div>
       </div>
@@ -1204,6 +1257,7 @@ input[type=range].teal-range::-webkit-slider-thumb{background:var(--teal);box-sh
           <div class="rev-line"><span class="rev-prog">Annual Wellness Visits</span><span class="rev-amount" id="sb-awv">—</span></div>
           <div class="rev-line"><span class="rev-prog">Transitional Care (TCM)</span><span class="rev-amount dim" id="sb-tcm">—</span></div>
           <div class="rev-line"><span class="rev-prog">Behavioral Health (BHI)</span><span class="rev-amount dim" id="sb-other">—</span></div>
+          <div class="rev-line"><span class="rev-prog">MSSP Shared Savings</span><span class="rev-amount dim" id="sb-mssp">—</span></div>
           <div class="rev-divider"></div>
           <div class="rev-total-row">
             <span class="rev-total-label">Total Annual</span>
@@ -1211,11 +1265,10 @@ input[type=range].teal-range::-webkit-slider-thumb{background:var(--teal);box-sh
           </div>
         </div>
         <div class="rev-card-footer">
-          <p>Estimates based on CMS published rates. <strong>Schedule a call for your actual NPI-based projection</strong> — delivered within 5–7 days. No commitment required.</p>
+            <p style="font-size:11px;color:rgba(255,255,255,.45);line-height:1.7;"><strong style="color:rgba(0,168,130,.7);">Projection Methodology:</strong> ACCESS OAPs based on CMS published PMPM rates. CCM: CPT 99490 at $65/mo, 25% enrollment (national benchmark 10–30%). RPM: CPT 99453/54/57 at $85/mo. AWV: blended G0438/G0439 at $155. MSSP: $300/beneficiary conservative estimate (CMS PY2024 national avg: $397). All figures are illustrative projections, not guarantees. <strong>Schedule a call for your actual NPI-based revenue projection.</strong></p>
+          </div>
         </div>
       </div>
-
-    </div>
 
   </div>
 </section>
@@ -1316,12 +1369,14 @@ function updateRevCalc(){
 
   const eligible=Math.round(med*chron*0.93);
   const accessRev=eligible*47*12*providerPct;
-  const ccmRev=active.has('ccm')?Math.round(med*0.60*0.70*65*12):0;
+  const ccmRev=active.has('ccm')?Math.round(med*0.25*0.70*65*12):0;
   const rpmRev=active.has('rpm')?Math.round(med*0.30*0.60*85*12):0;
-  const awvRev=active.has('awv')?Math.round(med*0.75*210):0;
+  const awvRev=active.has('awv')?Math.round(med*0.55*155):0;
   const tcmRev=active.has('tcm')?Math.round(med*0.06*200*12):0;
   const bhiRev=active.has('bhi')?Math.round(med*0.20*0.60*70*12):0;
-  const total=accessRev+ccmRev+rpmRev+awvRev+tcmRev+bhiRev;
+  // MSSP: $397/beneficiary national avg (CMS PY2024), use conservative $300, 50% share rate for new ACOs
+  const msspRev=active.has('mssp')?Math.round(med*300*0.50):0;
+  const total=accessRev+ccmRev+rpmRev+awvRev+tcmRev+bhiRev+msspRev;
 
   const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
   set('sb-total',fmt(total));
@@ -1332,6 +1387,7 @@ function updateRevCalc(){
   set('sb-awv',awvRev?fmt(awvRev):'—');
   set('sb-tcm',tcmRev?fmt(tcmRev):'—');
   set('sb-other',bhiRev?fmt(bhiRev):'—');
+  set('sb-mssp',msspRev?fmt(msspRev):'—');
   set('sb-grand',fmt(total));
 }
 updateRevCalc();
@@ -1358,6 +1414,126 @@ function downloadPDF(type, filename) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
 }
+
+
+/* NPI LOOKUP */
+function npiLookup() {
+  var inp = document.getElementById('npiInput');
+  var npi = inp.value.replace(/\D/g, '');
+  var status = document.getElementById('npiStatus');
+  var result = document.getElementById('npiResult');
+  var btn = document.getElementById('npiBtn');
+
+  if (npi.length !== 10) {
+    status.textContent = 'Please enter a valid 10-digit NPI number.';
+    status.className = 'npi-status error';
+    result.className = 'npi-result';
+    return;
+  }
+
+  btn.disabled = true;
+  status.textContent = 'Looking up NPI ' + npi + ' in the CMS registry...';
+  status.className = 'npi-status loading';
+  result.className = 'npi-result';
+
+  fetch('https://corsproxy.io/?' + encodeURIComponent('https://npiregistry.cms.hhs.gov/api/?version=2.1&number=' + npi))
+    .catch(function() {
+      // Fallback: try direct (works on some servers)
+      return fetch('https://npiregistry.cms.hhs.gov/api/?version=2.1&number=' + npi);
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btn.disabled = false;
+      if (!data.results || data.results.length === 0) {
+        status.textContent = 'No provider found for NPI ' + npi + '. Please check the number.';
+        status.className = 'npi-status error';
+        return;
+      }
+      var p = data.results[0];
+      var basic = p.basic || {};
+      var isOrg = p.enumeration_type === 'NPI-2';
+      var name = isOrg ? (basic.organization_name || basic.name || 'Organization') :
+        ((basic.first_name || '') + ' ' + (basic.last_name || '')).trim() +
+        (basic.credential ? ', ' + basic.credential : '');
+
+      var addr = (p.addresses && p.addresses[0]) || {};
+      var location = (addr.city || '') + (addr.state ? ', ' + addr.state : '') + (addr.postal_code ? ' ' + addr.postal_code.substring(0, 5) : '');
+
+      var tax = (p.taxonomies && p.taxonomies[0]) || {};
+      var specialty = tax.desc || 'Not specified';
+      var taxCode = tax.code || '';
+
+      document.getElementById('npiName').textContent = name;
+      document.getElementById('npiSpecialty').textContent = specialty;
+      document.getElementById('npiLocation').textContent = location || 'Not available';
+      document.getElementById('npiType').textContent = isOrg ? 'Organization (Type 2)' : 'Individual (Type 1)';
+
+      status.textContent = '';
+      status.className = 'npi-status';
+      result.className = 'npi-result show';
+
+      // Auto-populate calculator fields based on specialty
+      if (typeof npiAutoFill === 'function') {
+        npiAutoFill({
+          npi: npi,
+          name: name,
+          specialty: specialty,
+          taxCode: taxCode,
+          state: addr.state || '',
+          isOrg: isOrg,
+          location: location
+        });
+      }
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      status.textContent = 'Unable to reach CMS registry. Please try again or enter your details manually.';
+      status.className = 'npi-status error';
+    });
+}
+
+
+/* Specialty-based defaults for auto-fill */
+var specialtyDefaults = {
+  // Primary Care
+  'Family Medicine': { avgReimb: 165, medicarePct: 30, ccmPts: 20, vbcPct: 12, empSalary: 255000 },
+  'Internal Medicine': { avgReimb: 175, medicarePct: 35, ccmPts: 25, vbcPct: 15, empSalary: 273000 },
+  'General Practice': { avgReimb: 160, medicarePct: 32, ccmPts: 18, vbcPct: 10, empSalary: 250000 },
+  'Pediatrics': { avgReimb: 150, medicarePct: 5, ccmPts: 5, vbcPct: 5, empSalary: 245000 },
+  // Specialty
+  'Cardiology': { avgReimb: 250, medicarePct: 45, ccmPts: 35, vbcPct: 18, empSalary: 438000 },
+  'Endocrinology, Diabetes & Metabolism': { avgReimb: 200, medicarePct: 40, ccmPts: 30, vbcPct: 15, empSalary: 268000 },
+  'Pulmonary Disease': { avgReimb: 210, medicarePct: 42, ccmPts: 28, vbcPct: 14, empSalary: 362000 },
+  'Geriatric Medicine': { avgReimb: 170, medicarePct: 70, ccmPts: 40, vbcPct: 20, empSalary: 260000 },
+  'Psychiatry & Neurology': { avgReimb: 190, medicarePct: 25, ccmPts: 10, vbcPct: 8, empSalary: 287000 },
+  'Orthopedic Surgery': { avgReimb: 300, medicarePct: 30, ccmPts: 8, vbcPct: 8, empSalary: 558000 },
+  'Gastroenterology': { avgReimb: 240, medicarePct: 35, ccmPts: 15, vbcPct: 12, empSalary: 419000 },
+  'Nephrology': { avgReimb: 195, medicarePct: 55, ccmPts: 35, vbcPct: 18, empSalary: 350000 },
+  // Fallback
+  '_default': { avgReimb: 175, medicarePct: 29, ccmPts: 15, vbcPct: 10, empSalary: 260000 }
+};
+
+function getSpecialtyDefaults(specialty) {
+  for (var key in specialtyDefaults) {
+    if (specialty.toLowerCase().indexOf(key.toLowerCase()) !== -1) return specialtyDefaults[key];
+  }
+  return specialtyDefaults['_default'];
+}
+
+
+function npiAutoFill(data) {
+  var d = getSpecialtyDefaults(data.specialty);
+  // Estimate Medicare patient count based on specialty and org type
+  var basePanel = data.isOrg ? 22000 : 2000;
+  var estMedicare = Math.round(basePanel * (d.medicarePct / 100));
+  var slider = document.getElementById('medPts');
+  if (slider) {
+    slider.value = Math.min(Math.max(estMedicare, 50), 8000);
+    updateSlider(slider, 'medPtsVal');
+    updateRevCalc();
+  }
+}
+
 </script>
 </body>
 </html>

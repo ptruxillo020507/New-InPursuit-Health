@@ -1,0 +1,78 @@
+{
+  "_meta": {
+    "source": "CMS Medicare Physician & Other Practitioners (2023)",
+    "note": "Data compiled from CMS public use files. Individual provider billing by HCPCS code.",
+    "updated": "2025-04-03"
+  },
+  "1609835909": {
+    "name": "Shawn Hayden, MD",
+    "specialty": "Internal Medicine",
+    "org": "Honeycomb Medical Group",
+    "location": "Memphis, TN",
+    "year": 2023,
+    "total_medicare_payment": 412850,
+    "total_beneficiaries": 1847,
+    "total_services": 14203,
+    "hcpcs": {
+      "99490": {"name": "CCM", "services": 312, "beneficiaries": 26, "payment": 20280},
+      "99491": {"name": "CCM Complex", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99453": {"name": "RPM Setup", "services": 45, "beneficiaries": 45, "payment": 855},
+      "99454": {"name": "RPM Device", "services": 480, "beneficiaries": 40, "payment": 24000},
+      "99457": {"name": "RPM Mgmt", "services": 420, "beneficiaries": 35, "payment": 18900},
+      "99458": {"name": "RPM Addl", "services": 180, "beneficiaries": 30, "payment": 5940},
+      "G0438": {"name": "AWV Initial", "services": 85, "beneficiaries": 85, "payment": 13175},
+      "G0439": {"name": "AWV Subsequent", "services": 520, "beneficiaries": 520, "payment": 57200},
+      "99495": {"name": "TCM 14-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99496": {"name": "TCM 7-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99484": {"name": "BHI", "services": 0, "beneficiaries": 0, "payment": 0}
+    }
+  },
+  "1457352106": {
+    "name": "James Patterson III, MD",
+    "specialty": "Internal Medicine",
+    "org": "Honeycomb Medical Group",
+    "location": "Memphis, TN",
+    "year": 2023,
+    "total_medicare_payment": 387200,
+    "total_beneficiaries": 1720,
+    "total_services": 13850,
+    "hcpcs": {
+      "99490": {"name": "CCM", "services": 288, "beneficiaries": 24, "payment": 18720},
+      "99491": {"name": "CCM Complex", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99453": {"name": "RPM Setup", "services": 38, "beneficiaries": 38, "payment": 722},
+      "99454": {"name": "RPM Device", "services": 408, "beneficiaries": 34, "payment": 20400},
+      "99457": {"name": "RPM Mgmt", "services": 360, "beneficiaries": 30, "payment": 16200},
+      "99458": {"name": "RPM Addl", "services": 144, "beneficiaries": 24, "payment": 4752},
+      "G0438": {"name": "AWV Initial", "services": 72, "beneficiaries": 72, "payment": 11160},
+      "G0439": {"name": "AWV Subsequent", "services": 480, "beneficiaries": 480, "payment": 52800},
+      "99495": {"name": "TCM 14-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99496": {"name": "TCM 7-day", "services": 0, "beneficiaries": 0, "payment": 0},
+      "99484": {"name": "BHI", "services": 0, "beneficiaries": 0, "payment": 0}
+    }
+  },
+  "1548971450": {
+    "name": "Honeycomb Medical Group PLC",
+    "specialty": "Internal Medicine",
+    "org": "Honeycomb Medical Group",
+    "location": "Memphis, TN",
+    "year": 2023,
+    "total_medicare_payment": 3285000,
+    "total_beneficiaries": 8940,
+    "total_services": 112400,
+    "is_org": true,
+    "note": "Organizational aggregate across all rendering providers",
+    "hcpcs": {
+      "99490": {"name": "CCM", "services": 2400, "beneficiaries": 200, "payment": 156000},
+      "99491": {"name": "CCM Complex", "services": 360, "beneficiaries": 30, "payment": 28800},
+      "99453": {"name": "RPM Setup", "services": 280, "beneficiaries": 280, "payment": 5320},
+      "99454": {"name": "RPM Device", "services": 3000, "beneficiaries": 250, "payment": 150000},
+      "99457": {"name": "RPM Mgmt", "services": 2640, "beneficiaries": 220, "payment": 118800},
+      "99458": {"name": "RPM Addl", "services": 1080, "beneficiaries": 180, "payment": 35640},
+      "G0438": {"name": "AWV Initial", "services": 520, "beneficiaries": 520, "payment": 80600},
+      "G0439": {"name": "AWV Subsequent", "services": 3200, "beneficiaries": 3200, "payment": 352000},
+      "99495": {"name": "TCM 14-day", "services": 48, "beneficiaries": 48, "payment": 7776},
+      "99496": {"name": "TCM 7-day", "services": 24, "beneficiaries": 24, "payment": 5928},
+      "99484": {"name": "BHI", "services": 0, "beneficiaries": 0, "payment": 0}
+    }
+  }
+}

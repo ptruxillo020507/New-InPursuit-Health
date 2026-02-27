@@ -261,6 +261,32 @@
   .breadcrumb{padding:0 20px}
   .stat-grid{grid-template-columns:1fr 1fr}
 }
+
+/* NPI LOOKUP */
+.npi-lookup{max-width:700px;margin:0 auto 36px;padding:24px 28px;background:linear-gradient(135deg,rgba(197,164,78,0.06),rgba(17,34,64,0.04));border:1px solid rgba(197,164,78,0.2);border-radius:12px;position:relative;}
+.npi-lookup-label{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(197,164,78,0.7);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.npi-lookup-label svg{opacity:0.6;}
+.npi-input-row{display:flex;gap:10px;align-items:stretch;}
+.npi-input{flex:1;padding:12px 16px;font-size:16px;font-family:var(--serif,Georgia,serif);letter-spacing:2px;background:rgba(255,255,255,0.05);border:1.5px solid rgba(197,164,78,0.25);border-radius:8px;color:var(--white,#fff);outline:none;transition:border-color 0.2s;}
+.npi-input::placeholder{color:rgba(255,255,255,0.2);letter-spacing:1px;font-size:14px;}
+.npi-input:focus{border-color:rgba(197,164,78,0.6);box-shadow:0 0 0 3px rgba(197,164,78,0.1);}
+.npi-btn{padding:12px 24px;background:linear-gradient(135deg,var(--gold,#C5A44E),#b8941e);color:#0a1628;font-weight:700;font-size:13px;letter-spacing:0.5px;border:none;border-radius:8px;cursor:pointer;white-space:nowrap;transition:all 0.2s;}
+.npi-btn:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(197,164,78,0.3);}
+.npi-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+.npi-result{margin-top:16px;display:none;}
+.npi-result.show{display:block;}
+.npi-result-card{background:rgba(0,0,0,0.15);border:1px solid rgba(197,164,78,0.15);border-radius:8px;padding:16px 20px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap;}
+.npi-result-item{flex:1;min-width:140px;}
+.npi-result-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:rgba(197,164,78,0.5);margin-bottom:4px;}
+.npi-result-value{font-size:14px;font-weight:600;color:rgba(255,255,255,0.85);}
+.npi-result-cta{margin-top:14px;padding-top:14px;border-top:1px solid rgba(197,164,78,0.1);display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.npi-result-cta p{font-size:12px;color:rgba(255,255,255,0.4);margin:0;flex:1;min-width:200px;}
+.npi-result-cta p strong{color:rgba(197,164,78,0.7);}
+.npi-status{font-size:12px;margin-top:8px;color:rgba(255,255,255,0.3);}
+.npi-status.error{color:#ef4444;}
+.npi-status.loading{color:rgba(197,164,78,0.6);}
+@media(max-width:600px){.npi-input-row{flex-direction:column;}.npi-result-card{flex-direction:column;gap:12px;}}
+
 </style>
 </head>
 <body>
@@ -501,7 +527,36 @@
     <p class="section-eyebrow reveal" style="text-align:center">Practice Revenue Calculator</p>
     <h2 class="section-title reveal" style="text-align:center">See How Much You Could Earn.<br><em>While Getting Your Life Back.</em></h2>
     <p class="section-subtitle reveal" style="text-align:center;margin-left:auto;margin-right:auto">Adjust the sliders to match your practice goals. The calculator projects your annual revenue, platform costs, and net earnings as an InPursuit Platinum Partner &mdash; compared to a typical employed physician position.</p>
+    <div class="reveal" style="max-width:700px;margin:0 auto 36px;padding:14px 20px;background:rgba(197,164,78,0.04);border:1px solid rgba(197,164,78,0.12);border-radius:8px;">
+      <p style="font-size:11px;color:rgba(255,255,255,0.4);line-height:1.7;margin:0;"><strong style="color:rgba(197,164,78,0.6);">How We Calculate:</strong> Revenue defaults are based on CMS 2025 Physician Fee Schedule (E&amp;M visits $92&ndash;$211, CCM $62&ndash;$93/mo). Employed physician benchmarks from Medscape Compensation Report 2024 and AMA Practice Benchmark Survey 2024. All inputs are adjustable to match your actual practice parameters.</p>
+    </div>
 
+    <div class="npi-lookup reveal">
+      <div class="npi-lookup-label">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Personalize Your Projection
+      </div>
+      <div class="npi-input-row">
+        <input type="text" class="npi-input" id="npiInput" placeholder="Enter your 10-digit NPI number" maxlength="10" inputmode="numeric" pattern="[0-9]*" onkeypress="if(event.key==='Enter')npiLookup()">
+        <button class="npi-btn" id="npiBtn" onclick="npiLookup()">Look Up</button>
+      </div>
+      <div class="npi-status" id="npiStatus"></div>
+      <div class="npi-result" id="npiResult">
+        <div class="npi-result-card">
+          <div class="npi-result-item"><div class="npi-result-label">Provider</div><div class="npi-result-value" id="npiName">—</div></div>
+          <div class="npi-result-item"><div class="npi-result-label">Specialty</div><div class="npi-result-value" id="npiSpecialty">—</div></div>
+          <div class="npi-result-item"><div class="npi-result-label">Location</div><div class="npi-result-value" id="npiLocation">—</div></div>
+          <div class="npi-result-item"><div class="npi-result-label">Type</div><div class="npi-result-value" id="npiType">—</div></div>
+        </div>
+        <div class="npi-result-cta">
+          <p>We found you in the CMS registry. The numbers above are based on national specialty averages — <strong>your actual Medicare billing data tells a much bigger story.</strong></p>
+          <a href="#calendly-section" class="npi-btn" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;" onclick="if(document.getElementById('calendly-section')){document.getElementById('calendly-section').scrollIntoView({behavior:'smooth'});return false;}">
+            Start Earning More Today
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
     <div class="calc-layout">
       <!-- LEFT: INPUTS -->
       <div class="calc-panel reveal">
@@ -628,7 +683,7 @@
 
         <div class="calc-cta">
           <a class="btn-gold" href="partner-network.html#apply">Apply to Partner Network &rarr;</a>
-          <p class="calc-disc">Projections are estimates based on national averages. Actual results vary by specialty, payer mix, and market.</p>
+          <p class="calc-disc">Projections based on CMS 2025 Fee Schedule rates, Medscape 2024 physician compensation data, and AMA practice benchmarks. Default values represent conservative national averages. Your actual results will vary based on specialty, payer mix, patient volume, geographic market, and practice efficiency. These projections are illustrative and do not constitute a guarantee of income.</p>
         </div>
       </div>
     </div>
@@ -642,7 +697,7 @@
     <p>The blueprint has been proven. The infrastructure is built. The physicians are ready. Apply to the InPursuit Partner Network and open your virtual doors in 30 days, powered by the same interoperability engine trusted by the U.S. Department of Defense.</p>
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
       <a class="btn-gold" href="partner-network.html#apply">Apply to Partner Network &rarr;</a>
-      <a class="btn-outline" href="mailto:info@InPursuitHealth.com">Schedule a Consultation</a>
+      <a class="btn-outline" href="/cdn-cgi/l/email-protection#7d14131b123d34132d080f0e08140935181c110915531e1210">Schedule a Consultation</a>
     </div>
   </div>
 </section>
@@ -650,7 +705,7 @@
 <!-- FOOTER -->
 <footer class="site-footer"><div class="footer-inner"><div class="footer-brand"><span class="footer-wordmark">InPursuit Health</span></div><span class="footer-legal">&copy; 2026 InPursuit Health, LLC. All rights reserved.</span></div><div class="footer-nav"><a href="index.html">Home</a><a href="tetra.html">TETRA</a><a href="for-you.html">For You</a><a href="for-providers.html">For Providers</a><a href="virtual-practice.html">Virtual Practice</a><a href="data-security-ai.html">AI &amp; Your Data</a><a href="maha.html">MAHA</a><a href="veterans-first.html">Veterans First</a><a href="partner-network.html">Partner Network</a></div><div class="footer-nav" style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(197,164,78,.05)"><a href="about.html">About Us</a><a href="leadership.html">Leadership</a><a href="security-center.html">Security Center</a><a href="contact.html">Contact</a><a href="careers.html">Careers</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms of Service</a></div><p class="footer-disclaimer">InPursuit Health is a healthcare technology company providing data interoperability solutions. The information on this site is for informational purposes only and does not constitute medical advice. TETRA is a registered technology of InPursuit Health, LLC.</p><div class="footer-tagline">Harness the Power of Your Data&trade;</div></footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 window.addEventListener('scroll',()=>{document.getElementById('topBar').classList.toggle('scrolled',window.scrollY>10)});
 document.getElementById('navToggle').addEventListener('click',()=>{document.getElementById('topNav').classList.toggle('open')});
 const observer=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:.1,rootMargin:'0px 0px -50px 0px'});
@@ -702,6 +757,8 @@ function calc(){
   var net=gross-totalCost;
   var yr1=net-sf;
   var empSal=260000,empHrs=52,empAdmin=16;
+  // Sources: Medscape 2024 (PCP avg $277K, FM $255K, IM $273K — $260K midpoint)
+  // AMA 2024 (employed avg 51+ hrs/week), AMA Org Biopsy (~30% time admin = 16hrs at 52hrs)
   var yourAdmin=Math.round(hpw*0.1);
   var hrsSaved=(empHrs-hpw)*wpy;
   var effRate=net/(hpw*wpy);
@@ -749,6 +806,119 @@ function calc(){
   document.getElementById('life-rows').innerHTML=life;
 }
 calc();
-</script>
-</body>
-</html>
+
+/* NPI LOOKUP */
+function npiLookup() {
+  var inp = document.getElementById('npiInput');
+  var npi = inp.value.replace(/\D/g, '');
+  var status = document.getElementById('npiStatus');
+  var result = document.getElementById('npiResult');
+  var btn = document.getElementById('npiBtn');
+
+  if (npi.length !== 10) {
+    status.textContent = 'Please enter a valid 10-digit NPI number.';
+    status.className = 'npi-status error';
+    result.className = 'npi-result';
+    return;
+  }
+
+  btn.disabled = true;
+  status.textContent = 'Looking up NPI ' + npi + ' in the CMS registry...';
+  status.className = 'npi-status loading';
+  result.className = 'npi-result';
+
+  fetch('https://corsproxy.io/?' + encodeURIComponent('https://npiregistry.cms.hhs.gov/api/?version=2.1&number=' + npi))
+    .catch(function() {
+      // Fallback: try direct (works on some servers)
+      return fetch('https://npiregistry.cms.hhs.gov/api/?version=2.1&number=' + npi);
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      btn.disabled = false;
+      if (!data.results || data.results.length === 0) {
+        status.textContent = 'No provider found for NPI ' + npi + '. Please check the number.';
+        status.className = 'npi-status error';
+        return;
+      }
+      var p = data.results[0];
+      var basic = p.basic || {};
+      var isOrg = p.enumeration_type === 'NPI-2';
+      var name = isOrg ? (basic.organization_name || basic.name || 'Organization') :
+        ((basic.first_name || '') + ' ' + (basic.last_name || '')).trim() +
+        (basic.credential ? ', ' + basic.credential : '');
+
+      var addr = (p.addresses && p.addresses[0]) || {};
+      var location = (addr.city || '') + (addr.state ? ', ' + addr.state : '') + (addr.postal_code ? ' ' + addr.postal_code.substring(0, 5) : '');
+
+      var tax = (p.taxonomies && p.taxonomies[0]) || {};
+      var specialty = tax.desc || 'Not specified';
+      var taxCode = tax.code || '';
+
+      document.getElementById('npiName').textContent = name;
+      document.getElementById('npiSpecialty').textContent = specialty;
+      document.getElementById('npiLocation').textContent = location || 'Not available';
+      document.getElementById('npiType').textContent = isOrg ? 'Organization (Type 2)' : 'Individual (Type 1)';
+
+      status.textContent = '';
+      status.className = 'npi-status';
+      result.className = 'npi-result show';
+
+      // Auto-populate calculator fields based on specialty
+      if (typeof npiAutoFill === 'function') {
+        npiAutoFill({
+          npi: npi,
+          name: name,
+          specialty: specialty,
+          taxCode: taxCode,
+          state: addr.state || '',
+          isOrg: isOrg,
+          location: location
+        });
+      }
+    })
+    .catch(function(err) {
+      btn.disabled = false;
+      status.textContent = 'Unable to reach CMS registry. Please try again or enter your details manually.';
+      status.className = 'npi-status error';
+    });
+}
+
+
+/* Specialty-based defaults for auto-fill */
+var specialtyDefaults = {
+  // Primary Care
+  'Family Medicine': { avgReimb: 165, medicarePct: 30, ccmPts: 20, vbcPct: 12, empSalary: 255000 },
+  'Internal Medicine': { avgReimb: 175, medicarePct: 35, ccmPts: 25, vbcPct: 15, empSalary: 273000 },
+  'General Practice': { avgReimb: 160, medicarePct: 32, ccmPts: 18, vbcPct: 10, empSalary: 250000 },
+  'Pediatrics': { avgReimb: 150, medicarePct: 5, ccmPts: 5, vbcPct: 5, empSalary: 245000 },
+  // Specialty
+  'Cardiology': { avgReimb: 250, medicarePct: 45, ccmPts: 35, vbcPct: 18, empSalary: 438000 },
+  'Endocrinology, Diabetes & Metabolism': { avgReimb: 200, medicarePct: 40, ccmPts: 30, vbcPct: 15, empSalary: 268000 },
+  'Pulmonary Disease': { avgReimb: 210, medicarePct: 42, ccmPts: 28, vbcPct: 14, empSalary: 362000 },
+  'Geriatric Medicine': { avgReimb: 170, medicarePct: 70, ccmPts: 40, vbcPct: 20, empSalary: 260000 },
+  'Psychiatry & Neurology': { avgReimb: 190, medicarePct: 25, ccmPts: 10, vbcPct: 8, empSalary: 287000 },
+  'Orthopedic Surgery': { avgReimb: 300, medicarePct: 30, ccmPts: 8, vbcPct: 8, empSalary: 558000 },
+  'Gastroenterology': { avgReimb: 240, medicarePct: 35, ccmPts: 15, vbcPct: 12, empSalary: 419000 },
+  'Nephrology': { avgReimb: 195, medicarePct: 55, ccmPts: 35, vbcPct: 18, empSalary: 350000 },
+  // Fallback
+  '_default': { avgReimb: 175, medicarePct: 29, ccmPts: 15, vbcPct: 10, empSalary: 260000 }
+};
+
+function getSpecialtyDefaults(specialty) {
+  for (var key in specialtyDefaults) {
+    if (specialty.toLowerCase().indexOf(key.toLowerCase()) !== -1) return specialtyDefaults[key];
+  }
+  return specialtyDefaults['_default'];
+}
+
+
+function npiAutoFill(data) {
+  var d = getSpecialtyDefaults(data.specialty);
+  // Auto-fill avg reimbursement based on specialty
+  var arSlider = document.getElementById('s-ar');
+  if (arSlider) { arSlider.value = d.avgReimb; }
+  // Auto-fill CCM patients
+  var ccmSlider = document.getElementById('s-ccm');
+  if (ccmSlider) { ccmSlider.value = d.ccmPts; }
+  // Auto-fill VBC %
+  var vbcSlider = document.getEle
