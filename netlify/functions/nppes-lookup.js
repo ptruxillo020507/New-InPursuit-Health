@@ -1,6 +1,11 @@
 // Netlify Serverless Function: NPPES Registry Proxy
 // Bypasses browser CORS restrictions on npiregistry.cms.hhs.gov
-// Deploy: drop this into your Netlify site's netlify/functions/ directory
+// Deploy: netlify/functions/nppes-lookup.js
+
+// Use global fetch (Node 18+) or fall back to node-fetch
+const doFetch = typeof fetch === 'function'
+  ? fetch
+  : (...args) => import('node-fetch').then(m => m.default(...args));
 
 exports.handler = async (event) => {
   const npi = event.queryStringParameters?.npi;
@@ -20,7 +25,7 @@ exports.handler = async (event) => {
   };
 
   try {
-    const res = await fetch(
+    const res = await doFetch(
       `https://npiregistry.cms.hhs.gov/api/?version=2.1&number=${npi}`
     );
 

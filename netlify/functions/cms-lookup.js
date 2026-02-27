@@ -1,15 +1,20 @@
 // Netlify Serverless Function: CMS Medicare Data Proxy
 // Bypasses browser CORS restrictions on data.cms.gov
-// Deploy: drop this into your Netlify site's netlify/functions/ directory
+// Deploy: netlify/functions/cms-lookup.js
 
 const DATASETS = {
   aggregate: '8889d81e-2ee7-448f-8713-f071038289b5',  // By Provider
   byService: '92396110-2aed-4d63-a6a2-5d6207d46a29'   // By Provider & Service (HCPCS)
 };
 
+// Use global fetch (Node 18+) or fall back to node-fetch
+const doFetch = typeof fetch === 'function'
+  ? fetch
+  : (...args) => import('node-fetch').then(m => m.default(...args));
+
 exports.handler = async (event) => {
   const npi = event.queryStringParameters?.npi;
-  
+
   if (!npi || !/^\d{10}$/.test(npi)) {
     return { statusCode: 400, body: JSON.stringify({ error: 'Invalid NPI. Must be 10 digits.' }) };
   }
@@ -18,14 +23,14 @@ exports.handler = async (event) => {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Content-Type': 'application/json',
-    'Cache-Control': 'public, max-age=86400' // Cache 24hrs — CMS data doesn't change often
+    'Cache-Control': 'public, max-age=86400'
   };
 
   try {
     // Fetch both datasets in parallel
     const [aggRes, svcRes] = await Promise.all([
-      fetch(`https://data.cms.gov/data-api/v1/dataset/${DATASETS.aggregate}/data?filter[Rndrng_NPI]=${npi}&size=1`),
-      fetch(`https://data.cms.gov/data-api/v1/dataset/${DATASETS.byService}/data?filter[Rndrng_NPI]=${npi}&size=500`)
+      doFetch(`https://data.cms.gov/data-api/v1/dataset/${DATASETS.aggregate}/data?filter[Rndrng_NPI]=${npi}&size=1`),
+      doFetch(`https://data.cms.gov/data-api/v1/dataset/${DATASETS.byService}/data?filter[Rndrng_NPI]=${npi}&size=500`)
     ]);
 
     const agg = aggRes.ok ? await aggRes.json() : [];
